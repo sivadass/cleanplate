@@ -7,22 +7,33 @@
 body {
   font-family: "Inter", sans-serif;
   font-size: 16px;
-
   text-align: center;
 }
 
 header {
   height: 64px;
+  line-height: 64px;
 }
 
 main {
   display: flex;
-  min-height: calc(100vh - 96px);
+  min-height: calc(100vh - 128px);
   align-items: center;
   justify-content: center;
 }
 
+a {
+  text-decoration: none;
+  color: #4099ff;
+}
+
+h1 {
+  margin-bottom: 16px;
+}
+
 footer {
+  margin: 16px 0;
   height: 32px;
   line-height: 32px;
+  font-size: 14px;
 }
