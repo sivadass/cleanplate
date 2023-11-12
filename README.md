@@ -1,2 +1,3 @@
 # cleanplate
-CleanPlate UI Framework
+
+CleanPlate - Headless React UI Framework
