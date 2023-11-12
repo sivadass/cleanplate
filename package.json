@@ -1,0 +1,43 @@
+{
+  "name": "cleanplate",
+  "version": "0.0.1",
+  "description": "CleanPlate - A Headless React UI Framework",
+  "main": "index.js",
+  "scripts": {
+    "storybook": "storybook dev -p 6001",
+    "build-storybook": "storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sivadass/cleanplate.git"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "headless"
+  ],
+  "author": "Sivadass N",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sivadass/cleanplate/issues"
+  },
+  "homepage": "https://github.com/sivadass/cleanplate#readme",
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.5.3",
+    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/addon-links": "^7.5.3",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.5.3",
+    "@storybook/react": "^7.5.3",
+    "@storybook/react-vite": "^7.5.3",
+    "@storybook/testing-library": "^0.2.2",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.5.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
