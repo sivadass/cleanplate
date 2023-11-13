@@ -1,4 +1,4 @@
-import Icon from "../components/icon/Icon";
+import { Icon } from "../index";
 
 const meta = {
   component: Icon,

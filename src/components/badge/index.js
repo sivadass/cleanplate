@@ -1,1 +1,3 @@
-export * from "./Badge.jsx";
+import Badge from "./Badge.jsx";
+
+export default Badge;

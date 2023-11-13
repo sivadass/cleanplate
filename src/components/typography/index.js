@@ -1,1 +1,3 @@
-export * from "./Typography.jsx";
+import Typography from "./Typography.jsx";
+
+export default Typography;

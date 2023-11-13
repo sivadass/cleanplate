@@ -28,6 +28,7 @@ export default {
     postcss({
       plugins: [],
       minimize: true,
+      extract: true,
     }),
     babel({
       exclude: "node_modules/**",

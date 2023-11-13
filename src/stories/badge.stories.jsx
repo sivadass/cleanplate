@@ -1,4 +1,4 @@
-import Badge from "../components/button/Badge";
+import { Badge } from "../index";
 
 const meta = {
   component: Badge,

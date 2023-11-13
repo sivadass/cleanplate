@@ -1,4 +1,4 @@
-import Typography from "../components/typography/Typography";
+import { Typography } from "../index";
 
 const meta = {
   component: Typography,

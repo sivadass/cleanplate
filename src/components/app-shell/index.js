@@ -1,1 +1,3 @@
-export * from "./AppShell.jsx";
+import AppShell from "./AppShell.jsx";
+
+export default AppShell;
