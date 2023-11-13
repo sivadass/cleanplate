@@ -1,0 +1,22 @@
+.cp-form-field {
+  font-family: inherit;
+  font-size: inherit;
+  margin-bottom: 16px;
+}
+
+.cp-form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #999;
+}
+.cp-form-control {
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 16px;
+}
+
+.cp-textarea-field textarea {
+  min-height: 88px;
+  padding: 16px;
+}

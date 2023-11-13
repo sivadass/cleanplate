@@ -1,0 +1,9 @@
+.cp-button {
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: 8px;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}

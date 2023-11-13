@@ -5,6 +5,7 @@ const meta = {
 };
 
 export const H1 = {
+  name: "Title - H1",
   render: () => <Typography variant="h1">Hello world!</Typography>,
 };
 
