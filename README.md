@@ -14,6 +14,14 @@ Check all versions at [NPM](https://www.npmjs.com/package/cleanplate).
 
 All components can be consumed by `import` using their respective names from `cleanplate` package.
 
+#### Initial Setup
+
+Import the CSS Reset and minimal cleanplate styles at top most level or root level.
+
+```
+import "cleanplate/dist/index.css";
+```
+
 #### Button
 
 ```
@@ -79,7 +87,11 @@ import { FormControl } from "cleanplate";
 
 ```
 import { Icon } from "cleanplate";
+
+<Icon name="settings" size="small" color="balck">
 ```
+
+View all the available icon names from [Google Material Icons](https://fonts.google.com/icons).
 
 #### Modal
 
