@@ -2,8 +2,8 @@ import React from "react";
 import "./styles.css";
 
 const Icon = ({ name = "" }) => {
-  const iconName = `cp-icon ${name}`;
-  return <i className={iconName} />;
+  const iconClassName = `cp-icon`;
+  return <span class={iconClassName}>{name}</span>;
 };
 
 export default Icon;
