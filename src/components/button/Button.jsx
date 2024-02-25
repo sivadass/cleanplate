@@ -9,8 +9,19 @@ const Button = ({
   isDisabled = false,
   size = "medium",
   variant = "solid",
+  marginTop = "none",
+  marginRight = "none",
+  marginBottom = "none",
+  marginLeft = "none",
   onClick,
 }) => {
+  const marginTopClass = `margin-top-${marginTop}`;
+  const marginRightClass = `margin-right-${marginRight}`;
+  const marginBottomClass = `margin-bottom-${marginBottom}`;
+  const marginLeftClass = `margin-left-${marginLeft}`;
+
+  const margin = `${styles[marginTopClass]} ${styles[marginRightClass]} ${styles[marginBottomClass]} ${styles[marginLeftClass]}`;
+
   const handleClick = (e) => {
     if (isDisabled || isLoading) {
       e.preventDefault();
@@ -24,7 +35,7 @@ const Button = ({
     <button
       className={`${styles["cp-button"]} ${styles[variant]} ${styles[size]} ${
         isDisabled ? styles["disabled"] : ""
-      }  ${isLoading ? styles["loading"] : ""}`}
+      }  ${isLoading ? styles["loading"] : ""} ${margin}`}
       onClick={(e) => handleClick(e)}
     >
       {isLoading && (
@@ -35,9 +46,40 @@ const Button = ({
   );
 };
 
-Icon.propTypes = {
+Button.propTypes = {
   size: PropTypes.oneOf(["small", "medium"]),
   variant: PropTypes.oneOf(["solid", "outline"]),
+  isDisabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  marginTop: PropTypes.oneOf([
+    "none",
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+  ]),
+  marginRight: PropTypes.oneOf([
+    "none",
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+  ]),
+  marginBottom: PropTypes.oneOf([
+    "none",
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+  ]),
+  marginLeft: PropTypes.oneOf([
+    "none",
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+  ]),
+  onClick: PropTypes.func,
 };
 
 export default Button;

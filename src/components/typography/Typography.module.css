@@ -1,67 +1,64 @@
-.cp-button {
+.cp-typography {
   font-family: inherit;
   font-size: inherit;
-  padding: 0 16px;
-  border: 1px solid transparent;
-  background: #3e63dd;
-  color: #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
-  justify-content: center;
+  line-height: 1;
+  color: #222;
 }
 
-.cp-button:hover {
-  background: #2847af;
+/* Variants */
+.h1 {
+  font-size: 60px;
+  line-height: 60px;
+  font-weight: normal;
 }
 
-.small {
-  height: 24px;
-  font-size: 13px;
-  border-radius: 6px;
+.h2 {
+  font-size: 50px;
+  line-height: 50px;
+  font-weight: normal;
 }
 
-.medium {
-  height: 44px;
-  min-width: 90px;
+.h3 {
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: normal;
 }
 
-.disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
+.h4 {
+  font-size: 30px;
+  line-height: 30px;
 }
 
-.loading {
-  cursor: not-allowed;
+.h5 {
+  font-size: 24px;
+  line-height: 24px;
 }
 
-.cp-button-loader {
-  animation: spin-animation 1s infinite;
-  animation-timing-function: linear;
-  display: inline-block;
-  color: #fff;
+.h6 {
+  font-size: 18px;
+  line-height: 18px;
 }
 
-.outline {
-  color: #3e63dd;
-  border-color: #3e63dd;
-  background: #fff;
-}
-
-.outline:hover {
-  background: #3e63dd1f;
-  border-color: #2847af;
-  color: #2847af;
-}
-
-.outline .cp-button-loader {
-  color: #3e63dd;
-}
-
-.small .cp-button-loader {
+.p {
   font-size: 16px;
+  line-height: 24px;
+}
+
+/* Colors */
+.black {
+  color: #222;
+}
+
+.white {
+  color: #fff;
+}
+
+.gray {
+  color: #666;
+}
+
+.blue {
+  color: #3e63dd;
 }
 
 /* Margins */
@@ -143,14 +140,4 @@
 
 .margin-left-extra-large {
   margin-left: 32px;
-}
-
-@keyframes spin-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }

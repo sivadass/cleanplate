@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./FormControls.module.css";
 
-const TextArea = ({
+const Select = ({
   name,
   id,
   onChange,
@@ -12,11 +12,11 @@ const TextArea = ({
   type = "text",
   className = "",
 }) => {
-  const fieldWrapperClassName = `cp-form-field cp-textarea-field ${className}`;
+  const fieldWrapperClassName = `cp-form-field cp-input-field ${className}`;
   return (
     <div className={fieldWrapperClassName}>
       {label && <label className="cp-form-label">{label}</label>}
-      <textarea
+      <input
         className="cp-form-control"
         type={type}
         disabled={isDisabled}
@@ -34,4 +34,4 @@ const TextArea = ({
   );
 };
 
-export default TextArea;
+export default Select;
