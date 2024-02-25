@@ -1,3 +1,4 @@
+import "./styles/reset.css";
 import Typography from "./components/typography";
 import AppShell from "./components/app-shell";
 import Modal from "./components/modal";
