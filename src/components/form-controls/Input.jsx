@@ -9,20 +9,30 @@ const Input = ({
   value,
   label = "",
   isDisabled = false,
+  isRequired = false,
   type = "text",
   className = "",
+  placeholder = "",
+  error = "",
 }) => {
-  const fieldWrapperClassName = `cp-form-field cp-input-field ${className}`;
+  const fieldWrapperClassName = `${styles["cp-form-field"]} ${className}`;
+  const fieldErrorClassName = error ? `${styles["cp-form-control-error"]}` : "";
+  const formControlFieldClassName = `${styles["cp-form-control"]} ${fieldErrorClassName}`;
   return (
     <div className={fieldWrapperClassName}>
-      {label && <label className="cp-form-label">{label}</label>}
+      {label && (
+        <label className={styles["cp-form-label"]}>
+          {label} {isRequired && <span>*</span>}
+        </label>
+      )}
       <input
-        className="cp-form-control"
+        className={formControlFieldClassName}
         type={type}
         disabled={isDisabled}
         name={name}
         id={id}
         defaultValue={defaultValue}
+        placeholder={placeholder}
         value={value}
         onChange={(e) => {
           if (onChange) {
@@ -30,6 +40,7 @@ const Input = ({
           }
         }}
       />
+      {error && <p className={styles["cp-form-error-message"]}>{error}</p>}
     </div>
   );
 };

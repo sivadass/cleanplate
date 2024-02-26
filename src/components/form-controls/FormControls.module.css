@@ -7,16 +7,26 @@
 .cp-form-label {
   display: block;
   margin-bottom: 8px;
-  color: #999;
+  color: var(--gray);
 }
 .cp-form-control {
   height: 44px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gray);
   padding: 0 16px;
 }
 
-.cp-textarea-field textarea {
+.cp-form-control-error {
+  border-color: var(--red);
+}
+
+.cp-form-error-message {
+  font-size: 14px;
+  color: var(--red);
+  margin-top: 8px;
+}
+
+.cp-textarea-field {
   min-height: 88px;
-  padding: 16px;
+  padding: 8px 16px;
 }
