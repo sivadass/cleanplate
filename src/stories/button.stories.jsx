@@ -9,9 +9,7 @@ export const Default = {
   render: () => {
     return (
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        <Button onClick={() => alert("Hello world!")} marginLeft="extra-large">
-          Save
-        </Button>
+        <Button onClick={() => alert("Hello world!")}>Save</Button>
         <Button isLoading onClick={() => alert("Hello world!")}>
           Save
         </Button>

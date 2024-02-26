@@ -1,4 +1,4 @@
-import { Badge } from "../index";
+import { Badge, Container } from "../index";
 
 const meta = {
   component: Badge,
@@ -7,13 +7,27 @@ const meta = {
 export const Default = {
   name: "Variants",
   render: () => (
-    <div>
-      <Badge label="Default" variant="default" />
-      <Badge label="Info" variant="info" />
-      <Badge label="Success" variant="success" />
-      <Badge label="Warning" variant="warning" />
-      <Badge label="Error" variant="error" />
-    </div>
+    <Container>
+      <Container>
+        <Badge label="Default" variant="default" />
+      </Container>
+
+      <Container>
+        <Badge label="Info" variant="info" />
+      </Container>
+
+      <Container>
+        <Badge label="Success" variant="success" />
+      </Container>
+
+      <Container>
+        <Badge label="Warning" variant="warning" />
+      </Container>
+
+      <Container>
+        <Badge label="Error" variant="error" />
+      </Container>
+    </Container>
   ),
 };
 
