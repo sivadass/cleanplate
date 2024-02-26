@@ -1,3 +1,28 @@
+/* Variables */
+:root {
+  /* Colors */
+  --white: #ffffff;
+  --black: #222222;
+  --gray: #8b8d98;
+  --green: #46a758;
+  --blue: #1e90ff;
+  --red: #e5484d;
+  --yellow: #ffe629;
+  --orange: #f76b15;
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 16px;
+  --radius-round: 50%;
+  /* Spacing */
+  --space-none: 0;
+  --space-small: 4px;
+  --space-medium: 8px;
+  --space-large: 16px;
+  --space-extra-large: 32px;
+}
+
 * {
   margin: 0;
   padding: 0;
