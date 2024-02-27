@@ -39,6 +39,14 @@ export const Default = {
         >
           Save
         </Button>
+        <Button
+          size="medium"
+          variant="outline"
+          isFluid
+          onClick={() => alert("Hello world!")}
+        >
+          Save
+        </Button>
       </div>
     );
   },

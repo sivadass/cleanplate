@@ -37,6 +37,10 @@
   cursor: not-allowed;
 }
 
+.cp-button-fluid {
+  width: 100%;
+}
+
 .cp-button-loader {
   animation: spin-animation 1s infinite;
   animation-timing-function: linear;
