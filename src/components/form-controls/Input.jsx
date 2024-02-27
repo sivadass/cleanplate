@@ -10,14 +10,19 @@ const Input = ({
   label = "",
   isDisabled = false,
   isRequired = false,
+  isFluid = false,
   type = "text",
   className = "",
   placeholder = "",
   error = "",
 }) => {
-  const fieldWrapperClassName = `${styles["cp-form-field"]} ${className}`;
+  const fluidFormFieldClassName = `${
+    isFluid ? styles["cp-form-field-fluid"] : ""
+  }`;
+  const fieldWrapperClassName = `${styles["cp-form-field"]} ${fluidFormFieldClassName} ${className}`;
   const fieldErrorClassName = error ? `${styles["cp-form-control-error"]}` : "";
   const formControlFieldClassName = `${styles["cp-form-control"]} ${fieldErrorClassName}`;
+
   return (
     <div className={fieldWrapperClassName}>
       {label && (

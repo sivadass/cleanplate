@@ -15,11 +15,16 @@ const Container = ({
   display = "",
   align = "",
   justify = "",
+  width = "",
+  showBorder = false,
+  className = "",
   onClick,
 }) => {
   const displayClass = display ? `display-${display}` : "";
   const justifyClass = display ? `justify-${justify}` : "";
-  const alignClass = display ? `align-${align}` : "";
+  const alignClass = align ? `align-${align}` : "";
+  const widthClass = width ? `width-${width}` : "";
+  const borderClass = showBorder ? `border` : "";
 
   const marginTopClass = marginTop ? `margin-top-${marginTop}` : "";
   const marginRightClass = marginRight ? `margin-right-${marginRight}` : "";
@@ -48,6 +53,8 @@ const Container = ({
   const displayStyle = displayClass ? `${styles[displayClass]}` : "";
   const alignStyle = alignClass ? `${styles[alignClass]}` : "";
   const justifyStyle = justifyClass ? `${styles[justifyClass]}` : "";
+  const widthStyle = widthClass ? `${styles[widthClass]}` : "";
+  const borderStyle = borderClass ? `${styles[borderClass]}` : "";
 
   const handleClick = (e) => {
     if (typeof onClick === "function") {
@@ -56,7 +63,7 @@ const Container = ({
   };
   return (
     <div
-      className={`${styles["cp-container"]} ${margin} ${padding} ${displayStyle} ${alignStyle} ${justifyStyle}`}
+      className={`${styles["cp-container"]} ${widthStyle} ${margin} ${padding} ${borderStyle} ${displayStyle} ${alignStyle} ${justifyStyle} ${className}`}
       onClick={(e) => handleClick(e)}
     >
       {children}
@@ -66,6 +73,17 @@ const Container = ({
 
 Container.propTypes = {
   display: PropTypes.oneOf(["inline-block", "block", "flex"]),
+  width: PropTypes.oneOf([
+    "small",
+    "medium",
+    "large",
+    "extra-large",
+    "quarter",
+    "half",
+    "three-quarters",
+    "full",
+  ]),
+  showBorder: PropTypes.bool,
   justify: PropTypes.oneOf([
     "space-between",
     "center",

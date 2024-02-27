@@ -1,6 +1,7 @@
 import { FormControls, Container } from "../index";
 
 const meta = {
+  title: "form-controls/components",
   component: FormControls,
 };
 
@@ -26,6 +27,16 @@ export const Default = {
             error="Email address is required"
           />
         </Container>
+
+        <Container>
+          <FormControls.Input
+            label="Email Address"
+            placeholder="user@acme.com"
+            isRequired
+            isFluid
+            error="Email address is required"
+          />
+        </Container>
       </Container>
     );
   },
@@ -40,17 +51,22 @@ export const TextArea = {
           <FormControls.TextArea placeholder="Email Address" />
         </Container>
         <Container>
+          <FormControls.TextArea label="Message" placeholder="Hello world!" />
+        </Container>
+        <Container>
           <FormControls.TextArea
-            label="Email Address"
-            placeholder="user@acme.com"
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            error="Message is required"
           />
         </Container>
         <Container>
           <FormControls.TextArea
-            label="Email Address"
-            placeholder="user@acme.com"
+            label="Message"
+            placeholder="Hello world!"
             isRequired
-            error="Email address is required"
+            isFluid
           />
         </Container>
       </Container>

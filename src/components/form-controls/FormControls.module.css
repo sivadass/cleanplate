@@ -2,6 +2,12 @@
   font-family: inherit;
   font-size: inherit;
   margin-bottom: 16px;
+  width: var(--length-full);
+  max-width: var(--length-small);
+}
+
+.cp-form-field-fluid {
+  max-width: var(--length-full);
 }
 
 .cp-form-label {
@@ -9,6 +15,14 @@
   margin-bottom: 8px;
   color: var(--gray);
 }
+.cp-form-control {
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--gray);
+  padding: 0 16px;
+  width: 100%;
+}
+
 .cp-form-control {
   height: 44px;
   border-radius: 8px;

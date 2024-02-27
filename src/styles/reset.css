@@ -21,6 +21,16 @@
   --space-medium: 8px;
   --space-large: 16px;
   --space-extra-large: 32px;
+  /* length */
+  --length-small: 240px;
+  --length-medium: 360px;
+  --length-large: 480px;
+  --length-extra-large: 600px;
+  --length-quarter: 25%;
+  --length-one-third: 33.33333%;
+  --length-half: 50%;
+  --length-three-quarters: 75%;
+  --length-full: 100%;
 }
 
 * {
