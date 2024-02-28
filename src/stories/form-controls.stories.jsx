@@ -74,4 +74,112 @@ export const TextArea = {
   },
 };
 
+export const Select = {
+  name: "Select",
+  render: () => {
+    const options = [
+      {
+        label: "Apple",
+        value: "apple",
+      },
+      {
+        label: "Mango",
+        value: "mango",
+      },
+      {
+        label: "Orange",
+        value: "orange",
+      },
+      {
+        label: "Grapes",
+        value: "grapes",
+      },
+      {
+        label: "Musk Melon",
+        value: "musk-melon",
+      },
+      {
+        label: "Water Melon",
+        value: "water-melon",
+      },
+      {
+        label: "Strawberry",
+        value: "strawberry",
+      },
+      {
+        label: "Litchie",
+        value: "litchie",
+      },
+    ];
+    return (
+      <Container>
+        <Container>
+          <FormControls.Select placeholder="Select a fruit" options={options} />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            error="Message is required"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Select
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+      </Container>
+    );
+  },
+};
+
 export default meta;

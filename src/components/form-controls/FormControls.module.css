@@ -44,3 +44,70 @@
   min-height: 88px;
   padding: 8px 16px;
 }
+
+.cp-select-field {
+  position: relative;
+  width: var(--length-full);
+  max-width: var(--length-small);
+}
+
+.cp-select-field-header {
+  cursor: pointer;
+  padding: 8px 16px;
+  background: var(--white);
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: inherit;
+  font-size: inherit;
+  margin-bottom: 16px;
+  border-radius: var(--radius-medium);
+  height: 44px;
+}
+
+.cp-select-field-header-open {
+  border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+}
+
+.cp-select-field-options {
+  position: absolute;
+  top: 43px;
+  left: 0;
+  right: 0;
+  border: 1px solid var(--gray);
+  background-color: #fff;
+  z-index: 999;
+  max-height: 200px;
+  overflow-y: auto;
+  width: var(--length-full);
+  max-width: var(--length-small);
+}
+
+.cp-select-field-options-top {
+  top: -198px;
+  /* background-color: pink; */
+  border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+}
+
+.cp-select-field-options-bottom {
+  top: 43px;
+  /* background-color: palegreen; */
+  border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+}
+
+.cp-select-field-option {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.cp-select-field-option:hover {
+  padding: 8px 16px;
+  cursor: pointer;
+  background: #999;
+}
+
+.cp-select-field-arrow {
+  margin-left: 8px;
+}
