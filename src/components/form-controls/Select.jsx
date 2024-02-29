@@ -15,8 +15,12 @@ const Select = ({
   isRequired = false,
   placeholder = "Select an option",
   error = "",
+  isFluid = false,
 }) => {
-  const fieldWrapperClassName = `cp-form-field cp-input-field ${className}`;
+  const fluidFormFieldClassName = `${
+    isFluid ? styles["cp-form-field-fluid"] : ""
+  }`;
+  const fieldWrapperClassName = `${styles["cp-form-field"]} ${fluidFormFieldClassName} ${className}`;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [isDropdownTop, setIsDropdownTop] = useState(false);

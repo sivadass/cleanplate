@@ -5,10 +5,10 @@ import { create } from "@storybook/theming/create";
 export default create({
   base: "light",
   // Typography
-  fontBase: '"Open Sans", sans-serif',
+  fontBase: '"Inter", sans-serif',
   fontCode: "monospace",
 
-  brandTitle: "My custom Storybook",
+  brandTitle: "CleanPlate - A Headless React UI Framework",
   brandUrl: "https://cleanplate.sivadass.in",
   brandImage:
     "https://f005.backblazeb2.com/file/sivadass-cloud/cleanplate-logo.svg",

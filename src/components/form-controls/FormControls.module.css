@@ -47,8 +47,8 @@
 
 .cp-select-field {
   position: relative;
-  width: var(--length-full);
-  max-width: var(--length-small);
+  /* width: var(--length-full);
+  max-width: var(--length-small); */
 }
 
 .cp-select-field-header {
@@ -93,7 +93,6 @@
 
 .cp-select-field-options-bottom {
   top: 43px;
-  /* background-color: palegreen; */
   border-radius: 0 0 var(--radius-medium) var(--radius-medium);
 }
 
