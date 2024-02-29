@@ -1,7 +1,7 @@
 import { FormControls, Container } from "../index";
 
 const meta = {
-  title: "form-controls/components",
+  title: "components/form-controls",
   component: FormControls,
 };
 

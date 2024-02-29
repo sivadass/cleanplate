@@ -1,7 +1,7 @@
 import { Badge, Container } from "../index";
 
 const meta = {
-  title: "badge/component",
+  title: "components/badge",
   component: Badge,
 };
 

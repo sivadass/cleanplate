@@ -1,6 +1,7 @@
 import { Button } from "../index";
 
 const meta = {
+  title: "components/button",
   component: Button,
 };
 

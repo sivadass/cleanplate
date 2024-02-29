@@ -1,6 +1,6 @@
 {
   "name": "cleanplate",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "CleanPlate - A Headless React UI Framework",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/sivadass/cleanplate/issues"
   },
-  "homepage": "https://github.com/sivadass/cleanplate#readme",
+  "homepage": "https://cleanplate.sivadass.in",
   "devDependencies": {
     "@babel/preset-react": "^7.23.3",
     "@rollup/plugin-babel": "^6.0.4",

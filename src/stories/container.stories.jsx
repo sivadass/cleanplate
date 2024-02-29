@@ -1,7 +1,7 @@
 import { Container, Typography } from "../index";
 
 const meta = {
-  title: "container/component",
+  title: "components/container",
   component: Container,
 };
 
