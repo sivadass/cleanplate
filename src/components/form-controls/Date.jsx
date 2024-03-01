@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./FormControls.module.css";
 
-const File = ({
+const Date = ({
   name,
   id,
   onChange,
@@ -11,13 +11,13 @@ const File = ({
   isDisabled = false,
   type = "text",
   className = "",
-  isFluid = false,
   error = "",
+  isFluid = false,
 }) => {
   const fluidFormFieldClassName = `${
     isFluid ? styles["cp-form-field-fluid"] : ""
   }`;
-  const fieldWrapperClassName = `${styles["cp-form-field"]} ${styles["cp-file-field"]} ${fluidFormFieldClassName} ${className}`;
+  const fieldWrapperClassName = `${styles["cp-form-field"]} ${styles["cp-date-field"]} ${fluidFormFieldClassName} ${className}`;
   const fieldErrorClassName = error ? `${styles["cp-form-control-error"]}` : "";
   const formControlFieldClassName = `${styles["cp-form-control"]} ${fieldErrorClassName}`;
 
@@ -26,7 +26,7 @@ const File = ({
       {label && <label className={styles["cp-form-label"]}>{label}</label>}
       <input
         className={formControlFieldClassName}
-        type="file"
+        type="date"
         disabled={isDisabled}
         name={name}
         id={id}
@@ -43,4 +43,4 @@ const File = ({
   );
 };
 
-export default File;
+export default Date;

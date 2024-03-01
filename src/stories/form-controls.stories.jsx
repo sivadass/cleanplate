@@ -182,4 +182,395 @@ export const Select = {
   },
 };
 
+export const Date = {
+  name: "Date",
+  render: () => {
+    const options = [
+      {
+        label: "Apple",
+        value: "apple",
+      },
+      {
+        label: "Mango",
+        value: "mango",
+      },
+      {
+        label: "Orange",
+        value: "orange",
+      },
+      {
+        label: "Grapes",
+        value: "grapes",
+      },
+      {
+        label: "Musk Melon",
+        value: "musk-melon",
+      },
+      {
+        label: "Water Melon",
+        value: "water-melon",
+      },
+      {
+        label: "Strawberry",
+        value: "strawberry",
+      },
+      {
+        label: "Litchie",
+        value: "litchie",
+      },
+    ];
+    return (
+      <Container>
+        <Container>
+          <FormControls.Date placeholder="Select a fruit" options={options} />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            error="Message is required"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Date
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+      </Container>
+    );
+  },
+};
+
+export const Checkbox = {
+  name: "Checkbox",
+  render: () => {
+    const options = [
+      {
+        label: "Apple",
+        value: "apple",
+      },
+      {
+        label: "Mango",
+        value: "mango",
+      },
+      {
+        label: "Orange",
+        value: "orange",
+      },
+      {
+        label: "Grapes",
+        value: "grapes",
+      },
+      {
+        label: "Musk Melon",
+        value: "musk-melon",
+      },
+      {
+        label: "Water Melon",
+        value: "water-melon",
+      },
+      {
+        label: "Strawberry",
+        value: "strawberry",
+      },
+      {
+        label: "Litchie",
+        value: "litchie",
+      },
+    ];
+    return (
+      <Container>
+        <Container>
+          <FormControls.Checkbox
+            placeholder="Select fruits"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            error="Message is required"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Checkbox
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+      </Container>
+    );
+  },
+};
+
+export const Radio = {
+  name: "Radio",
+  render: () => {
+    const options = [
+      {
+        label: "Apple",
+        value: "apple",
+      },
+      {
+        label: "Mango",
+        value: "mango",
+      },
+      {
+        label: "Orange",
+        value: "orange",
+      },
+      {
+        label: "Grapes",
+        value: "grapes",
+      },
+      {
+        label: "Musk Melon",
+        value: "musk-melon",
+      },
+      {
+        label: "Water Melon",
+        value: "water-melon",
+      },
+      {
+        label: "Strawberry",
+        value: "strawberry",
+      },
+      {
+        label: "Litchie",
+        value: "litchie",
+      },
+    ];
+    return (
+      <Container>
+        <Container>
+          <FormControls.Radio placeholder="Select a fruit" options={options} />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            error="Message is required"
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+        <Container>
+          <FormControls.Radio
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+            options={options}
+          />
+        </Container>
+      </Container>
+    );
+  },
+};
+
+export const File = {
+  name: "File",
+  render: () => {
+    return (
+      <Container>
+        <Container>
+          <FormControls.File placeholder="Select a fruit" />
+        </Container>
+        <Container>
+          <FormControls.File label="Message" placeholder="Hello world!" />
+        </Container>
+        <Container>
+          <FormControls.File
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            error="Message is required"
+          />
+        </Container>
+        <Container>
+          <FormControls.File
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+          />
+        </Container>
+        <Container>
+          <FormControls.File
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+          />
+        </Container>
+        <Container>
+          <FormControls.File
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+          />
+        </Container>
+        <Container>
+          <FormControls.File
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+          />
+        </Container>
+        <Container>
+          <FormControls.File
+            label="Message"
+            placeholder="Hello world!"
+            isRequired
+            isFluid
+          />
+        </Container>
+      </Container>
+    );
+  },
+};
+
 export default meta;

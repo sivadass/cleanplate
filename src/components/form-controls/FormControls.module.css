@@ -110,3 +110,18 @@
 .cp-select-field-arrow {
   margin-left: 8px;
 }
+
+.cp-radio-field {
+}
+
+.cp-checkbox-field {
+}
+
+.cp-file-field .cp-form-control {
+  background: #f7f7f7;
+  display: block;
+  padding-top: 9px;
+}
+
+.cp-date-field {
+}
