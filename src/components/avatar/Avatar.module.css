@@ -1,16 +1,9 @@
-.cp-button {
+.cp-avatar {
   font-family: inherit;
   font-size: inherit;
-  padding: 0 16px;
-  border: 1px solid transparent;
-  background: #3e63dd;
-  color: #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
-  justify-content: center;
+  border-radius: 50%;
+  text-align: center;
+  background: #ccc;
 }
 
 .cp-button:hover {
@@ -18,54 +11,27 @@
 }
 
 .small {
+  width: 24px;
   height: 24px;
+  line-height: 24px;
   font-size: 13px;
-  border-radius: 6px;
+}
+
+.small span {
+  line-height: 24px;
+  font-size: 16px;
 }
 
 .medium {
   height: 44px;
-  min-width: 90px;
+  width: 44px;
+  line-height: 44px;
+  font-size: 20px;
 }
 
-.disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
-}
-
-.loading {
-  cursor: not-allowed;
-}
-
-.cp-button-fluid {
-  width: 100%;
-}
-
-.cp-button-loader {
-  animation: spin-animation 1s infinite;
-  animation-timing-function: linear;
-  display: inline-block;
-  color: #fff;
-}
-
-.outline {
-  color: #3e63dd;
-  border-color: #3e63dd;
-  background: #fff;
-}
-
-.outline:hover {
-  background: #3e63dd1f;
-  border-color: #2847af;
-  color: #2847af;
-}
-
-.outline .cp-button-loader {
-  color: #3e63dd;
-}
-
-.small .cp-button-loader {
-  font-size: 16px;
+.medium span {
+  line-height: 44px;
+  font-size: 24px;
 }
 
 /* Margins */
@@ -147,14 +113,4 @@
 
 .margin-left-extra-large {
   margin-left: var(--space-extra-large);
-}
-
-@keyframes spin-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }

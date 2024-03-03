@@ -2,21 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
 import styles from "./Avatar.module.css";
+import { getInitials } from "../../utils/common";
 
 const Avatar = ({
-  children,
-  isLoading = false,
-  isDisabled = false,
-  isFluid = false,
   size = "medium",
-  variant = "solid",
   marginTop = "none",
   marginRight = "none",
   marginBottom = "none",
   marginLeft = "none",
   onClick,
+  name = "",
 }) => {
-  const fluidButtonClass = `${isFluid ? styles["cp-button-fluid"] : ""}`;
+  const initials = getInitials(name);
   const marginTopClass = `margin-top-${marginTop}`;
   const marginRightClass = `margin-right-${marginRight}`;
   const marginBottomClass = `margin-bottom-${marginBottom}`;
@@ -34,27 +31,19 @@ const Avatar = ({
     }
   };
   return (
-    <button
-      className={`${styles["cp-button"]} ${fluidButtonClass} ${
-        styles[variant]
-      } ${styles[size]} ${isDisabled ? styles["disabled"] : ""}  ${
-        isLoading ? styles["loading"] : ""
-      } ${margin}`}
+    <div
+      className={`${styles["cp-avatar"]} ${styles[size]} ${margin}`}
       onClick={(e) => handleClick(e)}
+      title={name}
     >
-      {isLoading && (
-        <Icon name="progress_activity" className={styles["cp-button-loader"]} />
-      )}
-      {children}
-    </button>
+      {initials || <Icon name="person" />}
+    </div>
   );
 };
 
 Avatar.propTypes = {
+  name: PropTypes.string,
   size: PropTypes.oneOf(["small", "medium"]),
-  variant: PropTypes.oneOf(["solid", "outline"]),
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
   marginTop: PropTypes.oneOf([
     "none",
     "small",
