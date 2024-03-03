@@ -93,6 +93,7 @@ Container.propTypes = {
   align: PropTypes.oneOf(["start", "center", "end"]),
   marginTop: PropTypes.oneOf([
     "none",
+    "auto",
     "small",
     "medium",
     "large",
@@ -100,6 +101,7 @@ Container.propTypes = {
   ]),
   marginRight: PropTypes.oneOf([
     "none",
+    "auto",
     "small",
     "medium",
     "large",
@@ -107,6 +109,7 @@ Container.propTypes = {
   ]),
   marginBottom: PropTypes.oneOf([
     "none",
+    "auto",
     "small",
     "medium",
     "large",
@@ -114,6 +117,7 @@ Container.propTypes = {
   ]),
   marginLeft: PropTypes.oneOf([
     "none",
+    "auto",
     "small",
     "medium",
     "large",

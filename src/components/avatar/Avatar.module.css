@@ -1,0 +1,160 @@
+.cp-button {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  background: #3e63dd;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  justify-content: center;
+}
+
+.cp-button:hover {
+  background: #2847af;
+}
+
+.small {
+  height: 24px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+.medium {
+  height: 44px;
+  min-width: 90px;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.loading {
+  cursor: not-allowed;
+}
+
+.cp-button-fluid {
+  width: 100%;
+}
+
+.cp-button-loader {
+  animation: spin-animation 1s infinite;
+  animation-timing-function: linear;
+  display: inline-block;
+  color: #fff;
+}
+
+.outline {
+  color: #3e63dd;
+  border-color: #3e63dd;
+  background: #fff;
+}
+
+.outline:hover {
+  background: #3e63dd1f;
+  border-color: #2847af;
+  color: #2847af;
+}
+
+.outline .cp-button-loader {
+  color: #3e63dd;
+}
+
+.small .cp-button-loader {
+  font-size: 16px;
+}
+
+/* Margins */
+.margin-top-none {
+  margin-top: var(--space-none);
+}
+
+.margin-right-none {
+  margin-right: var(--space-none);
+}
+
+.margin-bottom-none {
+  margin-bottom: var(--space-none);
+}
+
+.margin-left-none {
+  margin-left: var(--space-none);
+}
+
+.margin-top-small {
+  margin-top: var(--space-small);
+}
+
+.margin-right-small {
+  margin-right: var(--space-small);
+}
+
+.margin-bottom-small {
+  margin-bottom: var(--space-small);
+}
+
+.margin-left-small {
+  margin-left: var(--space-small);
+}
+
+.margin-top-medium {
+  margin-top: var(--space-medium);
+}
+
+.margin-right-medium {
+  margin-right: var(--space-medium);
+}
+
+.margin-bottom-medium {
+  margin-bottom: var(--space-medium);
+}
+
+.margin-left-medium {
+  margin-left: var(--space-medium);
+}
+
+.margin-top-large {
+  margin-top: var(--space-large);
+}
+
+.margin-right-large {
+  margin-right: var(--space-large);
+}
+
+.margin-bottom-large {
+  margin-bottom: var(--space-large);
+}
+
+.margin-left-large {
+  margin-left: var(--space-large);
+}
+
+.margin-top-extra-large {
+  margin-top: var(--space-extra-large);
+}
+
+.margin-right-extra-large {
+  margin-right: var(--space-extra-large);
+}
+
+.margin-bottom-extra-large {
+  margin-bottom: var(--space-extra-large);
+}
+
+.margin-left-extra-large {
+  margin-left: var(--space-extra-large);
+}
+
+@keyframes spin-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

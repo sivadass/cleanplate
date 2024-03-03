@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
-import styles from "./Button.module.css";
+import styles from "./Alert.module.css";
 
-const Button = ({
+const Alert = ({
   children,
   isLoading = false,
   isDisabled = false,
@@ -35,9 +35,9 @@ const Button = ({
   );
 };
 
-Icon.propTypes = {
+Alert.propTypes = {
   size: PropTypes.oneOf(["small", "medium"]),
   variant: PropTypes.oneOf(["solid", "outline"]),
 };
 
-export default Button;
+export default Alert;

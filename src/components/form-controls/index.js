@@ -5,6 +5,8 @@ import File from "./File.jsx";
 import Checkbox from "./Checkbox.jsx";
 import Radio from "./Radio.jsx";
 import Date from "./Date.jsx";
+import Stepper from "./Stepper.jsx";
+import Toggle from "./Toggle.jsx";
 
 export default {
   Input,
@@ -14,4 +16,6 @@ export default {
   Checkbox,
   Radio,
   Date,
+  Stepper,
+  Toggle,
 };

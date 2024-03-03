@@ -17,6 +17,7 @@
   --radius-round: 50%;
   /* Spacing */
   --space-none: 0;
+  --space-auto: auto;
   --space-small: 4px;
   --space-medium: 8px;
   --space-large: 16px;

@@ -94,6 +94,22 @@
   margin-left: var(--space-none);
 }
 
+.margin-top-auto {
+  margin-top: var(--space-auto);
+}
+
+.margin-right-auto {
+  margin-right: var(--space-auto);
+}
+
+.margin-bottom-auto {
+  margin-bottom: var(--space-auto);
+}
+
+.margin-left-auto {
+  margin-left: var(--space-auto);
+}
+
 .margin-top-small {
   margin-top: var(--space-small);
 }
