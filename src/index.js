@@ -20,9 +20,7 @@ export {
   FormControls,
   Badge,
   Icon,
-  Dropdown,
   Container,
-  Avatar,
   MediaObject,
   Alert,
 };

@@ -1,9 +1,9 @@
-import resolve from "@rollup/plugin-node-resolve";
+import { babel } from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import external from "rollup-plugin-peer-deps-external";
 import postcss from "rollup-plugin-postcss";
-import { babel } from "@rollup/plugin-babel";
 // import packageJson from "./package.json";
 
 // const packageJson = require("./package.json");
