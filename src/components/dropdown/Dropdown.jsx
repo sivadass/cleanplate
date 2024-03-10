@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, cloneElement } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import styles from "./Dropdown.module.css";
 
@@ -54,7 +54,8 @@ const Dropdown = ({ trigger, content, align = "right" }) => {
           ref={dropdownContentRef}
           className={`${styles["dropdown-contents"]} ${alignStyle}`}
         >
-          {cloneElement(content, { onClose: () => setIsOpen(false) })}
+          {/* {cloneElement(content, { onClose: () => setIsOpen(false) })} */}
+          {content}
         </div>
       )}
     </div>
