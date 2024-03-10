@@ -24,4 +24,5 @@ export {
   Container,
   MediaObject,
   Alert,
+  Avatar,
 };

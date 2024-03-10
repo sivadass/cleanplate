@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Icon from "../icon";
 import styles from "./Avatar.module.css";
 
-const getInitials = (fullName = "") => {
-  const initial = fullName?.[0] || "";
-  return initial.toUpperCase();
+const getInitials = (name) => {
+  const initials = name.match(/^(\b\w)/g);
+  if (initials) {
+    return initials.join("").toUpperCase();
+  }
+  return ""; // Return null if no initials found
 };
 
 const Avatar = ({
@@ -40,7 +42,7 @@ const Avatar = ({
       onClick={(e) => handleClick(e)}
       title={name}
     >
-      {initials || <Icon name="person" />}
+      {initials}
     </div>
   );
 };
