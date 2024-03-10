@@ -2,7 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
 import styles from "./Avatar.module.css";
-import { getInitials } from "../../utils/common";
+
+const getInitials = (fullName = "") => {
+  const initial = fullName?.[0] || "";
+  return initial.toUpperCase();
+};
 
 const Avatar = ({
   size = "medium",
