@@ -18,6 +18,7 @@ export {
   Modal,
   Button,
   FormControls,
+  Dropdown,
   Badge,
   Icon,
   Container,
