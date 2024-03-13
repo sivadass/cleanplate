@@ -15,6 +15,7 @@ const Button = ({
   marginBottom = "none",
   marginLeft = "none",
   onClick,
+  className = "",
 }) => {
   const fluidButtonClass = `${isFluid ? styles["cp-button-fluid"] : ""}`;
   const marginTopClass = `margin-top-${marginTop}`;
@@ -39,7 +40,7 @@ const Button = ({
         styles[variant]
       } ${styles[size]} ${isDisabled ? styles["disabled"] : ""}  ${
         isLoading ? styles["loading"] : ""
-      } ${margin}`}
+      } ${margin} ${className}`}
       onClick={(e) => handleClick(e)}
     >
       {isLoading && (
