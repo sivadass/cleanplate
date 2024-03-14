@@ -9,6 +9,12 @@
   --red: #e5484d;
   --yellow: #ffe629;
   --orange: #f76b15;
+  --gray-light: #8b8d984b;
+  --green-light: #46a7584b;
+  --blue-light: #1e90ff4b;
+  --red-light: #e5484d4b;
+  --yellow-light: #ffe6294b;
+  --orange-light: #f76c154b;
   /* Border Radius */
   --radius-none: 0;
   --radius-small: 4px;

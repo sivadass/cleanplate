@@ -9,6 +9,7 @@ const Typography = ({
   marginRight = "none",
   marginBottom = "none",
   marginLeft = "none",
+  className = "",
 }) => {
   const marginTopClass = `margin-top-${marginTop}`;
   const marginRightClass = `margin-right-${marginRight}`;
@@ -21,7 +22,7 @@ const Typography = ({
     case "h1":
       return (
         <h1
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </h1>
@@ -29,7 +30,7 @@ const Typography = ({
     case "h2":
       return (
         <h2
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </h2>
@@ -37,7 +38,7 @@ const Typography = ({
     case "h3":
       return (
         <h3
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </h3>
@@ -45,7 +46,7 @@ const Typography = ({
     case "h4":
       return (
         <h4
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </h4>
@@ -53,7 +54,7 @@ const Typography = ({
     case "h5":
       return (
         <h5
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </h5>
@@ -61,7 +62,7 @@ const Typography = ({
     case "h6":
       return (
         <h6
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </h6>
@@ -69,7 +70,7 @@ const Typography = ({
     default:
       return (
         <p
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
         >
           {children}
         </p>
