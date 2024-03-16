@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Avatar.module.css";
+import utilStyles from "../../styles/utils.module.scss";
+import { getSpacingClass } from "../../utils/common";
 
 const getInitials = (name) => {
   const initials = name.match(/^(\b\w)/g);
@@ -10,23 +12,9 @@ const getInitials = (name) => {
   return ""; // Return null if no initials found
 };
 
-const Avatar = ({
-  size = "medium",
-  marginTop = "none",
-  marginRight = "none",
-  marginBottom = "none",
-  marginLeft = "none",
-  onClick,
-  name = "",
-}) => {
+const Avatar = ({ size = "medium", margin = "m-0", onClick, name = "" }) => {
   const initials = getInitials(name);
-  const marginTopClass = `margin-top-${marginTop}`;
-  const marginRightClass = `margin-right-${marginRight}`;
-  const marginBottomClass = `margin-bottom-${marginBottom}`;
-  const marginLeftClass = `margin-left-${marginLeft}`;
-
-  const margin = `${styles[marginTopClass]} ${styles[marginRightClass]} ${styles[marginBottomClass]} ${styles[marginLeftClass]}`;
-
+  const marginClass = getSpacingClass(margin, utilStyles, "m");
   const handleClick = (e) => {
     if (isDisabled || isLoading) {
       e.preventDefault();
@@ -38,7 +26,7 @@ const Avatar = ({
   };
   return (
     <div
-      className={`${styles["cp-avatar"]} ${styles[size]} ${margin}`}
+      className={`${styles["cp-avatar"]} ${styles[size]} ${marginClass}`}
       onClick={(e) => handleClick(e)}
       title={name}
     >

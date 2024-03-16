@@ -1,28 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Typography.module.css";
+import utilStyles from "../../styles/utils.module.scss";
+import { getSpacingClass } from "../../utils/common";
 
-const Typography = ({
-  children,
-  variant,
-  marginTop = "none",
-  marginRight = "none",
-  marginBottom = "none",
-  marginLeft = "none",
-  className = "",
-}) => {
-  const marginTopClass = `margin-top-${marginTop}`;
-  const marginRightClass = `margin-right-${marginRight}`;
-  const marginBottomClass = `margin-bottom-${marginBottom}`;
-  const marginLeftClass = `margin-left-${marginLeft}`;
-
-  const margin = `${styles[marginTopClass]} ${styles[marginRightClass]} ${styles[marginBottomClass]} ${styles[marginLeftClass]}`;
+const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
+  const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   switch (variant) {
     case "h1":
       return (
         <h1
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </h1>

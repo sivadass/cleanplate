@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
 import styles from "./Button.module.css";
+import utilStyles from "../../styles/utils.module.scss";
+import { getSpacingClass } from "../../utils/common";
 
 const Button = ({
   children,
@@ -10,20 +12,12 @@ const Button = ({
   isFluid = false,
   size = "medium",
   variant = "solid",
-  marginTop = "none",
-  marginRight = "none",
-  marginBottom = "none",
-  marginLeft = "none",
+  margin = "m-0",
   onClick,
   className = "",
 }) => {
   const fluidButtonClass = `${isFluid ? styles["cp-button-fluid"] : ""}`;
-  const marginTopClass = `margin-top-${marginTop}`;
-  const marginRightClass = `margin-right-${marginRight}`;
-  const marginBottomClass = `margin-bottom-${marginBottom}`;
-  const marginLeftClass = `margin-left-${marginLeft}`;
-
-  const margin = `${styles[marginTopClass]} ${styles[marginRightClass]} ${styles[marginBottomClass]} ${styles[marginLeftClass]}`;
+  const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const handleClick = (e) => {
     if (isDisabled || isLoading) {
@@ -40,7 +34,7 @@ const Button = ({
         styles[variant]
       } ${styles[size]} ${isDisabled ? styles["disabled"] : ""}  ${
         isLoading ? styles["loading"] : ""
-      } ${margin} ${className}`}
+      } ${marginClass} ${className}`}
       onClick={(e) => handleClick(e)}
     >
       {isLoading && (

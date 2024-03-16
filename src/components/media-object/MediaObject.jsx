@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
 import styles from "./MediaObject.module.css";
+import utilStyles from "../../styles/utils.module.scss";
+import { getSpacingClass } from "../../utils/common";
 
 const MediaObject = ({
   children,
@@ -10,19 +12,12 @@ const MediaObject = ({
   isFluid = false,
   size = "medium",
   variant = "solid",
-  marginTop = "none",
-  marginRight = "none",
-  marginBottom = "none",
-  marginLeft = "none",
+  margin = "m-0",
   onClick,
 }) => {
   const fluidButtonClass = `${isFluid ? styles["cp-button-fluid"] : ""}`;
-  const marginTopClass = `margin-top-${marginTop}`;
-  const marginRightClass = `margin-right-${marginRight}`;
-  const marginBottomClass = `margin-bottom-${marginBottom}`;
-  const marginLeftClass = `margin-left-${marginLeft}`;
 
-  const margin = `${styles[marginTopClass]} ${styles[marginRightClass]} ${styles[marginBottomClass]} ${styles[marginLeftClass]}`;
+  const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const handleClick = (e) => {
     if (isDisabled || isLoading) {
@@ -39,7 +34,7 @@ const MediaObject = ({
         styles[variant]
       } ${styles[size]} ${isDisabled ? styles["disabled"] : ""}  ${
         isLoading ? styles["loading"] : ""
-      } ${margin}`}
+      } ${marginClass}`}
       onClick={(e) => handleClick(e)}
     >
       {isLoading && (

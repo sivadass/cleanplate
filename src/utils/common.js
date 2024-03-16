@@ -5,7 +5,8 @@ export const getInitials = (fullName = "") => {
 
 export const getSpacingClass = (marginConfig, styleObject, prefix) => {
   if (typeof marginConfig === "string") {
-    return `${prefix}-${marginConfig}`;
+    const prefixedClass = `${prefix}-${marginConfig}`;
+    return styleObject[prefixedClass];
   }
   if (Array.isArray(marginConfig)) {
     return marginConfig
