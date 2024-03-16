@@ -1,66 +1,103 @@
-import { Alert, Container } from "../index";
+import { Alert, Container, Typography } from "../index";
+import { SPACING_OPTIONS, SIZING_OPTIONS } from "../constants/common";
 
 const meta = {
   title: "components/alert",
   component: Alert,
+  argTypes: {
+    message: {
+      control: {
+        type: "string",
+      },
+    },
+    variant: {
+      options: ["info", "warning", "success", "error", "default"],
+      control: { type: "select", defaultValue: "error" },
+    },
+    canDismiss: {
+      description: "Show or hide dismission icon button",
+      control: {
+        type: "boolean",
+      },
+      defaultValue: false,
+    },
+    size: {
+      options: SIZING_OPTIONS,
+      control: { type: "select" },
+    },
+    margin: {
+      options: SPACING_OPTIONS,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const Default = {
-  name: "Variants",
+export const Docs = {
+  name: "Docs",
   render: () => (
     <Container>
       <Container>
+        <Typography variant="h5" marginBottom="medium">
+          Varaints
+        </Typography>
         <Alert
-          canClose
+          message="The quick brown fox jumps over the lazy dog"
+          variant="default"
+          margin={["b-4", "t-9"]}
+        />
+        <Alert
+          message="The quick brown fox jumps over the lazy dog"
           variant="info"
-          message="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+          margin={["b-4"]}
         />
-      </Container>
-      <Container>
         <Alert
+          message="The quick brown fox jumps over the lazy dog"
+          variant="warning"
+          margin={["b-4"]}
+        />
+        <Alert
+          message="The quick brown fox jumps over the lazy dog"
+          variant="error"
+          margin={["b-4"]}
+        />
+        <Alert
+          message="The quick brown fox jumps over the lazy dog"
           variant="success"
-          message="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-        />
-      </Container>
-      <Container>
-        <Alert variant="error" message="John Doe" />
-      </Container>
-      <Container>
-        <Alert
-          variant="warning"
-          message="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
         />
       </Container>
 
       <Container>
+        <Typography variant="h5" marginBottom="medium">
+          Sizes
+        </Typography>
         <Alert
+          message="The quick brown fox jumps over the lazy dog"
+          variant="default"
+          margin={["b-4"]}
           size="small"
-          variant="warning"
-          message="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
         />
-      </Container>
-
-      <Container>
         <Alert
-          size="small"
-          variant="warning"
-          message="It is a long established fact that a reader will be."
+          message="The quick brown fox jumps over the lazy dog"
+          variant="default"
+          margin={["b-4"]}
+          size="medium"
         />
-      </Container>
-
-      <Container>
         <Alert
-          variant="warning"
-          message="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
+          message="The quick brown fox jumps over the lazy dog"
+          variant="default"
+          margin={["b-4"]}
+          size="large"
         />
       </Container>
+    </Container>
+  ),
+};
 
-      <Container>
-        <Alert
-          variant="warning"
-          message="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
-        />
-      </Container>
+export const Playground = {
+  name: "Playground",
+  render: (args) => (
+    <Container>
+      <Alert message="The quick brown fox jumps over the lazy dog" {...args} />
     </Container>
   ),
 };

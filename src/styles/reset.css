@@ -9,12 +9,12 @@
   --red: #e5484d;
   --yellow: #ffe629;
   --orange: #f76b15;
-  --gray-light: #8b8d984b;
-  --green-light: #46a7584b;
-  --blue-light: #1e90ff4b;
-  --red-light: #e5484d4b;
-  --yellow-light: #ffe6294b;
-  --orange-light: #f76c154b;
+  --gray-light: #8b8d9825;
+  --green-light: #46a75825;
+  --blue-light: #1e90ff25;
+  --red-light: #e5484d25;
+  --yellow-light: #ffe62925;
+  --orange-light: #f76c1525;
   /* Border Radius */
   --radius-none: 0;
   --radius-small: 4px;
@@ -38,6 +38,19 @@
   --length-half: 50%;
   --length-three-quarters: 75%;
   --length-full: 100%;
+
+  /* Spacing V2 */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-auto: auto;
 }
 
 * {
@@ -65,4 +78,21 @@ textarea {
   font-size: inherit;
   border: 1px solid #ccc;
   height: 44px;
+}
+
+:global(.mt) {
+  margin-left: 0;
+}
+
+:global(.mr) {
+  margin-right: 0;
+}
+
+:global(.mb) {
+  margin-bottom: 0;
+  background: red;
+}
+
+:global(.ml) {
+  margin-left: 0;
 }

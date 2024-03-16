@@ -1,17 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Container.module.css";
+import utilStyles from "../../styles/utils.module.scss";
+import { getSpacingClass } from "../../utils/common";
 
 const Container = ({
   children,
-  marginTop = "",
-  marginRight = "",
-  marginBottom = "",
-  marginLeft = "",
-  paddingTop = "medium",
-  paddingRight = "medium",
-  paddingBottom = "medium",
-  paddingLeft = "medium",
+  margin = "m-0",
+  padding = "p-0",
   display = "",
   align = "",
   justify = "",
@@ -26,35 +22,14 @@ const Container = ({
   const widthClass = width ? `width-${width}` : "";
   const borderClass = showBorder ? `border` : "";
 
-  const marginTopClass = marginTop ? `margin-top-${marginTop}` : "";
-  const marginRightClass = marginRight ? `margin-right-${marginRight}` : "";
-  const marginBottomClass = marginBottom ? `margin-bottom-${marginBottom}` : "";
-  const marginLeftClass = marginLeft ? `margin-left-${marginLeft}` : "";
-
-  const margin = `${marginTopClass ? styles[marginTopClass] : ""} ${
-    marginRightClass ? styles[marginRightClass] : ""
-  } ${marginBottomClass ? styles[marginBottomClass] : ""} ${
-    marginLeftClass ? styles[marginLeftClass] : ""
-  }`;
-
-  const paddingTopClass = paddingTop ? `padding-top-${paddingTop}` : "";
-  const paddingRightClass = paddingRight ? `padding-right-${paddingRight}` : "";
-  const paddingBottomClass = paddingBottom
-    ? `padding-bottom-${paddingBottom}`
-    : "";
-  const paddingLeftClass = paddingLeft ? `padding-left-${paddingLeft}` : "";
-
-  const padding = `${paddingTopClass ? styles[paddingTopClass] : ""} ${
-    paddingRightClass ? styles[paddingRightClass] : ""
-  } ${paddingBottomClass ? styles[paddingBottomClass] : ""} ${
-    paddingLeftClass ? styles[paddingLeftClass] : ""
-  }`;
-
   const displayStyle = displayClass ? `${styles[displayClass]}` : "";
   const alignStyle = alignClass ? `${styles[alignClass]}` : "";
   const justifyStyle = justifyClass ? `${styles[justifyClass]}` : "";
   const widthStyle = widthClass ? `${styles[widthClass]}` : "";
   const borderStyle = borderClass ? `${styles[borderClass]}` : "";
+
+  const marginStyles = getSpacingClass(margin, utilStyles, "m");
+  const paddingStyles = getSpacingClass(padding, utilStyles, "p");
 
   const handleClick = (e) => {
     if (typeof onClick === "function") {
@@ -63,7 +38,7 @@ const Container = ({
   };
   return (
     <div
-      className={`${styles["cp-container"]} ${widthStyle} ${margin} ${padding} ${borderStyle} ${displayStyle} ${alignStyle} ${justifyStyle} ${className}`}
+      className={`${styles["cp-container"]} ${widthStyle} ${marginStyles} ${paddingStyles} ${borderStyle} ${displayStyle} ${alignStyle} ${justifyStyle} ${className}`}
       onClick={(e) => handleClick(e)}
     >
       {children}
