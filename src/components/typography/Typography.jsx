@@ -20,7 +20,7 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
     case "h2":
       return (
         <h2
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </h2>
@@ -28,7 +28,7 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
     case "h3":
       return (
         <h3
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </h3>
@@ -36,7 +36,7 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
     case "h4":
       return (
         <h4
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </h4>
@@ -44,7 +44,7 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
     case "h5":
       return (
         <h5
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </h5>
@@ -52,7 +52,7 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
     case "h6":
       return (
         <h6
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </h6>
@@ -60,7 +60,7 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
     default:
       return (
         <p
-          className={`${styles["cp-typography"]} ${styles[variant]} ${margin} ${className}`}
+          className={`${styles["cp-typography"]} ${styles[variant]} ${marginClass} ${className}`}
         >
           {children}
         </p>
