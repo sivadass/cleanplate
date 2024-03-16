@@ -1,4 +1,5 @@
 import { Typography } from "../index";
+import { SPACING_OPTIONS } from "../constants/common";
 
 const meta = {
   title: "components/typography",
@@ -11,28 +12,11 @@ export const Variants = {
     variant: {
       options: ["h1", "h2", "h3", "h4", "h5", "h6", "p"],
       control: { type: "select" },
-      defaultValue: "p",
       description: "Element type to be rendered",
     },
-    marginTop: {
-      options: ["none", "small", "medium", "large", "extra-large"],
-      control: { type: "select" },
-      defaultValue: "small",
-    },
-    marginRight: {
-      options: ["none", "small", "medium", "large", "extra-large"],
-      control: { type: "select" },
-      defaultValue: "small",
-    },
-    marginBottom: {
-      options: ["none", "small", "medium", "large", "extra-large"],
-      control: { type: "select" },
-      defaultValue: "small",
-    },
-    marginLeft: {
-      options: ["none", "small", "medium", "large", "extra-large"],
-      control: { type: "select" },
-      defaultValue: "small",
+    margin: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
     },
   },
 

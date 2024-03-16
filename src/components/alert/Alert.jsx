@@ -74,7 +74,10 @@ Alert.propTypes = {
   onDismiss: PropTypes.func,
   size: PropTypes.oneOf(SIZING_OPTIONS),
   variant: PropTypes.oneOf(["success", "error", "warning", "info", "default"]),
-  margin: PropTypes.oneOf(SPACING_OPTIONS),
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
 };
 
 export default Alert;

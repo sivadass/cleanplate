@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./Typography.module.css";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
+import { SPACING_OPTIONS } from "../../constants/common";
 
 const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
@@ -69,33 +70,9 @@ const Typography = ({ children, variant, margin = "m-0", className = "" }) => {
 
 Typography.propTypes = {
   variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "p"]),
-  marginTop: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginRight: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginBottom: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginLeft: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
 };
 

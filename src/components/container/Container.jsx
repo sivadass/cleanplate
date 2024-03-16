@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./Container.module.css";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
+import { SPACING_OPTIONS } from "../../constants/common";
 
 const Container = ({
   children,
@@ -66,67 +67,15 @@ Container.propTypes = {
     "space-evenly",
   ]),
   align: PropTypes.oneOf(["start", "center", "end"]),
-  marginTop: PropTypes.oneOf([
-    "none",
-    "auto",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginRight: PropTypes.oneOf([
-    "none",
-    "auto",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginBottom: PropTypes.oneOf([
-    "none",
-    "auto",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginLeft: PropTypes.oneOf([
-    "none",
-    "auto",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  paddingTop: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  paddingRight: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  paddingBottom: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  paddingLeft: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
   onClick: PropTypes.func,
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
+  padding: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
 };
 
 export default Container;
