@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
-import styles from "./Button.module.css";
+import styles from "./Button.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
+import { SPACING_OPTIONS } from "../../constants/common";
+import getClassNames from "../../utils/get-class-names";
 
 const Button = ({
   children,
@@ -16,8 +18,21 @@ const Button = ({
   onClick,
   className = "",
 }) => {
-  const fluidButtonClass = `${isFluid ? styles["cp-button-fluid"] : ""}`;
+  const fluidButtonClass = `${isFluid ? styles["fluid"] : ""}`;
   const marginClass = getSpacingClass(margin, utilStyles, "m");
+
+  const buttonClasses = getClassNames(
+    styles["button"],
+    styles[size],
+    styles[variant],
+    {
+      [styles["fluid"]]: isFluid,
+      [styles["disabled"]]: isDisabled,
+      [styles["loading"]]: isLoading,
+    },
+    marginClass,
+    className
+  );
 
   const handleClick = (e) => {
     if (isDisabled || isLoading) {
@@ -29,14 +44,7 @@ const Button = ({
     }
   };
   return (
-    <button
-      className={`${styles["cp-button"]} ${fluidButtonClass} ${
-        styles[variant]
-      } ${styles[size]} ${isDisabled ? styles["disabled"] : ""}  ${
-        isLoading ? styles["loading"] : ""
-      } ${marginClass} ${className}`}
-      onClick={(e) => handleClick(e)}
-    >
+    <button className={buttonClasses} onClick={(e) => handleClick(e)}>
       {isLoading && (
         <Icon name="progress_activity" className={styles["cp-button-loader"]} />
       )}
@@ -50,35 +58,11 @@ Button.propTypes = {
   variant: PropTypes.oneOf(["solid", "outline"]),
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
-  marginTop: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginRight: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginBottom: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginLeft: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
   onClick: PropTypes.func,
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
 };
 
 export default Button;

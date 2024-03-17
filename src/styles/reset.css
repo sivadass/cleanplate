@@ -15,6 +15,7 @@
   --red-light: #e5484d25;
   --yellow-light: #ffe62925;
   --orange-light: #f76c1525;
+  --primary-brand: var(--green);
   /* Border Radius */
   --radius-none: 0;
   --radius-small: 4px;
