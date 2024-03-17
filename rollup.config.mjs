@@ -26,6 +26,9 @@ export default {
     resolve(),
     commonjs(),
     postcss({
+      modules: {
+        generateScopedName: "[local]-[hash:base64:5]",
+      },
       plugins: [],
       minimize: true,
       extract: true,
