@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./Badge.module.css";
+import styles from "./Badge.module.scss";
 
 const Badge = ({ label, variant = "default" }) => {
-  return <p className={`${styles["cp-badge"]} ${styles[variant]}`}>{label}</p>;
+  return <p className={`${styles["badge"]} ${styles[variant]}`}>{label}</p>;
 };
 
 Badge.propTypes = {

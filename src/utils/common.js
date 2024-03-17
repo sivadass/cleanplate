@@ -1,6 +1,9 @@
-export const getInitials = (fullName = "") => {
-  const initial = fullName?.[0] || "";
-  return initial.toUpperCase();
+export const getInitials = (name = "") => {
+  const initials = name.match(/^(\b\w)/g);
+  if (initials) {
+    return initials.join("").toUpperCase();
+  }
+  return ""; // Return null if no initials found
 };
 
 export const getSpacingClass = (marginConfig, styleObject, prefix) => {

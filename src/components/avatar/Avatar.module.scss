@@ -1,0 +1,27 @@
+.avatar {
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: 50%;
+  text-align: center;
+  background: var(--primary-brand);
+  &.small {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 13px;
+    span {
+      line-height: 24px;
+      font-size: 16px;
+    }
+  }
+  &.medium {
+    height: 44px;
+    width: 44px;
+    line-height: 44px;
+    font-size: 20px;
+    span {
+      line-height: 44px;
+      font-size: 24px;
+    }
+  }
+}

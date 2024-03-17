@@ -18,7 +18,6 @@ const Button = ({
   onClick,
   className = "",
 }) => {
-  const fluidButtonClass = `${isFluid ? styles["fluid"] : ""}`;
   const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const buttonClasses = getClassNames(

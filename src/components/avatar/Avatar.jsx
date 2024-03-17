@@ -1,35 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./Avatar.module.css";
+import styles from "./Avatar.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
-import { getSpacingClass } from "../../utils/common";
+import { getSpacingClass, getInitials } from "../../utils/common";
+import { SPACING_OPTIONS } from "../../constants/common";
+import getClassNames from "../../utils/get-class-names";
 
-const getInitials = (name) => {
-  const initials = name.match(/^(\b\w)/g);
-  if (initials) {
-    return initials.join("").toUpperCase();
-  }
-  return ""; // Return null if no initials found
-};
-
-const Avatar = ({ size = "medium", margin = "m-0", onClick, name = "" }) => {
+const Avatar = ({
+  size = "medium",
+  margin = "m-0",
+  onClick,
+  name = "",
+  className = "",
+}) => {
   const initials = getInitials(name);
   const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const avatarClasses = getClassNames(
+    styles["avatar"],
+    styles[size],
+    marginClass,
+    className
+  );
   const handleClick = (e) => {
-    if (isDisabled || isLoading) {
-      e.preventDefault();
-      return;
-    }
     if (typeof onClick === "function") {
       onClick(e);
     }
   };
   return (
-    <div
-      className={`${styles["cp-avatar"]} ${styles[size]} ${marginClass}`}
-      onClick={(e) => handleClick(e)}
-      title={name}
-    >
+    <div className={avatarClasses} onClick={(e) => handleClick(e)} title={name}>
       {initials}
     </div>
   );
@@ -37,34 +35,11 @@ const Avatar = ({ size = "medium", margin = "m-0", onClick, name = "" }) => {
 
 Avatar.propTypes = {
   name: PropTypes.string,
+  className: PropTypes.string,
   size: PropTypes.oneOf(["small", "medium"]),
-  marginTop: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginRight: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginBottom: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginLeft: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
   onClick: PropTypes.func,
 };

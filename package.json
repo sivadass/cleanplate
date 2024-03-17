@@ -1,6 +1,6 @@
 {
   "name": "cleanplate",
-  "version": "0.0.33",
+  "version": "0.0.35",
   "description": "CleanPlate - A Headless React UI Framework",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -33,7 +33,6 @@
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
-    "@storybook/addon-onboarding": "^1.0.8",
     "@storybook/blocks": "^7.5.3",
     "@storybook/react": "^7.5.3",
     "@storybook/react-vite": "^7.5.3",
