@@ -1,19 +1,63 @@
 import { Container, Typography } from "../index";
+import { SPACING_OPTIONS } from "../constants/common";
 
 const meta = {
   title: "components/container",
   component: Container,
 };
 
-export const Default = {
-  name: "Medium",
-  render: () => {
+export const Playground = {
+  name: "Playground",
+  argTypes: {
+    display: {
+      options: ["inline-block", "block", "flex"],
+      control: { type: "select" },
+      description: "Element type to be rendered",
+    },
+    width: {
+      options: [
+        "small",
+        "medium",
+        "large",
+        "extra-large",
+        "quarter",
+        "half",
+        "three-quarters",
+        "full",
+      ],
+      control: { type: "select" },
+      description: "Element type to be rendered",
+    },
+    justify: {
+      options: ["space-between", "center", "space-around", "space-evenly"],
+      control: { type: "select" },
+      description: "Element type to be rendered",
+    },
+    align: {
+      options: ["start", "center", "end"],
+      control: { type: "select" },
+      description: "Element type to be rendered",
+    },
+    padding: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+    },
+    margin: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+    },
+    showBorder: {
+      control: {
+        type: "boolean",
+      },
+    },
+  },
+
+  render: (args) => {
     return (
-      <>
-        <Container showBorder padding={["y-4", "x-5"]} margin="large">
-          <Typography>Hello world!</Typography>
-        </Container>
-      </>
+      <Container showBorder={true} padding={["6"]} {...args}>
+        <Typography>Hello world!</Typography>
+      </Container>
     );
   },
 };

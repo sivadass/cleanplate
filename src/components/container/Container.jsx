@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./Container.module.css";
+import styles from "./Container.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
+import getClassNames from "../../utils/get-class-names";
 
 const Container = ({
   children,
@@ -17,20 +18,27 @@ const Container = ({
   className = "",
   onClick,
 }) => {
-  const displayClass = display ? `display-${display}` : "";
-  const justifyClass = display ? `justify-${justify}` : "";
-  const alignClass = align ? `align-${align}` : "";
-  const widthClass = width ? `width-${width}` : "";
-  const borderClass = showBorder ? `border` : "";
-
-  const displayStyle = displayClass ? `${styles[displayClass]}` : "";
-  const alignStyle = alignClass ? `${styles[alignClass]}` : "";
-  const justifyStyle = justifyClass ? `${styles[justifyClass]}` : "";
-  const widthStyle = widthClass ? `${styles[widthClass]}` : "";
-  const borderStyle = borderClass ? `${styles[borderClass]}` : "";
+  const displayClass = `display-${display}`;
+  const justifyClass = `justify-${justify}`;
+  const alignClass = `align-${align}`;
+  const widthClass = `width-${width}`;
 
   const marginStyles = getSpacingClass(margin, utilStyles, "m");
   const paddingStyles = getSpacingClass(padding, utilStyles, "p");
+
+  const containerClasses = getClassNames(
+    styles["container"],
+    paddingStyles,
+    marginStyles,
+    {
+      [styles["border"]]: showBorder,
+      [styles[widthClass]]: width,
+      [styles[displayClass]]: display,
+      [styles[justifyClass]]: justify,
+      [styles[alignClass]]: align,
+    },
+    className
+  );
 
   const handleClick = (e) => {
     if (typeof onClick === "function") {
@@ -38,10 +46,7 @@ const Container = ({
     }
   };
   return (
-    <div
-      className={`${styles["cp-container"]} ${widthStyle} ${marginStyles} ${paddingStyles} ${borderStyle} ${displayStyle} ${alignStyle} ${justifyStyle} ${className}`}
-      onClick={(e) => handleClick(e)}
-    >
+    <div className={containerClasses} onClick={(e) => handleClick(e)}>
       {children}
     </div>
   );

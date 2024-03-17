@@ -1,4 +1,4 @@
-.cp-container {
+.container {
   border: 1px solid transparent;
   border-radius: 8px;
 }
@@ -35,18 +35,18 @@
   width: var(--length-full);
 }
 /* Display */
-.display-block {
-  display: block;
-}
-
-.display-inline-block {
-  display: inline-block;
-}
-
-.display-flex {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-large);
+.display {
+  &-block {
+    display: block;
+  }
+  &-inline-block {
+    display: inline-block;
+  }
+  &-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
 }
 
 .align-start {
