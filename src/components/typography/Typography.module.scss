@@ -1,27 +1,28 @@
-.cp-typography {
+.typography {
   font-family: inherit;
   font-size: inherit;
+  font-weight: normal;
   line-height: 1;
-  color: #222;
+  color: var(--black);
 }
 
-/* Variants */
+.bold {
+  font-weight: bold;
+}
+
 .h1 {
   font-size: 60px;
   line-height: 60px;
-  font-weight: normal;
 }
 
 .h2 {
   font-size: 50px;
   line-height: 50px;
-  font-weight: normal;
 }
 
 .h3 {
   font-size: 40px;
   line-height: 40px;
-  font-weight: normal;
 }
 
 .h4 {
@@ -42,21 +43,4 @@
 .p {
   font-size: 16px;
   line-height: 24px;
-}
-
-/* Colors */
-.black {
-  color: #222;
-}
-
-.white {
-  color: #fff;
-}
-
-.gray {
-  color: #666;
-}
-
-.blue {
-  color: #3e63dd;
 }

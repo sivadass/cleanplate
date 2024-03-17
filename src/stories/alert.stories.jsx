@@ -37,9 +37,7 @@ export const Docs = {
   render: () => (
     <Container>
       <Container>
-        <Typography variant="h5" marginBottom="medium">
-          Varaints
-        </Typography>
+        <Typography variant="h5">Varaints</Typography>
         <Alert
           message="The quick brown fox jumps over the lazy dog"
           variant="default"
@@ -67,9 +65,7 @@ export const Docs = {
       </Container>
 
       <Container>
-        <Typography variant="h5" marginBottom="medium">
-          Sizes
-        </Typography>
+        <Typography variant="h5">Sizes</Typography>
         <Alert
           message="The quick brown fox jumps over the lazy dog"
           variant="default"

@@ -18,12 +18,15 @@ export const Variants = {
       options: SPACING_OPTIONS,
       control: { type: "inline-check" },
     },
+    isBold: {
+      control: { type: "boolean" },
+    },
   },
 
   render: (args) => {
     return (
       <div>
-        <Typography variant="h1" marginBottom="extra-large" {...args}>
+        <Typography variant="h1" isBold={false} {...args}>
           The quick brown fox jumps over the lazy dog
         </Typography>
       </div>

@@ -30,11 +30,11 @@ const Trigger = () => {
 const Contents = () => {
   return (
     <Container>
-      <Typography marginBottom="large">Welcome</Typography>
-      <Button isFluid marginBottom="large" variant="outline">
+      <Typography>Welcome</Typography>
+      <Button isFluid variant="outline">
         Logout
       </Button>
-      <Button isFluid marginBottom="large" variant="outline">
+      <Button isFluid variant="outline">
         Logout
       </Button>
       <Button isFluid variant="outline">

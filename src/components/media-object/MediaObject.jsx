@@ -4,10 +4,10 @@ import Icon from "../icon";
 import styles from "./MediaObject.module.css";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
+import { SPACING_OPTIONS } from "../../constants/common";
 
 const MediaObject = ({
   children,
-  isLoading = false,
   isDisabled = false,
   isFluid = false,
   size = "medium",
@@ -20,10 +20,6 @@ const MediaObject = ({
   const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const handleClick = (e) => {
-    if (isDisabled || isLoading) {
-      e.preventDefault();
-      return;
-    }
     if (typeof onClick === "function") {
       onClick(e);
     }
@@ -50,33 +46,9 @@ MediaObject.propTypes = {
   variant: PropTypes.oneOf(["solid", "outline"]),
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
-  marginTop: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginRight: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginBottom: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-  ]),
-  marginLeft: PropTypes.oneOf([
-    "none",
-    "small",
-    "medium",
-    "large",
-    "extra-large",
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
   onClick: PropTypes.func,
 };
