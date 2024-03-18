@@ -22,8 +22,8 @@ const StepperItem = ({
     [styles["active"]]: isActive,
   });
   return (
-    <div className={stepperClasses} onClick={() => onClick()}>
-      <span className={styles["stepper-count"]}>
+    <div className={stepperClasses}>
+      <span className={styles["stepper-count"]} onClick={(e) => onClick(e)}>
         {isCompleted ? (
           <Icon name="done" className={styles["stepper-count-icon"]} />
         ) : (
@@ -38,7 +38,7 @@ const StepperItem = ({
 
 const Stepper = ({
   variant,
-  margin = "m-0",
+  margin = "0",
   className = "",
   config,
   customRender,
@@ -55,7 +55,8 @@ const Stepper = ({
     marginClass,
     className
   );
-  const handleClick = (index) => {
+  const handleClick = (e, index) => {
+    e.preventDefault();
     setActiveIndex(index);
     if (typeof onClick === "function") {
       onClick(index);
@@ -68,13 +69,16 @@ const Stepper = ({
           <StepperItem
             isActive={index === activeIndex}
             order={index + 1}
-            onClick={() => handleClick(index)}
+            onClick={(e) => handleClick(e, index)}
             isCompleted={step.isCompleted || false}
+            key={step.link}
           >
             {typeof customRender === "function" ? (
-              customRender(step, index)
+              customRender(step, index, setActiveIndex)
             ) : (
-              <a href={step.link}>{step.label}</a>
+              <a onClick={(e) => handleClick(e, index)} href={step.link}>
+                {step.label}
+              </a>
             )}
           </StepperItem>
         );
@@ -92,8 +96,8 @@ Stepper.propTypes = {
   config: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      link: PropTypes.number.isRequired,
-      isCompleted: PropTypes.bool.isRequired,
+      link: PropTypes.string.isRequired,
+      isCompleted: PropTypes.bool,
     })
   ).isRequired,
 };
