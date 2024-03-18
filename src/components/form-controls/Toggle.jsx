@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./FormControls.module.css";
+import styles from "./FormControls.module.scss";
 
 const Toggle = ({
   name,

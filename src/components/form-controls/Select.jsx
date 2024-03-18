@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Icon from "../icon";
-import styles from "./FormControls.module.css";
+import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
 
 const Select = ({
@@ -9,6 +9,7 @@ const Select = ({
   label = "",
   isDisabled = false,
   className = "",
+  triggerClassName = "",
   options = [],
   isRequired = false,
   placeholder = "Select an option",
@@ -43,7 +44,7 @@ const Select = ({
   const selectOptionsPositionClass = isDropdownTop
     ? `${styles["cp-select-field-options-top"]}`
     : `${styles["cp-select-field-options-bottom"]}`;
-  const selectHeaderWrapperClass = `${styles["cp-select-field-header"]} ${selectHeaderOpenClass}`;
+  const selectHeaderWrapperClass = `${styles["cp-select-field-header"]} ${selectHeaderOpenClass} ${triggerClassName}`;
 
   const handleOptionClick = (event, optionValue) => {
     event.stopPropagation();

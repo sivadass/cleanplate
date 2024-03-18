@@ -239,9 +239,10 @@ export const Date = {
         <Container>
           <FormControls.Date
             label="Message"
-            placeholder="Hello world!"
+            placeholder="Select DOB"
             isRequired
             error="Message is required"
+            defaultValue="31-05-1992"
             options={options}
           />
         </Container>

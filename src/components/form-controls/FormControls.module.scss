@@ -160,11 +160,51 @@
 .cp-checkbox-field {
 }
 
-.cp-file-field .cp-form-control {
+.cp-file-field {
+}
+
+.cp-form-control {
   background: #f7f7f7;
   display: block;
   padding-top: 9px;
 }
 
-.cp-date-field {
+.cp-date-field-wrapper {
+  display: flex;
+}
+
+.cp-date-field-day {
+  border-radius: 8px 0 0 8px;
+  width: 72px;
+  min-width: 72px;
+  margin-bottom: 0;
+  .custom-field {
+    border-radius: 8px 0 0 8px;
+    padding-right: 4px;
+    margin-bottom: 0;
+  }
+}
+
+.cp-date-field-month {
+  width: 78px;
+  min-width: 78px;
+  margin-bottom: 0;
+  .custom-field {
+    border-radius: 0;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    padding-right: 4px;
+    margin-bottom: 0;
+  }
+}
+
+.cp-date-field-year {
+  width: 100px;
+  min-width: 100px;
+  margin-bottom: 0;
+  .custom-field {
+    border-radius: 0 8px 8px 0;
+    padding-right: 4px;
+    margin-bottom: 0;
+  }
 }
