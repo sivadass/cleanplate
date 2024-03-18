@@ -6,34 +6,51 @@
 .border {
   border-color: var(--gray);
 }
-/* Width */
-.width-small {
-  width: var(--length-small);
+
+/* Display */
+.width {
+  &-small {
+    width: var(--length-small);
+  }
+  &-medium {
+    width: var(--length-medium);
+  }
+  &-large {
+    width: var(--length-large);
+  }
+  &-extra-large {
+    width: calc(var(--length-extra-large) - 12px);
+  }
+  &-quarter {
+    width: calc(var(--length-quarter) - 12px);
+  }
+  &-one-third {
+    width: calc(var(--length-one-third) - 11px);
+  }
+  &-half {
+    width: var(--length-half);
+  }
+  &-three-quarters {
+    width: var(--length-three-quarters);
+  }
+  &-full {
+    width: var(--length-full);
+  }
+  @media (max-width: 600px) {
+    &-small,
+    &-medium,
+    &-large,
+    &-extra-large,
+    &-quarter,
+    &-one-third,
+    &-half,
+    &-three-quarters,
+    &-full {
+      width: 100%;
+    }
+  }
 }
-.width-medium {
-  width: var(--length-medium);
-}
-.width-large {
-  width: var(--length-large);
-}
-.width-extra-large {
-  width: var(--length-extra-large);
-}
-.width-quarter {
-  width: calc(var(--length-quarter) - 12px);
-}
-.width-one-third {
-  width: calc(var(--length-one-third) - 11px);
-}
-.width-haf {
-  width: var(--length-half);
-}
-.width-three-quarters {
-  width: var(--length-three-quarters);
-}
-.width-full {
-  width: var(--length-full);
-}
+
 /* Display */
 .display {
   &-block {
@@ -49,30 +66,31 @@
   }
 }
 
-.align-start {
-  align-items: flex-start;
+/* Flex Alignment */
+.align {
+  &-start {
+    align-items: flex-start;
+  }
+  &-center {
+    align-items: center;
+  }
+  &-end {
+    align-items: flex-end;
+  }
 }
 
-.align-center {
-  align-items: center;
-}
-
-.align-end {
-  align-items: flex-end;
-}
-
-.justify-space-between {
-  justify-content: space-between;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-space-around {
-  justify-content: space-around;
-}
-
-.justify-space-evenly {
-  justify-content: space-evenly;
+/* Flex Justify */
+.justify {
+  &-space-between {
+    justify-content: space-between;
+  }
+  &-center {
+    justify-content: center;
+  }
+  &-space-around {
+    justify-content: space-around;
+  }
+  &-space-evenly {
+    justify-content: space-evenly;
+  }
 }
