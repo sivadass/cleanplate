@@ -38,8 +38,7 @@ const Stepper = ({
   );
   return (
     <div className={stepperClasses}>
-      {config?.map((step, index) => {
-        const isLastItem = config?.length - 1 === index;
+      {config.map((step, index) => {
         if (typeof customRender === "function") {
           return customRender(step, index);
         }
@@ -59,6 +58,7 @@ Stepper.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
+  config: PropTypes.s,
 };
 
 export default Stepper;
