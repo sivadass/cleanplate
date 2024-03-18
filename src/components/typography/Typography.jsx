@@ -12,13 +12,17 @@ const Typography = ({
   margin = "m-0",
   className = "",
   isBold = false,
+  align = "left",
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const alignClass = `align-${align}`;
   const typographyClasses = getClassNames(
     styles["typography"],
     {
       [styles[variant]]: variant,
       [styles["bold"]]: isBold,
+      [styles["align"]]: align,
+      [styles[alignClass]]: align,
     },
     marginClass,
     className
@@ -49,6 +53,7 @@ Typography.propTypes = {
     PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
   isBold: PropTypes.bool,
+  align: PropTypes.oneOf(["left", "right", "center"]),
 };
 
 export default Typography;

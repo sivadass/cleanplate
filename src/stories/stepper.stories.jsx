@@ -1,4 +1,5 @@
-import { Stepper } from "../index";
+import React from "react";
+import { Stepper, Container } from "../index";
 import { SPACING_OPTIONS } from "../constants/common";
 
 const meta = {
@@ -10,62 +11,49 @@ export const Playground = {
   name: "Playground",
   argTypes: {
     variant: {
-      options: ["h1", "h2", "h3", "h4", "h5", "h6", "p"],
+      options: ["horizontal", "vertical"],
       control: { type: "select" },
-      description: "Element type to be rendered",
+      description: "Direction of stepper",
     },
     margin: {
       options: SPACING_OPTIONS,
       control: { type: "inline-check" },
     },
-    isBold: {
-      control: { type: "boolean" },
-    },
+    config: {},
   },
 
   render: (args) => {
+    const [activeStep, setActiveStep] = React.useState("/");
     return (
-      <div>
-        {/* <Stepper.Wrapper variant="h1" isBold={false} {...args}>
-          <Stepper.StepperItem order={1}>
-            <a href="/1">Step 1</a>
-          </Stepper.StepperItem>
-          <Stepper.Separator />
-          <Stepper.StepperItem order={2}>
-            <a href="/2">Step 2</a>
-          </Stepper.StepperItem>
-          <Stepper.Separator />
-          <Stepper.StepperItem order={3}>
-            <a href="/3">Step 3</a>
-          </Stepper.StepperItem>
-          <Stepper.Separator />
-          <Stepper.StepperItem order={4}>
-            <a href="/4">Step 4</a>
-          </Stepper.StepperItem>
-        </Stepper.Wrapper> */}
+      <Container>
         <Stepper
           config={[
             {
               label: "Personal Details",
-              link: "/",
-              isActive: true,
+              key: "/",
+              isActive: "/" === activeStep,
             },
             {
               label: "Address",
-              link: "/address",
+              key: "/address",
+              isActive: "/address" === activeStep,
             },
             {
               label: "Payment",
-              link: "/payment",
+              key: "/payment",
               isCompleted: true,
+              isActive: "/payment" === activeStep,
             },
             {
               label: "Confirmation",
-              link: "/confirmation",
+              key: "/confirmation",
+              isActive: "/confirmation" === activeStep,
             },
           ]}
+          onClick={(step) => setActiveStep(step.key)}
+          {...args}
         />
-      </div>
+      </Container>
     );
   },
 };
