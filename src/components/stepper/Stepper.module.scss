@@ -1,4 +1,4 @@
-.wrapper {
+.stepper {
   font-family: inherit;
   font-size: inherit;
   font-weight: normal;
@@ -17,8 +17,10 @@
       text-decoration: none;
       text-align: center;
       display: inline-block;
+      line-height: 20px;
       padding: var(--space-0) var(--space-2);
-      color: var(--primary-brand);
+      color: var(--gray);
+      cursor: pointer;
     }
     .stepper-count {
       height: 38px;
@@ -27,11 +29,17 @@
       line-height: 28px;
       font-size: 14px;
       color: var(--white);
-      background: var(--primary-brand);
-      margin-bottom: var(--space-4);
+      background: var(--gray);
+      margin-bottom: var(--space-2);
       display: block;
       border-radius: var(--radius-round);
       border: 5px solid var(--white);
+      cursor: pointer;
+      .stepper-count-icon {
+        line-height: 28px;
+        font-size: 20px;
+        color: var(--white);
+      }
     }
     .separator {
       width: 100%;
@@ -47,6 +55,22 @@
     &:last-child {
       .separator {
         display: none;
+      }
+    }
+    &.active {
+      a {
+        color: var(--primary-brand);
+      }
+      .stepper-count {
+        background: var(--primary-brand);
+      }
+    }
+  }
+  @media (max-width: 576px) {
+    .stepper-item {
+      a {
+        font-size: 14px;
+        line-height: 18px;
       }
     }
   }

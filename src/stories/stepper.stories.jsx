@@ -56,6 +56,7 @@ export const Playground = {
             {
               label: "Payment",
               link: "/payment",
+              isCompleted: true,
             },
             {
               label: "Confirmation",
