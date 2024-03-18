@@ -10,6 +10,10 @@
   max-width: var(--length-full);
 }
 
+.cp-form-field-disabled {
+  opacity: 0.3;
+}
+
 .cp-form-label {
   display: block;
   margin-bottom: 8px;
@@ -49,6 +53,29 @@
   position: relative;
   /* width: var(--length-full);
   max-width: var(--length-small); */
+}
+
+.cp-select-count {
+  height: 20px;
+  width: 20px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  background: var(--primary-brand);
+  color: var(--white);
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.cp-select-placeholder {
+  text-overflow: ellipsis;
+  max-width: 90%;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  margin-right: auto;
+  line-height: 20px;
 }
 
 .cp-select-field-header {
@@ -99,12 +126,28 @@
 .cp-select-field-option {
   padding: 8px 16px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cp-select-field-option-selected {
+  background: var(--primary-brand);
+  color: var(--white);
+  height: 22px;
+  width: 22px;
+  line-height: 20px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: var(--radius-round);
+  border: 1px solid var(--white);
 }
 
 .cp-select-field-option:hover {
   padding: 8px 16px;
   cursor: pointer;
-  background: #999;
+  background: var(--primary-brand);
+  color: var(--white);
 }
 
 .cp-select-field-arrow {

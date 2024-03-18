@@ -114,7 +114,12 @@ export const Select = {
     return (
       <Container>
         <Container>
-          <FormControls.Select placeholder="Select a fruit" options={options} />
+          <FormControls.Select
+            placeholder="Select a fruit"
+            options={options}
+            isMulti
+            value={[]}
+          />
         </Container>
         <Container>
           <FormControls.Select
