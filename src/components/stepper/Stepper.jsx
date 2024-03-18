@@ -40,7 +40,11 @@ const Stepper = ({
     <div className={stepperClasses}>
       {config.map((step, index) => {
         if (typeof customRender === "function") {
-          return customRender(step, index);
+          return (
+            <StepperItem order={index + 1}>
+              customRender(step, index)
+            </StepperItem>
+          );
         }
         return (
           <StepperItem order={index + 1}>
