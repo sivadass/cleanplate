@@ -48,6 +48,7 @@ export const Playground = {
             {
               label: "Personal Details",
               link: "/",
+              isActive: true,
             },
             {
               label: "Address",

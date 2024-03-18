@@ -7,31 +7,28 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import Icon from "../icon";
 
-const Separator = () => {
-  return <span className={styles.separator} />;
-};
-
-const StepperItem = ({
-  children,
-  isActive = false,
-  order,
-  onClick,
-  isCompleted = false,
-}) => {
-  const stepperClasses = getClassNames(styles["stepper-item"], {
-    [styles["active"]]: isActive,
+const StepperItem = ({ step, order, onClick }) => {
+  const stepperItemClasses = getClassNames(styles["stepper-item"], {
+    [styles["active"]]: step.isActive,
+    [styles["completed"]]: step.isCompleted,
   });
   return (
-    <div className={stepperClasses}>
+    <div className={stepperItemClasses}>
       <span className={styles["stepper-count"]} onClick={(e) => onClick(e)}>
-        {isCompleted ? (
+        {step.isCompleted ? (
           <Icon name="done" className={styles["stepper-count-icon"]} />
         ) : (
           order
         )}
       </span>
-      <Separator />
-      {children}
+      <span className={styles.separator} />
+      <a
+        className={styles["stepper-link"]}
+        onClick={(e) => onClick(e)}
+        href={step.key}
+      >
+        {step.label}
+      </a>
     </div>
   );
 };
@@ -41,11 +38,8 @@ const Stepper = ({
   margin = "0",
   className = "",
   config,
-  customRender,
   onClick,
-  defaultActiveIndex = 0,
 }) => {
-  const [activeIndex, setActiveIndex] = React.useState(defaultActiveIndex);
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const stepperClasses = getClassNames(
     styles["stepper"],
@@ -55,11 +49,10 @@ const Stepper = ({
     marginClass,
     className
   );
-  const handleClick = (e, index) => {
+  const handleClick = (e, step) => {
     e.preventDefault();
-    setActiveIndex(index);
     if (typeof onClick === "function") {
-      onClick(index);
+      onClick(step);
     }
   };
   return (
@@ -67,20 +60,11 @@ const Stepper = ({
       {config.map((step, index) => {
         return (
           <StepperItem
-            isActive={index === activeIndex}
             order={index + 1}
-            onClick={(e) => handleClick(e, index)}
-            isCompleted={step.isCompleted || false}
-            key={step.link}
-          >
-            {typeof customRender === "function" ? (
-              customRender(step, index, setActiveIndex)
-            ) : (
-              <a onClick={(e) => handleClick(e, index)} href={step.link}>
-                {step.label}
-              </a>
-            )}
-          </StepperItem>
+            onClick={(e) => handleClick(e, step)}
+            key={step.key}
+            step={step}
+          />
         );
       })}
     </div>
@@ -96,8 +80,9 @@ Stepper.propTypes = {
   config: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
       isCompleted: PropTypes.bool,
+      isActive: PropTypes.bool,
     })
   ).isRequired,
 };
