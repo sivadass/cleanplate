@@ -46,6 +46,9 @@
   /*Branding*/
   --primary-brand: var(--green);
   --secondary-brand: var(--gray);
+  /* Breakpoints */
+  --mobile-breakpoint: 600px;
+  --tablet-breakpoint: 1024px;
 }
 
 * {

@@ -1,4 +1,4 @@
-import "./styles/reset.css";
+import "./styles/reset.module.scss";
 import Typography from "./components/typography";
 import AppShell from "./components/app-shell";
 import Alert from "./components/alert";
