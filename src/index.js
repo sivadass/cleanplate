@@ -11,6 +11,7 @@ import Container from "./components/container";
 import Dropdown from "./components/dropdown";
 import MediaObject from "./components/media-object";
 import Avatar from "./components/avatar";
+import Stepper from "./components/stepper";
 
 export {
   AppShell,
@@ -25,4 +26,5 @@ export {
   MediaObject,
   Alert,
   Avatar,
+  Stepper,
 };
