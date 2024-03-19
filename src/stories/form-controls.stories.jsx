@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FormControls, Container } from "../index";
 
 const meta = {
@@ -333,73 +334,19 @@ export const Checkbox = {
         value: "litchie",
       },
     ];
+    const [isChecked, setIsChecked] = useState(false);
+    const handleChange = (checked) => {
+      setIsChecked(checked);
+    };
     return (
       <Container>
         <Container>
           <FormControls.Checkbox
-            placeholder="Select fruits"
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            isRequired
-            error="Message is required"
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            isRequired
-            isFluid
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            isRequired
-            isFluid
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            isRequired
-            isFluid
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            isRequired
-            isFluid
-            options={options}
-          />
-        </Container>
-        <Container>
-          <FormControls.Checkbox
-            label="Message"
-            placeholder="Hello world!"
-            isRequired
-            isFluid
-            options={options}
+            label="Accept terms and conditions?"
+            name="accept"
+            id="accept"
+            value={isChecked}
+            onChange={(checked) => handleChange(checked)}
           />
         </Container>
       </Container>

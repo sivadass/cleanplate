@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./FormControls.module.scss";
+import Icon from "../icon";
 
 const Checkbox = ({
   name,
@@ -9,7 +10,6 @@ const Checkbox = ({
   value,
   label = "",
   isDisabled = false,
-  type = "text",
   className = "",
   isFluid = false,
   error = "",
@@ -23,18 +23,23 @@ const Checkbox = ({
 
   return (
     <div className={fieldWrapperClassName}>
-      {label && <label className={styles["cp-form-label"]}>{label}</label>}
+      {label && (
+        <label htmlFor={name} className={styles["cp-form-label"]}>
+          <Icon name={value ? "check_box" : "check_box_outline_blank"} />
+          <span>{label}</span>
+        </label>
+      )}
       <input
         className={formControlFieldClassName}
         type="checkbox"
         disabled={isDisabled}
         name={name}
         id={id}
-        defaultValue={defaultValue}
-        value={value}
+        checked={value}
+        hidden
         onChange={(e) => {
           if (onChange) {
-            onChange(e);
+            onChange(e.target.checked);
           }
         }}
       />

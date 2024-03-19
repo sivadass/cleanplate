@@ -25,6 +25,8 @@
   border: 1px solid var(--gray);
   padding: 0 16px;
   width: 100%;
+  background: var(--white);
+  outline: none;
 }
 
 .cp-form-control {
@@ -100,7 +102,7 @@
   align-items: center;
   font-family: inherit;
   font-size: inherit;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   border-radius: var(--radius-medium);
   height: 44px;
 }
@@ -169,6 +171,18 @@
 }
 
 .cp-checkbox-field {
+  .cp-form-label {
+    display: flex;
+    gap: 8px;
+    line-height: 24px;
+    cursor: pointer;
+    color: var(--gray);
+  }
+  .cp-form-control {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
 }
 
 .cp-file-field {
