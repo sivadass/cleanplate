@@ -10,6 +10,8 @@ const Select = ({
   isDisabled = false,
   className = "",
   triggerClassName = "",
+  triggerActiveClassName = "",
+  contentsClassName = "",
   options = [],
   isRequired = false,
   placeholder = "Select an option",
@@ -39,7 +41,7 @@ const Select = ({
   const selectedValue = isMulti ? multiSelectionValue : singleSelectValue;
 
   const selectHeaderOpenClass = isOpen
-    ? `${styles["cp-select-field-header-open"]}`
+    ? `${styles["cp-select-field-header-open"]} ${triggerActiveClassName}`
     : "";
   const selectOptionsPositionClass = isDropdownTop
     ? `${styles["cp-select-field-options-top"]}`
@@ -109,9 +111,13 @@ const Select = ({
               {selectedOption.length}
             </span>
           )}
-          <span className={styles["cp-select-placeholder"]}>
-            {selectedValue || placeholder}
-          </span>
+          {selectedValue ? (
+            <span className={styles["cp-select-value"]}>{selectedValue}</span>
+          ) : (
+            <span className={styles["cp-select-placeholder"]}>
+              {placeholder}
+            </span>
+          )}
           <Icon
             name={isOpen ? "arrow_drop_up" : "arrow_drop_down"}
             className={`arrow ${isOpen ? "up" : "down"}`}
@@ -119,7 +125,7 @@ const Select = ({
         </div>
         {isOpen && (
           <div
-            className={`${styles["cp-select-field-options"]} ${selectOptionsPositionClass}`}
+            className={`${styles["cp-select-field-options"]} ${selectOptionsPositionClass} ${contentsClassName}`}
           >
             {options.map((option) => {
               console.log("selectedOption", selectedOption);

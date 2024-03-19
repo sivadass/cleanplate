@@ -22,6 +22,9 @@ const Date = ({
   const [month, setMonth] = React.useState(defaultMonth);
   const [year, setYear] = React.useState(defaultYear);
 
+  const selectedMonth = MONTH_OPTIONS.find((f) => f.value === month);
+  const monthLabel = (selectedMonth && selectedMonth.label) || "";
+
   const fluidFormFieldClassName = `${
     isFluid ? styles["cp-form-field-fluid"] : ""
   }`;
@@ -65,6 +68,7 @@ const Date = ({
           className={styles["cp-date-field-day"]}
           placeholder="DD"
           triggerClassName={styles["custom-field"]}
+          triggerActiveClassName={styles["custom-field-open"]}
           options={DAY_OPTIONS}
           onChange={(val) => handleChangeDay(val)}
           value={{
@@ -75,17 +79,20 @@ const Date = ({
         <Select
           className={styles["cp-date-field-month"]}
           triggerClassName={styles["custom-field"]}
-          placeholder="MM"
+          triggerActiveClassName={styles["custom-field-open"]}
+          contentsClassName={styles["custom-field-open-content"]}
+          placeholder="MMM"
           options={MONTH_OPTIONS}
           onChange={(val) => handleChangeMonth(val)}
           value={{
-            label: month,
+            label: monthLabel,
             value: month,
           }}
         />
         <Select
           className={styles["cp-date-field-year"]}
           triggerClassName={styles["custom-field"]}
+          triggerActiveClassName={styles["custom-field-open"]}
           placeholder="YYYY"
           options={YEAR_OPTIONS}
           onChange={(val) => handleChangeYear(val)}
