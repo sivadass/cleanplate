@@ -17,6 +17,7 @@ const Button = ({
   margin = "m-0",
   onClick,
   className = "",
+  type = "button",
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
 
@@ -43,7 +44,11 @@ const Button = ({
     }
   };
   return (
-    <button className={buttonClasses} onClick={(e) => handleClick(e)}>
+    <button
+      className={buttonClasses}
+      onClick={(e) => handleClick(e)}
+      type={type}
+    >
       {isLoading && (
         <Icon name="progress_activity" className={styles["cp-button-loader"]} />
       )}

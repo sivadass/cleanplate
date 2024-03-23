@@ -1,6 +1,6 @@
 {
   "name": "cleanplate",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "description": "CleanPlate - A Headless React UI Framework",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
