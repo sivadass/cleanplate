@@ -6,6 +6,7 @@ import {
   useEffect,
 } from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 import { uuid } from "../../utils/common";
 import styles from "./Toast.module.scss";
 import Icon from "../icon";
@@ -35,7 +36,7 @@ const useToastPortal = () => {
   useEffect(() => {
     const div = document.createElement("div");
     div.id = portalId;
-    div.style = "position: fixed; top: 10px; right: 10px";
+    div.style = "position: fixed; top: 16px; right: 16px";
     document.getElementsByTagName("body")[0].prepend(div);
 
     setLoaded(true);
@@ -86,47 +87,54 @@ const ToastItem = ({ mode, onClose, message }) => {
  * functionality.
  */
 
-const ToastPortal = forwardRef(
-  ({ autoClose = false, autoCloseTime = 5000 }, ref) => {
-    const [toasts, setToasts] = useState([]);
-    const { loaded, portalId } = useToastPortal();
+const Toast = forwardRef(({ autoClose = false, autoCloseTime = 5000 }, ref) => {
+  const [toasts, setToasts] = useState([]);
+  const { loaded, portalId } = useToastPortal();
 
-    useToastAutoClose({
-      toasts,
-      setToasts,
-      autoClose,
-      autoCloseTime,
-    });
+  useToastAutoClose({
+    toasts,
+    setToasts,
+    autoClose,
+    autoCloseTime,
+  });
 
-    const removeToast = (id) => {
-      setToasts(toasts.filter((t) => t.id !== id));
-    };
+  const removeToast = (id) => {
+    setToasts(toasts.filter((t) => t.id !== id));
+  };
 
-    useImperativeHandle(ref, () => ({
-      addMessage(toast) {
-        setToasts([...toasts, { ...toast, id: uuid() }]);
-      },
-    }));
+  useImperativeHandle(ref, () => ({
+    addMessage(toast) {
+      setToasts([...toasts, { ...toast, id: uuid() }]);
+    },
+  }));
 
-    return loaded ? (
-      ReactDOM.createPortal(
-        <div className={styles["toast-container"]}>
-          {toasts.map((t) => (
-            <ToastItem
-              key={t.id}
-              mode={t.mode}
-              message={t.message}
-              onClose={() => removeToast(t.id)}
-            />
-          ))}
-        </div>,
+  return loaded ? (
+    ReactDOM.createPortal(
+      <div className={styles["toast-container"]}>
+        {toasts.map((t) => (
+          <ToastItem
+            key={t.id}
+            mode={t.mode}
+            message={t.message}
+            onClose={() => removeToast(t.id)}
+          />
+        ))}
+      </div>,
 
-        document.getElementById(portalId)
-      )
-    ) : (
-      <></>
-    );
-  }
-);
+      document.getElementById(portalId)
+    )
+  ) : (
+    <></>
+  );
+});
 
-export default ToastPortal;
+Toast.propTypes = {
+  ref: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any }),
+  ]),
+  autoClose: PropTypes.bool,
+  autoCloseTime: PropTypes.number,
+};
+
+export default Toast;
