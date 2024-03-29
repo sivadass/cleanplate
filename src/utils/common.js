@@ -22,11 +22,29 @@ export const getSpacingClass = (marginConfig, styleObject, prefix) => {
   return "m-0";
 };
 
-export const uuid = () => {
+export const getUniqueId = () => {
   let dt = new Date().getTime();
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     var r = (dt + Math.random() * 16) % 16 | 0;
     dt = Math.floor(dt / 16);
     return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
   });
+};
+
+export const getVariantIcon = (variant) => {
+  let iconName = "";
+  switch (variant) {
+    case "error":
+      iconName = "error";
+      break;
+    case "warning":
+      iconName = "warning";
+      break;
+    case "success":
+      iconName = "check_circle";
+      break;
+    default:
+      iconName = "info";
+  }
+  return iconName;
 };

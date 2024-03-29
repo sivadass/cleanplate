@@ -7,31 +7,13 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { uuid } from "../../utils/common";
+import { getUniqueId, getVariantIcon } from "../../utils/common";
 import styles from "./Toast.module.scss";
 import Icon from "../icon";
 
-const getIcon = (variant) => {
-  let iconName = "";
-  switch (variant) {
-    case "error":
-      iconName = "error";
-      break;
-    case "warning":
-      iconName = "warning";
-      break;
-    case "success":
-      iconName = "check_circle";
-      break;
-    default:
-      iconName = "info";
-  }
-  return iconName;
-};
-
 const useToastPortal = () => {
   const [loaded, setLoaded] = useState(false);
-  const [portalId] = useState(`toast-portal-${uuid()}`);
+  const [portalId] = useState(`toast-portal-${getUniqueId()}`);
 
   useEffect(() => {
     const div = document.createElement("div");
@@ -66,7 +48,7 @@ const useToastAutoClose = ({ toasts, setToasts, autoClose, autoCloseTime }) => {
 
 const ToastItem = ({ mode, onClose, message }) => {
   const classes = useMemo(() => [styles.toast, styles[mode]].join(" "), [mode]);
-  const iconName = getIcon(mode);
+  const iconName = getVariantIcon(mode);
   return (
     <div onClick={onClose} className={classes}>
       <Icon className={styles.icon} name={iconName} size={32} />
@@ -104,7 +86,7 @@ const Toast = forwardRef(({ autoClose = false, autoCloseTime = 5000 }, ref) => {
 
   useImperativeHandle(ref, () => ({
     addMessage(toast) {
-      setToasts([...toasts, { ...toast, id: uuid() }]);
+      setToasts([...toasts, { ...toast, id: getUniqueId() }]);
     },
   }));
 

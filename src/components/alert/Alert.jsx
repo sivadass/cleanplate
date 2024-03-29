@@ -4,28 +4,10 @@ import Icon from "../icon";
 import Typography from "../typography";
 import Button from "../button";
 import { SPACING_OPTIONS, SIZING_OPTIONS } from "../../constants/common";
-import { getSpacingClass } from "../../utils/common";
+import { getSpacingClass, getVariantIcon } from "../../utils/common";
 
 import styles from "./Alert.module.scss";
 import utilsStyles from "../../styles/utils.module.scss";
-
-const getIcon = (variant) => {
-  let iconName = "";
-  switch (variant) {
-    case "error":
-      iconName = "error";
-      break;
-    case "warning":
-      iconName = "warning";
-      break;
-    case "success":
-      iconName = "check_circle";
-      break;
-    default:
-      iconName = "info";
-  }
-  return iconName;
-};
 
 const Alert = ({
   message,
@@ -37,7 +19,7 @@ const Alert = ({
 }) => {
   const [isVisible, setIsVisible] = React.useState(true);
 
-  const iconName = getIcon(variant);
+  const iconName = getVariantIcon(variant);
 
   const marginClasses = getSpacingClass(margin, utilsStyles, "m");
 
