@@ -13,6 +13,7 @@ import MediaObject from "./components/media-object";
 import Avatar from "./components/avatar";
 import Stepper from "./components/stepper";
 import Toast from "./components/toast";
+import Animated from "./components/animated";
 
 export {
   AppShell,
@@ -29,4 +30,5 @@ export {
   Avatar,
   Stepper,
   Toast,
+  Animated,
 };

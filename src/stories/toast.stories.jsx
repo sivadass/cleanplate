@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React from "react";
 import { Toast, Container, Button } from "../index";
 
 const meta = {
@@ -9,9 +9,12 @@ const meta = {
 export const Default = {
   name: "Variants",
   render: () => {
-    const toastRef = useRef();
+    const toastRef = React.createRef();
     const handleToast = (toastType) => {
-      toastRef.current.addMessage({ mode: toastType, message: "Hello world!" });
+      toastRef?.current?.addMessage({
+        mode: toastType,
+        message: "Hello world!",
+      });
     };
     return (
       <Container>

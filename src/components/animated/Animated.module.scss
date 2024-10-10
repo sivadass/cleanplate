@@ -1,0 +1,37 @@
+.animated {
+  transform: translate(0, 50%);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+  will-change: opacity, visibility;
+}
+
+.is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  display: inline-block;
+}
+
+.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.delay-200 {
+  transition-delay: 200ms;
+}
+
+.delay-400 {
+  transition-delay: 400ms;
+}
+
+.delay-600 {
+  transition-delay: 600ms;
+}
+
+.delay-800 {
+  transition-delay: 800ms;
+}
+
+.delay-1000 {
+  transition-delay: 1000ms;
+}
