@@ -16,12 +16,12 @@ export default create({
 
   //
   colorPrimary: "#3A10E5",
-  colorSecondary: "#585C6D",
+  colorSecondary: "#999",
 
   // UI
   appBg: "#ffffff",
   appContentBg: "#ffffff",
-  appBorderColor: "#585C6D",
+  appBorderColor: "#ccc",
   appBorderRadius: 4,
 
   // Text colors
@@ -30,7 +30,7 @@ export default create({
 
   // Toolbar default and active colors
   barTextColor: "#9E9E9E",
-  barSelectedColor: "#585C6D",
+  barSelectedColor: "#ccc",
   barBg: "#ffffff",
 
   // Form colors

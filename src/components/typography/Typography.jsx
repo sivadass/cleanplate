@@ -41,6 +41,8 @@ const Typography = ({
       return <h5 className={typographyClasses}>{children}</h5>;
     case "h6":
       return <h6 className={typographyClasses}>{children}</h6>;
+    case "small":
+      return <small className={typographyClasses}>{children}</small>;
     default:
       return <p className={typographyClasses}>{children}</p>;
   }
