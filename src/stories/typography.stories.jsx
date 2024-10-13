@@ -10,7 +10,7 @@ export const Variants = {
   name: "Variants",
   argTypes: {
     variant: {
-      options: ["h1", "h2", "h3", "h4", "h5", "h6", "p"],
+      options: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "small"],
       control: { type: "select" },
       description: "Element type to be rendered",
     },
