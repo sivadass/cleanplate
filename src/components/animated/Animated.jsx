@@ -8,6 +8,7 @@ import utilStyles from "../../styles/utils.module.scss";
 
 const Animated = ({
   animationType = "fadeUp",
+  as: Component = "span",
   children,
   margin = ["0"],
   delay = 0,
@@ -47,9 +48,9 @@ const Animated = ({
   }, []);
 
   return (
-    <span ref={domRef} className={animatedClasses}>
+    <Component ref={domRef} className={animatedClasses}>
       {children}
-    </span>
+    </Component>
   );
 };
 
