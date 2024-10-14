@@ -13,6 +13,7 @@ const Animated = ({
   margin = ["0"],
   delay = 0,
   className = "",
+  isBlock = false,
 }) => {
   const domRef = React.useRef();
   const [isVisible, setVisible] = React.useState(false);
@@ -25,6 +26,7 @@ const Animated = ({
     {
       [styles["is-visible"]]: isVisible,
       [styles["is-hidden"]]: !isVisible,
+      [styles["is-block"]]: isBlock,
     },
     marginClass,
     className
