@@ -7,13 +7,14 @@ import { getSpacingClass } from "../../utils/common";
 import utilStyles from "../../styles/utils.module.scss";
 
 const Animated = ({
-  animationType = "fadeUp",
+  animationType = "fade-up",
   as: Component = "span",
   children,
   margin = ["0"],
   delay = 0,
   className = "",
   isBlock = false,
+  ...otherProps
 }) => {
   const domRef = React.useRef();
   const [isVisible, setVisible] = React.useState(false);
@@ -50,7 +51,7 @@ const Animated = ({
   }, []);
 
   return (
-    <Component ref={domRef} className={animatedClasses}>
+    <Component ref={domRef} className={animatedClasses} {...otherProps}>
       {children}
     </Component>
   );
@@ -59,8 +60,8 @@ const Animated = ({
 Animated.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  delay: PropTypes.oneOf([200, 400, 600, 800, 1000]),
-  animationType: PropTypes.oneOf(["fadeUp", "fadeDown"]),
+  delay: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]),
+  animationType: PropTypes.oneOf(["fade-up", "fade-down"]),
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
