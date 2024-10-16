@@ -49,7 +49,7 @@ const Typography = ({
 };
 
 Typography.propTypes = {
-  variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "p"]),
+  variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "p", "small"]),
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),

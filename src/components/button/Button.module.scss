@@ -66,4 +66,16 @@
       color: var(--primary-brand);
     }
   }
+  &.ghost {
+    color: var(--primary-brand);
+    border-color: transparent;
+    background: transparent;
+    &:hover {
+      background: transparent;
+      border-color: var(--primary-brand);
+    }
+    .cp-button-loader {
+      color: var(--primary-brand);
+    }
+  }
 }

@@ -59,10 +59,11 @@ const Button = ({
 
 Button.propTypes = {
   size: PropTypes.oneOf(["small", "medium"]),
-  variant: PropTypes.oneOf(["solid", "outline"]),
+  variant: PropTypes.oneOf(["solid", "outline", "ghost"]),
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   onClick: PropTypes.func,
+  isFluid: PropTypes.bool,
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),

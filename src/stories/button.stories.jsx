@@ -1,4 +1,6 @@
 import { Button } from "../index";
+import { SPACING_OPTIONS } from "../constants/common";
+import { action } from "@storybook/addon-actions";
 
 const meta = {
   title: "components/button",
@@ -6,91 +8,37 @@ const meta = {
 };
 
 export const Default = {
-  name: "Medium",
-  render: () => {
-    return (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        <Button onClick={() => alert("Hello world!")}>Save</Button>
-        <Button isLoading onClick={() => alert("Hello world!")}>
-          Save
-        </Button>
-        <Button isDisabled onClick={() => alert("Hello world!")}>
-          Save
-        </Button>
-        <Button
-          size="medium"
-          variant="outline"
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-        <Button
-          size="medium"
-          variant="outline"
-          isLoading
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-        <Button
-          size="medium"
-          variant="outline"
-          isDisabled
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-        <Button
-          size="medium"
-          variant="outline"
-          isFluid
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-      </div>
-    );
+  name: "default",
+  argTypes: {
+    size: {
+      options: ["large", "small"],
+      control: "inline-radio",
+      description: "Size of the button",
+    },
+    variant: {
+      options: ["solid", "outline", "ghost"],
+      control: { type: "inline-radio" },
+      description: "Type of the button",
+    },
+    isFluid: {
+      control: { type: "boolean" },
+      default: false,
+    },
+    isLoading: {
+      control: { type: "boolean" },
+    },
+    isDisabled: {
+      control: { type: "boolean" },
+      default: false,
+    },
+    margin: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+    },
+    onClick: { action: "onClick" },
   },
-};
-export const Small = {
-  name: "Small",
-  render: () => {
-    return (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        <Button size="small" onClick={() => alert("Hello world!")}>
-          Save
-        </Button>
-        <Button size="small" isLoading onClick={() => alert("Hello world!")}>
-          Save
-        </Button>
-        <Button size="small" isDisabled onClick={() => alert("Hello world!")}>
-          Save
-        </Button>
-        <Button
-          size="small"
-          variant="outline"
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-        <Button
-          size="small"
-          variant="outline"
-          isLoading
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-        <Button
-          size="small"
-          variant="outline"
-          isDisabled
-          onClick={() => alert("Hello world!")}
-        >
-          Save
-        </Button>
-      </div>
-    );
+  render: (args) => {
+    return <Button {...args}>Save</Button>;
   },
 };
 
