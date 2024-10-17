@@ -29,7 +29,7 @@
   column-gap: 8px;
   justify-content: center;
   &:hover {
-    background: #2847af;
+    background: var(--primary-brand-darker);
   }
   &.disabled {
     cursor: not-allowed;
@@ -58,9 +58,9 @@
     border-color: var(--primary-brand);
     background: var(--white);
     &:hover {
-      background: #3e63dd1f;
-      border-color: #2847af;
-      color: #2847af;
+      background: var(--primary-brand-light);
+      border-color: var(--primary-brand);
+      color: var(--primary-brand);
     }
     .cp-button-loader {
       color: var(--primary-brand);
@@ -71,8 +71,8 @@
     border-color: transparent;
     background: transparent;
     &:hover {
-      background: transparent;
-      border-color: var(--primary-brand);
+      background: var(--primary-brand-lightest);
+      border-color: var(--primary-brand-lightest);
     }
     .cp-button-loader {
       color: var(--primary-brand);

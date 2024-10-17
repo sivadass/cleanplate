@@ -46,6 +46,10 @@
   /*Branding*/
   --primary-brand: var(--green);
   --secondary-brand: var(--gray);
+  --primary-brand-darker: hsl(from var(--primary-brand) h s calc(l - 5));
+  --primary-brand-light: hsl(from var(--primary-brand) h s calc(l + 40));
+  --primary-brand-lightest: hsl(from var(--primary-brand) h s calc(l + 50));
+  --primary-brand-darkest: hsl(from var(--primary-brand) h s calc(l - 10));
   /* Breakpoints */
   --mobile-breakpoint: 600px;
   --tablet-breakpoint: 1024px;
