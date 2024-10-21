@@ -13,6 +13,7 @@ const Typography = ({
   className = "",
   isBold = false,
   align = "left",
+  ...otherProps
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const alignClass = `align-${align}`;
@@ -30,21 +31,53 @@ const Typography = ({
 
   switch (variant) {
     case "h1":
-      return <h1 className={typographyClasses}>{children}</h1>;
+      return (
+        <h1 className={typographyClasses} {...otherProps}>
+          {children}
+        </h1>
+      );
     case "h2":
-      return <h2 className={typographyClasses}>{children}</h2>;
+      return (
+        <h2 className={typographyClasses} {...otherProps}>
+          {children}
+        </h2>
+      );
     case "h3":
-      return <h3 className={typographyClasses}>{children}</h3>;
+      return (
+        <h3 className={typographyClasses} {...otherProps}>
+          {children}
+        </h3>
+      );
     case "h4":
-      return <h4 className={typographyClasses}>{children}</h4>;
+      return (
+        <h4 className={typographyClasses} {...otherProps}>
+          {children}
+        </h4>
+      );
     case "h5":
-      return <h5 className={typographyClasses}>{children}</h5>;
+      return (
+        <h5 className={typographyClasses} {...otherProps}>
+          {children}
+        </h5>
+      );
     case "h6":
-      return <h6 className={typographyClasses}>{children}</h6>;
+      return (
+        <h6 className={typographyClasses} {...otherProps}>
+          {children}
+        </h6>
+      );
     case "small":
-      return <small className={typographyClasses}>{children}</small>;
+      return (
+        <small className={typographyClasses} {...otherProps}>
+          {children}
+        </small>
+      );
     default:
-      return <p className={typographyClasses}>{children}</p>;
+      return (
+        <p className={typographyClasses} {...otherProps}>
+          {children}
+        </p>
+      );
   }
 };
 
