@@ -14,6 +14,10 @@ import Avatar from "./components/avatar";
 import Stepper from "./components/stepper";
 import Toast from "./components/toast";
 import Animated from "./components/animated";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import PageHeader from "./components/page-header";
+import BreadCrumb from "./components/breadcrumb";
 
 export {
   AppShell,
@@ -31,4 +35,8 @@ export {
   Stepper,
   Toast,
   Animated,
+  BreadCrumb,
+  Header,
+  PageHeader,
+  Footer,
 };

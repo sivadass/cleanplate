@@ -1,0 +1,20 @@
+.footer {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.5;
+  color: orange;
+  .footer-custom-contents {
+    background: yellow;
+  }
+  .copyright {
+    text-align: center;
+    margin-top: 24px;
+    small {
+      color: var(--gray);
+      a {
+        text-decoration: none;
+        color: var(--primary-brand);
+      }
+    }
+  }
+}
