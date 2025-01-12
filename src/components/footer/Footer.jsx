@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import Typography from "../typography";
 import { getSpacingClass } from "../../utils/common";
@@ -19,7 +20,7 @@ const Footer = ({
   const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const footerClasses = getClassNames(
-    styles["footer"],
+    styles["cp-footer"],
     styles[size],
     styles[variant],
     marginClass,

@@ -1,4 +1,5 @@
 export const SIZING_OPTIONS = ["small", "medium", "large"];
+
 export const SPACING_OPTIONS = [
   "0",
   "1",
@@ -78,6 +79,22 @@ export const SPACING_OPTIONS = [
   "l-9",
   "l-auto",
 ];
+
+export const ANIMATION_TYPE_OPTIONS = [
+  "fade-in-top",
+  "fade-in-right",
+  "fade-in-bottom",
+  "fade-in-left",
+  "fade-out-top",
+  "fade-out-right",
+  "fade-out-bottom",
+  "fade-out-left",
+];
+
+export const ANIMATION_DELAY_OPTIONS = [
+  100, 200, 300, 400, 500, 600, 700, 800, 900, 1000,
+];
+
 export const DAY_OPTIONS = [
   { label: "01", value: "01" },
   { label: "02", value: "02" },

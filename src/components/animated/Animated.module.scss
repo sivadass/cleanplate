@@ -1,7 +1,127 @@
 .animated {
-  transform: translate(0, 50%);
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
+  // transform: translate(0, 50%);
+  // transition: opacity 300ms ease-out, transform 300ms ease-out;
   will-change: opacity, visibility;
+}
+
+@keyframes fadeInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-top {
+  animation: fadeInFromTop 300ms ease-in forwards;
+}
+
+@keyframes fadeOutToTop {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+}
+
+.fade-out-top {
+  animation: fadeOutToTop 300ms ease-out forwards;
+}
+
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-left {
+  animation: fadeInFromLeft 300ms ease-in forwards;
+}
+
+@keyframes fadeOutToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%);
+  }
+}
+
+.fade-out-left {
+  animation: fadeOutToLeft 300ms ease-out forwards;
+}
+
+@keyframes fadeInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-right {
+  animation: fadeInFromRight 300ms ease-in forwards;
+}
+
+@keyframes fadeOutToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+}
+
+.fade-out-right {
+  animation: fadeOutToRight 300ms ease-out forwards;
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-bottom {
+  animation: fadeInFromBottom 300ms ease-in forwards;
+}
+
+@keyframes fadeOutToBottom {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+}
+
+.fade-out-bottom {
+  animation: fadeOutToBottom 300ms ease-out forwards;
 }
 
 .is-visible {
@@ -21,41 +141,41 @@
 }
 
 .delay-100 {
-  transition-delay: 100ms;
+  animation-delay: 100ms;
 }
 
 .delay-200 {
-  transition-delay: 200ms;
+  animation-delay: 200ms;
 }
 
 .delay-300 {
-  transition-delay: 300ms;
+  animation-delay: 300ms;
 }
 
 .delay-400 {
-  transition-delay: 400ms;
+  animation-delay: 400ms;
 }
 
 .delay-500 {
-  transition-delay: 500ms;
+  animation-delay: 500ms;
 }
 
 .delay-600 {
-  transition-delay: 600ms;
+  animation-delay: 600ms;
 }
 
 .delay-700 {
-  transition-delay: 700ms;
+  animation-delay: 700ms;
 }
 
 .delay-800 {
-  transition-delay: 800ms;
+  animation-delay: 800ms;
 }
 
 .delay-900 {
-  transition-delay: 900ms;
+  animation-delay: 900ms;
 }
 
 .delay-1000 {
-  transition-delay: 1000ms;
+  animation-delay: 1000ms;
 }

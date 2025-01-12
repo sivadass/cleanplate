@@ -1,39 +1,94 @@
 import { Animated, Avatar, Container } from "../index";
+import {
+  SPACING_OPTIONS,
+  ANIMATION_TYPE_OPTIONS,
+  ANIMATION_DELAY_OPTIONS,
+} from "../constants/common";
 
 const meta = {
   title: "components/animated",
   component: Animated,
+  parameters: {
+    layout: "centered",
+  },
 };
 
-export const Default = {
-  delay: 0,
-  render: () => (
+export const Defualt = {
+  args: {
+    className: "custom-class-name",
+    animationType: ANIMATION_TYPE_OPTIONS[0],
+    delay: ANIMATION_DELAY_OPTIONS[0],
+  },
+  argTypes: {
+    className: {},
+    animationType: {
+      options: ANIMATION_TYPE_OPTIONS,
+      control: { type: "inline-radio" },
+    },
+    delay: {
+      options: ANIMATION_DELAY_OPTIONS,
+      control: { type: "inline-radio" },
+    },
+    margin: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+    },
+  },
+  render: (args) => (
     <Container>
       <Container>
-        <Animated>
-          <Avatar name="John Doe" />
-        </Animated>
-        <Animated delay={200}>
-          <Avatar name="John Doe" delay={0} />
-        </Animated>
-        <Animated delay={400}>
-          <Avatar name="John Doe" />
-        </Animated>
-        <Animated delay={600}>
-          <Avatar name="John Doe" />
-        </Animated>
-        <Animated delay={800}>
-          <Avatar name="John Doe" />
-        </Animated>
-      </Container>
-
-      <Container>
-        <Animated delay={1000}>
-          <Avatar name="Daniel" />
+        <Animated {...args}>
+          <Avatar name="Steve Wozniak" />
         </Animated>
       </Container>
     </Container>
   ),
+};
+
+export const Grouped = {
+  args: {
+    className: "custom-class-name",
+    animationType: ANIMATION_TYPE_OPTIONS[0],
+    delay: ANIMATION_DELAY_OPTIONS[0],
+  },
+  argTypes: {
+    animationType: {
+      options: ANIMATION_TYPE_OPTIONS,
+      control: { type: "inline-radio" },
+    },
+    delay: {
+      options: ANIMATION_DELAY_OPTIONS,
+      control: { type: "inline-radio" },
+    },
+    margin: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+    },
+  },
+  render: (args) => {
+    const animationType = args.animationType;
+    return (
+      <Container>
+        <Container>
+          <Animated animationType={animationType}>
+            <Avatar name="Satya Nadella" />
+          </Animated>
+          <Animated animationType={animationType} delay={200}>
+            <Avatar name="Warren Buffet" delay={0} />
+          </Animated>
+          <Animated animationType={animationType} delay={400}>
+            <Avatar name="Mark Zuckerberg" />
+          </Animated>
+          <Animated animationType={animationType} delay={600}>
+            <Avatar name="Steve Wozniak" />
+          </Animated>
+          <Animated animationType={animationType} delay={800}>
+            <Avatar name="Steve Balmer" />
+          </Animated>
+        </Container>
+      </Container>
+    );
+  },
 };
 
 export default meta;

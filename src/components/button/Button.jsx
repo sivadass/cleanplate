@@ -59,7 +59,7 @@ const Button = ({
 
 Button.propTypes = {
   size: PropTypes.oneOf(["small", "medium"]),
-  variant: PropTypes.oneOf(["solid", "outline", "ghost"]),
+  variant: PropTypes.oneOf(["solid", "outline", "ghost", "icon"]),
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   onClick: PropTypes.func,

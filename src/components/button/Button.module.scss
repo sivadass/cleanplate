@@ -52,6 +52,11 @@
   &.medium {
     height: 44px;
     min-width: 90px;
+    &.icon {
+      min-width: 44px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
   }
   &.outline {
     color: var(--primary-brand);
@@ -70,6 +75,19 @@
     color: var(--primary-brand);
     border-color: transparent;
     background: transparent;
+    &:hover {
+      background: var(--primary-brand-lightest);
+      border-color: var(--primary-brand-lightest);
+    }
+    .cp-button-loader {
+      color: var(--primary-brand);
+    }
+  }
+  &.icon {
+    color: var(--primary-brand);
+    border-color: transparent;
+    background: transparent;
+    border-radius: 50%;
     &:hover {
       background: var(--primary-brand-lightest);
       border-color: var(--primary-brand-lightest);

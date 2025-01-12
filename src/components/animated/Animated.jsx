@@ -23,6 +23,7 @@ const Animated = ({
 
   const animatedClasses = getClassNames(
     styles["animated"],
+    styles[animationType],
     styles[delayClass],
     {
       [styles["is-visible"]]: isVisible,
@@ -61,7 +62,17 @@ Animated.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   delay: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]),
-  animationType: PropTypes.oneOf(["fade-up", "fade-down"]),
+  animationType: PropTypes.oneOf([
+    "fade-up",
+    "fade-in-left",
+    "fade-out-left",
+    "fade-in-right",
+    "fade-out-right",
+    "fade-in-top",
+    "fade-out-top",
+    "fade-in-bottom",
+    "fade-out-bottom",
+  ]),
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),

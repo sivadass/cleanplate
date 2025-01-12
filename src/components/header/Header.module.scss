@@ -1,0 +1,71 @@
+.cp-header {
+  // background: orange;
+  padding: 8px 16px;
+  border-bottom: 1px solid #ccc;
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 24px;
+  }
+  @media (max-width: 475px) {
+    padding-left: 8px;
+    .wrapper {
+      gap: 8px;
+    }
+    .logo {
+      max-height: 32px;
+      width: auto;
+    }
+  }
+}
+
+.headerLeft {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-right: auto;
+  flex-basis: 33.33%;
+  .mobileMenuTrigger {
+    display: none;
+  }
+  @media (max-width: 1024px) {
+    .mobileMenuTrigger {
+      display: initial;
+    }
+  }
+}
+
+.headerCenter {
+  flex-basis: 33.33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.headerRight {
+  flex-basis: 33.33%;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  .mobileMenuClose {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    background-color: var(--primary-brand-lightest);
+  }
+}
