@@ -48,3 +48,23 @@ export const getVariantIcon = (variant) => {
   }
   return iconName;
 };
+
+import { useEffect, useState } from "react";
+
+export const useIntersectionObserver = (options) => {
+  const [ref, setRef] = useState(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, options);
+
+    if (ref) observer.observe(ref);
+    return () => ref && observer.disconnect();
+  }, [ref, options]);
+
+  return [setRef, isIntersecting];
+};
+
+export default useIntersectionObserver;

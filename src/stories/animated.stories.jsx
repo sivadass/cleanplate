@@ -1,4 +1,4 @@
-import { Animated, Avatar, Container } from "../index";
+import { Animated, Avatar, Container, Typography } from "../index";
 import {
   SPACING_OPTIONS,
   ANIMATION_TYPE_OPTIONS,
@@ -23,11 +23,11 @@ export const Defualt = {
     className: {},
     animationType: {
       options: ANIMATION_TYPE_OPTIONS,
-      control: { type: "inline-radio" },
+      control: { type: "select" },
     },
     delay: {
       options: ANIMATION_DELAY_OPTIONS,
-      control: { type: "inline-radio" },
+      control: { type: "select" },
     },
     margin: {
       options: SPACING_OPTIONS,
@@ -45,7 +45,7 @@ export const Defualt = {
   ),
 };
 
-export const Grouped = {
+export const GroupedWithDelay = {
   args: {
     className: "custom-class-name",
     animationType: ANIMATION_TYPE_OPTIONS[0],
@@ -54,11 +54,11 @@ export const Grouped = {
   argTypes: {
     animationType: {
       options: ANIMATION_TYPE_OPTIONS,
-      control: { type: "inline-radio" },
+      control: { type: "select" },
     },
     delay: {
       options: ANIMATION_DELAY_OPTIONS,
-      control: { type: "inline-radio" },
+      control: { type: "select" },
     },
     margin: {
       options: SPACING_OPTIONS,

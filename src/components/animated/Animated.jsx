@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Animated.module.scss";
-import { SPACING_OPTIONS } from "../../constants/common";
+import {
+  ANIMATION_DELAY_OPTIONS,
+  ANIMATION_TYPE_OPTIONS,
+  SPACING_OPTIONS,
+} from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import { getSpacingClass } from "../../utils/common";
 import utilStyles from "../../styles/utils.module.scss";
 
 const Animated = ({
-  animationType = "fade-up",
+  animationType = "fade-in-bottom",
   as: Component = "span",
   children,
   margin = ["0"],
@@ -23,31 +27,23 @@ const Animated = ({
 
   const animatedClasses = getClassNames(
     styles["animated"],
-    styles[animationType],
-    styles[delayClass],
     {
-      [styles["is-visible"]]: isVisible,
-      [styles["is-hidden"]]: !isVisible,
+      [styles[animationType]]: isVisible,
       [styles["is-block"]]: isBlock,
     },
+    styles[delayClass],
     marginClass,
     className
   );
 
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      // In your case there's only one element to observe:
       if (entries[0].isIntersecting) {
-        // Not possible to set it back to false like this:
         setVisible(true);
-
-        // No need to keep observing:
         observer.unobserve(domRef.current);
       }
     });
-
     observer.observe(domRef.current);
-
     return () => observer.disconnect();
   }, []);
 
@@ -61,18 +57,8 @@ const Animated = ({
 Animated.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  delay: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]),
-  animationType: PropTypes.oneOf([
-    "fade-up",
-    "fade-in-left",
-    "fade-out-left",
-    "fade-in-right",
-    "fade-out-right",
-    "fade-in-top",
-    "fade-out-top",
-    "fade-in-bottom",
-    "fade-out-bottom",
-  ]),
+  delay: PropTypes.oneOf(ANIMATION_DELAY_OPTIONS),
+  animationType: PropTypes.oneOf(ANIMATION_TYPE_OPTIONS),
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
