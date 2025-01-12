@@ -21,7 +21,7 @@ const Typography = ({
     styles["typography"],
     {
       [styles[variant]]: variant,
-      [styles["bold"]]: isBold,
+      // [styles["bold"]]: isBold,
       [styles["align"]]: align,
       [styles[alignClass]]: align,
     },
@@ -66,6 +66,12 @@ const Typography = ({
           {children}
         </h6>
       );
+    case "span":
+      return (
+        <span className={typographyClasses} {...otherProps}>
+          {children}
+        </span>
+      );
     case "small":
       return (
         <small className={typographyClasses} {...otherProps}>
@@ -82,7 +88,17 @@ const Typography = ({
 };
 
 Typography.propTypes = {
-  variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "p", "small"]),
+  variant: PropTypes.oneOf([
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "p",
+    "span",
+    "small",
+  ]),
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),

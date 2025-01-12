@@ -1,12 +1,12 @@
 import React from "react";
-import { MenuList, Avatar, Typography } from "../index";
+import { MenuList } from "../index";
 import { SPACING_OPTIONS } from "../constants/common";
 
 const meta = {
   title: "molecules/Menu List",
   component: MenuList,
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
   },
   args: {
     activeItem: "/",
@@ -14,7 +14,7 @@ const meta = {
 };
 
 export const Default = {
-  name: "Horizontal",
+  name: "Default",
   argTypes: {
     variant: {
       options: ["light", "dark"],
@@ -36,7 +36,6 @@ export const Default = {
   render: (args) => {
     const [activeItem, setActiveItem] = React.useState("/");
     const onMenuClick = (menuItem) => {
-      console.log(menuItem);
       setActiveItem(menuItem.value);
     };
     return (
@@ -45,30 +44,36 @@ export const Default = {
           {
             label: "Dashboard",
             value: "/",
+            icon: "speed",
           },
           {
             label: "Posts",
             value: "/posts",
+            icon: "description",
           },
           {
             label: "Projects",
             value: "/projects",
+            icon: "receipt_long",
           },
           {
             label: "Clients",
             value: "/clients",
+            icon: "group",
           },
           {
             label: "Invoices",
             value: "/invoices",
+            icon: "payments",
           },
           {
-            label: "support",
+            label: "Support",
             value: "/support",
+            icon: "call",
           },
         ]}
-        onMenuClick={onMenuClick}
         {...args}
+        onMenuClick={onMenuClick}
         activeItem={activeItem}
       />
     );

@@ -1,6 +1,6 @@
 .cp-menu-list {
   .wrapper {
-    background: #fff;
+    background: var(--white);
     ul {
       display: flex;
       list-style: none;
@@ -10,12 +10,20 @@
       li {
         a {
           text-decoration: none;
-          display: block;
+          display: flex;
+          justify-content: center;
+          gap: 8px;
           padding: 8px 16px;
           line-height: 24px;
           text-align: center;
-          color: var(--primary-brand);
-          border-radius: 8px;
+          border-radius: 24px;
+          .menuItemIcon {
+            color: var(--primary-brand);
+            opacity: 0.85;
+          }
+          .menuItemLabel {
+            color: var(--primary-brand);
+          }
           &:hover {
             background: var(--primary-brand-light);
           }
@@ -23,7 +31,13 @@
         &.active {
           a {
             background: var(--primary-brand);
-            color: var(--white);
+            .menuItemIcon {
+              color: var(--white);
+              opacity: 0.85;
+            }
+            .menuItemLabel {
+              color: var(--white);
+            }
           }
         }
       }
@@ -33,9 +47,10 @@
       &.vertical {
         flex-direction: column;
         li {
-          width: 220px;
           a {
-            text-align: left;
+            width: 220px;
+            justify-content: flex-start;
+            gap: 12px;
           }
           @media (max-width: 1024px) {
             width: 100%;

@@ -8,6 +8,7 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
+import Typography from "../typography";
 
 const MenuList = ({
   items,
@@ -38,15 +39,26 @@ const MenuList = ({
     <div className={menuListClassNames}>
       <div className={styles.wrapper}>
         <ul className={styles[direction]}>
-          {items?.map((item) => {
+          {items?.map((item, index) => {
             const isActive = item.value === activeItem;
+            const delay = index * 100;
             return (
-              <li key={item.value} className={isActive ? styles.active : null}>
+              <Animated
+                as="li"
+                key={item.value}
+                className={isActive ? styles.active : null}
+                delay={delay}
+                animationType="fade-in-left"
+              >
                 <a href={item.value} onClick={(e) => handleMenuClick(e, item)}>
-                  {item?.icon && <Icon name={item.icon} />}
-                  <span>{item.label}</span>
+                  {item?.icon && (
+                    <Icon className={styles.menuItemIcon} name={item.icon} />
+                  )}
+                  <Typography variant="span" className={styles.menuItemLabel}>
+                    {item.label}
+                  </Typography>
                 </a>
-              </li>
+              </Animated>
             );
           })}
         </ul>
