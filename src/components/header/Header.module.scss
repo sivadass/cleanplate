@@ -9,6 +9,10 @@
     flex-wrap: nowrap;
     gap: 24px;
   }
+  .logo {
+    max-height: 44px;
+    width: auto;
+  }
   @media (max-width: 475px) {
     padding-left: 8px;
     .wrapper {
@@ -16,7 +20,6 @@
     }
     .logo {
       max-height: 32px;
-      width: auto;
     }
   }
 }
