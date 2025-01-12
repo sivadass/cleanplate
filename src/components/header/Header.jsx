@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
-import Avatar from "../avatar";
 import styles from "./Header.module.scss";
 import Animated from "../animated";
 import { SPACING_OPTIONS } from "../../constants/common";
@@ -14,6 +13,8 @@ import MenuList from "../menu-list";
 
 const Header = ({
   logoUrl,
+  activeMenuItem,
+  onMenuItemClick,
   className,
   headerLeft,
   headerRight,
@@ -47,6 +48,10 @@ const Header = ({
     }, 300);
   };
 
+  const handleMenuItem = (menuItem) => {
+    onMenuItemClick(menuItem);
+  };
+
   return (
     <div className={headerClassNames}>
       <div className={styles.wrapper}>
@@ -65,7 +70,13 @@ const Header = ({
           )}
         </div>
         <div className={styles.headerCenter}>
-          {headerCenter || <MenuList items={menuItems} />}
+          {headerCenter || (
+            <MenuList
+              items={menuItems}
+              activeItem={activeMenuItem}
+              onMenuClick={(menuItem) => handleMenuItem(menuItem)}
+            />
+          )}
         </div>
         <div className={styles.headerRight}>{headerRight}</div>
       </div>
@@ -80,32 +91,9 @@ const Header = ({
           </Button>
           <MenuList
             direction="vertical"
-            items={[
-              {
-                label: "Dashboard",
-                value: "/",
-              },
-              {
-                label: "Posts",
-                value: "/posts",
-              },
-              {
-                label: "Projects",
-                value: "/projects",
-              },
-              {
-                label: "Clients",
-                value: "/clients",
-              },
-              {
-                label: "Invoices",
-                value: "/invoices",
-              },
-              {
-                label: "support",
-                value: "/support",
-              },
-            ]}
+            items={menuItems}
+            activeItem={activeMenuItem}
+            onMenuClick={(menuItem) => handleMenuItem(menuItem)}
           />
         </Animated>
       )}
@@ -115,6 +103,8 @@ const Header = ({
 
 Header.propTypes = {
   logoUrl: PropTypes.string,
+  activeMenuItem: PropTypes.string,
+  onMenuItemClick: PropTypes.func,
   className: PropTypes.string,
   headerLeft: PropTypes.elementType,
   headerRight: PropTypes.elementType,

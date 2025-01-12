@@ -50,6 +50,14 @@
       padding: 64px 16px 16px 16px;
       min-height: 100dvh;
       max-width: calc(100% - 64px);
+      ul {
+        li {
+          a {
+            padding-top: 12px;
+            padding-bottom: 12px;
+          }
+        }
+      }
     }
   }
 }
