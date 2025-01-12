@@ -50,6 +50,7 @@ const Header = ({
 
   const handleMenuItem = (menuItem) => {
     onMenuItemClick(menuItem);
+    handleCloseMobileMenu();
   };
 
   return (
