@@ -18,6 +18,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import PageHeader from "./components/page-header";
 import BreadCrumb from "./components/breadcrumb";
+import MenuList from "./components/menu-list";
 
 export {
   AppShell,
@@ -39,4 +40,5 @@ export {
   Header,
   PageHeader,
   Footer,
+  MenuList,
 };

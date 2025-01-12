@@ -9,8 +9,34 @@ const meta = {
   },
   args: {
     logoUrl: "https://web.spendsights.in/logo.svg",
-    headerCenter: <Typography variant="body">Menu Items here</Typography>,
+    // headerCenter: <Typography variant="body">Menu Items here</Typography>,
     headerRight: <Avatar size="medium" name="John" />,
+    menuItems: [
+      {
+        label: "Dashboard",
+        value: "/",
+      },
+      {
+        label: "Posts",
+        value: "/posts",
+      },
+      {
+        label: "Projects",
+        value: "/projects",
+      },
+      {
+        label: "Clients",
+        value: "/clients",
+      },
+      {
+        label: "Invoices",
+        value: "/invoices",
+      },
+      {
+        label: "support",
+        value: "/support",
+      },
+    ],
   },
 };
 

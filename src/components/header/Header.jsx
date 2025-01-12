@@ -10,6 +10,7 @@ import getClassNames from "../../utils/get-class-names";
 
 import utilStyles from "../../styles/utils.module.scss";
 import Button from "../button";
+import MenuList from "../menu-list";
 
 const Header = ({
   logoUrl,
@@ -20,6 +21,7 @@ const Header = ({
   size,
   variant,
   margin,
+  menuItems,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [animationType, setAnimationType] = React.useState(false);
@@ -62,7 +64,9 @@ const Header = ({
             <img className={styles.logo} src={logoUrl} />
           )}
         </div>
-        <div className={styles.headerCenter}>{headerCenter}</div>
+        <div className={styles.headerCenter}>
+          {headerCenter || <MenuList items={menuItems} />}
+        </div>
         <div className={styles.headerRight}>{headerRight}</div>
       </div>
       {isMobileMenuOpen && (
@@ -74,6 +78,35 @@ const Header = ({
           >
             <Icon name="close" />
           </Button>
+          <MenuList
+            direction="vertical"
+            items={[
+              {
+                label: "Dashboard",
+                value: "/",
+              },
+              {
+                label: "Posts",
+                value: "/posts",
+              },
+              {
+                label: "Projects",
+                value: "/projects",
+              },
+              {
+                label: "Clients",
+                value: "/clients",
+              },
+              {
+                label: "Invoices",
+                value: "/invoices",
+              },
+              {
+                label: "support",
+                value: "/support",
+              },
+            ]}
+          />
         </Animated>
       )}
     </div>
@@ -86,6 +119,13 @@ Header.propTypes = {
   headerLeft: PropTypes.elementType,
   headerRight: PropTypes.elementType,
   headerCenter: PropTypes.elementType,
+  menuItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      icon: PropTypes.string,
+    })
+  ).isRequired,
   size: PropTypes.oneOf(["small", "medium", "large"]),
   variant: PropTypes.oneOf(["light", "dark"]),
   margin: PropTypes.oneOfType([
