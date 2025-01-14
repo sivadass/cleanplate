@@ -1,0 +1,60 @@
+import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
+import { Header } from "../../index";
+import { ArgsTable } from "@storybook/addon-docs";
+
+<Meta title="molecules/Header/Documentation" />
+
+# Header
+
+The `Header` component is a versatile and customizable UI element designed for navigation, supporting properties like logo, menu items, and customizable sections for the left, center, and right areas. It adapts to different sizes, themes, and spacing options while offering a responsive mobile menu with smooth animations.
+
+### Usage
+
+```
+import { Header, Avatar } from "cleanplate";
+import { useNavigate } from "react-router";
+
+export const MENU_ITEMS = [
+  {
+    label: "Home",
+    value: "/",
+    icon: "home",
+  },
+  {
+    label: "About",
+    value: "/about",
+    icon: "info",
+  },
+  {
+    label: "Login",
+    value: "/login",
+    icon: "home",
+  },
+];
+
+const AppHeader = () => {
+  const [activeMenuItem, setActiveMenuItem] = useState("/");
+  let navigate = useNavigate();
+
+  const handleMenuItemClick = (menuItem) => {
+    setActiveMenuItem(menuItem.value);
+    navigate(menuItem.value);
+  };
+
+  return (
+    <Header
+        className={styles["header"]}
+        logoUrl="/logo.svg"
+        menuItems={MENU_ITEMS}
+        headerRight={<Avatar name="John Doe" />}
+        headerCenter={() => null}
+        onMenuItemClick={(menuItem) => handleMenuItemClick(menuItem)}
+        activeMenuItem={activeMenuItem}
+    />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={Header} />

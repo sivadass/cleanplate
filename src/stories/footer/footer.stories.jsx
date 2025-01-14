@@ -1,8 +1,8 @@
-import { Footer, Container, Typography } from "../index";
-import { SPACING_OPTIONS } from "../constants/common";
+import { Footer, Container, Typography } from "../../index";
+import { SPACING_OPTIONS } from "../../constants/common";
 
 const meta = {
-  title: "molecules/Footer",
+  title: "molecules/Footer/Playground",
   component: Footer,
   args: {
     brandName: "Acme Inc",

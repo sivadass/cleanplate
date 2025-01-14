@@ -1,0 +1,59 @@
+import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
+import { MenuList } from "../../index";
+import { ArgsTable } from "@storybook/addon-docs";
+
+<Meta title="molecules/Menu List/Documentation" />
+
+# MenuList
+
+The MenuList component provides a flexible and stylish way to render a list of navigational items with support for icons, active state highlighting, and customizable layout directions. It adapts to various sizes, themes, and spacing options, featuring smooth animations for an engaging user experience.
+
+### Usage
+
+```
+import { MenuList } from "cleanplate";
+
+export const MENU_ITEMS = [
+    {
+        label: "Dashboard",
+        value: "/",
+        icon: "speed",
+    },
+    {
+        label: "Projects",
+        value: "/projects",
+        icon: "receipt_long",
+    },
+    {
+        label: "Clients",
+        value: "/clients",
+        icon: "group",
+    },
+    {
+        label: "Invoices",
+        value: "/invoices",
+        icon: "payments",
+    },
+];
+
+const Menu = () => {
+  const [activeMenuItem, setActiveMenuItem] = useState("/");
+  let navigate = useNavigate();
+
+  const handleMenuItemClick = (menuItem) => {
+    setActiveMenuItem(menuItem.value);
+  };
+
+  return (
+    <MenuList
+        items={MENU_ITEMS}
+        onMenuClick={handleMenuItemClick}
+        activeItem={activeMenuItem}
+      />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={MenuList} />

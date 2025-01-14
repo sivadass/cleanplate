@@ -82,7 +82,7 @@ const Header = ({
         <div className={styles.headerRight}>{headerRight}</div>
       </div>
       {isMobileMenuOpen && (
-        <div animationType={animationType} className={styles.mobileMenu}>
+        <Animated animationType={animationType} className={styles.mobileMenu}>
           <Button
             className={[styles.mobileMenuTrigger, styles.mobileMenuClose]}
             variant="icon"
@@ -96,7 +96,7 @@ const Header = ({
             activeItem={activeMenuItem}
             onMenuClick={(menuItem) => handleMenuItem(menuItem)}
           />
-        </div>
+        </Animated>
       )}
     </div>
   );
