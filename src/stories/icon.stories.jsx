@@ -3,21 +3,20 @@ import { Icon } from "../index";
 const meta = {
   title: "components/icon/docs",
   component: Icon,
+  parameters: {
+    layout: "centered",
+  },
 };
 
 export const Default = {
   name: "Default",
   description: "Name of the icon",
+  args: {
+    name: "Home",
+    color: "#666",
+  },
   render: (args) => {
-    return (
-      <div>
-        <Icon {...args} name="settings" size="small" />
-        <Icon {...args} name="settings" size="medium" />
-        <Icon {...args} name="settings" size="large" />
-        <Icon {...args} name="settings" color="white" />
-        <Icon {...args} name="home" color="gray" />
-      </div>
-    );
+    return <Icon {...args} />;
   },
 };
 

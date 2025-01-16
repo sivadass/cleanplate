@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Spinner } from "../../index";
+
+<Meta title="atoms/Spinner/Documentation" />
+
+# Spinner
+
+The `Spinner` component is a lightweight and customizable loading indicator, supporting various sizes, themes, and spacing options. It seamlessly conveys progress or activity status within different layouts and design systems.
+
+### Usage
+
+```
+import { Spinner } from "cleanplate";
+
+const App = () => {
+  return (
+    <Spinner
+        size="medium"
+        className="my-custom-icon"
+        variant="light"
+    />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={Spinner} />

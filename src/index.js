@@ -19,6 +19,7 @@ import Footer from "./components/footer";
 import PageHeader from "./components/page-header";
 import BreadCrumb from "./components/breadcrumb";
 import MenuList from "./components/menu-list";
+import Spinner from "./components/spinner";
 
 export {
   AppShell,
@@ -41,4 +42,5 @@ export {
   PageHeader,
   Footer,
   MenuList,
+  Spinner,
 };
