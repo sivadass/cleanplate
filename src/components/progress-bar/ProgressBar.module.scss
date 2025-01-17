@@ -15,17 +15,17 @@
 }
 
 .cp-progress-bar {
-  color: var(--primary-brand);
   min-width: 128px;
   width: 100%;
   position: relative;
+  border-width: 0;
   .cp-progress-bar-track {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    border-radius: 3px;
     background: var(--gray-light);
+    border-width: 0;
   }
   .cp-progress-bar-fill {
     position: absolute;
@@ -35,6 +35,7 @@
     border-radius: 3px;
     background: var(--gray);
     transition: width 400ms ease-in-out;
+    border-width: 0;
   }
   &.default {
     .cp-progress-bar-track {
@@ -93,22 +94,27 @@
     }
   }
   &.small {
+    height: 4px;
     .cp-progress-bar-track,
     .cp-progress-bar-fill {
-      height: 3px;
+      height: 4px;
+      border-radius: 2px;
     }
   }
   &.medium {
+    height: 8px;
     .cp-progress-bar-track,
     .cp-progress-bar-fill {
-      height: 5px;
+      height: 8px;
+      border-radius: 4px;
     }
   }
   &.large {
+    height: 12px;
     .cp-progress-bar-track,
     .cp-progress-bar-fill {
-      height: 10px;
-      border-radius: 5px;
+      height: 12px;
+      border-radius: 6px;
     }
   }
 }

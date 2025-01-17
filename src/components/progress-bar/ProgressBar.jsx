@@ -9,9 +9,10 @@ import getClassNames from "../../utils/get-class-names";
 
 const ProgressBar = ({
   size = "medium",
-  variant = "light",
+  variant = "default",
   margin = "m-0",
-  className = "",
+  className = "progress-bar",
+  trackClassName = "progress-bar-track",
   value,
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
@@ -29,9 +30,11 @@ const ProgressBar = ({
 
   return (
     <Container className={[styles["cp-progress-bar"], progressBarClasses]}>
-      <Container className={[styles["cp-progress-bar-track"]]}></Container>
       <Container
-        className={[styles["cp-progress-bar-fill"]]}
+        className={[styles["cp-progress-bar-track"], trackClassName]}
+      ></Container>
+      <Container
+        className={[styles["cp-progress-bar-fill"], trackClassName]}
         style={filledStyle}
       ></Container>
     </Container>
@@ -49,10 +52,6 @@ ProgressBar.propTypes = {
     "error",
     "warning",
   ]),
-  margin: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
   value: (props, propName, componentName) => {
     const value = props[propName];
     if (typeof value !== "number" || value < 0 || value > 100) {
@@ -62,6 +61,12 @@ ProgressBar.propTypes = {
     }
     return null;
   },
+  margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
+  className: PropTypes.string,
+  trackClassName: PropTypes.string,
 };
 
 export default ProgressBar;

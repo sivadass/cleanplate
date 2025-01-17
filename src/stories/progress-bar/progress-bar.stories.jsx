@@ -38,6 +38,8 @@ export const Default = {
     size: "medium",
     variant: "default",
     value: 45,
+    className: "custom-wrapper",
+    trackClassName: "custom-track",
   },
   render: (args) => (
     <Container>
