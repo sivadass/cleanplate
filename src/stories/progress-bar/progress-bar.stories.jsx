@@ -37,6 +37,7 @@ export const Default = {
   args: {
     size: "medium",
     variant: "default",
+    value: 45,
   },
   render: (args) => (
     <Container>

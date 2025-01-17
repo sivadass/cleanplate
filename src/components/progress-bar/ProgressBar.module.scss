@@ -21,12 +21,16 @@
   position: relative;
   .cp-progress-bar-track {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     border-radius: 3px;
     background: var(--gray-light);
   }
   .cp-progress-bar-fill {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 0%;
     border-radius: 3px;
     background: var(--gray);
@@ -74,10 +78,10 @@
   }
   &.warning {
     .cp-progress-bar-track {
-      background: var(--orange-light);
+      background: var(--yellow-light);
     }
     .cp-progress-bar-fill {
-      background: var(--orange);
+      background: var(--yellow);
     }
   }
   &.info {
