@@ -20,6 +20,7 @@ import PageHeader from "./components/page-header";
 import BreadCrumb from "./components/breadcrumb";
 import MenuList from "./components/menu-list";
 import Spinner from "./components/spinner";
+import ProgressBar from "./components/progress-bar";
 
 export {
   AppShell,
@@ -43,4 +44,5 @@ export {
   Footer,
   MenuList,
   Spinner,
+  ProgressBar,
 };

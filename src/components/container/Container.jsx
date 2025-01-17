@@ -17,6 +17,7 @@ const Container = ({
   showBorder = false,
   className = "",
   onClick,
+  style,
 }) => {
   const displayClass = `display-${display}`;
   const justifyClass = `justify-${justify}`;
@@ -46,7 +47,11 @@ const Container = ({
     }
   };
   return (
-    <div className={containerClasses} onClick={(e) => handleClick(e)}>
+    <div
+      className={containerClasses}
+      onClick={(e) => handleClick(e)}
+      style={style}
+    >
       {children}
     </div>
   );
@@ -81,6 +86,7 @@ Container.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
+  style: PropTypes.object,
 };
 
 export default Container;

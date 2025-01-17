@@ -1,0 +1,110 @@
+.cp-progress-icon {
+  animation: spin-animation 700ms infinite;
+  animation-timing-function: linear;
+  display: inline-block;
+  color: var(--primary-brand);
+}
+
+@keyframes spin-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.cp-progress-bar {
+  color: var(--primary-brand);
+  min-width: 128px;
+  width: 100%;
+  position: relative;
+  .cp-progress-bar-track {
+    position: absolute;
+    width: 100%;
+    border-radius: 3px;
+    background: var(--gray-light);
+  }
+  .cp-progress-bar-fill {
+    position: absolute;
+    width: 0%;
+    border-radius: 3px;
+    background: var(--gray);
+    transition: width 400ms ease-in-out;
+  }
+  &.default {
+    .cp-progress-bar-track {
+      background: var(--gray-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--gray);
+    }
+  }
+  &.primary {
+    .cp-progress-bar-track {
+      background: var(--primary-brand-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--primary-brand);
+    }
+  }
+  &.secondary {
+    .cp-progress-bar-track {
+      background: var(--secondary-brand-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--secondary-brand);
+    }
+  }
+  &.success {
+    .cp-progress-bar-track {
+      background: var(--green-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--green);
+    }
+  }
+  &.error {
+    .cp-progress-bar-track {
+      background: var(--red-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--red);
+    }
+  }
+  &.warning {
+    .cp-progress-bar-track {
+      background: var(--orange-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--orange);
+    }
+  }
+  &.info {
+    .cp-progress-bar-track {
+      background: var(--blue-light);
+    }
+    .cp-progress-bar-fill {
+      background: var(--blue);
+    }
+  }
+  &.small {
+    .cp-progress-bar-track,
+    .cp-progress-bar-fill {
+      height: 3px;
+    }
+  }
+  &.medium {
+    .cp-progress-bar-track,
+    .cp-progress-bar-fill {
+      height: 5px;
+    }
+  }
+  &.large {
+    .cp-progress-bar-track,
+    .cp-progress-bar-fill {
+      height: 10px;
+      border-radius: 5px;
+    }
+  }
+}
