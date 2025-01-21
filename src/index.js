@@ -21,6 +21,7 @@ import BreadCrumb from "./components/breadcrumb";
 import MenuList from "./components/menu-list";
 import Spinner from "./components/spinner";
 import ProgressBar from "./components/progress-bar";
+import Accordion from "./components/accordion";
 
 export {
   AppShell,
@@ -45,4 +46,5 @@ export {
   MenuList,
   Spinner,
   ProgressBar,
+  Accordion,
 };

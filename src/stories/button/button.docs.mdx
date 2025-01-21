@@ -1,0 +1,31 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Button } from "../../index";
+
+<Meta title="atoms/Button/Documentation" />
+
+# Button
+
+The `Button` component is a highly customizable and interactive UI element, designed to handle user actions with various styles, sizes, and variants. It supports icons, click events, and dynamic states, making it a versatile choice for enhancing interactivity across interfaces.
+
+### Usage
+
+```
+import { Button } from "cleanplate";
+
+const App = () => {
+  return (
+    <Button
+        size="medium"
+        className="custom-button"
+        variant="solid"
+        isLoading={false}
+        isDisabled={false}
+    />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={Button} />

@@ -1,35 +1,35 @@
-import { Button } from "../index";
-import { SPACING_OPTIONS } from "../constants/common";
-import { action } from "@storybook/addon-actions";
+import { Button } from "../../index";
+import { SPACING_OPTIONS } from "../../constants/common";
 
 const meta = {
-  title: "components/button",
+  title: "atoms/Button/Playground",
   component: Button,
+  parameters: {
+    layout: "centered",
+  },
 };
 
 export const Default = {
-  name: "default",
+  name: "Default",
   argTypes: {
     size: {
-      options: ["large", "small"],
+      options: ["large", "medium", "small"],
       control: "inline-radio",
       description: "Size of the button",
     },
     variant: {
-      options: ["solid", "outline", "ghost"],
+      options: ["solid", "outline", "ghost", "icon"],
       control: { type: "inline-radio" },
       description: "Type of the button",
     },
     isFluid: {
       control: { type: "boolean" },
-      default: false,
     },
     isLoading: {
       control: { type: "boolean" },
     },
     isDisabled: {
       control: { type: "boolean" },
-      default: false,
     },
     margin: {
       options: SPACING_OPTIONS,
@@ -37,8 +37,16 @@ export const Default = {
     },
     onClick: { action: "onClick" },
   },
+  args: {
+    variant: "solid",
+    children: "Hello world!",
+    isLoading: false,
+    isDisabled: false,
+    isFluid: false,
+  },
   render: (args) => {
-    return <Button {...args}>Save</Button>;
+    const { children, ...otherArgs } = args;
+    return <Button {...otherArgs}>{children}</Button>;
   },
 };
 

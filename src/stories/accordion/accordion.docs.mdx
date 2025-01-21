@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Accordion } from "../../index";
+
+<Meta title="atoms/Accordion/Documentation" />
+
+# Accordion
+
+The `Accordion` component is a flexible and interactive UI element for displaying collapsible content sections. It supports dynamic toggling, multiple or single active panels, and customizable styles, making it ideal for organizing and presenting information efficiently in a compact space.
+
+### Usage
+
+```
+import { Accordion } from "cleanplate";
+
+const App = () => {
+  return (
+    <Accordion
+        size="medium"
+        className="my-custom-icon"
+        variant="light"
+    />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={Accordion} />

@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Accordion } from "../../index";
+
+<Meta title="atoms/Pills/Documentation" />
+
+# Pills
+
+The `Pills` component is a compact and versatile UI element for displaying categorized or selectable options, supporting dynamic styling, custom sizes, and interactive states. It is ideal for tagging, filtering, or showcasing key information in a visually appealing way.
+
+### Usage
+
+```
+import { Pills } from "cleanplate";
+
+const App = () => {
+  return (
+    <Pills
+        size="medium"
+        className="my-custom-icon"
+        variant="light"
+    />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={Accordion} />
