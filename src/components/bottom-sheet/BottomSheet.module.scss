@@ -1,0 +1,63 @@
+.bottom-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  transition: opacity 0.3s;
+}
+
+.cp-bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  min-height: 50vh;
+  max-height: 90vh;
+  touch-action: none;
+
+  .bottom-sheet-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    touch-action: none;
+    .bottom-sheet-handle-bar {
+      width: 64px;
+      height: 8px;
+      background-color: var(--gray-light);
+      border-radius: 9999px;
+    }
+    .bottom-sheet-handle-icon {
+      position: absolute;
+      right: 1rem;
+      color: var(--color-gray-400);
+    }
+    &:active {
+      cursor: grabbing;
+    }
+    &:hover {
+      .bottom-sheet-handle-bar {
+        background-color: var(--gray);
+      }
+    }
+  }
+
+  .bottom-sheet-content {
+    padding: 16px;
+    margin-top: 40px;
+    overflow-y: auto;
+    background: #efefef;
+    height: 100%;
+    max-height: calc(100dvh - 72px);
+  }
+}

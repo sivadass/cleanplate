@@ -22,6 +22,7 @@ import MenuList from "./components/menu-list";
 import Spinner from "./components/spinner";
 import ProgressBar from "./components/progress-bar";
 import Accordion from "./components/accordion";
+import BottomSheet from "./components/bottom-sheet";
 
 export {
   AppShell,
@@ -47,4 +48,5 @@ export {
   Spinner,
   ProgressBar,
   Accordion,
+  BottomSheet,
 };

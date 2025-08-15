@@ -1,3 +1,4 @@
+/.vscode
 /.storybook
 /website
 /storybook-static
@@ -5,3 +6,4 @@
 /node_modules
 .package-lock.json
 rollup.config.mjs
+llms.config.js

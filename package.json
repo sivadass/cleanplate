@@ -1,13 +1,14 @@
 {
   "name": "cleanplate",
-  "version": "0.0.76",
+  "version": "0.0.79",
   "description": "CleanPlate - A Headless React UI Framework",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
     "storybook": "storybook dev -p 6001",
     "build-storybook": "storybook build",
-    "build-package": "rollup -c"
+    "build-package": "rollup -c",
+    "generate-llms-txt": "storybook-llms-extractor --config llms.config.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://cleanplate.sivadass.in",
   "devDependencies": {
     "@babel/preset-react": "^7.23.3",
+    "@fluentui/storybook-llms-extractor": "^0.0.2",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -47,7 +49,7 @@
     "storybook": "^7.5.3"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": ">=18",
+    "react-dom": ">=18"
   }
 }

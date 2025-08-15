@@ -1,0 +1,78 @@
+import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
+import { BottomSheet } from "../../index";
+import { ArgsTable } from "@storybook/addon-docs";
+
+<Meta title="atoms/Bottom Sheet/Documentation" />
+
+# BottomSheet
+
+The BottomSheet component is a versatile UI element that slides up from the bottom of the screen. It provides a native-like experience with smooth animations, drag gestures, and snap points. Perfect for displaying additional content, forms, or actions without leaving the current context.
+
+### Features
+
+- Drag-to-close functionality
+- Multiple snap points (30%, 60%, 90% of screen height)
+- Smooth animations and transitions
+- Touch and mouse support
+- Backdrop overlay
+- Scrollable content
+- Responsive design
+
+### Usage
+
+```jsx
+import { BottomSheet } from "cleanplate";
+
+const MyComponent = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <div>
+      <Button onClick={() => setIsOpen(true)}>
+        Open Bottom Sheet
+      </Button>
+      
+      <BottomSheet 
+        isOpen={isOpen}
+        onClose={handleClose}
+        margin="m-0"
+      >
+        <div>
+          <h2>Bottom Sheet Content</h2>
+          <p>Your content goes here...</p>
+        </div>
+      </BottomSheet>
+    </div>
+  );
+};
+```
+
+### Props
+
+<ArgsTable of={BottomSheet} />
+
+### Best Practices
+
+1. **Content Organization**
+   - Keep content concise and focused
+   - Use appropriate spacing and typography
+   - Consider using a scrollable container for long content
+
+2. **Interaction Design**
+   - Provide clear visual feedback for drag gestures
+   - Use the drag handle for better UX
+   - Consider adding a close button for accessibility
+
+3. **Performance**
+   - Minimize content updates during animations
+   - Use appropriate snap points based on content length
+   - Consider lazy loading for heavy content
+
+4. **Accessibility**
+   - Ensure content is keyboard navigable
+   - Provide appropriate ARIA labels
+   - Consider screen reader support
