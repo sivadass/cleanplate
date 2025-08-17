@@ -1,0 +1,38 @@
+.table {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    background: transparent;
+    table-layout: fixed;
+    width: 100%;
+    thead,
+    tbody,
+    tfoot,
+    tr {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+    tr {
+      th,
+      td {
+        border-left-width: 0;
+        border-right-width: 0;
+        border-top-width: 0;
+        border-bottom: 1px solid #eee;
+        padding: 8px;
+        margin: 0;
+        color: inherit;
+      }
+      &:last-child {
+        td {
+          border-bottom-color: transparent;
+        }
+      }
+    }
+  }
+}

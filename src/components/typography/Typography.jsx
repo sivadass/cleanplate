@@ -21,7 +21,7 @@ const Typography = ({
     styles["typography"],
     {
       [styles[variant]]: variant,
-      // [styles["bold"]]: isBold,
+      [styles["bold"]]: isBold,
       [styles["align"]]: align,
       [styles[alignClass]]: align,
     },
