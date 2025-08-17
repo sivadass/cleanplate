@@ -25,7 +25,6 @@ const Table = ({
     className
   );
   const handleRowClick = (rowData) => {
-    e.preventDefault();
     if (typeof onRowClick === "function") {
       onRowClick(rowData);
     }
