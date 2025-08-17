@@ -4,7 +4,6 @@
   font-weight: normal;
   line-height: 1;
   color: var(--black);
-  word-break: break-all;
 }
 
 .bold {
@@ -66,5 +65,17 @@
   }
   &-right {
     text-align: right;
+  }
+}
+
+.word-break {
+  &-normal {
+    word-break: normal;
+  }
+  &-all {
+    word-break: break-all;
+  }
+  &-wrap {
+    word-wrap: break-word;
   }
 }

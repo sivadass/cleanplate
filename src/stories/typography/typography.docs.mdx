@@ -1,0 +1,30 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Typography } from "../../index";
+
+<Meta title="atoms/Typography/Documentation" />
+
+# Typography
+
+The `Typography` provides a consistent set of text styles for headings, paragraphs, and inline elements, ensuring clear hierarchy, readability, and brand-aligned communication across the interface.
+
+### Usage
+
+```
+import { Typography } from "cleanplate";
+
+const App = () => {
+  return (
+    <Typography
+      variant="h1"
+      isBold={true}
+      align="center"
+      wordBreak="normal"
+    />
+  );
+}
+```
+
+### Props
+
+<ArgsTable of={Typography} />

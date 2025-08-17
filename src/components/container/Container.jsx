@@ -75,6 +75,8 @@ Container.propTypes = {
     "center",
     "space-around",
     "space-evenly",
+    "flex-end",
+    "flex-start",
   ]),
   align: PropTypes.oneOf(["start", "center", "end"]),
   onClick: PropTypes.func,

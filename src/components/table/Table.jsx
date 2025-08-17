@@ -46,6 +46,7 @@ const Table = ({
                     variant="p"
                     isBold
                     align={column.textAlign || "left"}
+                    wordBreak="all"
                   >
                     {column.title}
                   </Typography>
@@ -63,12 +64,17 @@ const Table = ({
                   const columnId = getUniqueId();
                   return (
                     <td key={columnId}>
-                      <Typography
-                        variant="p"
-                        align={column.textAlign || "left"}
-                      >
-                        {d[column.id]}
-                      </Typography>
+                      {column.customRender ? (
+                        column.customRender(d, column)
+                      ) : (
+                        <Typography
+                          variant="p"
+                          align={column.textAlign || "left"}
+                          wordBreak="all"
+                        >
+                          {d[column.id]}
+                        </Typography>
+                      )}
                     </td>
                   );
                 })}

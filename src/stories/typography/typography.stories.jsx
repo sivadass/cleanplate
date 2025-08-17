@@ -1,13 +1,16 @@
-import { Typography } from "../index";
-import { SPACING_OPTIONS } from "../constants/common";
+import { Typography } from "../../index";
+import { SPACING_OPTIONS } from "../../constants/common";
 
 const meta = {
-  title: "components/typography",
+  title: "atoms/Typography/Playground",
   component: Typography,
+  parameters: {
+    layout: "centered",
+  },
 };
 
 export const Default = {
-  name: "default",
+  name: "Default",
   argTypes: {
     variant: {
       options: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "small"],
@@ -21,12 +24,22 @@ export const Default = {
     isBold: {
       control: { type: "boolean" },
     },
+    align: {
+      options: ["left", "center", "right"],
+      control: { type: "radio" },
+      description: "Text alignment",
+    },
+    wordBreak: {
+      options: ["normal", "all", "wrap"],
+      control: { type: "radio" },
+      description: "Text wrapping",
+    },
   },
 
   render: (args) => {
     return (
       <div>
-        <Typography variant="h1" isBold={false} {...args}>
+        <Typography {...args}>
           The quick brown fox jumps over the lazy dog
         </Typography>
       </div>

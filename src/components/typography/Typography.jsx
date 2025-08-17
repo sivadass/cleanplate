@@ -13,10 +13,12 @@ const Typography = ({
   className = "",
   isBold = false,
   align = "left",
+  wordBreak = "normal",
   ...otherProps
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const alignClass = `align-${align}`;
+  const wordBreakClass = `word-break-${wordBreak}`;
   const typographyClasses = getClassNames(
     styles["typography"],
     {
@@ -24,6 +26,7 @@ const Typography = ({
       [styles["bold"]]: isBold,
       [styles["align"]]: align,
       [styles[alignClass]]: align,
+      [styles[wordBreakClass]]: wordBreak,
     },
     marginClass,
     className
@@ -105,6 +108,7 @@ Typography.propTypes = {
   ]),
   isBold: PropTypes.bool,
   align: PropTypes.oneOf(["left", "right", "center"]),
+  wordBreak: PropTypes.oneOf(["normal", "all", "wrap"]),
 };
 
 export default Typography;

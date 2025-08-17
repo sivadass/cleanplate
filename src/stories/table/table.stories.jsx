@@ -1,4 +1,4 @@
-import { Table } from "../../index";
+import { Table, Badge, Container } from "../../index";
 import { SPACING_OPTIONS } from "../../constants/common";
 
 const meta = {
@@ -38,8 +38,15 @@ export const Default = {
       {
         id: "age",
         title: "Age",
-        widthPercentage: "20%",
+        widthPercentage: "8%",
         textAlign: "right",
+        customRender: (a, b) => {
+          return (
+            <Container display="flex" justify="flex-end">
+              <Badge label={a.age} variant="success" />
+            </Container>
+          );
+        },
       },
     ],
     data: [
