@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Table.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
