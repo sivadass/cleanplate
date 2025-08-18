@@ -1,0 +1,35 @@
+.pagination {
+}
+
+.default {
+}
+
+.minimal {
+}
+
+.pagination-wrapper {
+}
+
+.pagination-button {
+  min-width: 36px !important;
+  height: 36px !important;
+  padding: 0;
+}
+
+.rows-select {
+  width: 90px;
+  margin-bottom: 0;
+  .rows-select-trigger {
+    margin-bottom: 0;
+    height: 36px;
+    border-color: var(--primary-brand);
+    color: var(--primary-brand);
+    [class*="icon"] {
+      color: var(--primary-brand);
+    }
+  }
+  .rows-select-content {
+    top: 35px;
+    border-color: var(--primary-brand);
+  }
+}

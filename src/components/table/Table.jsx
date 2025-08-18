@@ -6,6 +6,8 @@ import { getSpacingClass, getUniqueId } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import Typography from "../typography";
+import Pagination from "../pagination";
+import Container from "../container";
 
 const Table = ({
   variant,
@@ -14,6 +16,12 @@ const Table = ({
   columns = [],
   data = [],
   onRowClick,
+  totalItems = 0,
+  currentPage = 1,
+  rowsPerPage = 10,
+  rowsPerPageOptions,
+  onPageChange,
+  onRowsPerPageChange,
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const tableClasses = getClassNames(
@@ -29,9 +37,19 @@ const Table = ({
       onRowClick(rowData);
     }
   };
+  const handlePageChange = (page, rPerPage) => {
+    if (typeof onPageChange === "function") {
+      onPageChange(page, rPerPage);
+    }
+  };
+  const handleRowsPerPageChange = (rPerPage) => {
+    if (typeof onRowsPerPageChange === "function") {
+      onRowClick(rPerPage);
+    }
+  };
   return (
     <div className={tableClasses}>
-      <table>
+      <table className={styles["core-table"]}>
         <thead>
           <tr>
             {columns?.map((column) => {
@@ -83,6 +101,20 @@ const Table = ({
           })}
         </tbody>
       </table>
+      {totalItems > 0 && (
+        <Container className={styles["pagination-wrapper"]}>
+          <Pagination
+            totalItems={totalItems}
+            currentPage={currentPage}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+            onPageChange={(page, rPerPage) => handlePageChange(page, rPerPage)}
+            onRowsPerPageChange={(rPerPage) =>
+              handleRowsPerPageChange(rPerPage)
+            }
+          />
+        </Container>
+      )}
     </div>
   );
 };
@@ -104,6 +136,18 @@ Table.propTypes = {
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onRowClick: PropTypes.func,
+  totalItems: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number,
+  rowsPerPageOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+  onPageChange: PropTypes.func.isRequired,
+  onRowsPerPageChange: PropTypes.func,
 };
 
 export default Table;

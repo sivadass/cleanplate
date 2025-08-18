@@ -52,9 +52,7 @@ const Date = ({
       year.length === 4
     ) {
       const dateValue = `${day}-${month}-${year}`;
-      console.log("value", dateValue);
       if (typeof onChange === "function") {
-        console.log("value", dateValue);
         onChange(dateValue);
       }
     }

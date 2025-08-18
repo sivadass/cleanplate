@@ -2,7 +2,7 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: normal;
-  table {
+  .core-table {
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
@@ -34,6 +34,15 @@
           border-bottom-color: transparent;
         }
       }
+      &:hover {
+        td {
+          cursor: pointer;
+          background: #f7f7f7;
+        }
+      }
     }
+  }
+  .pagination-wrapper {
+    margin-top: 24px;
   }
 }

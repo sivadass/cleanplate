@@ -128,7 +128,6 @@ const Select = ({
             className={`${styles["cp-select-field-options"]} ${selectOptionsPositionClass} ${contentsClassName}`}
           >
             {options.map((option) => {
-              console.log("selectedOption", selectedOption);
               const isSelected = isMulti
                 ? selectedOption.map((s) => s.value).includes(option.value)
                 : selectedOption && option.value === selectedOption.value;

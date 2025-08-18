@@ -24,6 +24,7 @@ import ProgressBar from "./components/progress-bar";
 import Accordion from "./components/accordion";
 import BottomSheet from "./components/bottom-sheet";
 import Table from "./components/table";
+import Pagination from "./components/pagination";
 
 export {
   AppShell,
@@ -51,4 +52,5 @@ export {
   Accordion,
   BottomSheet,
   Table,
+  Pagination,
 };
