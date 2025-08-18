@@ -44,7 +44,7 @@ const Table = ({
   };
   const handleRowsPerPageChange = (rPerPage) => {
     if (typeof onRowsPerPageChange === "function") {
-      onRowClick(rPerPage);
+      onRowsPerPageChange(rPerPage);
     }
   };
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Pagination.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
-import { getSpacingClass } from "../../utils/common";
+import { getSpacingClass, getUniqueId } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import Icon from "../icon";
@@ -145,11 +145,12 @@ const Pagination = ({
 
         {visibleButtons?.map((btn) => {
           const isActive = btn === currentPage;
+          const btnId = getUniqueId();
           return (
             <Button
               variant={isActive ? "primary" : "outline"}
               className={styles["pagination-button"]}
-              key={btn}
+              key={btnId}
               isDisabled={btn === null}
               onClick={() => handlePageChange(btn)}
             >
