@@ -17,6 +17,7 @@ const Table = ({
   data = [],
   onRowClick,
   totalItems = 0,
+  totalLabel = "Items",
   currentPage = 1,
   rowsPerPage = 10,
   rowsPerPageOptions,
@@ -105,6 +106,7 @@ const Table = ({
         <Container className={styles["pagination-wrapper"]}>
           <Pagination
             totalItems={totalItems}
+            totalLabel={totalLabel}
             currentPage={currentPage}
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={rowsPerPageOptions}
@@ -137,7 +139,7 @@ Table.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onRowClick: PropTypes.func,
   totalItems: PropTypes.number.isRequired,
-  totalItems: PropTypes.number.isRequired,
+  totalLabel: PropTypes.string,
   currentPage: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number,
   rowsPerPageOptions: PropTypes.arrayOf(

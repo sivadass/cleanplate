@@ -8,6 +8,20 @@
 }
 
 .pagination-wrapper {
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    justify-content: center;
+    flex-wrap: wrap;
+    .button-wrapper {
+      order: 1;
+    }
+    .total-count {
+      order: 2;
+    }
+    .show-per-page {
+      order: 3;
+    }
+  }
 }
 
 .pagination-button {
@@ -17,11 +31,13 @@
 }
 
 .rows-select {
-  width: 90px;
+  width: auto;
+  min-width: 54px;
   margin-bottom: 0;
   .rows-select-trigger {
     margin-bottom: 0;
     height: 36px;
+    padding: 0 4px 0 8px;
     border-color: var(--primary-brand);
     color: var(--primary-brand);
     [class*="icon"] {
@@ -30,6 +46,13 @@
   }
   .rows-select-content {
     top: 35px;
+    width: 86px;
+    left: auto;
+    right: 0;
     border-color: var(--primary-brand);
+    & > [class*="cp-select-field-option"] {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
   }
 }

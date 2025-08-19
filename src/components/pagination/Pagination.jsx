@@ -9,6 +9,7 @@ import Icon from "../icon";
 import Button from "../button";
 import Container from "../container";
 import FormControls from "../form-controls";
+import Typography from "../typography";
 
 const getPaginationButtons = (
   totalItems = 120,
@@ -80,6 +81,7 @@ const Pagination = ({
   margin = "0",
   className = "",
   totalItems,
+  totalLabel = "Items",
   currentPage = 1,
   rowsPerPage = 10,
   rowsPerPageOptions = defaultRowsPerPageOptions,
@@ -134,49 +136,66 @@ const Pagination = ({
         justify="center"
         className={styles["pagination-wrapper"]}
       >
-        <Button
-          variant={"outline"}
-          className={styles["pagination-button"]}
-          isDisabled={isPrevBtnDisabled}
-          onClick={() => handlePrev()}
+        <Container className={styles["total-count"]}>
+          <Typography variant="small">{`Total ${totalLabel}: ${totalItems}`}</Typography>
+        </Container>
+        <Container
+          display="flex"
+          align="center"
+          justify="center"
+          className={styles["buttons-wrapper"]}
         >
-          <Icon name="chevron_left" color="" />
-        </Button>
+          <Button
+            variant={"outline"}
+            className={styles["pagination-button"]}
+            isDisabled={isPrevBtnDisabled}
+            onClick={() => handlePrev()}
+          >
+            <Icon name="chevron_left" color="" />
+          </Button>
 
-        {visibleButtons?.map((btn) => {
-          const isActive = btn === currentPage;
-          const btnId = getUniqueId();
-          return (
-            <Button
-              variant={isActive ? "primary" : "outline"}
-              className={styles["pagination-button"]}
-              key={btnId}
-              isDisabled={btn === null}
-              onClick={() => handlePageChange(btn)}
-            >
-              {btn || "..."}
-            </Button>
-          );
-        })}
+          {visibleButtons?.map((btn) => {
+            const isActive = btn === currentPage;
+            const btnId = getUniqueId();
+            return (
+              <Button
+                variant={isActive ? "primary" : "outline"}
+                className={styles["pagination-button"]}
+                key={btnId}
+                isDisabled={btn === null}
+                onClick={() => handlePageChange(btn)}
+              >
+                {btn || "..."}
+              </Button>
+            );
+          })}
 
-        <Button
-          variant={"outline"}
-          className={styles["pagination-button"]}
-          isDisabled={isNextBtnDisabled}
-          onClick={() => handleNext()}
+          <Button
+            variant={"outline"}
+            className={styles["pagination-button"]}
+            isDisabled={isNextBtnDisabled}
+            onClick={() => handleNext()}
+          >
+            <Icon name="chevron_right" color="" />
+          </Button>
+        </Container>
+
+        <Container
+          display="flex"
+          align="center"
+          className={styles["show-per-page"]}
         >
-          <Icon name="chevron_right" color="" />
-        </Button>
-
-        <FormControls.Select
-          className={styles["rows-select"]}
-          placeholder="Rows per page"
-          triggerClassName={styles["rows-select-trigger"]}
-          contentsClassName={styles["rows-select-content"]}
-          options={rowsPerPageOptions}
-          value={defaultRowsPerPage}
-          onChange={(v) => handleRowsPerPage(v)}
-        />
+          <Typography variant="small">Show per page</Typography>
+          <FormControls.Select
+            className={styles["rows-select"]}
+            placeholder="Rows per page"
+            triggerClassName={styles["rows-select-trigger"]}
+            contentsClassName={styles["rows-select-content"]}
+            options={rowsPerPageOptions}
+            value={defaultRowsPerPage}
+            onChange={(v) => handleRowsPerPage(v)}
+          />
+        </Container>
       </Container>
     </div>
   );
@@ -184,6 +203,7 @@ const Pagination = ({
 
 Pagination.propTypes = {
   totalItems: PropTypes.number.isRequired,
+  totalLabel: PropTypes.string,
   currentPage: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number,
   rowsPerPageOptions: PropTypes.arrayOf(
