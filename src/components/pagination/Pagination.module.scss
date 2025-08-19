@@ -9,6 +9,10 @@
 
 .pagination-wrapper {
   justify-content: space-between;
+  .total-count,
+  .show-per-page {
+    min-width: 180px;
+  }
   @media (max-width: 768px) {
     justify-content: center;
     flex-wrap: wrap;
@@ -17,9 +21,11 @@
     }
     .total-count {
       order: 2;
+      min-width: auto;
     }
     .show-per-page {
       order: 3;
+      min-width: auto;
     }
   }
 }

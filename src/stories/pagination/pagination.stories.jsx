@@ -23,10 +23,16 @@ export const Default = {
       control: { type: "inline-check" },
     },
     totalItems: { control: { type: "number", min: 0 } },
+    totalLabel: { control: { type: "text" } },
     currentPage: { control: { type: "number", min: 1 } },
     rowsPerPage: { control: { type: "number", min: 0 } },
   },
-  args: {},
+  args: {
+    totalItems: 120,
+    totalLabel: "Items",
+    currentPage: 1,
+    rowsPerPage: 10,
+  },
   render: (args) => {
     const [currentPage, setCurrentPage] = React.useState(1);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
