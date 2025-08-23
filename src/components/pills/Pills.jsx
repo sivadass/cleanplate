@@ -24,14 +24,10 @@ const Pills = ({
   mode = "read-only",
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
-  const pillsClasses = getClassNames(
-    styles["pills"],
-    {
-      [styles[mode]]: mode,
-    },
-    marginClass,
-    className
-  );
+  const pillsClasses = getClassNames(styles["pills"], marginClass, className);
+  const pillsWrapperClasses = getClassNames(styles["pill-wrapper"], {
+    [styles[mode]]: mode,
+  });
   const handleOnChange = (v) => {
     if (typeof onChange === "function") {
       onChange(v);
@@ -44,19 +40,21 @@ const Pills = ({
   };
   return (
     <Container className={pillsClasses}>
-      {mode === "read-only" && (
-        <Typography className={styles["pill-label"]}>{label}</Typography>
-      )}
-      {(mode === "edit" || mode === "remove") && (
-        <>
+      <Container className={pillsWrapperClasses}>
+        {(mode === "read-only" || mode === "remove") && (
+          <Typography className={styles["pill-label"]}>{label}</Typography>
+        )}
+        {mode === "edit" && (
           <FormControls.Input
             name="pill"
             className={styles["pill-input"]}
             value={label}
             placeholder={placeholder}
             onChange={(v) => handleOnChange(v)}
-            isDisabled={isLoading || isDisabled || mode === "remove"}
+            isDisabled={isLoading || isDisabled}
           />
+        )}
+        {(mode === "remove" || mode === "edit") && (
           <Button
             className={styles["pill-button"]}
             variant="icon"
@@ -69,8 +67,8 @@ const Pills = ({
               <Icon name={mode === "edit" ? "check" : "close"} />
             )}
           </Button>
-        </>
-      )}
+        )}
+      </Container>
     </Container>
   );
 };

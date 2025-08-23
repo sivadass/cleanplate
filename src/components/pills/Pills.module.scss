@@ -1,19 +1,29 @@
 .pills {
-  display: flex;
-  border: 1px solid #ccc;
+  display: inline-block;
+  background-color: transparent;
+  border: 0;
   border-radius: 22px;
+}
+
+.pill-wrapper {
+  display: flex;
+  border: 1px solid var(--primary-brand);
+  border-radius: 24px;
   background-color: var(--white);
-  max-width: 224px;
+  max-width: 240px;
 }
 
 .pill-label {
   padding: 0 16px;
   line-height: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pill-input {
   margin-bottom: 0;
-  max-width: 178px;
+  max-width: 144px;
   input {
     background: transparent;
     border: 0;
@@ -48,13 +58,18 @@
   color: var(--white);
   .pill-label {
     color: var(--black);
-    padding: 0 20px 0 20px;
+    padding: 0 16px 0 16px;
   }
 }
 
 .edit {
   background-color: var(--white);
+  &.pill-wrapper {
+    max-width: 180px;
+  }
   .pill-button {
+    padding-left: 4px !important;
+    min-width: 36px !important;
     [class*="icon"] {
       color: var(--secondary-brand) !important;
     }
@@ -70,12 +85,13 @@
 .remove {
   background-color: var(--gray-light);
   border-width: 0;
-  .pill-input {
-    input {
-      color: var(--black);
-    }
+  .pill-label {
+    padding-right: 8px;
+    padding-left: 16px;
   }
   .pill-button {
+    padding-left: 4px !important;
+    min-width: 36px !important;
     [class*="icon"] {
       color: var(--secondary-brand) !important;
     }
