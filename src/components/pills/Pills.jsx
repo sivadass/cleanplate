@@ -15,7 +15,7 @@ import Spinner from "../spinner";
 const Pills = ({
   margin = "0",
   className = "",
-  label = "Shopping",
+  label = "",
   placeholder = "Add tag",
   onChange,
   onRemove,
@@ -61,7 +61,7 @@ const Pills = ({
             className={styles["pill-button"]}
             variant="icon"
             onClick={() => handleOnRemove()}
-            isDisabled={isLoading || isDisabled}
+            isDisabled={isLoading || isDisabled || label === ""}
           >
             {isLoading ? (
               <Spinner className={styles["pill-spinner"]} />

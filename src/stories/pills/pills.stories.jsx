@@ -33,8 +33,9 @@ export const Default = {
     isLoading: "false",
   },
   render: (args) => {
-    const [pillValue, setPillValue] = useState("Renting");
+    const [pillValue, setPillValue] = useState("");
     const onChange = (v) => {
+      console.log("v", v);
       setPillValue(v.target.value);
     };
     const onRemove = () => {
