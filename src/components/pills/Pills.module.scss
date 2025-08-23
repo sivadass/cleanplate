@@ -1,0 +1,88 @@
+.pills {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 22px;
+  background-color: var(--white);
+}
+
+.pill-label {
+  padding: 0 16px;
+  line-height: 44px;
+}
+
+.pill-input {
+  margin-bottom: 0;
+  max-width: 178px;
+  input {
+    background: transparent;
+    border: 0;
+    padding-right: 8px;
+  }
+}
+
+.pill-button {
+  border-radius: 0 22px 22px 0 !important;
+  border-color: transparent !important;
+  [class*="icon"] {
+    color: var(--white) !important;
+  }
+  &:hover {
+    background-color: var(--red) !important;
+  }
+}
+
+.pill-spinner {
+  height: 24px;
+  width: 24px;
+  [class*="icon"] {
+    color: var(--secondary-brand);
+    font-size: 24px !important;
+    line-height: 24px;
+  }
+}
+
+.read-only {
+  background-color: var(--gray-light);
+  border-width: 0;
+  color: var(--white);
+  .pill-label {
+    color: var(--black);
+    padding: 0 20px 0 20px;
+  }
+}
+
+.edit {
+  background-color: var(--white);
+  .pill-button {
+    [class*="icon"] {
+      color: var(--secondary-brand) !important;
+    }
+    &:hover {
+      background-color: var(--primary-brand) !important;
+      [class*="icon"] {
+        color: var(--white) !important;
+      }
+    }
+  }
+}
+
+.remove {
+  background-color: var(--gray-light);
+  border-width: 0;
+  .pill-input {
+    input {
+      color: var(--black);
+    }
+  }
+  .pill-button {
+    [class*="icon"] {
+      color: var(--secondary-brand) !important;
+    }
+    &:hover {
+      background-color: var(--red) !important;
+      [class*="icon"] {
+        color: var(--white) !important;
+      }
+    }
+  }
+}

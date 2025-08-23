@@ -41,6 +41,7 @@ export const Default = {
     };
     const handleRowsPerPageChange = (rPerPage) => {
       setRowsPerPage(rPerPage);
+      setCurrentPage(1);
     };
     return (
       <Pagination
