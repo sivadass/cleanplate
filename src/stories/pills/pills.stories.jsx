@@ -12,11 +12,6 @@ const meta = {
 export const Default = {
   name: "Default",
   argTypes: {
-    variant: {
-      options: ["primary", "secondary"],
-      control: { type: "inline-radio" },
-      description: "Variant of the pill",
-    },
     mode: {
       options: ["read-only", "edit", "remove"],
       control: { type: "inline-radio" },
@@ -25,18 +20,20 @@ export const Default = {
     isLoading: {
       control: { type: "boolean" },
     },
+    isDisabled: {
+      control: { type: "boolean" },
+    },
   },
   args: {
-    variant: "primary",
     label: "Taxi",
     placeholder: "Add new tag",
     isLoading: "false",
+    mode: "edit",
   },
   render: (args) => {
-    const [pillValue, setPillValue] = useState("");
+    const [pillValue, setPillValue] = useState(args.label);
     const onChange = (v) => {
-      console.log("v", v);
-      setPillValue(v.target.value);
+      setPillValue(v);
     };
     const onRemove = () => {
       setPillValue("");
@@ -46,7 +43,7 @@ export const Default = {
         <Pills
           {...args}
           label={pillValue}
-          onChange={onChange}
+          onSubmit={onChange}
           onRemove={onRemove}
         />
       </Container>

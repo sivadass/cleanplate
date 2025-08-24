@@ -28,6 +28,14 @@
     background: transparent;
     border: 0;
     padding-right: 8px;
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      border-radius: 24px;
+      font-size: 16px;
+    }
   }
 }
 
@@ -71,7 +79,7 @@
     padding-left: 4px !important;
     min-width: 36px !important;
     [class*="icon"] {
-      color: var(--secondary-brand) !important;
+      color: var(--primary-brand) !important;
     }
     &:hover {
       background-color: var(--primary-brand) !important;

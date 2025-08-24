@@ -17,25 +17,24 @@ const Pills = ({
   className = "",
   label = "",
   placeholder = "Add tag",
-  onChange,
+  onSubmit,
   onRemove,
   isDisabled = false,
   isLoading = false,
   mode = "read-only",
 }) => {
+  const [labelValue, setLabelValue] = React.useState(label);
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const pillsClasses = getClassNames(styles["pills"], marginClass, className);
   const pillsWrapperClasses = getClassNames(styles["pill-wrapper"], {
     [styles[mode]]: mode,
   });
-  const handleOnChange = (v) => {
-    if (typeof onChange === "function") {
-      onChange(v);
-    }
-  };
-  const handleOnRemove = () => {
-    if (typeof onRemove === "function") {
+  const handlePillAction = () => {
+    if (mode === "remove" && typeof onRemove === "function") {
       onRemove();
+    }
+    if (mode === "edit" && typeof onSubmit === "function") {
+      onSubmit(labelValue);
     }
   };
   return (
@@ -48,9 +47,9 @@ const Pills = ({
           <FormControls.Input
             name="pill"
             className={styles["pill-input"]}
-            value={label}
+            value={labelValue}
             placeholder={placeholder}
-            onChange={(v) => handleOnChange(v)}
+            onChange={(event) => setLabelValue(event.target.value)}
             isDisabled={isLoading || isDisabled}
           />
         )}
@@ -58,8 +57,8 @@ const Pills = ({
           <Button
             className={styles["pill-button"]}
             variant="icon"
-            onClick={() => handleOnRemove()}
-            isDisabled={isLoading || isDisabled || label === ""}
+            onClick={() => handlePillAction()}
+            isDisabled={isLoading || isDisabled || labelValue === ""}
           >
             {isLoading ? (
               <Spinner className={styles["pill-spinner"]} />
@@ -76,8 +75,8 @@ const Pills = ({
 Pills.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
   onRemove: PropTypes.func,
+  onSubmit: PropTypes.func,
   mode: PropTypes.oneOf(["read-only", "edit", "remove"]),
   isLoading: PropTypes.bool,
   margin: PropTypes.oneOfType([
