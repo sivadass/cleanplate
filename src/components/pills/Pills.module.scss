@@ -80,6 +80,7 @@
     min-width: 36px !important;
     [class*="icon"] {
       color: var(--primary-brand) !important;
+      font-size: 20px;
     }
     &:hover {
       background-color: var(--primary-brand) !important;
@@ -101,7 +102,8 @@
     padding-left: 4px !important;
     min-width: 36px !important;
     [class*="icon"] {
-      color: var(--secondary-brand) !important;
+      color: var(--secondary-brand-medium) !important;
+      font-size: 20px;
     }
     &:hover {
       background-color: var(--red) !important;

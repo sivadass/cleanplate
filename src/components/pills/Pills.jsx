@@ -35,6 +35,7 @@ const Pills = ({
     }
     if (mode === "edit" && typeof onSubmit === "function") {
       onSubmit(labelValue);
+      setLabelValue("");
     }
   };
   return (
