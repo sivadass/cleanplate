@@ -29,15 +29,36 @@ const Pills = ({
   const pillsWrapperClasses = getClassNames(styles["pill-wrapper"], {
     [styles[mode]]: mode,
   });
-  const handlePillAction = () => {
-    if (mode === "remove" && typeof onRemove === "function") {
-      onRemove();
-    }
-    if (mode === "edit" && typeof onSubmit === "function") {
+
+  const handleSubmit = () => {
+    if (typeof onSubmit === "function") {
       onSubmit(labelValue);
       setLabelValue("");
     }
   };
+
+  const handleRemove = () => {
+    if (typeof onRemove === "function") {
+      onRemove();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
+  const handlePillAction = () => {
+    if (mode === "remove") {
+      handleRemove();
+    }
+    if (mode === "edit") {
+      handleSubmit();
+    }
+  };
+
   return (
     <Container className={pillsClasses}>
       <Container className={pillsWrapperClasses}>
@@ -51,6 +72,7 @@ const Pills = ({
             value={labelValue}
             placeholder={placeholder}
             onChange={(event) => setLabelValue(event.target.value)}
+            onKeyDown={(event) => handleKeyDown(event)}
             isDisabled={isLoading || isDisabled}
           />
         )}

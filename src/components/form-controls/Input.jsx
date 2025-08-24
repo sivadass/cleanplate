@@ -5,6 +5,7 @@ const Input = ({
   name,
   id,
   onChange,
+  onKeyDown,
   defaultValue,
   value,
   label = "",
@@ -40,8 +41,13 @@ const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => {
-          if (onChange) {
+          if (typeof onChange === "function") {
             onChange(e);
+          }
+        }}
+        onKeyDown={(e) => {
+          if (typeof onKeyDown === "function") {
+            onKeyDown(e);
           }
         }}
       />
