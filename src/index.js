@@ -3,6 +3,7 @@ import Typography from "./components/typography";
 import AppShell from "./components/app-shell";
 import Alert from "./components/alert";
 import Modal from "./components/modal";
+import ConfirmDialog from "./components/confirm-dialog";
 import Badge from "./components/badge";
 import FormControls from "./components/form-controls";
 import Button from "./components/button";
@@ -31,6 +32,7 @@ export {
   AppShell,
   Typography,
   Modal,
+  ConfirmDialog,
   Button,
   FormControls,
   Dropdown,

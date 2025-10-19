@@ -1,0 +1,341 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Modal, Typography, Button } from "../../index";
+
+<Meta title="molecules/Modal/Documentation" />
+
+# Modal
+
+The `Modal` component is a flexible and accessible overlay dialog that displays content on top of the main application. It provides a focused user experience with proper focus management, keyboard navigation, and customizable behavior options.
+
+## Features
+
+- **Accessibility First**: Full ARIA support, focus management, and keyboard navigation
+- **Flexible Sizing**: Multiple size options from small to fullscreen
+- **Customizable Behavior**: Control close actions, overlay interactions, and escape key handling
+- **Responsive Design**: Adapts to different screen sizes with mobile-optimized layouts
+- **Smooth Animations**: Built-in fade and scale transitions with reduced motion support
+- **Body Scroll Lock**: Prevents background scrolling when modal is open
+
+## Usage
+
+```jsx
+import { Modal, Typography, Button } from "cleanplate";
+
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
+      <Button onClick={() => setIsOpen(true)}>
+        Open Modal
+      </Button>
+      
+      <Modal 
+        isOpen={isOpen} 
+        onClose={() => setIsOpen(false)}
+        title="Modal Title"
+        size="medium"
+      >
+        <Typography variant="p">Modal content goes here</Typography>
+      </Modal>
+    </div>
+  );
+};
+```
+
+## Basic Example
+
+```jsx
+import React, { useState } from "react";
+import { Modal, Typography, Button } from "cleanplate";
+
+const BasicModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>
+        Open Basic Modal
+      </Button>
+      
+      <Modal 
+        isOpen={isOpen} 
+        onClose={() => setIsOpen(false)}
+        title="Basic Modal"
+      >
+        <Typography variant="p" margin="m-0 m-b-3">
+          This is a basic modal with default settings.
+        </Typography>
+        <Typography variant="p">
+          It includes a title, close button, and overlay click-to-close functionality.
+        </Typography>
+      </Modal>
+    </>
+  );
+};
+```
+
+## Size Variants
+
+The Modal component supports four different sizes:
+
+### Small Modal
+```jsx
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  size="small"
+  title="Small Modal"
+>
+  <Typography variant="p">Perfect for simple messages and compact content.</Typography>
+</Modal>
+```
+
+### Medium Modal (Default)
+```jsx
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  size="medium"
+  title="Medium Modal"
+>
+  <Typography variant="p">Ideal for forms and detailed content.</Typography>
+</Modal>
+```
+
+### Large Modal
+```jsx
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  size="large"
+  title="Large Modal"
+>
+  <Typography variant="p">Great for complex forms and data tables.</Typography>
+</Modal>
+```
+
+### Fullscreen Modal
+```jsx
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  size="fullscreen"
+  title="Fullscreen Modal"
+>
+  <Typography variant="p">Takes up the entire viewport for immersive experiences.</Typography>
+</Modal>
+```
+
+## Advanced Usage
+
+### Modal with Form
+```jsx
+const FormModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "" });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
+    setIsOpen(false);
+  };
+
+  return (
+    <Modal 
+      isOpen={isOpen} 
+      onClose={() => setIsOpen(false)}
+      title="Contact Form"
+      size="medium"
+    >
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "16px" }}>
+          <Typography variant="small" margin="m-0 m-b-1" style={{ display: "block" }}>
+            Name:
+          </Typography>
+          <input
+            id="name"
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+            style={{ 
+              width: "100%", 
+              padding: "8px", 
+              border: "1px solid #ccc", 
+              borderRadius: "4px" 
+            }}
+          />
+        </div>
+        <div style={{ marginBottom: "16px" }}>
+          <Typography variant="small" margin="m-0 m-b-1" style={{ display: "block" }}>
+            Email:
+          </Typography>
+          <input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+            style={{ 
+              width: "100%", 
+              padding: "8px", 
+              border: "1px solid #ccc", 
+              borderRadius: "4px" 
+            }}
+          />
+        </div>
+        <Button type="submit">Submit</Button>
+      </form>
+    </Modal>
+  );
+};
+```
+
+### Information Modal
+```jsx
+const InformationModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Modal 
+      isOpen={isOpen} 
+      onClose={() => setIsOpen(false)}
+      title="Information"
+      size="small"
+      primaryButtonLabel="Got it"
+      onPrimaryButtonClick={() => setIsOpen(false)}
+    >
+      <Typography variant="p">
+        This is an informational message to help users understand what's happening.
+      </Typography>
+    </Modal>
+  );
+};
+```
+
+### Custom Close Behavior
+```jsx
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  showCloseButton={false}
+  closeOnOverlayClick={false}
+  closeOnEscape={true}
+  title="Custom Behavior"
+>
+  <Typography variant="p">
+    This modal can only be closed with the Escape key or programmatically.
+  </Typography>
+</Modal>
+```
+
+### Modal with Footer Buttons
+```jsx
+const ModalWithFooter = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSave = () => {
+    // Handle save action
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    // Handle cancel action
+    setIsOpen(false);
+  };
+
+  return (
+    <Modal 
+      isOpen={isOpen} 
+      onClose={() => setIsOpen(false)}
+      title="Save Changes"
+      primaryButtonLabel="Save"
+      onPrimaryButtonClick={handleSave}
+      secondaryButtonLabel="Cancel"
+      onSecondaryButtonClick={handleCancel}
+    >
+      <Typography variant="p">Do you want to save your changes?</Typography>
+    </Modal>
+  );
+};
+```
+
+### Footer Button Variants
+```jsx
+// Only primary button
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  primaryButtonLabel="Continue"
+  onPrimaryButtonClick={handleContinue}
+>
+  <Typography variant="p">Ready to proceed?</Typography>
+</Modal>
+
+// Only secondary button
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  secondaryButtonLabel="Close"
+  onSecondaryButtonClick={handleClose}
+>
+  <Typography variant="p">Information message</Typography>
+</Modal>
+
+// Both buttons
+<Modal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  primaryButtonLabel="Save"
+  onPrimaryButtonClick={handleSave}
+  secondaryButtonLabel="Cancel"
+  onSecondaryButtonClick={handleCancel}
+>
+  <Typography variant="p">Form content</Typography>
+</Modal>
+```
+
+## Accessibility
+
+The Modal component is built with accessibility in mind:
+
+- **ARIA Attributes**: Uses `role="dialog"` and `aria-modal="true"`
+- **Focus Management**: Automatically focuses the modal and restores focus on close
+- **Keyboard Navigation**: Supports Escape key to close
+- **Screen Reader Support**: Proper labeling and announcements
+- **High Contrast**: Supports high contrast mode
+- **Reduced Motion**: Respects user's motion preferences
+
+## Best Practices
+
+1. **Always provide a way to close**: Ensure users can close the modal through at least one method
+2. **Use descriptive titles**: Provide clear, descriptive titles for better accessibility
+3. **Consider mobile experience**: Test on mobile devices as the modal adapts to smaller screens
+4. **Handle form submissions**: Always handle form data before closing the modal
+5. **Avoid nested modals**: Don't open modals from within other modals
+6. **Use appropriate sizes**: Choose the right size for your content to avoid unnecessary scrolling
+
+## When to Use Modal vs ConfirmDialog
+
+The Modal component is designed for general-purpose dialogs with custom content. For confirmation dialogs specifically, consider using the **ConfirmDialog** component instead:
+
+### Use Modal for:
+- Forms and complex content
+- Custom layouts and interactions
+- Multi-step processes
+- Content that requires scrolling
+- Custom button arrangements
+
+### Use ConfirmDialog for:
+- Simple yes/no confirmations
+- Delete confirmations
+- Warning dialogs
+- Standard confirmation patterns
+
+**Learn more about ConfirmDialog:** [ConfirmDialog Documentation](./?path=/docs/molecules-confirmdialog-documentation--docs)
+
+## Props
+
+<ArgsTable of={Modal} />

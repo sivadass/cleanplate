@@ -1,0 +1,275 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { ConfirmDialog, Typography, Button } from "../../index";
+
+<Meta title="molecules/ConfirmDialog/Documentation" />
+
+# ConfirmDialog
+
+The `ConfirmDialog` component is a specialized dialog designed specifically for confirmation actions. It provides a clean, minimal interface with pre-configured settings and simplified props for common confirmation use cases like deletions, warnings, and user confirmations.
+
+## Features
+
+- **Simplified API**: Pre-configured for confirmation dialogs
+- **Consistent Behavior**: Standardized close behavior and button placement
+- **Multiple Variants**: Support for default, destructive, and warning styles
+- **Flexible Content**: Customizable title and description
+- **Accessibility**: Full accessibility support with ARIA attributes
+- **Design System Integration**: Uses Typography and Button components
+
+## Usage
+
+```jsx
+import { ConfirmDialog, Button } from "cleanplate";
+
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleConfirm = () => {
+    // Handle confirmation action
+    setIsOpen(false);
+  };
+
+  return (
+    <div>
+      <Button onClick={() => setIsOpen(true)}>
+        Delete Item
+      </Button>
+      
+      <ConfirmDialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Delete Item"
+        description="Are you sure you want to delete this item? This action cannot be undone."
+        primaryButtonLabel="Delete"
+        onPrimaryButtonClick={handleConfirm}
+        secondaryButtonLabel="Cancel"
+      />
+    </div>
+  );
+};
+```
+
+## Basic Example
+
+```jsx
+import React, { useState } from "react";
+import { ConfirmDialog, Button } from "cleanplate";
+
+const BasicConfirm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleConfirm = () => {
+    alert("Action confirmed!");
+    setIsOpen(false);
+  };
+
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>
+        Confirm Action
+      </Button>
+      
+      <ConfirmDialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Confirm Action"
+        description="Are you sure you want to proceed?"
+        primaryButtonLabel="Confirm"
+        onPrimaryButtonClick={handleConfirm}
+        secondaryButtonLabel="Cancel"
+      />
+    </>
+  );
+};
+```
+
+## Variants
+
+The ConfirmDialog component supports different variants for different types of actions:
+
+### Default Variant
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Save Changes"
+  description="Do you want to save your changes before closing?"
+  primaryButtonLabel="Save"
+  onPrimaryButtonClick={handleSave}
+  secondaryButtonLabel="Don't Save"
+  variant="default"
+/>
+```
+
+### Destructive Variant
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Delete Account"
+  description="This will permanently delete your account and all associated data. This action cannot be undone."
+  primaryButtonLabel="Delete Account"
+  onPrimaryButtonClick={handleDelete}
+  secondaryButtonLabel="Cancel"
+  variant="destructive"
+/>
+```
+
+### Warning Variant
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Warning"
+  description="This action may have unintended consequences. Please review before proceeding."
+  primaryButtonLabel="Proceed Anyway"
+  onPrimaryButtonClick={handleProceed}
+  secondaryButtonLabel="Go Back"
+  variant="warning"
+/>
+```
+
+## Sizes
+
+The ConfirmDialog component supports three sizes optimized for different content lengths:
+
+### Small (Default)
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Quick Confirmation"
+  description="Are you sure?"
+  primaryButtonLabel="Yes"
+  onPrimaryButtonClick={handleConfirm}
+  secondaryButtonLabel="No"
+  size="small"
+/>
+```
+
+### Medium
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Standard Confirmation"
+  description="This action will affect your current settings and preferences."
+  primaryButtonLabel="Confirm"
+  onPrimaryButtonClick={handleConfirm}
+  secondaryButtonLabel="Cancel"
+  size="medium"
+/>
+```
+
+### Large
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Important Decision"
+  description="This is a significant action that will affect multiple systems and users. Please carefully review all implications before proceeding."
+  primaryButtonLabel="I Understand, Proceed"
+  onPrimaryButtonClick={handleConfirm}
+  secondaryButtonLabel="Cancel"
+  size="large"
+/>
+```
+
+## Advanced Usage
+
+### Custom Button Labels
+```jsx
+const CustomConfirm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSave = () => {
+    // Save changes
+    setIsOpen(false);
+  };
+
+  const handleDiscard = () => {
+    // Discard changes
+    setIsOpen(false);
+  };
+
+  return (
+    <ConfirmDialog
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      title="Unsaved Changes"
+      description="You have unsaved changes. What would you like to do?"
+      primaryButtonLabel="Save Changes"
+      onPrimaryButtonClick={handleSave}
+      secondaryButtonLabel="Discard Changes"
+      onSecondaryButtonClick={handleDiscard}
+    />
+  );
+};
+```
+
+### No Description
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Are you sure?"
+  primaryButtonLabel="Yes"
+  onPrimaryButtonClick={handleConfirm}
+  secondaryButtonLabel="No"
+/>
+```
+
+### With Close Button
+```jsx
+<ConfirmDialog
+  isOpen={isOpen}
+  onClose={onClose}
+  title="Multiple Close Options"
+  description="This dialog can be closed in multiple ways."
+  primaryButtonLabel="Confirm"
+  onPrimaryButtonClick={handleConfirm}
+  secondaryButtonLabel="Cancel"
+  showCloseButton={true}
+  closeOnOverlayClick={true}
+  closeOnEscape={true}
+/>
+```
+
+## Behavior
+
+### Default Behavior
+- **Close Button**: Shown by default
+- **Overlay Click**: Enabled by default
+- **Escape Key**: Enabled by default
+- **Size**: Small by default (optimal for confirmations)
+- **Variant**: Default styling
+
+### Button Handling
+- **Primary Button**: Executes the main action and closes the dialog
+- **Secondary Button**: Closes the dialog without action (unless custom handler provided)
+- **Close Button**: Shown by default, closes dialog without action
+
+## Best Practices
+
+1. **Clear Titles**: Use descriptive, action-oriented titles
+2. **Helpful Descriptions**: Explain the consequences of the action
+3. **Appropriate Variants**: Use destructive for dangerous actions, warning for risky ones
+4. **Button Labels**: Use clear, action-oriented button labels
+5. **Size Selection**: Choose size based on content length
+6. **Consistent Behavior**: Keep close behavior consistent across your app
+
+## Accessibility
+
+The ConfirmDialog component includes comprehensive accessibility features:
+
+- **ARIA Support**: Proper dialog roles and labels
+- **Focus Management**: Automatic focus handling and restoration
+- **Keyboard Navigation**: Escape key support
+- **Screen Reader Support**: Proper announcements and labeling
+- **High Contrast**: Supports high contrast mode
+- **Reduced Motion**: Respects user motion preferences
+
+## Props
+
+<ArgsTable of={ConfirmDialog} />

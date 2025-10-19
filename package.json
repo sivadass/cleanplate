@@ -27,6 +27,7 @@
   "homepage": "https://cleanplate.sivadass.in",
   "devDependencies": {
     "@babel/preset-react": "^7.23.3",
+    "@floating-ui/react": "^0.27.16",
     "@fluentui/storybook-llms-extractor": "^0.0.2",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
