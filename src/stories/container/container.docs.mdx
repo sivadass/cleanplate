@@ -1,0 +1,420 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Container, Typography, Button } from "../../index";
+
+<Meta title="atoms/Container/Documentation" />
+
+# Container
+
+The `Container` component is a flexible layout utility that provides a consistent way to structure and organize content. It offers comprehensive control over display properties, spacing, alignment, and responsive behavior, making it the foundation for building complex layouts.
+
+## Features
+
+- **Flexible Display**: Support for block, flex, and inline-block display types
+- **Responsive Widths**: Predefined width options from small to full width
+- **Spacing Control**: Comprehensive margin, padding, and gap utilities
+- **Flex Layouts**: Built-in support for flexbox with justify and align options
+- **Interactive**: Optional click handling for interactive containers
+- **Consistent Styling**: Uses design system spacing and styling tokens
+
+## Usage
+
+```jsx
+import { Container, Typography } from "cleanplate";
+
+const App = () => {
+  return (
+    <Container 
+      display="flex" 
+      justify="space-between" 
+      padding="p-4" 
+      showBorder
+    >
+      <Typography variant="h3">Left Content</Typography>
+      <Typography variant="p">Right Content</Typography>
+    </Container>
+  );
+};
+```
+
+## Basic Example
+
+```jsx
+import React from "react";
+import { Container, Typography, Button } from "cleanplate";
+
+const BasicContainer = () => {
+  return (
+    <Container 
+      display="block" 
+      width="medium" 
+      padding="p-4" 
+      showBorder
+    >
+      <Typography variant="h3" margin="m-0 m-b-2">
+        Container Title
+      </Typography>
+      <Typography variant="p" margin="m-0 m-b-3">
+        This is a basic container with medium width and padding.
+      </Typography>
+      <Button variant="primary">
+        Action Button
+      </Button>
+    </Container>
+  );
+};
+```
+
+## Display Types
+
+### Block Display
+```jsx
+<Container display="block" showBorder padding="p-3">
+  <Typography variant="p">Block container takes full width</Typography>
+</Container>
+```
+
+### Flex Display
+```jsx
+<Container 
+  display="flex" 
+  justify="space-between" 
+  align="center" 
+  showBorder 
+  padding="p-3"
+  gap="g-2"
+>
+  <Typography variant="p">Left item</Typography>
+  <Typography variant="p">Right item</Typography>
+</Container>
+```
+
+### Inline Block Display
+```jsx
+<Container display="inline-block" showBorder padding="p-3" margin="m-r-2">
+  <Typography variant="p">Inline block 1</Typography>
+</Container>
+<Container display="inline-block" showBorder padding="p-3">
+  <Typography variant="p">Inline block 2</Typography>
+</Container>
+```
+
+## Width Options
+
+The Container component provides several predefined width options:
+
+```jsx
+// Size-based widths
+<Container width="small">Small container</Container>
+<Container width="medium">Medium container</Container>
+<Container width="large">Large container</Container>
+<Container width="extra-large">Extra large container</Container>
+
+// Fractional widths
+<Container width="quarter">Quarter width (25%)</Container>
+<Container width="half">Half width (50%)</Container>
+<Container width="three-quarters">Three quarters (75%)</Container>
+<Container width="full">Full width (100%)</Container>
+```
+
+## Flex Layouts
+
+### Justify Content Options
+```jsx
+// Space between items
+<Container display="flex" justify="space-between">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Container>
+
+// Center items
+<Container display="flex" justify="center">
+  <div>Centered item</div>
+</Container>
+
+// Space around items
+<Container display="flex" justify="space-around">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</Container>
+
+// Space evenly
+<Container display="flex" justify="space-evenly">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</Container>
+
+// Flex start (default)
+<Container display="flex" justify="flex-start">
+  <div>Left aligned</div>
+</Container>
+
+// Flex end
+<Container display="flex" justify="flex-end">
+  <div>Right aligned</div>
+</Container>
+```
+
+### Align Items Options
+```jsx
+// Align to start
+<Container display="flex" align="start">
+  <div>Top aligned</div>
+</Container>
+
+// Center alignment
+<Container display="flex" align="center">
+  <div>Center aligned</div>
+</Container>
+
+// Align to end
+<Container display="flex" align="end">
+  <div>Bottom aligned</div>
+</Container>
+```
+
+## Spacing System
+
+### Padding
+```jsx
+// Single padding value
+<Container padding="p-2">Small padding</Container>
+<Container padding="p-4">Medium padding</Container>
+<Container padding="p-6">Large padding</Container>
+
+// Multiple padding values
+<Container padding={["p-2", "p-4"]}>Custom padding</Container>
+```
+
+### Margin
+```jsx
+// Single margin value
+<Container margin="m-2">Small margin</Container>
+<Container margin="m-4">Medium margin</Container>
+
+// Multiple margin values
+<Container margin={["m-2", "m-4"]}>Custom margin</Container>
+```
+
+### Gap (for flex containers)
+```jsx
+<Container display="flex" gap="g-2">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</Container>
+```
+
+## Grid Layouts
+
+### Quarter Grid (4 columns)
+```jsx
+<Container display="flex" gap="g-2">
+  <Container width="quarter" showBorder padding="p-3">
+    <Typography variant="h4">Column 1</Typography>
+  </Container>
+  <Container width="quarter" showBorder padding="p-3">
+    <Typography variant="h4">Column 2</Typography>
+  </Container>
+  <Container width="quarter" showBorder padding="p-3">
+    <Typography variant="h4">Column 3</Typography>
+  </Container>
+  <Container width="quarter" showBorder padding="p-3">
+    <Typography variant="h4">Column 4</Typography>
+  </Container>
+</Container>
+```
+
+### Half Grid (2 columns)
+```jsx
+<Container display="flex" gap="g-2">
+  <Container width="half" showBorder padding="p-3">
+    <Typography variant="h4">Left Column</Typography>
+  </Container>
+  <Container width="half" showBorder padding="p-3">
+    <Typography variant="h4">Right Column</Typography>
+  </Container>
+</Container>
+```
+
+### Three Quarters + Quarter Layout
+```jsx
+<Container display="flex" gap="g-2">
+  <Container width="three-quarters" showBorder padding="p-3">
+    <Typography variant="h4">Main Content</Typography>
+    <Typography variant="p">
+      This is the main content area taking up three quarters of the space.
+    </Typography>
+  </Container>
+  <Container width="quarter" showBorder padding="p-3">
+    <Typography variant="h4">Sidebar</Typography>
+    <Typography variant="p">
+      Sidebar content goes here.
+    </Typography>
+  </Container>
+</Container>
+```
+
+## Interactive Containers
+
+Containers can be made interactive with click handlers:
+
+```jsx
+const InteractiveContainer = () => {
+  const [clickCount, setClickCount] = useState(0);
+  
+  return (
+    <Container 
+      display="flex" 
+      justify="center" 
+      align="center" 
+      showBorder 
+      padding="p-4"
+      style={{ 
+        cursor: "pointer",
+        transition: "all 0.2s ease"
+      }}
+      onClick={() => setClickCount(prev => prev + 1)}
+    >
+      <Typography variant="p">
+        Clicked {clickCount} times
+      </Typography>
+    </Container>
+  );
+};
+```
+
+## Real-World Examples
+
+### Card Layout
+```jsx
+const CardLayout = () => {
+  return (
+    <Container 
+      display="flex" 
+      justify="space-between" 
+      showBorder 
+      padding="p-4" 
+      gap="g-3"
+    >
+      <Container width="half" showBorder padding="p-3">
+        <Typography variant="h4" margin="m-0 m-b-2">
+          Product Card
+        </Typography>
+        <Typography variant="p" margin="m-0 m-b-3">
+          Product description goes here.
+        </Typography>
+        <Button variant="primary">Add to Cart</Button>
+      </Container>
+      <Container width="half" showBorder padding="p-3">
+        <Typography variant="h4" margin="m-0 m-b-2">
+          Product Image
+        </Typography>
+        <Typography variant="p" margin="m-0">
+          Image placeholder
+        </Typography>
+      </Container>
+    </Container>
+  );
+};
+```
+
+### Dashboard Layout
+```jsx
+const DashboardLayout = () => {
+  return (
+    <Container display="flex" gap="g-4">
+      {/* Sidebar */}
+      <Container width="quarter" showBorder padding="p-3">
+        <Typography variant="h4" margin="m-0 m-b-3">
+          Navigation
+        </Typography>
+        <Container display="flex" flexDirection="column" gap="g-2">
+          <Button variant="outline" isFluid>Dashboard</Button>
+          <Button variant="outline" isFluid>Analytics</Button>
+          <Button variant="outline" isFluid>Settings</Button>
+        </Container>
+      </Container>
+      
+      {/* Main Content */}
+      <Container width="three-quarters" showBorder padding="p-4">
+        <Typography variant="h3" margin="m-0 m-b-4">
+          Dashboard
+        </Typography>
+        <Container display="flex" gap="g-3" margin="m-b-4">
+          <Container width="half" showBorder padding="p-3">
+            <Typography variant="h5" margin="m-0 m-b-2">
+              Stats Card 1
+            </Typography>
+            <Typography variant="p">Some statistics</Typography>
+          </Container>
+          <Container width="half" showBorder padding="p-3">
+            <Typography variant="h5" margin="m-0 m-b-2">
+              Stats Card 2
+            </Typography>
+            <Typography variant="p">More statistics</Typography>
+          </Container>
+        </Container>
+      </Container>
+    </Container>
+  );
+};
+```
+
+## Best Practices
+
+1. **Use Semantic Widths**: Choose width options that match your design intent
+   ```jsx
+   // Good: Semantic width
+   <Container width="half">Content</Container>
+   
+   // Avoid: Custom widths when semantic options exist
+   <Container style={{ width: "50%" }}>Content</Container>
+   ```
+
+2. **Consistent Spacing**: Use the design system spacing tokens
+   ```jsx
+   // Good: Design system spacing
+   <Container padding="p-4" margin="m-2">
+   
+   // Avoid: Custom spacing values
+   <Container style={{ padding: "16px", margin: "8px" }}>
+   ```
+
+3. **Flex for Layouts**: Use flex display for complex layouts
+   ```jsx
+   // Good: Flex layout
+   <Container display="flex" justify="space-between" gap="g-2">
+   
+   // Avoid: Manual positioning
+   <Container style={{ display: "flex", justifyContent: "space-between" }}>
+   ```
+
+4. **Responsive Considerations**: Consider how containers behave on different screen sizes
+   ```jsx
+   // Good: Responsive width
+   <Container width="medium">Content</Container>
+   
+   // Consider: Mobile-first approach
+   <Container width="full" style={{ maxWidth: "768px" }}>
+   ```
+
+## Accessibility
+
+- **Semantic HTML**: Container renders as a `div` element
+- **Focus Management**: Interactive containers should be keyboard accessible
+- **Screen Readers**: Use proper heading hierarchy within containers
+- **Color Contrast**: Ensure sufficient contrast when using borders
+
+## Props
+
+<ArgsTable of={Container} />
+
+## Common Use Cases
+
+- **Page Layouts**: Main content areas, sidebars, headers, footers
+- **Card Components**: Product cards, feature cards, content cards
+- **Form Layouts**: Form sections, input groups, button groups
+- **Navigation**: Menu containers, breadcrumb containers
+- **Dashboard**: Widget containers, stat cards, chart containers
+- **Responsive Grids**: Multi-column layouts that adapt to screen size

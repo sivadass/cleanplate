@@ -6,6 +6,8 @@ import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 
+const GAP_OPTIONS = SPACING_OPTIONS.slice(0, 10);
+
 const Container = ({
   children,
   margin = "m-0",
@@ -18,6 +20,7 @@ const Container = ({
   className = "",
   onClick,
   style,
+  gap ="4",
 }) => {
   const displayClass = `display-${display}`;
   const justifyClass = `justify-${justify}`;
@@ -26,6 +29,7 @@ const Container = ({
 
   const marginStyles = getSpacingClass(margin, utilStyles, "m");
   const paddingStyles = getSpacingClass(padding, utilStyles, "p");
+  const gapStyles = getSpacingClass(gap, utilStyles, "g");
 
   const containerClasses = getClassNames(
     styles["container"],
@@ -38,6 +42,7 @@ const Container = ({
       [styles[justifyClass]]: justify,
       [styles[alignClass]]: align,
     },
+    gapStyles,
     className
   );
 
@@ -87,6 +92,10 @@ Container.propTypes = {
   padding: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
+  gap: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(GAP_OPTIONS),
   ]),
   style: PropTypes.object,
 };
