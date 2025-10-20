@@ -26,17 +26,33 @@
 }
 
 .black {
-  color: #222;
+  color: var(--black);
 }
 
 .white {
-  color: #fff;
+  color: var(--white);
 }
 
 .gray {
-  color: #666;
+  color: var(--gray);
 }
 
 .blue {
-  color: #3e63dd;
+  color: var(--blue);
+}
+
+.green {  
+  color: var(--green);
+}
+
+.red {
+  color: var(--red);
+}
+
+.yellow {
+  color: var(--yellow);
+}
+
+.orange {
+  color: var(--orange);
 }

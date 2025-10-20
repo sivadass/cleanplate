@@ -20,7 +20,7 @@ const Icon = ({
 Icon.propTypes = {
   name: PropTypes.string,
   size: PropTypes.oneOf(["small", "medium", "large"]),
-  color: PropTypes.oneOf(["black", "white", "gray", "blue"]),
+  color: PropTypes.oneOf(["black", "white", "gray", "blue", "green", "red", "yellow", "orange"]),
 };
 
 export default Icon;
