@@ -1,0 +1,520 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Dropdown, Typography, Button, MenuList } from "../../index";
+
+<Meta title="molecules/Dropdown/Documentation" />
+
+# Dropdown
+
+The `Dropdown` component is a flexible floating UI element that displays content relative to a trigger element. Built with `@floating-ui/react-dom`, it provides robust positioning, collision detection, and accessibility features for creating menus, tooltips, and other floating content.
+
+## Features
+
+- **Robust Positioning**: Uses floating-ui for intelligent positioning
+- **Collision Detection**: Automatically flips and shifts to stay in viewport
+- **Portal Rendering**: Renders content in a portal to avoid z-index issues
+- **Accessibility**: Proper ARIA attributes and keyboard interactions
+- **Flexible Content**: Accept any React element as trigger and content
+- **Customizable Behavior**: Control close behavior and positioning options
+
+## Usage
+
+```jsx
+import { Dropdown, Button, MenuList } from "cleanplate";
+
+const App = () => {
+  const MenuContent = ({ onClose }) => {
+    const menuItems = [
+      { label: "Profile", value: "profile", icon: "user" },
+      { label: "Settings", value: "settings", icon: "settings" },
+      { label: "Logout", value: "logout", icon: "logout" }
+    ];
+
+    const handleMenuClick = (item) => {
+      alert(`${item.label} clicked!`);
+      onClose?.();
+    };
+
+    return (
+      <div style={{ padding: "var(--space-2)" }}>
+        <MenuList 
+          items={menuItems}
+          direction="vertical"
+          variant="light"
+          size="small"
+          onMenuClick={handleMenuClick}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <Dropdown
+      trigger={<Button>Open Menu</Button>}
+      content={<MenuContent />}
+      placement="bottom-end"
+    />
+  );
+};
+```
+
+## Trigger Label (Simple)
+
+For quick implementations, you can use the `triggerLabel` prop to create a default trigger with an outline button and arrow icons:
+
+```jsx
+import { Dropdown, MenuList } from "cleanplate";
+
+const App = () => {
+  const MenuContent = ({ onClose }) => {
+    const menuItems = [
+      { label: "Option 1", value: "option1", icon: "check" },
+      { label: "Option 2", value: "option2", icon: "star" },
+      { label: "Option 3", value: "option3", icon: "favorite" }
+    ];
+
+    const handleMenuClick = (item) => {
+      alert(`${item.label} clicked!`);
+      onClose?.();
+    };
+
+    return (
+      <div style={{ padding: "var(--space-2)" }}>
+        <MenuList 
+          items={menuItems}
+          direction="vertical"
+          variant="light"
+          size="small"
+          onMenuClick={handleMenuClick}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <Dropdown
+      triggerLabel="Select Option"
+      content={<MenuContent />}
+      placement="bottom-end"
+    />
+  );
+};
+```
+
+### Features of Trigger Label:
+- **Automatic Button**: Creates an outline button with the provided label
+- **Dynamic Icons**: Shows `keyboard_arrow_down` when closed, `keyboard_arrow_up` when open
+- **Consistent Styling**: Uses the design system's Button and Icon components
+- **Accessibility**: Includes proper ARIA attributes and keyboard support
+
+## Basic Example
+
+```jsx
+import React from "react";
+import { Dropdown, Button } from "cleanplate";
+
+const BasicDropdown = () => {
+  const MenuContent = ({ onClose }) => (
+    <div style={{ padding: "var(--space-2)" }}>
+      <Button 
+        variant="outline" 
+        size="small" 
+        isFluid 
+        margin="m-0 m-b-1"
+        onClick={() => {
+          alert("Option 1 clicked!");
+          onClose?.();
+        }}
+      >
+        Option 1
+      </Button>
+      <Button 
+        variant="outline" 
+        size="small" 
+        isFluid 
+        onClick={() => {
+          alert("Option 2 clicked!");
+          onClose?.();
+        }}
+      >
+        Option 2
+      </Button>
+    </div>
+  );
+
+  return (
+    <Dropdown
+      trigger={<Button>Menu</Button>}
+      content={<MenuContent />}
+    />
+  );
+};
+```
+
+## Placement Options
+
+The Dropdown component supports 12 different placement options:
+
+### Top Placements
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  placement="top-start"  // or "top", "top-end"
+/>
+```
+
+### Bottom Placements
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  placement="bottom-start"  // or "bottom", "bottom-end"
+/>
+```
+
+### Left Placements
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  placement="left-start"  // or "left", "left-end"
+/>
+```
+
+### Right Placements
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  placement="right-start"  // or "right", "right-end"
+/>
+```
+
+## Advanced Configuration
+
+### Custom Offset
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  placement="bottom-end"
+  offset={8}  // 8px distance from trigger
+/>
+```
+
+### Disable Collision Detection
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  placement="top"
+  flip={false}  // Don't flip when no space
+  shift={false} // Don't shift to stay in viewport
+/>
+```
+
+### Custom Close Behavior
+```jsx
+<Dropdown
+  trigger={<Button>Menu</Button>}
+  content={<MenuContent />}
+  closeOnClickOutside={false}  // Don't close on outside click
+  closeOnEscape={true}         // Close on Escape key
+/>
+```
+
+## Real-World Examples
+
+### User Menu
+```jsx
+const UserMenu = () => {
+  const UserMenuContent = ({ onClose }) => {
+    const menuItems = [
+      { label: "Dashboard", value: "dashboard", icon: "home" },
+      { label: "Settings", value: "settings", icon: "settings" },
+      { label: "Sign out", value: "signout", icon: "logout" }
+    ];
+
+    const handleMenuClick = (item) => {
+      // Handle menu item click
+      onClose?.();
+    };
+
+    return (
+      <div style={{ padding: "var(--space-2)" }}>
+        <div style={{ 
+          padding: "var(--space-2) var(--space-1)", 
+          borderBottom: "1px solid var(--gray-light)" 
+        }}>
+          <Typography variant="small" margin="m-0" color="var(--gray)">
+            Signed in as
+          </Typography>
+          <Typography variant="p" margin="m-0" fontWeight="600">
+            john.doe@example.com
+          </Typography>
+        </div>
+        <div style={{ marginTop: "var(--space-2)" }}>
+          <MenuList 
+            items={menuItems}
+            direction="vertical"
+            variant="light"
+            size="small"
+            onMenuClick={handleMenuClick}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <Dropdown
+      trigger={
+        <Button variant="outline">
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+            <div style={{ 
+              width: "24px", 
+              height: "24px", 
+              borderRadius: "50%", 
+              backgroundColor: "var(--primary-brand)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+              fontSize: "12px",
+              fontWeight: "600"
+            }}>
+              JD
+            </div>
+            <Typography variant="small">John Doe</Typography>
+          </div>
+        </Button>
+      }
+      content={<UserMenuContent />}
+      placement="bottom-end"
+      offset={8}
+    />
+  );
+};
+```
+
+### Action Menu
+```jsx
+const ActionMenu = () => {
+  const ActionMenuContent = ({ onClose }) => {
+    const menuItems = [
+      { label: "Edit", value: "edit", icon: "edit" },
+      { label: "Duplicate", value: "duplicate", icon: "copy" },
+      { label: "Delete", value: "delete", icon: "trash" }
+    ];
+
+    const handleMenuClick = (item) => {
+      // Handle action
+      onClose?.();
+    };
+
+    return (
+      <div style={{ padding: "var(--space-2)" }}>
+        <Typography variant="small" margin="m-0 m-b-2" color="var(--gray)">
+          Actions
+        </Typography>
+        <MenuList 
+          items={menuItems}
+          direction="vertical"
+          variant="light"
+          size="small"
+          onMenuClick={handleMenuClick}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ display: "flex", gap: "var(--space-3)" }}>
+      <Button>Primary Action</Button>
+      <Dropdown
+        trigger={<Button variant="outline">More Actions</Button>}
+        content={<ActionMenuContent />}
+        placement="bottom-start"
+      />
+    </div>
+  );
+};
+```
+
+## Behavior
+
+### Default Behavior
+- **Placement**: `bottom-end` (bottom-right of trigger)
+- **Offset**: `4px` distance from trigger
+- **Flip**: `true` (flips to opposite side when no space)
+- **Shift**: `true` (shifts to stay within viewport)
+- **Close on Outside Click**: `true`
+- **Close on Escape**: `true`
+
+### Interaction Handling
+- **Click Trigger**: Opens/closes dropdown
+- **Click Outside**: Closes dropdown (if enabled)
+- **Escape Key**: Closes dropdown (if enabled)
+- **Content Actions**: Use `onClose` prop to close dropdown
+
+## Best Practices
+
+1. **Use Semantic Content**: Structure your dropdown content logically
+2. **Handle Close Actions**: Always call `onClose` when actions are performed
+3. **Choose Appropriate Placement**: Consider available space and user flow
+4. **Test on Mobile**: Ensure dropdowns work well on touch devices
+5. **Provide Clear Labels**: Use descriptive text for menu items
+6. **Consider Accessibility**: Ensure keyboard navigation works properly
+
+## Render Trigger (Advanced)
+
+For maximum flexibility, you can use the `renderTrigger` function to create custom triggers based on the dropdown state:
+
+### Basic Render Trigger
+
+```jsx
+const CustomTrigger = () => {
+  return (
+    <Dropdown
+      renderTrigger={({ isOpen, triggerProps }) => (
+        <Button {...triggerProps}>
+          {isOpen ? 'Close Menu' : 'Open Menu'}
+        </Button>
+      )}
+      content={<MenuContent />}
+    />
+  );
+};
+```
+
+### Advanced State-Based Trigger
+
+```jsx
+const AdvancedTrigger = () => {
+  return (
+    <Dropdown
+      renderTrigger={({ isOpen, isAnimating, placement, triggerProps }) => (
+        <div 
+          {...triggerProps}
+          style={{
+            padding: 'var(--space-2)',
+            border: '2px solid',
+            borderColor: isOpen ? 'var(--primary-brand)' : 'var(--gray-light)',
+            borderRadius: 'var(--radius-medium)',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-1)',
+            transition: 'all 0.2s ease',
+            opacity: isAnimating ? 0.7 : 1
+          }}
+        >
+          <span>Custom Trigger</span>
+          <span style={{ fontSize: '12px', color: 'var(--gray)' }}>
+            {placement}
+          </span>
+        </div>
+      )}
+      content={<MenuContent />}
+    />
+  );
+};
+```
+
+### User Menu with Avatar
+
+```jsx
+const UserMenuTrigger = () => {
+  return (
+    <Dropdown
+      renderTrigger={({ isOpen, triggerProps }) => (
+        <div 
+          {...triggerProps}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+            padding: 'var(--space-2)',
+            border: '1px solid var(--gray-light)',
+            borderRadius: 'var(--radius-medium)',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            backgroundColor: isOpen ? 'var(--gray-lightest)' : 'transparent'
+          }}
+        >
+          <div 
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--primary-brand)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }}
+          >
+            JD
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Typography variant="small" margin="m-0" color="var(--text-primary)">
+              John Doe
+            </Typography>
+            <Typography variant="small" margin="m-0" color="var(--gray)">
+              Administrator
+            </Typography>
+          </div>
+          <span style={{ 
+            fontSize: '12px', 
+            color: 'var(--gray)',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.2s ease'
+          }}>
+            ▼
+          </span>
+        </div>
+      )}
+      content={<UserMenuContent />}
+      placement="bottom-end"
+    />
+  );
+};
+```
+
+### Render Trigger Parameters
+
+The `renderTrigger` function receives an object with the following properties:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `isOpen` | `boolean` | Current open/closed state |
+| `isAnimating` | `boolean` | Whether animation is in progress |
+| `placement` | `string` | Current placement (may be adjusted by flip logic) |
+| `toggle` | `function` | Function to toggle dropdown |
+| `close` | `function` | Function to close dropdown |
+| `triggerProps` | `object` | Pre-configured props (ref, onClick, className, aria-*) |
+
+### Benefits of Render Trigger
+
+- **Complete Customization**: Full control over trigger appearance and behavior
+- **State Awareness**: Access to dropdown state for dynamic styling
+- **Accessibility Built-in**: `triggerProps` includes all necessary ARIA attributes
+- **Flexible**: Can return any React element as trigger
+- **Backward Compatible**: Existing `trigger` prop continues to work
+
+## Accessibility
+
+The Dropdown component includes comprehensive accessibility features:
+
+- **ARIA Attributes**: Proper `role`, `aria-expanded`, `aria-haspopup` attributes
+- **Keyboard Navigation**: Escape key support for closing
+- **Focus Management**: Maintains focus on trigger element
+- **Screen Reader Support**: Proper announcements and labeling
+- **Portal Rendering**: Avoids z-index and overflow issues
+
+## Props
+
+<ArgsTable of={Dropdown} />
