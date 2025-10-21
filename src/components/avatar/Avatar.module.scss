@@ -1,6 +1,6 @@
 .avatar {
-  font-family: inherit;
-  font-size: inherit;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   border-radius: 50%;
   text-align: center;
   background: var(--primary-brand);

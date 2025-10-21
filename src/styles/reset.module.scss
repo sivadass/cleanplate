@@ -1,5 +1,8 @@
 /* Variables */
 :root {
+  /* Typography */
+  --font-family: "Inter", sans-serif;
+  --font-size: 16px;
   /* Colors */
   --white: #ffffff;
   --black: #222222;
@@ -19,7 +22,10 @@
   --radius-none: 0;
   --radius-small: 4px;
   --radius-medium: 8px;
-  --radius-large: 16px;
+  --radius-large: 12px;
+  --radius-x-large: 16px;
+  --radius-xx-large: 20px;
+  --radius-xxx-large: 24px;
   --radius-round: 50%;
   /* length */
   --length-small: 240px;
@@ -69,22 +75,22 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-family);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "slnt" 0;
-  font-size: 16px;
+  font-size: var(--font-size);
   line-height: 1;
-  color: #222;
+  color: var(--black);
 }
 
 button,
 input,
 select,
 textarea {
-  font-family: inherit;
-  font-size: inherit;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   border: 1px solid #ccc;
   height: 44px;
 }

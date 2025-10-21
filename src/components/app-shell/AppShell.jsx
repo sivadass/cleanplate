@@ -1,7 +1,7 @@
-import "./styles.css";
+import styles from "./AppShell.module.scss";
 
 const AppShell = ({ children }) => {
-  return <div className="cp-app-shell">{children}</div>;
+  return <div className={styles["app-shell"]}>{children}</div>;
 };
 
 export default AppShell;

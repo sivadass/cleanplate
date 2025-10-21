@@ -1,6 +1,6 @@
 .cp-form-field {
-  font-family: inherit;
-  font-size: inherit;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   margin-bottom: 16px;
   width: var(--length-full);
   max-width: var(--length-small);

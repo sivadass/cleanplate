@@ -39,17 +39,17 @@
 
   &.small {
     max-width: var(--length-small);
-    border-radius: var(--radius-large);
+    border-radius: var(--radius-x-large);
   }
 
   &.medium {
     max-width: var(--length-medium);
-    border-radius: var(--radius-large);
+    border-radius: var(--radius-x-large);
   }
 
   &.large {
     max-width: var(--length-three-quarters);
-    border-radius: var(--radius-large);
+    border-radius: var(--radius-x-large);
   }
 
   &.fullscreen {
@@ -67,7 +67,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border-radius: var(--radius-medium);
+  border-radius: var(--radius-x-medium);
 }
 
 .header {
@@ -142,8 +142,8 @@
 
 // When footer is present, body should have rounded bottom corners
 .content:has(.footer) .body {
-  border-bottom-left-radius: var(--radius-large);
-  border-bottom-right-radius: var(--radius-large);
+  border-bottom-left-radius: var(--radius-x-large);
+  border-bottom-right-radius: var(--radius-x-large);
 }
 
 .footer {
@@ -155,8 +155,8 @@
   border-top: 1px solid var(--gray-light);
   flex-shrink: 0;
   background: var(--white);
-  border-bottom-left-radius: var(--radius-large);
-  border-bottom-right-radius: var(--radius-large);
+  border-bottom-left-radius: var(--radius-x-large);
+  border-bottom-right-radius: var(--radius-x-large);
 
   .fullscreen & {
     padding: var(--space-6);
