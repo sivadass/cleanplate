@@ -23,6 +23,7 @@ const Table = ({
   rowsPerPageOptions,
   onPageChange,
   onRowsPerPageChange,
+  hidePagination = false,
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const tableClasses = getClassNames(
@@ -102,7 +103,7 @@ const Table = ({
           })}
         </tbody>
       </table>
-      {totalItems > 0 && (
+      {totalItems > 0 && !hidePagination && (
         <Container className={styles["pagination-wrapper"]}>
           <Pagination
             totalItems={totalItems}
@@ -150,6 +151,7 @@ Table.propTypes = {
   ),
   onPageChange: PropTypes.func.isRequired,
   onRowsPerPageChange: PropTypes.func,
+  hidePagination: PropTypes.bool,
 };
 
 export default Table;

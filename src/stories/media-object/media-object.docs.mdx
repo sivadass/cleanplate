@@ -1,0 +1,402 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { MediaObject, Typography, Button } from "../../index";
+
+<Meta title="atoms/MediaObject/Documentation" />
+
+# MediaObject
+
+The `MediaObject` component is a flexible layout pattern that combines media (icon or image) with content (title and description). It's perfect for displaying user profiles, product cards, notifications, and any content that needs a media element alongside text.
+
+## Features
+
+- **Flexible Media**: Support for both icons and images
+- **Consistent Layout**: Standardized media + content pattern
+- **Interactive**: Optional click handling for interactive elements
+- **Spacing Control**: Comprehensive margin utilities
+- **Accessibility**: Proper semantic structure and alt text support
+- **Responsive**: Adapts to different screen sizes
+
+## Usage
+
+```jsx
+import { MediaObject } from "cleanplate";
+
+const App = () => {
+  return (
+    <MediaObject
+      mediaIcon="user"
+      title="John Doe"
+      description="Senior Developer at Tech Corp"
+    />
+  );
+};
+```
+
+## Basic Example
+
+```jsx
+import React from "react";
+import { MediaObject, Typography, Button } from "cleanplate";
+
+const BasicMediaObject = () => {
+  return (
+    <MediaObject
+      mediaIcon="user"
+      title="John Doe"
+      description="Senior Developer with 5+ years of experience in React and Node.js"
+    />
+  );
+};
+```
+
+## Media Types
+
+### With Icon
+```jsx
+<MediaObject
+  mediaIcon="user"
+  title="User Profile"
+  description="Manage your account settings and preferences"
+/>
+```
+
+### With Image
+```jsx
+<MediaObject
+  mediaImage="https://example.com/avatar.jpg"
+  title="John Doe"
+  description="Senior Developer at Tech Corp"
+/>
+```
+
+## Common Use Cases
+
+### User Profiles
+```jsx
+const UserProfile = () => {
+  return (
+    <div style={{ 
+      border: "1px solid var(--gray-light)", 
+      borderRadius: "var(--radius-medium)",
+      padding: "var(--space-3)"
+    }}>
+      <MediaObject
+        mediaImage="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+        title="John Doe"
+        description="Senior Developer • john.doe@example.com"
+      />
+    </div>
+  );
+};
+```
+
+### Product Cards
+```jsx
+const ProductCard = () => {
+  return (
+    <div style={{ 
+      border: "1px solid var(--gray-light)", 
+      borderRadius: "var(--radius-medium)",
+      padding: "var(--space-3)"
+    }}>
+      <MediaObject
+        mediaImage="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=150&h=150&fit=crop"
+        title="Wireless Headphones"
+        description="High-quality wireless headphones with noise cancellation"
+      />
+      <div style={{ marginTop: "var(--space-2)", display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h5" color="var(--primary-brand)">$199.99</Typography>
+        <Button size="small" variant="outline">Add to Cart</Button>
+      </div>
+    </div>
+  );
+};
+```
+
+### Notification Items
+```jsx
+const NotificationItem = () => {
+  return (
+    <MediaObject
+      mediaIcon="notification"
+      title="New Message"
+      description="You have received a new message from Jane Smith"
+    />
+  );
+};
+```
+
+### Settings Items
+```jsx
+const SettingsItem = () => {
+  return (
+    <MediaObject
+      mediaIcon="settings"
+      title="Account Settings"
+      description="Manage your account preferences and security settings"
+    />
+  );
+};
+```
+
+## Interactive Examples
+
+### Clickable Media Objects
+```jsx
+const InteractiveMediaObject = () => {
+  const [selected, setSelected] = useState(false);
+  
+  return (
+    <div 
+      style={{ 
+        border: selected ? "2px solid var(--primary-brand)" : "1px solid var(--gray-light)",
+        borderRadius: "var(--radius-medium)",
+        padding: "var(--space-3)",
+        cursor: "pointer",
+        backgroundColor: selected ? "var(--primary-lightest)" : "var(--white)"
+      }}
+      onClick={() => setSelected(!selected)}
+    >
+      <MediaObject
+        mediaImage="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+        title="John Doe"
+        description="Senior Developer • Click to select"
+      />
+    </div>
+  );
+};
+```
+
+### List of Media Objects
+```jsx
+const MediaObjectList = () => {
+  const users = [
+    { id: 1, name: "John Doe", role: "Developer", avatar: "..." },
+    { id: 2, name: "Jane Smith", role: "Designer", avatar: "..." },
+    { id: 3, name: "Mike Johnson", role: "Manager", avatar: "..." }
+  ];
+  
+  return (
+    <div style={{ 
+      border: "1px solid var(--gray-light)", 
+      borderRadius: "var(--radius-medium)",
+      padding: "var(--space-3)"
+    }}>
+      <Typography variant="h5" margin="m-0 m-b-3">Team Members</Typography>
+      {users.map((user, index) => (
+        <div key={user.id} style={{ 
+          padding: "var(--space-2)",
+          backgroundColor: index % 2 === 0 ? "var(--gray-lightest)" : "transparent",
+          borderRadius: "var(--radius-small)"
+        }}>
+          <MediaObject
+            mediaImage={user.avatar}
+            title={user.name}
+            description={user.role}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+## Spacing Examples
+
+### Margin Variants
+```jsx
+// Small margin
+<MediaObject
+  mediaIcon="star"
+  title="Small Margin"
+  description="This has small margin spacing"
+  margin="m-1"
+/>
+
+// Medium margin
+<MediaObject
+  mediaIcon="heart"
+  title="Medium Margin"
+  description="This has medium margin spacing"
+  margin="m-3"
+/>
+
+// Large margin
+<MediaObject
+  mediaIcon="bookmark"
+  title="Large Margin"
+  description="This has large margin spacing"
+  margin="m-5"
+/>
+```
+
+## Real-World Examples
+
+### User Dashboard
+```jsx
+const UserDashboard = () => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+      {/* User Profile Section */}
+      <div style={{ 
+        border: "1px solid var(--gray-light)", 
+        borderRadius: "var(--radius-medium)",
+        padding: "var(--space-4)"
+      }}>
+        <Typography variant="h4" margin="m-0 m-b-3">Profile</Typography>
+        <MediaObject
+          mediaImage="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+          title="John Doe"
+          description="Senior Developer • john.doe@example.com"
+        />
+        <Button variant="outline" size="small" margin="m-t-3">
+          Edit Profile
+        </Button>
+      </div>
+      
+      {/* Recent Activity */}
+      <div style={{ 
+        border: "1px solid var(--gray-light)", 
+        borderRadius: "var(--radius-medium)",
+        padding: "var(--space-4)"
+      }}>
+        <Typography variant="h4" margin="m-0 m-b-3">Recent Activity</Typography>
+        <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+          <MediaObject
+            mediaIcon="notification"
+            title="Project Update"
+            description="Your project 'Website Redesign' has been updated"
+          />
+          <MediaObject
+            mediaIcon="message"
+            title="New Message"
+            description="You have 3 unread messages"
+          />
+          <MediaObject
+            mediaIcon="calendar"
+            title="Meeting Reminder"
+            description="Team standup in 30 minutes"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+### Product Catalog
+```jsx
+const ProductCatalog = () => {
+  const products = [
+    {
+      id: 1,
+      name: "Wireless Headphones",
+      description: "High-quality wireless headphones with noise cancellation",
+      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=150&h=150&fit=crop",
+      price: "$199.99"
+    },
+    {
+      id: 2,
+      name: "Smart Watch",
+      description: "Advanced smartwatch with health monitoring features",
+      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=150&h=150&fit=crop",
+      price: "$299.99"
+    }
+  ];
+  
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
+      {products.map((product) => (
+        <div key={product.id} style={{ 
+          border: "1px solid var(--gray-light)", 
+          borderRadius: "var(--radius-medium)",
+          padding: "var(--space-3)"
+        }}>
+          <MediaObject
+            mediaImage={product.image}
+            title={product.name}
+            description={product.description}
+          />
+          <div style={{ marginTop: "var(--space-2)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Typography variant="h5" color="var(--primary-brand)">
+              {product.price}
+            </Typography>
+            <Button size="small" variant="outline">
+              Add to Cart
+            </Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+## Best Practices
+
+1. **Use Appropriate Media**: Choose icons for functional elements and images for visual content
+   ```jsx
+   // Good: Icon for settings
+   <MediaObject mediaIcon="settings" title="Settings" description="..." />
+   
+   // Good: Image for user profile
+   <MediaObject mediaImage="avatar.jpg" title="John Doe" description="..." />
+   ```
+
+2. **Provide Alt Text**: Always include meaningful alt text for images
+   ```jsx
+   // Good: Descriptive alt text
+   <MediaObject 
+     mediaImage="user-avatar.jpg" 
+     title="John Doe" 
+     description="Senior Developer"
+   />
+   ```
+
+3. **Consistent Spacing**: Use design system spacing tokens
+   ```jsx
+   // Good: Design system spacing
+   <MediaObject margin="m-3" title="..." description="..." />
+   
+   // Avoid: Custom spacing
+   <MediaObject style={{ margin: "12px" }} title="..." description="..." />
+   ```
+
+4. **Meaningful Descriptions**: Provide helpful context in descriptions
+   ```jsx
+   // Good: Informative description
+   <MediaObject 
+     title="John Doe" 
+     description="Senior Developer • john.doe@example.com" 
+   />
+   
+   // Avoid: Vague description
+   <MediaObject 
+     title="John Doe" 
+     description="User" 
+   />
+   ```
+
+## Accessibility
+
+- **Semantic HTML**: Uses proper heading hierarchy (h3 for titles)
+- **Alt Text**: Images include alt text based on the title prop
+- **Keyboard Navigation**: Interactive media objects should be keyboard accessible
+- **Screen Readers**: Proper structure for screen reader announcements
+- **Focus Management**: Clickable media objects should have visible focus states
+
+## Props
+
+<ArgsTable of={MediaObject} />
+
+## Common Use Cases
+
+- **User Profiles**: Display user information with avatars
+- **Product Cards**: Show products with images and descriptions
+- **Notification Items**: Display system notifications with icons
+- **Settings Items**: Show configuration options with icons
+- **List Items**: Create consistent list layouts
+- **Search Results**: Display search results with media
+- **Dashboard Widgets**: Show summary information with icons
+- **Contact Lists**: Display contact information with avatars

@@ -1,10 +1,21 @@
+import { useEffect, useState } from "react";
+
 export const getInitials = (name = "") => {
-  const initials = name.match(/^(\b\w)/g);
-  if (initials) {
-    return initials.join("").toUpperCase();
-  }
-  return ""; // Return null if no initials found
+  // Get the first letter of each word in the name and join them together upto 2 letters
+  const initials = name.split(" ").map((word) => word[0]).join("").toUpperCase();
+  return initials.substring(0, 2);
 };
+
+export const getAvatarBgColor = (name = "") => {
+  // Generate a random solid color contrast enough to be visible with white text
+  // Use the hash of the name to generate the color
+  const hash = name.split("").reduce((acc, char) => {
+    return acc + char.charCodeAt(0);
+  }, 0);
+  // Use the hash to generate a color
+  const color = `#${hash.toString(16).substring(0, 6)}`;
+  return color;
+};  
 
 export const getSpacingClass = (marginConfig, styleObject, prefix) => {
   if (typeof marginConfig === "string") {
@@ -48,8 +59,6 @@ export const getVariantIcon = (variant) => {
   }
   return iconName;
 };
-
-import { useEffect, useState } from "react";
 
 export const useIntersectionObserver = (options) => {
   const [ref, setRef] = useState(null);

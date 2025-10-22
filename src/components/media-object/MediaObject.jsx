@@ -1,23 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Icon from "../icon";
-import styles from "./MediaObject.module.css";
+import Avatar from "../avatar";
+import styles from "./MediaObject.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
+import getClassNames from "../../utils/get-class-names";
+import Typography from "../typography";
 
 const MediaObject = ({
-  children,
-  isDisabled = false,
-  isFluid = false,
-  size = "medium",
-  variant = "solid",
+  mediaIcon = "",
+  mediaImage = "",
+  mediaAvatar = "",
+  title,
+  description,
   margin = "m-0",
+  className = "media-object",
   onClick,
 }) => {
-  const fluidButtonClass = `${isFluid ? styles["cp-button-fluid"] : ""}`;
-
   const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const classNames = getClassNames(styles["cp-media-object"], marginClass,
+    className);
 
   const handleClick = (e) => {
     if (typeof onClick === "function") {
@@ -25,32 +29,30 @@ const MediaObject = ({
     }
   };
   return (
-    <button
-      className={`${styles["cp-button"]} ${fluidButtonClass} ${
-        styles[variant]
-      } ${styles[size]} ${isDisabled ? styles["disabled"] : ""}  ${
-        isLoading ? styles["loading"] : ""
-      } ${marginClass}`}
-      onClick={(e) => handleClick(e)}
-    >
-      {isLoading && (
-        <Icon name="progress_activity" className={styles["cp-button-loader"]} />
-      )}
-      {children}
-    </button>
+    <div className={classNames} onClick={(e) => handleClick(e)}>
+      <div className={styles["cp-media-object-media"]}>
+        <Avatar name={mediaAvatar} image={mediaImage} icon={mediaIcon} />
+      </div>
+      <div className={styles["cp-media-object-content"]}>
+        <Typography isBold>{title}</Typography>
+        <Typography variant="small">{description}</Typography>
+      </div>
+    </div>
   );
 };
 
 MediaObject.propTypes = {
-  size: PropTypes.oneOf(["small", "medium"]),
-  variant: PropTypes.oneOf(["solid", "outline"]),
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
+  mediaIcon: PropTypes.string,
+  mediaImage: PropTypes.string,
+  mediaAvatar: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
   margin: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
-  onClick: PropTypes.func,
 };
 
 export default MediaObject;
