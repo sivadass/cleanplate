@@ -1,8 +1,6 @@
 .cp-media-object {
   display: flex;
-  align-items: flex-start;
   gap: var(--space-4);
-  padding: var(--space-2);
   &:hover {
     background-color: var(--gray-light);
     cursor: pointer;
@@ -10,10 +8,10 @@
 }
 
 .cp-media-object-content {
-  p {
-    margin-top: 6px;
-    margin-bottom: 4px;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);
   small {
     opacity: 0.5;
   }
@@ -24,8 +22,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   background-color: var(--primary-brand-light);
   border-radius: var(--radius-round);
 }

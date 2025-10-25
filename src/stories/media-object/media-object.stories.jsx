@@ -10,55 +10,6 @@ const meta = {
   },
 };
 
-// Sample data for different use cases
-const sampleUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    role: "Senior Developer"
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-    role: "Product Manager"
-  },
-  {
-    id: 3,
-    name: "Mike Johnson",
-    email: "mike.johnson@example.com",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    role: "Designer"
-  }
-];
-
-const sampleProducts = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    description: "High-quality wireless headphones with noise cancellation",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=150&h=150&fit=crop",
-    price: "$199.99"
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    description: "Advanced smartwatch with health monitoring features",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=150&h=150&fit=crop",
-    price: "$299.99"
-  },
-  {
-    id: 3,
-    name: "Laptop Stand",
-    description: "Adjustable laptop stand for better ergonomics",
-    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=150&h=150&fit=crop",
-    price: "$49.99"
-  }
-];
-
 export const Default = {
   name: "With Name",
   argTypes: {
@@ -82,6 +33,11 @@ export const Default = {
       options: SPACING_OPTIONS,
       control: { type: "inline-check" },
       description: "Margin spacing",
+    },
+    padding: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+      description: "Padding spacing",
     },
     className: {
       control: { type: "text" },

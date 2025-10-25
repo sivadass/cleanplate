@@ -15,12 +15,14 @@ const MediaObject = ({
   mediaAvatar = "",
   title,
   description,
-  margin = "m-0",
+  margin = "0",
+  padding = "0",
   className = "media-object",
   onClick,
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "m");
-  const classNames = getClassNames(styles["cp-media-object"], marginClass,
+  const paddingClass = getSpacingClass(padding, utilStyles, "p");
+  const classNames = getClassNames(styles["cp-media-object"], marginClass, paddingClass,
     className);
 
   const handleClick = (e) => {
@@ -35,7 +37,7 @@ const MediaObject = ({
       </div>
       <div className={styles["cp-media-object-content"]}>
         <Typography isBold>{title}</Typography>
-        <Typography variant="small">{description}</Typography>
+        {description && <Typography variant="small">{description}</Typography>}
       </div>
     </div>
   );
@@ -50,6 +52,10 @@ MediaObject.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   margin: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(SPACING_OPTIONS),
+  ]),
+  padding: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(SPACING_OPTIONS),
   ]),
