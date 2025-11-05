@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./Table.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
-import { getSpacingClass, getUniqueId } from "../../utils/common";
+import { getSpacingClass, getUniqueId, isNotEmptyObject } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import Typography from "../typography";
 import Pagination from "../pagination";
 import Container from "../container";
+import MediaObject from "../media-object";
 
 const Table = ({
   variant,
@@ -24,7 +25,15 @@ const Table = ({
   onPageChange,
   onRowsPerPageChange,
   hidePagination = false,
+  mobileColumns = null,
 }) => {
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  const isMobile = viewportWidth < 768;
+  const isMobileColumnsConfigured = isNotEmptyObject(mobileColumns);
+
+  const canShowMobileColumns = isMobile && isMobileColumnsConfigured;
+
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const tableClasses = getClassNames(
     styles["table"],
@@ -49,60 +58,86 @@ const Table = ({
       onRowsPerPageChange(rPerPage);
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <div className={tableClasses}>
-      <table className={styles["core-table"]}>
-        <thead>
-          <tr>
-            {columns?.map((column) => {
-              const columnStyles = {
-                ...(column?.widthPercentage && {
-                  width: column.widthPercentage,
-                }),
-              };
-              return (
-                <th key={column.id} style={columnStyles}>
-                  <Typography
-                    variant="p"
-                    isBold
-                    align={column.textAlign || "left"}
-                    wordBreak="all"
-                  >
-                    {column.title}
-                  </Typography>
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((d) => {
+      {canShowMobileColumns ? (
+        <div className={styles["mobile-columns"]}>
+          {data?.map((row) => {
             const rowId = getUniqueId();
             return (
-              <tr key={rowId} onClick={() => handleRowClick(d)}>
-                {columns?.map((column) => {
-                  const columnId = getUniqueId();
-                  return (
-                    <td key={columnId}>
-                      {column.customRender ? (
-                        column.customRender(d, column)
-                      ) : (
-                        <Typography
-                          variant="p"
-                          align={column.textAlign || "left"}
-                          wordBreak="all"
-                        >
-                          {d[column.id]}
-                        </Typography>
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
+              <MediaObject
+                key={rowId}
+                title={row[mobileColumns.title]}
+                description={row[mobileColumns.description]}
+                mediaAvatar={row[mobileColumns.mediaAvatar]}
+                mediaIcon={mobileColumns.mediaIcon}
+                mediaImage={mobileColumns.mediaImage}
+                margin={mobileColumns.margin}
+                padding={mobileColumns.padding}
+                className={mobileColumns.className}
+              />
             );
           })}
-        </tbody>
-      </table>
+        </div>
+      ) : (
+        <table className={styles["core-table"]}>
+          <thead>
+            <tr>
+              {columns?.map((column) => {
+                const columnStyles = {
+                  ...(column?.widthPercentage && {
+                    width: column.widthPercentage,
+                  }),
+                };
+                return (
+                  <th key={column.id} style={columnStyles}>
+                    <Typography
+                      variant="p"
+                      isBold
+                      align={column.textAlign || "left"}
+                      wordBreak="all"
+                    >
+                      {column.title}
+                    </Typography>
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {data?.map((d) => {
+              const rowId = getUniqueId();
+              return (
+                <tr key={rowId} onClick={() => handleRowClick(d)}>
+                  {columns?.map((column) => {
+                    const columnId = getUniqueId();
+                    return (
+                      <td key={columnId}>
+                        {column.customRender ? (
+                          column.customRender(d, column)
+                        ) : (
+                          <Typography
+                            variant="p"
+                            align={column.textAlign || "left"}
+                            wordBreak="all"
+                          >
+                            {d[column.id]}
+                          </Typography>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>)}
       {totalItems > 0 && !hidePagination && (
         <Container className={styles["pagination-wrapper"]}>
           <Pagination
@@ -137,6 +172,22 @@ Table.propTypes = {
       widthPercentage: PropTypes.string,
     })
   ).isRequired,
+  mobileColumns: PropTypes.shape({
+    mediaIcon: PropTypes.string,
+    mediaImage: PropTypes.string,
+    mediaAvatar: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    className: PropTypes.string,
+    margin: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(SPACING_OPTIONS),
+    ]),
+    padding: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(SPACING_OPTIONS),
+    ]),
+  }),
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onRowClick: PropTypes.func,
   totalItems: PropTypes.number.isRequired,

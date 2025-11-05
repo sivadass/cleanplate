@@ -52,6 +52,11 @@ export const Default = {
         },
       },
     ],
+    mobileColumns: {
+      title: "name",
+      mediaAvatar: "name",
+      description: "email",
+    },
     data: [
       {
         name: "John Doe",
@@ -75,4 +80,27 @@ export const Default = {
   },
 };
 
+export const Mobile = {
+  name: "Mobile",
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+  },
+  args: {
+    mobileColumns: {
+      title: "name",
+      mediaAvatar: "name",
+      description: "email",
+    },
+    data: [
+      {
+        name: "John Doe",
+        age: 32,
+        email: "john@doe.com",
+      },
+    ],
+  },
+  render: (args) => {
+    return <Table {...args} />;
+  },
+};
 export default meta;

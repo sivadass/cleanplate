@@ -60,6 +60,10 @@ export const getVariantIcon = (variant) => {
   return iconName;
 };
 
+export const isNotEmptyObject = (obj) => {
+  return obj && typeof obj === "object" && Object.keys(obj).length > 0;
+};
+
 export const useIntersectionObserver = (options) => {
   const [ref, setRef] = useState(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
