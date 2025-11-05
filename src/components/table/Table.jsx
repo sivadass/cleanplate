@@ -81,6 +81,7 @@ const Table = ({
                 margin={mobileColumns.margin}
                 padding={mobileColumns.padding}
                 className={mobileColumns.className}
+                onClick={() => handleRowClick(row)}
               />
             );
           })}
