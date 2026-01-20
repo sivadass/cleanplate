@@ -23,7 +23,9 @@ export default {
   ],
   plugins: [
     external(),
-    resolve(),
+    resolve({
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+    }),
     commonjs(),
     postcss({
       modules: {
@@ -35,7 +37,8 @@ export default {
     }),
     babel({
       exclude: "node_modules/**",
-      presets: ["@babel/preset-react"],
+      presets: ["@babel/preset-typescript", "@babel/preset-react"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
       babelHelpers: "bundled",
     }),
     terser(),
