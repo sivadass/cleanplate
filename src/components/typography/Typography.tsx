@@ -1,12 +1,32 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./Typography.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 
-const Typography = ({
+export type TypographyVariant = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "small";
+
+export type TypographyAlign = "left" | "right" | "center";
+
+export type TypographyWordBreak = "normal" | "all" | "wrap";
+
+export type SpacingOption = typeof SPACING_OPTIONS[number];
+
+export type TypographyMargin = string | SpacingOption[];
+
+export interface TypographyProps {
+  children?: React.ReactNode;
+  variant?: TypographyVariant;
+  margin?: TypographyMargin;
+  className?: string;
+  isBold?: boolean;
+  align?: TypographyAlign;
+  wordBreak?: TypographyWordBreak;
+  [key: string]: any; // Allow other HTML attributes to be passed through
+}
+
+const Typography: React.FC<TypographyProps> = ({
   children,
   variant,
   margin = "m-0",
@@ -22,7 +42,7 @@ const Typography = ({
   const typographyClasses = getClassNames(
     styles["typography"],
     {
-      [styles[variant]]: variant,
+      [styles[variant || ""]]: variant,
       [styles["bold"]]: isBold,
       [styles["align"]]: align,
       [styles[alignClass]]: align,
@@ -88,27 +108,6 @@ const Typography = ({
         </p>
       );
   }
-};
-
-Typography.propTypes = {
-  variant: PropTypes.oneOf([
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "p",
-    "span",
-    "small",
-  ]),
-  margin: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
-  isBold: PropTypes.bool,
-  align: PropTypes.oneOf(["left", "right", "center"]),
-  wordBreak: PropTypes.oneOf(["normal", "all", "wrap"]),
 };
 
 export default Typography;

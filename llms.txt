@@ -1,0 +1,76 @@
+# CleanPlate Component Documentation Index
+
+This file contains an index of all available component documentation for the CleanPlate UI framework.
+
+## Project Overview
+
+CleanPlate is a Headless React UI Framework providing reusable, accessible, and customizable components for building modern web applications.
+
+## Component Documentation
+
+All component documentation is located in the `docs/` folder. The following documentation files are available:
+
+### Button Component
+- File: `docs/Button.md`
+- Purpose: A highly customizable and interactive UI element designed to handle user actions with various styles, sizes, and variants. Supports loading states, disabled states, and click events.
+- Key Features: Variants (solid, outline, ghost, icon), sizes (small, medium), loading states, disabled states, fluid layout, margin spacing
+- Types: ButtonProps, ButtonSize, ButtonVariant, ButtonMargin, SpacingOption
+
+### Typography Component
+- File: `docs/Typography.md`
+- Purpose: Provides a consistent set of text styles for headings, paragraphs, and inline elements, ensuring clear hierarchy, readability, and brand-aligned communication across the interface.
+- Key Features: Variants (h1-h6, p, span, small), text alignment, word breaking, bold text, margin spacing
+- Types: TypographyProps, TypographyVariant, TypographyAlign, TypographyWordBreak, TypographyMargin, SpacingOption
+
+### Icon Component
+- File: `docs/Icon.md`
+- Purpose: A versatile and reusable element for displaying scalable vector icons, supporting various sizes, colors, and custom classes. Uses Google Material Symbols.
+- Key Features: Material Symbols integration, sizes (small, medium, large), colors (black, white, gray, blue, green, red, yellow, orange)
+- Types: IconProps, IconSize, IconColor
+- Note: Requires Material Symbols font to be included in the project
+
+### MediaObject Component
+- File: `docs/MediaObject.md`
+- Purpose: A flexible layout pattern that combines media (icon, image, or avatar) with content (title and description). Perfect for displaying user profiles, product cards, notifications, and any content that needs a media element alongside text.
+- Key Features: Media types (icon, image, avatar), title and description, margin and padding spacing, clickable support
+- Types: MediaObjectProps, MediaObjectMargin, MediaObjectPadding, SpacingOption
+- Related Components: Uses Avatar and Typography internally
+
+## Documentation Format
+
+All documentation files follow a consistent format:
+1. Component name and purpose
+2. Props/Inputs table with types, defaults, and descriptions
+3. TypeScript type definitions
+4. Usage examples covering common use cases
+5. Behavior notes explaining important details
+6. Related components and links
+
+## Quick Reference
+
+| Component | File | Primary Use Case |
+|-----------|------|------------------|
+| Button | `docs/Button.md` | User actions and interactions |
+| Typography | `docs/Typography.md` | Text content and headings |
+| Icon | `docs/Icon.md` | Visual icons and symbols |
+| MediaObject | `docs/MediaObject.md` | Media + content layouts |
+
+## Additional Resources
+
+- Component source code: `src/components/`
+- Storybook documentation: Available at the project's Storybook instance
+- Type definitions: `src/types/` and component-specific type exports
+- Storybook static build: `storybook-static/`
+- Component stories: `src/stories/`
+
+## Installation
+
+```bash
+npm install cleanplate
+```
+
+## Usage
+
+```jsx
+import { Button, Typography, Icon, MediaObject } from "cleanplate";
+```
