@@ -34,6 +34,11 @@ export default {
       plugins: [],
       minimize: true,
       extract: true,
+      use: {
+        sass: {
+          silenceDeprecations: ["legacy-js-api"],
+        },
+      },
     }),
     babel({
       exclude: "node_modules/**",

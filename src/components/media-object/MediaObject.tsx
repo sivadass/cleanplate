@@ -54,7 +54,12 @@ const MediaObject: React.FC<MediaObjectProps> = ({
   return (
     <div className={classNames} onClick={handleClick} {...rest}>
       <div className={styles["cp-media-object-media"]}>
-        <Avatar name={mediaAvatar} image={mediaImage} icon={mediaIcon} />
+        <Avatar 
+          name={mediaAvatar} 
+          image={mediaImage} 
+          icon={mediaIcon} 
+          onClick={onClick ? handleClick : undefined} 
+        />
       </div>
       <div className={styles["cp-media-object-content"]}>
         <Typography isBold>{title}</Typography>
