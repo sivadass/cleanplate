@@ -36,6 +36,12 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: MediaObjectProps, MediaObjectMargin, MediaObjectPadding, SpacingOption
 - Related Components: Uses Avatar and Typography internally
 
+### Container Component
+- File: `docs/Container.md`
+- Purpose: A layout wrapper that controls display type, width, spacing (margin, padding, gap), and flex alignment. Use it to structure content, create flex layouts, and apply consistent spacing.
+- Key Features: Display (block, flex, inline-block), width variants, margin/padding/gap spacing, flex align/justify, responsive width at 600px
+- Types: ContainerProps, ContainerDisplay, ContainerWidth, ContainerJustify, ContainerAlign, ContainerSpacing, SpacingOption
+
 ## Documentation Format
 
 All documentation files follow a consistent format:
@@ -54,6 +60,7 @@ All documentation files follow a consistent format:
 | Typography | `docs/Typography.md` | Text content and headings |
 | Icon | `docs/Icon.md` | Visual icons and symbols |
 | MediaObject | `docs/MediaObject.md` | Media + content layouts |
+| Container | `docs/Container.md` | Layout, spacing, and flex structure |
 
 ## Additional Resources
 
@@ -72,5 +79,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Container } from "cleanplate";
 ```

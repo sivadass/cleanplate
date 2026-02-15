@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./Container.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
@@ -8,7 +7,52 @@ import getClassNames from "../../utils/get-class-names";
 
 const GAP_OPTIONS = SPACING_OPTIONS.slice(0, 10);
 
-const Container = ({
+export type SpacingOption = (typeof SPACING_OPTIONS)[number];
+
+export type ContainerDisplay = "inline-block" | "block" | "flex";
+
+export type ContainerWidth =
+  | "small"
+  | "medium"
+  | "large"
+  | "extra-large"
+  | "quarter"
+  | "half"
+  | "three-quarters"
+  | "full";
+
+export type ContainerJustify =
+  | "space-between"
+  | "center"
+  | "space-around"
+  | "space-evenly"
+  | "flex-end"
+  | "flex-start";
+
+export type ContainerAlign = "start" | "center" | "end";
+
+export type ContainerSpacing = string | SpacingOption[];
+
+export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+  margin?: ContainerSpacing;
+  padding?: ContainerSpacing;
+  /** Base display or empty string for unset */
+  display?: ContainerDisplay | "";
+  /** Base align or empty string for unset */
+  align?: ContainerAlign | "";
+  /** Base justify or empty string for unset */
+  justify?: ContainerJustify | "";
+  /** Base width or empty string for unset */
+  width?: ContainerWidth | "";
+  showBorder?: boolean;
+  className?: string;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  style?: React.CSSProperties;
+  gap?: ContainerSpacing;
+}
+
+const Container: React.FC<ContainerProps> = ({
   children,
   margin = "m-0",
   padding = "p-4",
@@ -20,7 +64,8 @@ const Container = ({
   className = "",
   onClick,
   style,
-  gap ="4",
+  gap = "4",
+  ...rest
 }) => {
   const displayClass = `display-${display}`;
   const justifyClass = `justify-${justify}`;
@@ -46,58 +91,22 @@ const Container = ({
     className
   );
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof onClick === "function") {
       onClick(e);
     }
   };
+
   return (
     <div
       className={containerClasses}
-      onClick={(e) => handleClick(e)}
+      onClick={handleClick}
       style={style}
+      {...rest}
     >
       {children}
     </div>
   );
-};
-
-Container.propTypes = {
-  display: PropTypes.oneOf(["inline-block", "block", "flex"]),
-  width: PropTypes.oneOf([
-    "small",
-    "medium",
-    "large",
-    "extra-large",
-    "quarter",
-    "half",
-    "three-quarters",
-    "full",
-  ]),
-  showBorder: PropTypes.bool,
-  justify: PropTypes.oneOf([
-    "space-between",
-    "center",
-    "space-around",
-    "space-evenly",
-    "flex-end",
-    "flex-start",
-  ]),
-  align: PropTypes.oneOf(["start", "center", "end"]),
-  onClick: PropTypes.func,
-  margin: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
-  padding: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
-  gap: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(GAP_OPTIONS),
-  ]),
-  style: PropTypes.object,
 };
 
 export default Container;

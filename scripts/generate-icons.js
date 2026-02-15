@@ -3,9 +3,13 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
+// Material Symbols Outlined variable font codepoints (same format: "icon_name codepoint" per line)
+const CODEPOINTS_URL =
+  'https://raw.githubusercontent.com/google/material-design-icons/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints';
+
 async function fetchMaterialIcons() {
   return new Promise((resolve, reject) => {
-    https.get('https://raw.githubusercontent.com/google/material-design-icons/master/font/MaterialIcons-Regular.codepoints', (res) => {
+    https.get(CODEPOINTS_URL, (res) => {
       let data = '';
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => resolve(data));
@@ -15,11 +19,11 @@ async function fetchMaterialIcons() {
 }
 
 function parseCodepoints(data) {
-  // Each line is: icon_name codepoint
+  // Same format as Material Icons: each line is "icon_name codepoint" (space-separated)
   return data
     .split('\n')
-    .filter(line => line.trim())
-    .map(line => line.split(' ')[0])
+    .filter((line) => line.trim())
+    .map((line) => line.split(' ')[0])
     .sort();
 }
 
@@ -90,7 +94,7 @@ function generateTypeScript(icons, categories) {
 // Total icons: ${icons.length}
 
 /**
- * All available Material Icon names.
+ * All available Material Symbol names (Material Symbols Outlined variable font).
  * Source: https://fonts.google.com/icons
  */
 export const MATERIAL_ICON_NAMES = [
@@ -100,7 +104,7 @@ ${icons.map(icon => `  '${icon}'`).join(',\n')}
 export type MaterialIconName = typeof MATERIAL_ICON_NAMES[number];
 
 /**
- * Material Icons organized by category for easier discovery.
+ * Material Symbols organized by category for easier discovery.
  * Use this when you need to find icons for specific purposes.
  */
 export const ICON_CATEGORIES = {
@@ -113,7 +117,7 @@ ${Object.entries(categories)
 } as const;
 
 /**
- * Helper function to check if a string is a valid Material Icon name.
+ * Helper function to check if a string is a valid Material Symbol name.
  */
 export function isMaterialIconName(name: string): name is MaterialIconName {
   return MATERIAL_ICON_NAMES.includes(name as MaterialIconName);
@@ -132,7 +136,7 @@ export function getIconsByCategory(category: keyof typeof ICON_CATEGORIES): read
 
 async function main() {
   try {
-    console.log('Fetching Material Icons codepoints...');
+    console.log('Fetching Material Symbols Outlined codepoints...');
     const data = await fetchMaterialIcons();
     
     console.log('Parsing icon names...');

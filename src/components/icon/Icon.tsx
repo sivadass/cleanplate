@@ -17,7 +17,7 @@ const Icon: React.FC<IconProps> = ({
   name = "",
   size = "medium",
   className = "",
-  color = "black",
+  color = "#222222",
   ...rest
 }) => {
   return (
