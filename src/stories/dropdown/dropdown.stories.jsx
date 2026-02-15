@@ -130,6 +130,14 @@ export const Default = {
       control: { type: "boolean" },
       description: "Close dropdown when pressing Escape",
     },
+    className: {
+      control: "text",
+      description: "Class name for the wrapper div",
+    },
+    contentClassName: {
+      control: "text",
+      description: "Class name applied to the cloned content element",
+    },
   },
   args: {
     placement: "bottom-end",
@@ -154,6 +162,30 @@ export const PlacementVariants = {
   name: "Placement Variants",
   render: () => (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "var(--space-4)", padding: "var(--space-4)" }}>
+      <div style={{ textAlign: "center" }}>
+        <Typography variant="small" margin="m-0 m-b-2">Bottom Start</Typography>
+        <Dropdown
+          trigger={<Button size="small">Menu</Button>}
+          content={<SimpleMenuContent />}
+          placement="bottom-start"
+        />
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <Typography variant="small" margin="m-0 m-b-2">Bottom</Typography>
+        <Dropdown
+          trigger={<Button size="small">Menu</Button>}
+          content={<SimpleMenuContent />}
+          placement="bottom"
+        />
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <Typography variant="small" margin="m-0 m-b-2">Bottom End</Typography>
+        <Dropdown
+          trigger={<Button size="small">Menu</Button>}
+          content={<SimpleMenuContent />}
+          placement="bottom-end"
+        />
+      </div>
       <div style={{ textAlign: "center" }}>
         <Typography variant="small" margin="m-0 m-b-2">Top Start</Typography>
         <Dropdown
@@ -378,7 +410,7 @@ export const RenderTriggerAdvanced = {
           renderTrigger={({ isOpen, isAnimating, triggerProps }) => (
             <Button 
               {...triggerProps}
-              variant={isOpen ? 'primary' : 'outline'}
+              variant={isOpen ? 'solid' : 'outline'}
               style={{ 
                 opacity: isAnimating ? 0.7 : 1,
                 transform: isOpen ? 'scale(1.05)' : 'scale(1)',

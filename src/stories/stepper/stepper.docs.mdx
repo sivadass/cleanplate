@@ -1,0 +1,112 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Stepper, Container, Typography } from "../../index";
+
+<Meta title="atoms/Stepper/Documentation" />
+
+# Stepper
+
+The `Stepper` component displays a sequence of steps (e.g. for a wizard or checkout). Each step has a label, optional active/completed state, and can be clickable. Use it for multi-step flows and progress indication.
+
+## Features
+
+- **Variants:** `horizontal` or `vertical` layout
+- **Config-driven:** Steps defined via `config` array (label, key, isActive, isCompleted)
+- **Clickable:** Optional `onClick(step)` when a step is clicked
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0)
+- **Completed state:** Shows a check (done) icon when `isCompleted` is true
+
+## Usage
+
+```jsx
+import { Stepper } from "cleanplate";
+
+const config = [
+  { label: "Details", key: "/details", isActive: true },
+  { label: "Review", key: "/review", isCompleted: true },
+  { label: "Confirm", key: "/confirm" },
+];
+
+const App = () => (
+  <Stepper config={config} variant="horizontal" onClick={(step) => console.log(step.key)} />
+);
+```
+
+## Examples
+
+### Horizontal and vertical
+
+```jsx
+<Stepper config={config} variant="horizontal" />
+<Stepper config={config} variant="vertical" />
+```
+
+### With active and completed steps
+
+```jsx
+<Stepper
+  config={[
+    { label: "Step 1", key: "1", isCompleted: true },
+    { label: "Step 2", key: "2", isCompleted: true },
+    { label: "Step 3", key: "3", isActive: true },
+    { label: "Step 4", key: "4" },
+  ]}
+  variant="horizontal"
+/>
+```
+
+### With onClick
+
+```jsx
+const [active, setActive] = useState("step1");
+const config = [
+  { label: "Step 1", key: "step1", isActive: active === "step1" },
+  { label: "Step 2", key: "step2", isActive: active === "step2" },
+];
+
+<Stepper config={config} onClick={(step) => setActive(step.key)} />
+```
+
+### With Container
+
+```jsx
+<Container padding="4">
+  <Stepper config={config} variant="horizontal" margin="b-2" />
+</Container>
+```
+
+## Config shape (StepperStepConfig)
+
+Each step in `config` is an object:
+
+| Field         | Type    | Required | Description                          |
+|---------------|---------|----------|--------------------------------------|
+| label         | string  | yes      | Display label for the step           |
+| key           | string  | yes      | Unique key (e.g. used as href/path)  |
+| isCompleted   | boolean | no       | Show completed state (check icon)   |
+| isActive      | boolean | no       | Highlight as current step            |
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Stepper config={config} margin="0" />
+<Stepper config={config} margin={["b-2"]} />
+```
+
+## Behavior
+
+- **Links:** Each step label is rendered as an `<a href={step.key}>`; use `onClick` and `e.preventDefault()` (handled inside the component) to control navigation without following the href.
+- **Completed:** When `step.isCompleted` is true, the step number is replaced with a done icon.
+- **Active:** When `step.isActive` is true, the step gets the active CSS class.
+
+## Props
+
+<ArgsTable of={Stepper} />
+
+## Related components
+
+- **Container** – Use for layout and spacing around the stepper
+- **Typography** – Often used for headings above or near the stepper
+- **Icon** – Used internally for the done icon on completed steps

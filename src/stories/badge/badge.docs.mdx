@@ -1,0 +1,131 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Badge, Container } from "../../index";
+
+<Meta title="components/Badge/Documentation" />
+
+# Badge
+
+The `Badge` component displays a short label with a colored background. Use it for status (e.g. success, error), tags, counts, or any small inline label. It supports five variants and optional custom class names.
+
+## Features
+
+- **Label**: Text shown inside the badge; optional (can be empty)
+- **Variants**: `default`, `info`, `success`, `warning`, `error` for semantic colors (gray, blue, green, orange, red)
+- **Inline**: Renders as a small inline-block element; fits inside text or next to other elements
+- **Custom styling**: Optional `className` for layout or overrides
+- **Design system**: Uses design tokens for colors (e.g. `var(--blue)`, `var(--green)`)
+
+## Usage
+
+```jsx
+import { Badge } from "cleanplate";
+
+const App = () => (
+  <>
+    <Badge label="New" variant="info" />
+    <Badge label="Active" variant="success" />
+    <Badge label="Draft" variant="default" />
+  </>
+);
+```
+
+## Basic Example
+
+```jsx
+import React from "react";
+import { Badge } from "cleanplate";
+
+const BasicBadge = () => <Badge label="New" />;
+```
+
+## Variants
+
+Use the `variant` prop to set the background color and semantic meaning:
+
+### Default
+
+Neutral gray; good for generic labels or drafts.
+
+```jsx
+<Badge label="Default" variant="default" />
+```
+
+### Info
+
+Blue; for informational or in-progress states.
+
+```jsx
+<Badge label="Info" variant="info" />
+```
+
+### Success
+
+Green; for success, active, or completed states.
+
+```jsx
+<Badge label="Success" variant="success" />
+```
+
+### Warning
+
+Orange; for warnings or attention needed.
+
+```jsx
+<Badge label="Warning" variant="warning" />
+```
+
+### Error
+
+Red; for errors, failed, or destructive states.
+
+```jsx
+<Badge label="Error" variant="error" />
+```
+
+## With Container
+
+Use Container (or any layout component) to space multiple badges:
+
+```jsx
+import { Badge, Container } from "cleanplate";
+
+<Container display="flex" gap="2">
+  <Badge label="Default" variant="default" />
+  <Badge label="Info" variant="info" />
+  <Badge label="Success" variant="success" />
+  <Badge label="Warning" variant="warning" />
+  <Badge label="Error" variant="error" />
+</Container>
+```
+
+## Custom className
+
+Pass `className` for layout or style overrides:
+
+```jsx
+<Badge label="Custom" variant="success" className="my-badge" />
+```
+
+## Behavior
+
+- **Element**: Renders as a `<p>` with `display: inline-block` in styles so it sits inline with text or other elements.
+- **Label**: Optional; omit or pass an empty string if you only need the colored pill (e.g. for a dot indicator).
+- **Variants**: Each variant maps to a CSS class (e.g. `styles["success"]`) that sets the background color via design tokens.
+
+## Best practices
+
+1. **Short labels**: Keep text brief (e.g. "New", "Active", "Draft") so the badge stays compact.
+2. **Semantic variants**: Use `success` for positive states, `error` for failures, `warning` for caution, `info` for neutral/info.
+3. **Accessibility**: Ensure sufficient contrast; Badge uses white text on colored backgrounds by default.
+4. **With Table**: Use Badge inside Table’s `customRender` for status columns (e.g. order status, user role).
+
+## Props
+
+<ArgsTable of={Badge} />
+
+## Related components
+
+- **Container** – Use for layout and spacing when showing multiple badges
+- **Table** – Often use Badge in `customRender` for status or tag columns
+- **Typography** – For longer text; Badge is for short labels only

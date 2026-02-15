@@ -1,49 +1,260 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Table } from "../../index";
+import { Table, Badge, Container } from "../../index";
 
 <Meta title="atoms/Table/Documentation" />
 
 # Table
 
-The `Table` component provides a clean, accessible way to organize and display structured data. Designed with flexibility in mind, it supports a variety of use cases, from simple tabular layouts to complex data-heavy views.
+The `Table` component displays structured data in a table with configurable columns, optional pagination, and a responsive mobile view. On viewports under 768px, if `mobileColumns` is provided, rows are shown as MediaObject cards instead of a table.
 
-### Usage
+## Features
 
-```
+- **Column config**: Define columns with `id`, `title`, `textAlign`, `widthPercentage`, and optional `customRender` for custom cell content
+- **Row data**: `data` is an array of row objects; each row’s keys should match column `id`s for default rendering
+- **Variants**: `default` and `compact` for different densities
+- **Mobile view**: When viewport &lt; 768px and `mobileColumns` is set, each row is rendered as a MediaObject (title, description, media from row keys)
+- **Pagination**: Optional built-in Pagination via `totalItems`, `currentPage`, `rowsPerPage`, `onPageChange`, `onRowsPerPageChange`; use `hidePagination` to hide it
+- **Row click**: Optional `onRowClick(rowData)` for clickable rows
+- **Spacing**: Margin via suffix API (e.g. `"0"` → m-0)
+- **Design system**: Uses Typography, Container, Pagination, MediaObject
+
+## Usage
+
+```jsx
 import { Table } from "cleanplate";
+import { useState } from "react";
 
 const App = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const columns = [
+    { id: "name", title: "Name", widthPercentage: "40%" },
+    { id: "email", title: "Email", widthPercentage: "40%" },
+    { id: "role", title: "Role", widthPercentage: "20%", textAlign: "right" },
+  ];
+
+  const data = [
+    { name: "John Doe", email: "john@example.com", role: "Admin" },
+    { name: "Jane Doe", email: "jane@example.com", role: "User" },
+  ];
+
   return (
     <Table
-      columns={[
-        {
-          id: "full_name",
-          title: "Full Name",
-          widthPercentage: "60%",
-        },
-        {
-          id: "email_address",
-          title: "Email Address",
-          widthPercentage: "40%",
-          textAlign: "right"
-        }
-      ]}
-      data={[
-        {
-          full_name: "John Doe",
-          email_address: "john@doe.com",
-        },
-        {
-          full_name: "Jane Doe",
-          email_address: "jane@doe.com",
-        }
-      ]}
+      columns={columns}
+      data={data}
+      totalItems={data.length}
+      totalLabel="Items"
+      currentPage={currentPage}
+      rowsPerPage={rowsPerPage}
+      onPageChange={(page) => setCurrentPage(page)}
+      onRowsPerPageChange={(rpp) => {
+        setRowsPerPage(rpp);
+        setCurrentPage(1);
+      }}
+      onRowClick={(row) => console.log(row)}
     />
   );
-}
+};
 ```
 
-### Props
+## Basic Example
+
+Minimal table without pagination (no `totalItems` or `hidePagination` means pagination area is hidden when `totalItems` is 0).
+
+```jsx
+import React from "react";
+import { Table } from "cleanplate";
+
+const BasicTable = () => (
+  <Table
+    columns={[
+      { id: "name", title: "Full Name" },
+      { id: "email", title: "Email" },
+    ]}
+    data={[
+      { name: "John Doe", email: "john@doe.com" },
+      { name: "Jane Doe", email: "jane@doe.com" },
+    ]}
+  />
+);
+```
+
+## Column configuration
+
+Each column is an object with:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `id` | string | Key used to read the cell value from each row (`row[id]`) |
+| `title` | string | Header label |
+| `textAlign` | `"left"` \| `"center"` \| `"right"` | Alignment for header and cells; default `"left"` |
+| `widthPercentage` | string | e.g. `"40%"` for column width |
+| `customRender` | (rowData, column) => ReactNode | Custom cell content; receives row object and column config |
+
+### Custom cell rendering
+
+Use `customRender` to render badges, buttons, or any React node in a cell:
+
+```jsx
+const columns = [
+  { id: "name", title: "Name", widthPercentage: "50%" },
+  {
+    id: "status",
+    title: "Status",
+    widthPercentage: "50%",
+    textAlign: "right",
+    customRender: (rowData, column) => (
+      <Container display="flex" justify="flex-end">
+        <Badge label={String(rowData.status)} variant="success" />
+      </Container>
+    ),
+  },
+];
+```
+
+## Variants
+
+### Default
+
+Standard table density.
+
+```jsx
+<Table
+  variant="default"
+  columns={columns}
+  data={data}
+/>
+```
+
+### Compact
+
+Tighter spacing for dense data.
+
+```jsx
+<Table
+  variant="compact"
+  columns={columns}
+  data={data}
+/>
+```
+
+## Mobile view
+
+When the viewport width is under 768px and `mobileColumns` is provided, the table is replaced by a list of MediaObject items. Each row becomes one MediaObject; you map row keys to the MediaObject’s title, description, and optional media.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `title` | string | Row key for the main title (e.g. `"name"`) |
+| `description` | string | Row key for the description (e.g. `"email"`) |
+| `mediaAvatar` | string | Row key for avatar URL or value |
+| `mediaIcon` | string | Static Material icon name for all rows |
+| `mediaImage` | string | Static image URL for all rows |
+| `margin`, `padding`, `className` | string / array | Passed to each MediaObject |
+
+```jsx
+<Table
+  columns={columns}
+  data={data}
+  mobileColumns={{
+    title: "name",
+    description: "email",
+    mediaAvatar: "avatarUrl",  // optional: key in row for avatar
+  }}
+/>
+```
+
+## Pagination
+
+To show the built-in Pagination below the table, pass:
+
+- **totalItems** (number): Total count across all pages (e.g. from your API).
+- **currentPage** (number): Current 1-based page (controlled).
+- **onPageChange** (function): Called with `(page, rowsPerPage)` when the user changes the page.
+- **rowsPerPage**, **rowsPerPageOptions**, **onRowsPerPageChange**, **totalLabel**: Same as the [Pagination](/docs/atoms-pagination-documentation--docs) component.
+
+Set **hidePagination** to `true` to hide the pagination bar even when `totalItems` &gt; 0 (e.g. if you render your own Pagination below the table).
+
+```jsx
+<Table
+  columns={columns}
+  data={data}
+  totalItems={100}
+  currentPage={currentPage}
+  rowsPerPage={rowsPerPage}
+  onPageChange={(page) => setCurrentPage(page)}
+  onRowsPerPageChange={(rpp) => {
+    setRowsPerPage(rpp);
+    setCurrentPage(1);
+  }}
+/>
+```
+
+## Row click
+
+Use `onRowClick` to handle clicks on a row (the whole row is clickable):
+
+```jsx
+<Table
+  columns={columns}
+  data={data}
+  onRowClick={(rowData) => {
+    console.log("Clicked row:", rowData);
+  }}
+/>
+```
+
+## Margin and className
+
+Apply outer spacing with `margin` (suffix or array of spacing suffixes; component adds `m-` prefix) and extra classes with `className`:
+
+```jsx
+<Table
+  columns={columns}
+  data={data}
+  margin="0"
+  className="my-table"
+/>
+```
+
+## Behavior
+
+### Required props
+
+- **columns** (array): Column definitions; each has at least `id` and `title`.
+- **data** (array): Array of row objects; keys should match column `id`s.
+
+### Optional props
+
+- **variant**: `"default"` or `"compact"`.
+- **onRowClick**: Called with the row object when a row is clicked.
+- **mobileColumns**: When set and viewport &lt; 768px, rows render as MediaObjects.
+- **totalItems**, **totalLabel**, **currentPage**, **rowsPerPage**, **rowsPerPageOptions**, **onPageChange**, **onRowsPerPageChange**: Built-in Pagination; if `totalItems` is 0 or not passed, the pagination area is not shown unless you need the bar for other reasons.
+- **hidePagination**: Set to `true` to hide the built-in pagination.
+- **margin**, **className**: Spacing and extra classes.
+
+### Responsive behavior
+
+- **≥ 768px**: Renders a `<table>` with thead/tbody.
+- **&lt; 768px** and **mobileColumns** set: Renders a list of MediaObject components; each row is one MediaObject with title/description/media derived from row keys.
+
+## Best practices
+
+1. **Column ids**: Use `id` values that match your row object keys so default cell rendering works.
+2. **Pagination state**: Keep `currentPage` and `rowsPerPage` in parent state and update them in `onPageChange` and `onRowsPerPageChange`.
+3. **totalItems**: For server-side pagination, pass the total count from your API so the Pagination component shows the correct number of pages.
+4. **Mobile**: Always provide `mobileColumns` with at least `title` (and optionally `description`) when you want a readable mobile layout.
+5. **customRender**: Return a React node (e.g. Badge, Button) and use `rowData` and `column` for type-safe access to row and column config.
+
+## Props
 
 <ArgsTable of={Table} />
+
+## Related components
+
+- **Pagination** – Used inside Table when `totalItems` &gt; 0 and `hidePagination` is false; can also be used standalone below the table.
+- **MediaObject** – Used for the mobile view when `mobileColumns` is set.
+- **Typography** – Used for header and cell text.
+- **Container** – Used for layout and in custom cell content (e.g. with Badge).
+- **Badge** – Often used in `customRender` for status or tags.

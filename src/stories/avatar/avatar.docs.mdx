@@ -1,29 +1,107 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Avatar } from "../../index";
+import { Avatar, Container } from "../../index";
 
 <Meta title="atoms/Avatar/Documentation" />
 
 # Avatar
 
-The `Avatar` component is a simple and adaptable UI element for displaying user initials, supporting customizable sizes, spacing, and click events. It seamlessly integrates into layouts and enhances user interfaces with a personalized touch.
+The `Avatar` component displays user initials, an image, or a Material icon. It supports sizes, spacing (margin), and click events, and fits into layouts via standard div attributes.
 
-### Usage
+## Features
 
-```
+- **Display modes:** Initials (from `name`), image (from `image` URL), or icon (Material icon name)
+- **Priority:** When both are set, image is shown over icon over initials
+- **Sizes:** `small`, `medium`
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0, `"2"` → m-2)
+- **Interactive:** Optional `onClick`; root is a `div` so it accepts standard HTML attributes
+
+## Usage
+
+```jsx
 import { Avatar } from "cleanplate";
 
-const App = () => {
-  return (
-    <Avatar
-        name="John Doe"
-        size="medium"
-        className="my-custom-avatar"
-    />
-  );
-}
+const App = () => (
+  <Avatar name="John Doe" size="medium" className="my-custom-avatar" />
+);
 ```
 
-### Props
+## Examples
+
+### Name (initials)
+
+When only `name` is provided, the avatar shows initials and uses the name for background color and `title`.
+
+```jsx
+<Avatar name="John Doe" size="medium" />
+<Avatar name="Jane Smith" size="small" margin="2" />
+```
+
+### Icon
+
+When `icon` is set (and no `image`), a Material icon is shown. Use any valid Material icon name.
+
+```jsx
+<Avatar icon="person" size="medium" />
+<Avatar icon="account_circle" size="small" />
+```
+
+### Image
+
+When `image` is set, the avatar shows the image. `name` is still used for `alt` and `title`.
+
+```jsx
+<Avatar
+  name="John Doe"
+  image="https://example.com/photo.jpg"
+  size="medium"
+/>
+```
+
+### Clickable avatar
+
+Pass `onClick` to make the avatar interactive.
+
+```jsx
+<Avatar
+  name="John Doe"
+  size="medium"
+  onClick={() => console.log("Avatar clicked")}
+/>
+```
+
+### With Container
+
+```jsx
+<Container display="flex" gap="2" align="center">
+  <Avatar name="Alice" size="small" margin="0" />
+  <Avatar icon="person" size="medium" margin="0" />
+  <Avatar image="https://example.com/avatar.jpg" name="Bob" size="medium" margin="0" />
+</Container>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Avatar name="User" margin="0" />
+<Avatar name="User" margin={["2", "b-3"]} />
+```
+
+## Behavior
+
+- **Display priority:** If `image` is set, the image is shown. Else if `icon` is set, the icon is shown. Otherwise initials from `name` are shown.
+- **Initials:** Derived from the first letter of each word in `name` (up to 2 characters).
+- **Background color:** When showing initials, background is generated from `name` (deterministic hash).
+- **Root element:** A `div`; all standard div attributes (`className`, `style`, `data-*`, `aria-*`, etc.) are supported via props.
+
+## Props
 
 <ArgsTable of={Avatar} />
+
+## Related components
+
+- **MediaObject** – Often uses Avatar for the media slot (user profiles, lists)
+- **Container** – Use for layout and spacing around avatars
+- **Icon** – Avatar can display an icon via the `icon` prop (Material icon name)

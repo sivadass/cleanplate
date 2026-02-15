@@ -7,53 +7,65 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-};
-
-export const Default = {
-  name: "Default Confirmation",
   argTypes: {
+    isOpen: {
+      control: "boolean",
+      description: "Whether the dialog is visible",
+    },
     title: {
-      control: { type: "text" },
-      description: "Title of the confirmation dialog",
+      control: "text",
+      description: "Dialog title",
     },
     description: {
-      control: { type: "text" },
-      description: "Description text for the confirmation",
+      control: "text",
+      description: "Optional description below the title",
     },
     primaryButtonLabel: {
-      control: { type: "text" },
-      description: "Label for the primary action button",
+      control: "text",
+      description: "Label for the primary (confirm) button",
     },
     secondaryButtonLabel: {
-      control: { type: "text" },
-      description: "Label for the secondary action button",
+      control: "text",
+      description: "Label for the secondary (cancel) button; empty hides it",
     },
     size: {
       options: ["small", "medium", "large"],
-      control: "inline-radio",
-      description: "Size of the confirmation dialog",
+      control: { type: "select" },
+      description: "Size of the dialog",
     },
     variant: {
       options: ["default", "destructive", "warning"],
-      control: "inline-radio",
-      description: "Variant of the confirmation dialog",
+      control: { type: "select" },
+      description: "Visual variant",
     },
     showCloseButton: {
-      control: { type: "boolean" },
-      description: "Whether to show the close button",
+      control: "boolean",
+      description: "Whether to show the X close button",
     },
     closeOnOverlayClick: {
-      control: { type: "boolean" },
+      control: "boolean",
       description: "Whether clicking the overlay closes the dialog",
     },
     closeOnEscape: {
-      control: { type: "boolean" },
+      control: "boolean",
       description: "Whether pressing Escape closes the dialog",
+    },
+    className: {
+      control: "text",
+      description: "Additional class names for the dialog panel",
+    },
+    overlayClassName: {
+      control: "text",
+      description: "Additional class names for the overlay",
     },
     onClose: { action: "onClose" },
     onPrimaryButtonClick: { action: "onPrimaryButtonClick" },
     onSecondaryButtonClick: { action: "onSecondaryButtonClick" },
   },
+};
+
+export const Default = {
+  name: "Default Confirmation",
   args: {
     title: "Confirm Action",
     description: "Are you sure you want to proceed? This action cannot be undone.",
@@ -64,8 +76,11 @@ export const Default = {
     isOpen: true,
   },
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(true);
-    
+    const [isOpen, setIsOpen] = useState(args.isOpen ?? true);
+    React.useEffect(() => {
+      setIsOpen(args.isOpen ?? false);
+    }, [args.isOpen]);
+
     const handleClose = () => {
       setIsOpen(false);
       args.onClose?.();
@@ -81,15 +96,12 @@ export const Default = {
 
     return (
       <div>
-        <Button 
-          onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
-        >
+        <Button onClick={() => setIsOpen(true)} margin="b-4">
           Open Confirmation
         </Button>
-        <ConfirmDialog 
-          {...args} 
-          isOpen={isOpen} 
+        <ConfirmDialog
+          {...args}
+          isOpen={isOpen}
           onClose={handleClose}
           onPrimaryButtonClick={handlePrimaryClick}
           onSecondaryButtonClick={handleSecondaryClick}
@@ -113,7 +125,7 @@ export const DestructiveAction = {
       <div>
         <Button 
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
           variant="solid"
         >
           Delete Item
@@ -148,7 +160,7 @@ export const WarningAction = {
       <div>
         <Button 
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
           variant="outline"
         >
           Proceed with Warning
@@ -188,7 +200,7 @@ export const CustomButtons = {
       <div>
         <Button 
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Save Changes
         </Button>
@@ -222,7 +234,7 @@ export const NoDescription = {
       <div>
         <Button 
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Simple Confirmation
         </Button>
@@ -254,7 +266,7 @@ export const LargeConfirmation = {
       <div>
         <Button 
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Large Confirmation
         </Button>
@@ -287,7 +299,7 @@ export const WithCloseButton = {
       <div>
         <Button 
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Confirmation with Close
         </Button>

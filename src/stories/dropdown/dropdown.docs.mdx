@@ -6,16 +6,16 @@ import { Dropdown, Typography, Button, MenuList } from "../../index";
 
 # Dropdown
 
-The `Dropdown` component is a flexible floating UI element that displays content relative to a trigger element. Built with `@floating-ui/react-dom`, it provides robust positioning, collision detection, and accessibility features for creating menus, tooltips, and other floating content.
+The `Dropdown` component is a flexible floating UI element that displays content relative to a trigger element. It uses custom positioning with flip and shift so the panel stays in the viewport, and supports multiple trigger modes (element, render prop, or label).
 
 ## Features
 
-- **Robust Positioning**: Uses floating-ui for intelligent positioning
-- **Collision Detection**: Automatically flips and shifts to stay in viewport
-- **Portal Rendering**: Renders content in a portal to avoid z-index issues
-- **Accessibility**: Proper ARIA attributes and keyboard interactions
-- **Flexible Content**: Accept any React element as trigger and content
-- **Customizable Behavior**: Control close behavior and positioning options
+- **Positioning**: Places content relative to the trigger with configurable placement (12 options) and offset
+- **Collision handling**: Optional flip and shift so the dropdown stays in viewport
+- **Accessibility**: ARIA attributes (`aria-expanded`, `aria-haspopup`), Escape to close, click-outside to close
+- **Flexible trigger**: Use a `trigger` element, `renderTrigger` function, or `triggerLabel` for a default button
+- **Content**: Any React element as content; receives `onClose` and `className` when cloned
+- **Customizable behavior**: Control close-on-outside, close-on-escape, flip, shift
 
 ## Usage
 
@@ -513,8 +513,6 @@ The Dropdown component includes comprehensive accessibility features:
 - **Keyboard Navigation**: Escape key support for closing
 - **Focus Management**: Maintains focus on trigger element
 - **Screen Reader Support**: Proper announcements and labeling
-- **Portal Rendering**: Avoids z-index and overflow issues
-
 ## Props
 
 <ArgsTable of={Dropdown} />

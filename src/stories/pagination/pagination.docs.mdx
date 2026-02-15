@@ -6,29 +6,181 @@ import { Pagination } from "../../index";
 
 # Pagination
 
-The `Pagination` component enables users to navigate through large sets of content by breaking them into manageable pages, ensuring clarity and ease of browsing.
+The `Pagination` component lets users move through large sets of content by splitting them into pages. It shows total count, previous/next and page-number buttons, and an optional “rows per page” select.
 
-### Usage
+## Features
 
-```
+- **Page navigation**: Previous/next and direct page number buttons with ellipsis for long ranges
+- **Rows per page**: Optional select for 10, 20, 50 (or custom options)
+- **Variants**: `default` (full layout) and `minimal` (simplified layout)
+- **Controlled**: `currentPage` and `rowsPerPage` are controlled; use `onPageChange` and `onRowsPerPageChange` to update state
+- **Spacing**: Margin via suffix API (e.g. `"0"` → m-0) or array of spacing suffixes
+- **Design system**: Uses Container, Button, Typography, Icon, and FormControls.Select
+
+## Usage
+
+```jsx
 import { Pagination } from "cleanplate";
+import { useState } from "react";
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   const handlePageChange = (page, rPerPage) => {
     setCurrentPage(page);
   };
+
+  const handleRowsPerPageChange = (rPerPage) => {
+    setRowsPerPage(rPerPage);
+    setCurrentPage(1);
+  };
+
   return (
     <Pagination
-      variant="default"
-      totalItem={1200}
+      totalItems={1200}
+      totalLabel="Items"
       currentPage={currentPage}
-      onPageChange={(page, rPerPage) => handlePageChange(page, rPerPage)}
+      rowsPerPage={rowsPerPage}
+      onPageChange={handlePageChange}
+      onRowsPerPageChange={handleRowsPerPageChange}
     />
   );
-}
+};
 ```
 
-### Props
+## Basic Example
+
+```jsx
+import React, { useState } from "react";
+import { Pagination } from "cleanplate";
+
+const BasicPagination = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  return (
+    <Pagination
+      totalItems={120}
+      totalLabel="Items"
+      currentPage={currentPage}
+      rowsPerPage={rowsPerPage}
+      onPageChange={(page) => setCurrentPage(page)}
+      onRowsPerPageChange={(rpp) => {
+        setRowsPerPage(rpp);
+        setCurrentPage(1);
+      }}
+    />
+  );
+};
+```
+
+## Variants
+
+### Default
+
+Full layout with total count, page buttons, and “Show per page” select.
+
+```jsx
+<Pagination
+  variant="default"
+  totalItems={120}
+  currentPage={currentPage}
+  rowsPerPage={rowsPerPage}
+  onPageChange={handlePageChange}
+  onRowsPerPageChange={handleRowsPerPageChange}
+/>
+```
+
+### Minimal
+
+Simplified layout; same props, different styling.
+
+```jsx
+<Pagination
+  variant="minimal"
+  totalItems={120}
+  currentPage={currentPage}
+  rowsPerPage={rowsPerPage}
+  onPageChange={handlePageChange}
+  onRowsPerPageChange={handleRowsPerPageChange}
+/>
+```
+
+## Rows per page options
+
+Use `rowsPerPageOptions` to control the “Show per page” choices. Each option is `{ label: string, value: number }`.
+
+```jsx
+const customOptions = [
+  { label: "10", value: 10 },
+  { label: "25", value: 25 },
+  { label: "50", value: 50 },
+  { label: "100", value: 100 },
+];
+
+<Pagination
+  totalItems={500}
+  currentPage={currentPage}
+  rowsPerPage={rowsPerPage}
+  rowsPerPageOptions={customOptions}
+  onPageChange={handlePageChange}
+  onRowsPerPageChange={handleRowsPerPageChange}
+/>
+```
+
+## Margin and className
+
+Apply outer spacing with `margin` (suffix or array of suffixes; component adds `m-` prefix) and extra classes with `className`.
+
+```jsx
+<Pagination
+  totalItems={120}
+  currentPage={currentPage}
+  rowsPerPage={rowsPerPage}
+  onPageChange={handlePageChange}
+  margin="0"
+  className="my-pagination"
+/>
+```
+
+## Behavior
+
+### Required props
+
+- **totalItems** (number): Total item count across all pages.
+- **currentPage** (number): Current 1-based page (controlled).
+- **onPageChange** (function): Called with `(page, rowsPerPage)` when the user changes the page.
+
+### Optional props
+
+- **rowsPerPage** (number): Current rows per page; default `10`.
+- **rowsPerPageOptions**: Options for the rows-per-page select; default `[{ label: "10", value: 10 }, ...]`.
+- **onRowsPerPageChange** (function): Called with the new rows-per-page number when the user changes it.
+- **totalLabel** (string): Label for the total count, e.g. `"Items"`; default `"Items"`.
+- **variant**: `"default"` or `"minimal"`.
+- **margin**, **className**: Spacing and extra classes.
+
+### Callbacks
+
+- **onPageChange(page, rowsPerPage)**: Fired when the user clicks a page number or prev/next. Update `currentPage` (and optionally `rowsPerPage`) in state.
+- **onRowsPerPageChange(rowsPerPage)**: Fired when the user picks a new rows-per-page value. Update `rowsPerPage` and typically reset `currentPage` to `1`.
+
+## Best practices
+
+1. **Controlled state**: Keep `currentPage` and `rowsPerPage` in parent state and pass them in; use the callbacks to update state.
+2. **Reset page on rows change**: When `onRowsPerPageChange` runs, set `currentPage` to `1` to avoid being on a page that no longer exists.
+3. **Total from server**: Use the total count from your API for `totalItems` so the page count and buttons stay correct.
+4. **Accessibility**: The component uses buttons and a select; ensure focus and labels work with your layout (e.g. in a table or list).
+
+## Props
 
 <ArgsTable of={Pagination} />
+
+## Related components
+
+- **Table** – Often used with Pagination for tabular data (e.g. `hidePagination={false}` and a Pagination below the table).
+- **Container** – Used inside Pagination for layout.
+- **Button** – Used for prev/next and page numbers.
+- **FormControls.Select** – Used for the “Show per page” dropdown.
+- **Typography**, **Icon** – Used for labels and chevrons.

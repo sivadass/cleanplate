@@ -1,0 +1,96 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Alert, Container, Typography } from "../../index";
+
+<Meta title="atoms/Alert/Documentation" />
+
+# Alert
+
+The `Alert` component displays a short message with an optional variant icon and dismiss button. Use it for inline feedback (success, error, warning, info) or neutral notices.
+
+## Features
+
+- **Variants:** `default`, `info`, `warning`, `error`, `success` (each with a matching icon)
+- **Sizes:** `small`, `medium`, `large` (affects alert and icon/close button)
+- **Dismissible:** Optional close button; `onDismiss` is called when the user dismisses
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0, `"b-2"` → m-b-2)
+- **Unmounts on dismiss:** When dismissed, the alert returns `null` (removed from the tree)
+
+## Usage
+
+```jsx
+import { Alert } from "cleanplate";
+
+const App = () => (
+  <Alert message="Your changes were saved." variant="success" />
+);
+```
+
+## Examples
+
+### Variants
+
+Use `variant` to set the style and icon (info, warning, error, success, default).
+
+```jsx
+<Alert message="Default alert" variant="default" />
+<Alert message="Info message" variant="info" />
+<Alert message="Warning message" variant="warning" />
+<Alert message="Error message" variant="error" />
+<Alert message="Success message" variant="success" />
+```
+
+### Sizes
+
+```jsx
+<Alert message="Small alert" variant="info" size="small" />
+<Alert message="Medium alert" variant="info" size="medium" />
+<Alert message="Large alert" variant="info" size="large" />
+```
+
+### Dismissible
+
+Show a close button and handle dismiss with `onDismiss`.
+
+```jsx
+<Alert
+  message="This can be dismissed."
+  variant="info"
+  canDismiss
+  onDismiss={() => console.log("Dismissed")}
+/>
+```
+
+### With Container
+
+```jsx
+<Container padding="4">
+  <Alert message="Alert inside a container" variant="warning" margin="b-2" />
+</Container>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Alert message="Alert" margin="0" />
+<Alert message="Alert" margin={["b-2", "b-4"]} />
+```
+
+## Behavior
+
+- **Icon:** Each variant maps to an icon via `getVariantIcon` (e.g. error → "error", success → "check_circle", info → "info").
+- **Dismiss:** When `canDismiss` is true, a button with a close icon is shown. Clicking it sets internal visibility to false, calls `onDismiss`, and the component returns `null`.
+- **Root element:** A `div`; no extra HTML attributes are forwarded (Alert does not extend `HTMLAttributes`).
+
+## Props
+
+<ArgsTable of={Alert} />
+
+## Related components
+
+- **Typography** – Often used for headings or text near alerts
+- **Container** – Use for layout and spacing around alerts
+- **Button** – Used internally for the dismiss button when `canDismiss` is true
+- **Icon** – Used for the variant icon and the close icon

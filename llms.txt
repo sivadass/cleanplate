@@ -36,11 +36,88 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: MediaObjectProps, MediaObjectMargin, MediaObjectPadding, SpacingOption
 - Related Components: Uses Avatar and Typography internally
 
+### Avatar Component
+- File: `docs/Avatar.md`
+- Purpose: Displays user initials, an image, or a Material icon in a consistent circle. Use for user identity in headers, lists, MediaObject, or anywhere you need a compact avatar.
+- Key Features: Display modes (initials, image, icon), sizes (small, medium), margin spacing (suffix API: e.g. "0" → m-0), optional onClick
+- Types: AvatarProps, AvatarSize, AvatarMargin, SpacingOption; icon prop uses MaterialIconName from Icon
+- Related Components: Used by MediaObject; often used with Container, Icon
+
 ### Container Component
 - File: `docs/Container.md`
 - Purpose: A layout wrapper that controls display type, width, spacing (margin, padding, gap), and flex alignment. Use it to structure content, create flex layouts, and apply consistent spacing.
 - Key Features: Display (block, flex, inline-block), width variants, margin/padding/gap spacing (suffix API: e.g. "4" → p-4, "0" → m-0), flex align/justify, responsive width at 600px
 - Types: ContainerProps, ContainerDisplay, ContainerWidth, ContainerJustify, ContainerAlign, ContainerSpacing, SpacingOption
+
+### Dropdown Component
+- File: `docs/Dropdown.md`
+- Purpose: Floating panel that shows content relative to a trigger. Use for menus, option lists, or any content that opens on click.
+- Key Features: 12 placements, flip/shift to stay in viewport, three trigger modes (trigger element, renderTrigger, triggerLabel), close on outside click or Escape
+- Types: DropdownProps, DropdownPlacement, DropdownTriggerProps, DropdownRenderTriggerParams
+- Related Components: Button (trigger), MenuList (content)
+
+### Alert Component
+- File: `docs/Alert.md`
+- Purpose: Displays a short message with optional variant icon and dismiss button. Use for inline feedback (success, error, warning, info) or neutral notices.
+- Key Features: Variants (default, info, warning, error, success), sizes (small, medium, large), dismissible with onDismiss, margin spacing (suffix API), unmounts on dismiss
+- Types: AlertProps, AlertSize, AlertVariant, AlertMargin, SpacingOption
+- Related Components: Typography, Container, Button, Icon (used internally)
+
+### Spinner Component
+- File: `docs/Spinner.md`
+- Purpose: Loading indicator that shows a rotating Material icon. Use for progress or activity states.
+- Key Features: Six icon options (progress_activity, autorenew, sync, refresh, cached, loop), sizes (small, medium, large), variants (light, dark), margin spacing (suffix API)
+- Types: SpinnerProps, SpinnerSize, SpinnerVariant, SpinnerIcon, SpinnerMargin, SpacingOption
+- Related Components: Container, Icon (used internally)
+
+### Stepper Component
+- File: `docs/Stepper.md`
+- Purpose: Displays a sequence of steps for wizards or multi-step flows. Each step has label, key, and optional active/completed state; steps can be clickable.
+- Key Features: Variants (horizontal, vertical), config-driven steps (StepperStepConfig), optional onClick(step), margin spacing (suffix API), completed state shows done icon
+- Types: StepperProps, StepperStepConfig, StepperVariant, StepperMargin, SpacingOption
+- Related Components: Container, Typography, Icon (used internally)
+
+### ConfirmDialog Component
+- File: `docs/ConfirmDialog.md`
+- Purpose: Modal dialog for confirmation actions (delete, discard, proceed). Title, description, primary/secondary buttons, optional close button; overlay and Escape to close.
+- Key Features: Variants (default, destructive, warning), sizes (small, medium, large), showCloseButton, closeOnOverlayClick, closeOnEscape, focus and body scroll management
+- Types: ConfirmDialogProps, ConfirmDialogSize, ConfirmDialogVariant
+- Related Components: Button, Typography, Icon (used internally)
+
+### Modal Component
+- File: `docs/Modal.md`
+- Purpose: Full-featured modal overlay for forms, long content, or custom dialogs. Optional title, close button, footer primary/secondary buttons; overlay and Escape to close.
+- Key Features: Sizes (small, medium, large, fullscreen), showCloseButton, closeOnOverlayClick, closeOnEscape, margin spacing, contentClassName/overlayClassName, focus and body scroll management
+- Types: ModalProps, ModalSize, ModalMargin, SpacingOption
+- Related Components: ConfirmDialog (simpler confirm-only), Button, Typography, Icon (used internally)
+
+### Pagination Component
+- File: `docs/Pagination.md`
+- Purpose: Navigate large content sets by pages. Shows total count, prev/next and page-number buttons with ellipsis, and optional rows-per-page select. Controlled via currentPage and rowsPerPage.
+- Key Features: Variants (default, minimal), rowsPerPageOptions, onPageChange(page, rowsPerPage), onRowsPerPageChange(rowsPerPage), margin spacing (suffix API)
+- Types: PaginationProps, PaginationVariant, PaginationMargin, PaginationRowsPerPageOption, SpacingOption
+- Related Components: Table (often used with Pagination), Container, Button, FormControls.Select, Typography, Icon (used internally)
+
+### Table Component
+- File: `docs/Table.md`
+- Purpose: Displays structured data in a table with configurable columns, optional built-in pagination, and responsive mobile view (MediaObject cards when viewport < 768px and mobileColumns set).
+- Key Features: columns (id, title, textAlign, widthPercentage, customRender), data (TableRow[]), variants (default, compact), mobileColumns, onRowClick, pagination props (totalItems, currentPage, onPageChange, etc.), hidePagination, margin (suffix API)
+- Types: TableProps, TableColumn, TableRow, TableVariant, TableMargin, TableColumnTextAlign, TableMobileColumns, SpacingOption
+- Related Components: Pagination (built-in), MediaObject (mobile view), Typography, Container, Badge (often in customRender)
+
+### Badge Component
+- File: `docs/Badge.md`
+- Purpose: Short label with colored background for status, tags, or counts. Inline-block, five variants.
+- Key Features: label, variant (default, info, success, warning, error), className
+- Types: BadgeProps, BadgeVariant
+- Related Components: Table (often in customRender for status columns), Container (layout for multiple badges)
+
+### Pills Component
+- File: `docs/Pills.md`
+- Purpose: Single tag/chip with modes: read-only (label only), edit (input + submit), remove (label + close). For tags, filters, editable chips.
+- Key Features: mode (read-only, edit, remove), label, placeholder, onSubmit(value), onRemove(), isLoading, isDisabled, margin (suffix API)
+- Types: PillsProps, PillsMode, PillsMargin, SpacingOption
+- Related Components: Container (layout), FormControls.Input, Button, Icon, Spinner, Typography (used internally)
 
 ## Documentation Format
 
@@ -60,7 +137,18 @@ All documentation files follow a consistent format:
 | Typography | `docs/Typography.md` | Text content and headings |
 | Icon | `docs/Icon.md` | Visual icons and symbols |
 | MediaObject | `docs/MediaObject.md` | Media + content layouts |
+| Avatar | `docs/Avatar.md` | User identity (initials, image, or icon) |
 | Container | `docs/Container.md` | Layout, spacing, and flex structure |
+| Dropdown | `docs/Dropdown.md` | Menus and floating panels |
+| Alert | `docs/Alert.md` | Inline feedback and notices |
+| Spinner | `docs/Spinner.md` | Loading and activity indicator |
+| Stepper | `docs/Stepper.md` | Multi-step flows and wizards |
+| ConfirmDialog | `docs/ConfirmDialog.md` | Confirmation modals and destructive actions |
+| Modal | `docs/Modal.md` | Forms, long content, and custom dialogs |
+| Pagination | `docs/Pagination.md` | Page navigation for tables and lists |
+| Table | `docs/Table.md` | Structured tabular data with optional pagination and mobile view |
+| Badge | `docs/Badge.md` | Status labels, tags, and counts with colored variants |
+| Pills | `docs/Pills.md` | Tags/chips with read-only, edit, and remove modes |
 
 ## Additional Resources
 
@@ -79,5 +167,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject, Container } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, Spinner, Stepper, ConfirmDialog, Modal, Pagination, Table, Badge, Pills } from "cleanplate";
 ```

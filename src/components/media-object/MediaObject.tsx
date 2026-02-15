@@ -1,9 +1,9 @@
 import React from "react";
 import Avatar from "../avatar";
+import type { MaterialIconName } from "../icon/material-icon-names";
 import styles from "./MediaObject.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
-import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import Typography from "../typography";
 import type { SpacingOption } from "../typography";
@@ -13,7 +13,7 @@ export type MediaObjectMargin = string | SpacingOption[];
 export type MediaObjectPadding = string | SpacingOption[];
 
 export interface MediaObjectProps extends React.HTMLAttributes<HTMLDivElement> {
-  mediaIcon?: string;
+  mediaIcon?: MaterialIconName | string;
   mediaImage?: string;
   mediaAvatar?: string;
   title: string;
@@ -57,7 +57,7 @@ const MediaObject: React.FC<MediaObjectProps> = ({
         <Avatar 
           name={mediaAvatar} 
           image={mediaImage} 
-          icon={mediaIcon} 
+          icon={mediaIcon ? (mediaIcon as MaterialIconName) : undefined} 
           onClick={onClick ? handleClick : undefined} 
         />
       </div>

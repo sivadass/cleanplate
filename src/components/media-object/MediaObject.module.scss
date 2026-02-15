@@ -1,6 +1,7 @@
 .cp-media-object {
   display: flex;
   gap: var(--space-4);
+  padding: var(--space-2);
   &:hover {
     background-color: var(--gray-light);
     cursor: pointer;

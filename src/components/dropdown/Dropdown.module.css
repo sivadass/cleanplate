@@ -27,6 +27,7 @@
   --offset: 4px;
   --shift-x: 0px;
   --shift-y: 0px;
+  overflow: hidden;
 }
 
 /* Bottom placements */

@@ -1,29 +1,91 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Spinner } from "../../index";
+import { Spinner, Container, Typography } from "../../index";
 
 <Meta title="atoms/Spinner/Documentation" />
 
 # Spinner
 
-The `Spinner` component is a lightweight and customizable loading indicator, supporting various sizes, themes, and spacing options. It seamlessly conveys progress or activity status within different layouts and design systems.
+The `Spinner` component is a loading indicator that shows a rotating icon. Use it for progress or activity states. It supports multiple icon styles, sizes, and light/dark variants.
 
-### Usage
+## Features
 
-```
+- **Icon options:** Choose from 6 Material icons that animate smoothly when rotated: `progress_activity` (default), `autorenew`, `sync`, `refresh`, `cached`, `loop`
+- **Sizes:** `small`, `medium`, `large`
+- **Variants:** `light` or `dark` (for contrast on different backgrounds)
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0)
+- **Structure:** Renders inside a Container with a rotating Icon
+
+## Usage
+
+```jsx
 import { Spinner } from "cleanplate";
 
-const App = () => {
-  return (
-    <Spinner
-        size="medium"
-        className="my-custom-icon"
-        variant="light"
-    />
-  );
-}
+const App = () => (
+  <Spinner size="medium" variant="light" className="my-custom-spinner" />
+);
 ```
 
-### Props
+## Examples
+
+### Icon options
+
+You can use different icons for the spinner; all are rotated by the same CSS animation.
+
+```jsx
+<Spinner />                        // progress_activity (default)
+<Spinner icon="autorenew" />       // Circular arrows
+<Spinner icon="sync" />            // Sync arrows
+<Spinner icon="refresh" />         // Refresh arrows
+<Spinner icon="cached" />           // Cache/refresh arrows
+<Spinner icon="loop" />             // Circular loop
+```
+
+### Sizes
+
+```jsx
+<Spinner size="small" />
+<Spinner size="medium" />
+<Spinner size="large" />
+```
+
+### Variants (light / dark)
+
+Use `light` on light backgrounds and `dark` on dark backgrounds for visibility.
+
+```jsx
+<Spinner variant="light" />
+<Spinner variant="dark" />
+```
+
+### With Container
+
+```jsx
+<Container padding="4">
+  <Spinner icon="sync" size="medium" margin="b-2" />
+</Container>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Spinner margin="0" />
+<Spinner margin={["b-2"]} />
+```
+
+## Behavior
+
+- **Animation:** The icon is rotated continuously via CSS (class `cp-spinner-icon` in Spinner styles). All supported icons work with this rotation.
+- **Layout:** Spinner wraps an Icon in a Container; size and variant classes apply to the wrapper for layout and color.
+- **Margin:** Applied via `getSpacingClass` with prefix `m-`; pass suffix only.
+
+## Props
 
 <ArgsTable of={Spinner} />
+
+## Related components
+
+- **Container** – Used internally as the wrapper; use for layout around the spinner
+- **Icon** – Used internally to render the Material icon that rotates

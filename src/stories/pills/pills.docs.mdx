@@ -1,29 +1,115 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Pills } from "../../index";
+import { Pills, Container, Typography } from "../../index";
 
 <Meta title="atoms/Pills/Documentation" />
 
 # Pills
 
-The `Pills` component is a compact and versatile UI element for displaying categorized or selectable options, supporting dynamic styling, custom sizes, and interactive states. It is ideal for tagging, filtering, or showcasing key information in a visually appealing way.
+The `Pills` component is a compact UI element that shows a single tag or label and can switch between read-only, edit (inline input + submit), and remove (label + close button) modes. Use it for tags, filters, or editable chips where the user can add or remove items.
 
-### Usage
+## Features
 
-```
+- **Modes:** `read-only` (label only), `edit` (input + check button to submit), `remove` (label + close button to remove)
+- **Label:** Text shown in read-only and remove mode; in edit mode the input is controlled internally until submit
+- **Callbacks:** `onSubmit(value)` when the user submits in edit mode (Enter or check); `onRemove()` when the user clicks close in remove mode
+- **Loading / disabled:** `isLoading` shows a spinner instead of the action icon; `isDisabled` disables the input and button
+- **Spacing:** Margin via suffix API (e.g. `"0"` → m-0); component adds `m-` prefix
+- **Design system:** Uses Container, Typography, FormControls.Input, Button, Icon, Spinner
+
+## Usage
+
+```jsx
 import { Pills } from "cleanplate";
+import { useState } from "react";
 
 const App = () => {
+  const [tag, setTag] = useState("Taxi");
   return (
     <Pills
-        size="medium"
-        className="my-custom-icon"
-        variant="light"
+      label={tag}
+      mode="edit"
+      placeholder="Add tag"
+      onSubmit={(v) => setTag(v)}
+      onRemove={() => setTag("")}
     />
   );
-}
+};
 ```
 
-### Props
+## Examples
+
+### Modes
+
+**Read-only:** Label only, no input or button.
+
+```jsx
+<Pills label="Taxi" mode="read-only" />
+```
+
+**Edit:** Input plus check button; submit via Enter or check; `onSubmit(value)` is called.
+
+```jsx
+<Pills
+  label=""
+  mode="edit"
+  placeholder="Add tag"
+  onSubmit={(v) => console.log("Submitted:", v)}
+/>
+```
+
+**Remove:** Label plus close button; `onRemove()` is called when the user clicks close.
+
+```jsx
+<Pills
+  label="Taxi"
+  mode="remove"
+  onRemove={() => console.log("Removed")}
+/>
+```
+
+### With Container
+
+Use Container to lay out multiple pills or add padding.
+
+```jsx
+<Container padding="4" display="flex" gap="2">
+  <Pills label="Tag 1" mode="read-only" />
+  <Pills label="Tag 2" mode="remove" onRemove={() => {}} />
+  <Pills mode="edit" placeholder="Add tag" onSubmit={(v) => {}} />
+</Container>
+```
+
+### Loading and disabled
+
+```jsx
+<Pills label="Saving..." mode="edit" isLoading />
+<Pills label="Tag" mode="remove" isDisabled onRemove={() => {}} />
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Pills label="Tag" mode="read-only" margin="0" />
+<Pills label="Tag" mode="read-only" margin={["b-2"]} />
+```
+
+## Behavior
+
+- **Edit mode:** Internal state holds the input value; on submit (Enter or check), `onSubmit(value)` is called and the internal value is cleared. The parent can pass a new `label` to reflect the saved value.
+- **Remove mode:** Clicking the close button calls `onRemove()`; the parent typically clears or removes the item and may unmount the pill.
+- **Root structure:** A Container wraps an inner Container (pill-wrapper); the wrapper gets a class for the current mode (`read-only`, `edit`, `remove`).
+- **Placeholder:** Only used in edit mode for the input field.
+
+## Props
 
 <ArgsTable of={Pills} />
+
+## Related components
+
+- **Container** – Use for layout and padding around one or more pills
+- **FormControls.Input** – Used internally in edit mode
+- **Button**, **Icon**, **Spinner** – Used for the action button and loading state
+- **Typography** – Used for the label in read-only and remove mode
