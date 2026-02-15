@@ -39,7 +39,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Container Component
 - File: `docs/Container.md`
 - Purpose: A layout wrapper that controls display type, width, spacing (margin, padding, gap), and flex alignment. Use it to structure content, create flex layouts, and apply consistent spacing.
-- Key Features: Display (block, flex, inline-block), width variants, margin/padding/gap spacing, flex align/justify, responsive width at 600px
+- Key Features: Display (block, flex, inline-block), width variants, margin/padding/gap spacing (suffix API: e.g. "4" → p-4, "0" → m-0), flex align/justify, responsive width at 600px
 - Types: ContainerProps, ContainerDisplay, ContainerWidth, ContainerJustify, ContainerAlign, ContainerSpacing, SpacingOption
 
 ## Documentation Format

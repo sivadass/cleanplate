@@ -27,7 +27,7 @@ const App = () => {
     <Container 
       display="flex" 
       justify="space-between" 
-      padding="p-4" 
+      padding="4" 
       showBorder
     >
       <Typography variant="h3">Left Content</Typography>
@@ -48,7 +48,7 @@ const BasicContainer = () => {
     <Container 
       display="block" 
       width="medium" 
-      padding="p-4" 
+      padding="4" 
       showBorder
     >
       <Typography variant="h3" margin="m-0 m-b-2">
@@ -69,7 +69,7 @@ const BasicContainer = () => {
 
 ### Block Display
 ```jsx
-<Container display="block" showBorder padding="p-3">
+<Container display="block" showBorder padding="3">
   <Typography variant="p">Block container takes full width</Typography>
 </Container>
 ```
@@ -81,8 +81,8 @@ const BasicContainer = () => {
   justify="space-between" 
   align="center" 
   showBorder 
-  padding="p-3"
-  gap="g-2"
+  padding="3"
+  gap="2"
 >
   <Typography variant="p">Left item</Typography>
   <Typography variant="p">Right item</Typography>
@@ -91,10 +91,10 @@ const BasicContainer = () => {
 
 ### Inline Block Display
 ```jsx
-<Container display="inline-block" showBorder padding="p-3" margin="m-r-2">
+<Container display="inline-block" showBorder padding="3" margin="r-2">
   <Typography variant="p">Inline block 1</Typography>
 </Container>
-<Container display="inline-block" showBorder padding="p-3">
+<Container display="inline-block" showBorder padding="3">
   <Typography variant="p">Inline block 2</Typography>
 </Container>
 ```
@@ -176,30 +176,32 @@ The Container component provides several predefined width options:
 
 ## Spacing System
 
+`padding`, `margin`, and `gap` accept the **spacing suffix** (e.g. `"0"`–`"9"`, `"auto"`, `"x-2"`, `"b-3"`). The component applies the `p-`, `m-`, or `g-` prefix internally.
+
 ### Padding
 ```jsx
-// Single padding value
-<Container padding="p-2">Small padding</Container>
-<Container padding="p-4">Medium padding</Container>
-<Container padding="p-6">Large padding</Container>
+// Single padding value (suffix: "2" → p-2, "4" → p-4)
+<Container padding="2">Small padding</Container>
+<Container padding="4">Medium padding</Container>
+<Container padding="6">Large padding</Container>
 
-// Multiple padding values
-<Container padding={["p-2", "p-4"]}>Custom padding</Container>
+// Multiple padding values (array of suffixes)
+<Container padding={["2", "4"]}>Custom padding</Container>
 ```
 
 ### Margin
 ```jsx
-// Single margin value
-<Container margin="m-2">Small margin</Container>
-<Container margin="m-4">Medium margin</Container>
+// Single margin value (suffix: "2" → m-2, "4" → m-4)
+<Container margin="2">Small margin</Container>
+<Container margin="4">Medium margin</Container>
 
 // Multiple margin values
-<Container margin={["m-2", "m-4"]}>Custom margin</Container>
+<Container margin={["2", "4"]}>Custom margin</Container>
 ```
 
 ### Gap (for flex containers)
 ```jsx
-<Container display="flex" gap="g-2">
+<Container display="flex" gap="2">
   <div>Item 1</div>
   <div>Item 2</div>
 </Container>
@@ -209,17 +211,17 @@ The Container component provides several predefined width options:
 
 ### Quarter Grid (4 columns)
 ```jsx
-<Container display="flex" gap="g-2">
-  <Container width="quarter" showBorder padding="p-3">
+<Container display="flex" gap="2">
+  <Container width="quarter" showBorder padding="3">
     <Typography variant="h4">Column 1</Typography>
   </Container>
-  <Container width="quarter" showBorder padding="p-3">
+  <Container width="quarter" showBorder padding="3">
     <Typography variant="h4">Column 2</Typography>
   </Container>
-  <Container width="quarter" showBorder padding="p-3">
+  <Container width="quarter" showBorder padding="3">
     <Typography variant="h4">Column 3</Typography>
   </Container>
-  <Container width="quarter" showBorder padding="p-3">
+  <Container width="quarter" showBorder padding="3">
     <Typography variant="h4">Column 4</Typography>
   </Container>
 </Container>
@@ -227,11 +229,11 @@ The Container component provides several predefined width options:
 
 ### Half Grid (2 columns)
 ```jsx
-<Container display="flex" gap="g-2">
-  <Container width="half" showBorder padding="p-3">
+<Container display="flex" gap="2">
+  <Container width="half" showBorder padding="3">
     <Typography variant="h4">Left Column</Typography>
   </Container>
-  <Container width="half" showBorder padding="p-3">
+  <Container width="half" showBorder padding="3">
     <Typography variant="h4">Right Column</Typography>
   </Container>
 </Container>
@@ -239,14 +241,14 @@ The Container component provides several predefined width options:
 
 ### Three Quarters + Quarter Layout
 ```jsx
-<Container display="flex" gap="g-2">
-  <Container width="three-quarters" showBorder padding="p-3">
+<Container display="flex" gap="2">
+  <Container width="three-quarters" showBorder padding="3">
     <Typography variant="h4">Main Content</Typography>
     <Typography variant="p">
       This is the main content area taking up three quarters of the space.
     </Typography>
   </Container>
-  <Container width="quarter" showBorder padding="p-3">
+  <Container width="quarter" showBorder padding="3">
     <Typography variant="h4">Sidebar</Typography>
     <Typography variant="p">
       Sidebar content goes here.
@@ -269,7 +271,7 @@ const InteractiveContainer = () => {
       justify="center" 
       align="center" 
       showBorder 
-      padding="p-4"
+      padding="4"
       style={{ 
         cursor: "pointer",
         transition: "all 0.2s ease"
@@ -294,10 +296,10 @@ const CardLayout = () => {
       display="flex" 
       justify="space-between" 
       showBorder 
-      padding="p-4" 
-      gap="g-3"
+      padding="4" 
+      gap="3"
     >
-      <Container width="half" showBorder padding="p-3">
+      <Container width="half" showBorder padding="3">
         <Typography variant="h4" margin="m-0 m-b-2">
           Product Card
         </Typography>
@@ -306,7 +308,7 @@ const CardLayout = () => {
         </Typography>
         <Button variant="primary">Add to Cart</Button>
       </Container>
-      <Container width="half" showBorder padding="p-3">
+      <Container width="half" showBorder padding="3">
         <Typography variant="h4" margin="m-0 m-b-2">
           Product Image
         </Typography>
@@ -323,13 +325,13 @@ const CardLayout = () => {
 ```jsx
 const DashboardLayout = () => {
   return (
-    <Container display="flex" gap="g-4">
+    <Container display="flex" gap="4">
       {/* Sidebar */}
-      <Container width="quarter" showBorder padding="p-3">
+      <Container width="quarter" showBorder padding="3">
         <Typography variant="h4" margin="m-0 m-b-3">
           Navigation
         </Typography>
-        <Container display="flex" flexDirection="column" gap="g-2">
+        <Container display="flex" flexDirection="column" gap="2">
           <Button variant="outline" isFluid>Dashboard</Button>
           <Button variant="outline" isFluid>Analytics</Button>
           <Button variant="outline" isFluid>Settings</Button>
@@ -337,18 +339,18 @@ const DashboardLayout = () => {
       </Container>
       
       {/* Main Content */}
-      <Container width="three-quarters" showBorder padding="p-4">
+      <Container width="three-quarters" showBorder padding="4">
         <Typography variant="h3" margin="m-0 m-b-4">
           Dashboard
         </Typography>
-        <Container display="flex" gap="g-3" margin="m-b-4">
-          <Container width="half" showBorder padding="p-3">
+        <Container display="flex" gap="3" margin="b-4">
+          <Container width="half" showBorder padding="3">
             <Typography variant="h5" margin="m-0 m-b-2">
               Stats Card 1
             </Typography>
             <Typography variant="p">Some statistics</Typography>
           </Container>
-          <Container width="half" showBorder padding="p-3">
+          <Container width="half" showBorder padding="3">
             <Typography variant="h5" margin="m-0 m-b-2">
               Stats Card 2
             </Typography>
@@ -375,7 +377,7 @@ const DashboardLayout = () => {
 2. **Consistent Spacing**: Use the design system spacing tokens
    ```jsx
    // Good: Design system spacing
-   <Container padding="p-4" margin="m-2">
+   <Container padding="4" margin="2">
    
    // Avoid: Custom spacing values
    <Container style={{ padding: "16px", margin: "8px" }}>
@@ -384,7 +386,7 @@ const DashboardLayout = () => {
 3. **Flex for Layouts**: Use flex display for complex layouts
    ```jsx
    // Good: Flex layout
-   <Container display="flex" justify="space-between" gap="g-2">
+   <Container display="flex" justify="space-between" gap="2">
    
    // Avoid: Manual positioning
    <Container style={{ display: "flex", justifyContent: "space-between" }}>
