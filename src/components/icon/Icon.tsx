@@ -1,4 +1,5 @@
 import React from "react";
+import type { MaterialIconName } from "./material-icon-names";
 import styles from "./Icon.module.css";
 
 export type IconSize = "small" | "medium" | "large";
@@ -6,7 +7,7 @@ export type IconSize = "small" | "medium" | "large";
 export type IconColor = "black" | "white" | "gray" | "blue" | "green" | "red" | "yellow" | "orange";
 
 export interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
-  name?: string;
+  name?: MaterialIconName;
   size?: IconSize;
   className?: string;
   color?: IconColor;

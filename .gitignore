@@ -131,3 +131,4 @@ out
 **/.DS_Store
 /storybook-static
 /dist
+src/generated/

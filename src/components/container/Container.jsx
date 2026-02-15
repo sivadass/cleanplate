@@ -11,7 +11,7 @@ const GAP_OPTIONS = SPACING_OPTIONS.slice(0, 10);
 const Container = ({
   children,
   margin = "m-0",
-  padding = "p-0",
+  padding = "p-4",
   display = "",
   align = "",
   justify = "",

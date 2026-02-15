@@ -11,7 +11,8 @@
     "build-package": "rollup -c && npm run build-types",
     "build-types": "tsc --emitDeclarationOnly",
     "type-check": "tsc --noEmit",
-    "generate-llms-txt": "storybook-llms-extractor --config llms.config.js"
+    "generate-llms-txt": "storybook-llms-extractor --config llms.config.js",
+    "generate-icons": "node scripts/generate-icons.js"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,8 @@
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "baseline-browser-mapping": "^2.9.16",
+    "cheerio": "^1.2.0",
+    "node-fetch": "^2.7.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

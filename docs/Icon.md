@@ -6,7 +6,7 @@ Purpose: A versatile and reusable element for displaying scalable vector icons, 
 
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| name | string | no | "" | The name of the Material Symbol icon to display. See [Google Material Icons](https://fonts.google.com/icons) for available icon names. |
+| name | MaterialIconName | no | "" | The name of the Material Symbol icon to display. Use a value from `MATERIAL_ICON_NAMES` or `ICON_CATEGORIES` (see **Icon names and categories** below). |
 | size | "small" \| "medium" \| "large" | no | "medium" | Size variant of the icon. |
 | color | "black" \| "white" \| "gray" \| "blue" \| "green" \| "red" \| "yellow" \| "orange" | no | "black" | Color variant of the icon. |
 | className | string | no | "" | Additional class names for the root element. |
@@ -27,12 +27,42 @@ type IconColor = "black" | "white" | "gray" | "blue" | "green" | "red" | "yellow
 ### IconProps
 ```typescript
 interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
-  name?: string;
+  name?: MaterialIconName;
   size?: IconSize;
   className?: string;
   color?: IconColor;
 }
 ```
+
+### MaterialIconName
+Icon names are typed as `MaterialIconName` (a union of all valid names). The package also exports `MATERIAL_ICON_NAMES` (array of all names) and `ICON_CATEGORIES` (icons grouped by purpose) from the Icon component’s generated data.
+
+## Icon names and categories
+
+Icon names are sourced from the generated `material-icon-names` module. Icons are grouped into **categories** to make it easier to pick a name for the `name` prop. Use these when suggesting or choosing icons.
+
+| Category | Description | Example icon names |
+| --- | --- | --- |
+| **navigation** | Back, forward, menu, home, close | `arrow_back`, `arrow_forward`, `home`, `menu`, `close` |
+| **action** | Add, edit, delete, search, settings, refresh | `add`, `edit`, `delete`, `search`, `settings`, `refresh` |
+| **communication** | Chat, email, message | `chat`, `chat_bubble`, `email`, `message` |
+| **content** | Copy, cut, paste | `content_copy`, `content_cut`, `content_paste` |
+| **device** | Phone, devices, thermostat | `phone`, `devices`, `device_thermostat`, `phonelink` |
+| **editor** | Format, align, list, bold, italic | `format_bold`, `format_align_center`, `format_list_bulleted` |
+| **file** | Folder, insert, drive | `folder`, `folder_open`, `insert_drive_file`, `insert_photo` |
+| **hardware** | Keyboard, computer | `keyboard`, `computer`, `keyboard_arrow_down` |
+| **image** | Photo, camera, image | `image`, `photo`, `photo_camera`, `photo_library` |
+| **maps** | Map, place | `map`, `place`, `maps_ugc` |
+| **notification** | Notifications, alerts | `notifications`, `notifications_active`, `notification_add` |
+| **social** | Person, group, share | `person`, `person_add`, `group`, `share` |
+| **toggle** | Check, checkbox, toggle | `check`, `check_circle`, `check_box`, `toggle_on` |
+| **av** | Play, pause, volume | `play_arrow`, `pause`, `volume_up`, `volume_off` |
+| **alert** | Error, warning | `error`, `error_outline`, `warning`, `warning_amber` |
+| **other** | All remaining Material Icons not in the above categories | Many additional names (e.g. `star`, `favorite`, `bookmark`) |
+
+- For **full autocomplete** in TypeScript, use the `MaterialIconName` type or import `MATERIAL_ICON_NAMES` / `ICON_CATEGORIES` from `cleanplate` (or from the package’s icon module).
+- Names use **underscores** (e.g. `cloud_upload`), not spaces.
+- See [Google Material Icons](https://fonts.google.com/icons) for the full visual reference.
 
 ## Installation
 
@@ -178,7 +208,7 @@ export const Example = () => (
 ## Behavior Notes
 
 - The component uses Google Material Symbols (Material Icons) font, which must be included in your project for icons to display correctly.
-- Icon names should match the exact names from the [Google Material Icons library](https://fonts.google.com/icons). Use underscores instead of spaces (e.g., `cloud_upload` not `cloud upload`).
+- Icon names should match the exact names from the [Google Material Icons library](https://fonts.google.com/icons). Use underscores instead of spaces (e.g., `cloud_upload` not `cloud upload`). Use the **Icon names and categories** table above to find names by purpose.
 - The component renders as a `<span>` element, making it an inline element by default.
 - If no `name` is provided, the icon will render as an empty span.
 - The `color` prop applies predefined color classes. For custom colors, use the `className` prop with your own CSS.
