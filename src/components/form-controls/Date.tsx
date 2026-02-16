@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./FormControls.module.scss";
-import Select from "./Select.jsx";
+import getClassNames from "../../utils/get-class-names";
+import Select from "./Select";
 import {
   DAY_OPTIONS,
   MONTH_OPTIONS,
   YEAR_OPTIONS,
 } from "../../constants/common";
+import type { SelectOption } from "./Select";
 
-const Date = ({
+export interface DateProps {
+  onChange?: (dateValue: string) => void;
+  defaultValue?: string;
+  label?: string;
+  isDisabled?: boolean;
+  className?: string;
+  error?: string;
+  isFluid?: boolean;
+}
+
+const Date: React.FC<DateProps> = ({
   onChange,
   defaultValue = "--",
   label = "",
@@ -18,31 +30,39 @@ const Date = ({
 }) => {
   const [defaultDay = "", defaultMonth = "", defaultYear = ""] =
     defaultValue.split("-");
-  const [day, setDay] = React.useState(defaultDay);
-  const [month, setMonth] = React.useState(defaultMonth);
-  const [year, setYear] = React.useState(defaultYear);
+  const [day, setDay] = useState(defaultDay);
+  const [month, setMonth] = useState(defaultMonth);
+  const [year, setYear] = useState(defaultYear);
 
   const selectedMonth = MONTH_OPTIONS.find((f) => f.value === month);
-  const monthLabel = (selectedMonth && selectedMonth.label) || "";
+  const monthLabel = selectedMonth?.label ?? "";
 
-  const fluidFormFieldClassName = `${
-    isFluid ? styles["cp-form-field-fluid"] : ""
-  }`;
-  const fieldWrapperClassName = `${styles["cp-form-field"]} ${styles["cp-date-field"]} ${fluidFormFieldClassName} ${className}`;
-  const fieldErrorClassName = error ? `${styles["cp-form-control-error"]}` : "";
-  const formControlFieldClassName = `${styles["cp-form-control"]} ${fieldErrorClassName}`;
+  const fieldWrapperClassName = getClassNames(
+    styles["cp-form-field"],
+    styles["cp-date-field"],
+    { [styles["cp-form-field-fluid"]]: isFluid },
+    className
+  );
+  const fieldErrorClassName = error ? styles["cp-form-control-error"] : "";
+  const formControlFieldClassName = getClassNames(
+    styles["cp-form-control"],
+    fieldErrorClassName
+  );
 
-  const handleChangeDay = (day) => {
-    setDay(day.value);
+  const handleChangeDay = (val: SelectOption | SelectOption[]) => {
+    const option = Array.isArray(val) ? val[0] : val;
+    if (option) setDay(String(option.value));
   };
-  const handleChangeMonth = (month) => {
-    setMonth(month.value);
+  const handleChangeMonth = (val: SelectOption | SelectOption[]) => {
+    const option = Array.isArray(val) ? val[0] : val;
+    if (option) setMonth(String(option.value));
   };
-  const handleChangeYear = (year) => {
-    setYear(year.value);
+  const handleChangeYear = (val: SelectOption | SelectOption[]) => {
+    const option = Array.isArray(val) ? val[0] : val;
+    if (option) setYear(String(option.value));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       day &&
       day.length === 2 &&
@@ -52,11 +72,9 @@ const Date = ({
       year.length === 4
     ) {
       const dateValue = `${day}-${month}-${year}`;
-      if (typeof onChange === "function") {
-        onChange(dateValue);
-      }
+      onChange?.(dateValue);
     }
-  }, [day, month, year]);
+  }, [day, month, year, onChange]);
 
   return (
     <div className={fieldWrapperClassName}>
@@ -69,10 +87,7 @@ const Date = ({
           triggerActiveClassName={styles["custom-field-open"]}
           options={DAY_OPTIONS}
           onChange={(val) => handleChangeDay(val)}
-          value={{
-            label: day,
-            value: day,
-          }}
+          value={{ label: day, value: day }}
         />
         <Select
           className={styles["cp-date-field-month"]}
@@ -82,10 +97,7 @@ const Date = ({
           placeholder="MMM"
           options={MONTH_OPTIONS}
           onChange={(val) => handleChangeMonth(val)}
-          value={{
-            label: monthLabel,
-            value: month,
-          }}
+          value={{ label: monthLabel, value: month }}
         />
         <Select
           className={styles["cp-date-field-year"]}
@@ -94,13 +106,12 @@ const Date = ({
           placeholder="YYYY"
           options={YEAR_OPTIONS}
           onChange={(val) => handleChangeYear(val)}
-          value={{
-            label: year,
-            value: year,
-          }}
+          value={{ label: year, value: year }}
         />
       </div>
-      {error && <p className={styles["cp-form-error-message"]}>{error}</p>}
+      {error && (
+        <p className={styles["cp-form-error-message"]}>{error}</p>
+      )}
     </div>
   );
 };

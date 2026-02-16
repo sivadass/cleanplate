@@ -1,9 +1,23 @@
+# IDE and tooling
 /.vscode
-/.storybook
-/website
-/storybook-static
+.DS_Store
+.gitignore
+
+# Source and build config (consumers use dist/)
 /src
-/node_modules
-.package-lock.json
+/scripts
 rollup.config.mjs
+tsconfig.json
+
+# Storybook and docs (dev-only)
+/.storybook
+/storybook-static
+/website
+/docs
+/templates
+llms.txt
 llms.config.js
+
+# Dependencies and lockfile
+/node_modules
+package-lock.json

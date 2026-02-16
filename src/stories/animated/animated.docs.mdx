@@ -1,0 +1,96 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Animated, Container, Typography } from "../../index";
+
+<Meta title="atoms/Animated/Documentation" />
+
+# Animated
+
+**Category: Atom.** The `Animated` component is an atom that adds scroll-triggered entrance (or exit) animations to any content. It uses `IntersectionObserver` to detect when the element enters the viewport, then applies a CSS animation class. Use it to animate headings, cards, avatars, or any wrapper content as the user scrolls.
+
+## Features
+
+- **Scroll-triggered:** Uses IntersectionObserver; animation runs when the element enters the viewport (and is unobserved after first trigger)
+- **Animation types:** Eight options: fade-in-top, fade-in-right, fade-in-bottom, fade-in-left, fade-out-top, fade-out-right, fade-out-bottom, fade-out-left
+- **Delay:** Optional delay in ms (e.g. 200, 400) for staggered animations; maps to a `delay-{delay}` class
+- **Polymorphic `as`:** Root element or component (default `"span"`); pass `"div"` or a component for semantics or layout
+- **Margin:** Suffix API (e.g. `"0"`, `["b-2"]`); component adds `m-` prefix
+- **isBlock:** Applies block display when true
+
+## Usage
+
+```jsx
+import { Animated } from "cleanplate";
+
+const App = () => (
+  <Animated animationType="fade-in-bottom">
+    <h2>This animates when it scrolls into view</h2>
+  </Animated>
+);
+```
+
+## Examples
+
+### Animation types
+
+```jsx
+<Animated animationType="fade-in-top">Content</Animated>
+<Animated animationType="fade-in-bottom">Content</Animated>
+<Animated animationType="fade-in-left">Content</Animated>
+<Animated animationType="fade-in-right">Content</Animated>
+```
+
+### Staggered delay
+
+Use `delay` (ms) to stagger multiple items.
+
+```jsx
+<Container>
+  <Animated animationType="fade-in-bottom">First</Animated>
+  <Animated animationType="fade-in-bottom" delay={200}>Second</Animated>
+  <Animated animationType="fade-in-bottom" delay={400}>Third</Animated>
+</Container>
+```
+
+### With `as` and block
+
+```jsx
+<Animated as="div" isBlock animationType="fade-in-bottom">
+  <Typography variant="h2">Block-level animated section</Typography>
+</Animated>
+```
+
+### With Container
+
+```jsx
+<Container padding="4">
+  <Animated animationType="fade-in-bottom" margin="b-2">
+    <Typography variant="h5">Animated heading</Typography>
+  </Animated>
+</Container>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Animated margin="0">Content</Animated>
+<Animated margin={["b-2"]}>Content</Animated>
+```
+
+## Behavior
+
+- **IntersectionObserver:** On mount, the root element is observed. When it intersects the viewport, the animation class is applied and the observer unobserves that element. One-shot behavior per mount.
+- **Root element:** Rendered as `Component` (default `"span"`) with ref, className, and spread props. Ref is used for the observer target.
+- **Delay:** The `delay` value is used to build a class name `delay-{delay}` (e.g. `delay-200`). Ensure your styles define the corresponding animation-delay for that class.
+
+## Props
+
+<ArgsTable of={Animated} />
+
+## Related components
+
+- **Container** – Use for layout and padding around animated content
+- **Typography** – Often wrapped by Animated for headings or text
+- **Avatar, Badge, Button** – Common content inside Animated for list or card animations

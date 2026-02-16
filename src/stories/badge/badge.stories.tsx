@@ -2,7 +2,7 @@ import React from "react";
 import { Badge, Container } from "../../index";
 
 const meta = {
-  title: "components/badge",
+  title: "atoms/Badge/Playground",
   component: Badge,
 };
 

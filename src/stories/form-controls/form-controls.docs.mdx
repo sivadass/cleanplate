@@ -1,0 +1,141 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { FormControls, Container, Typography } from "../../index";
+
+<Meta title="atoms/FormControls/Documentation" />
+
+# FormControls
+
+FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbox, Radio, File, Toggle, and Stepper. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Access via `FormControls.Input`, `FormControls.Select`, etc.
+
+## Features
+
+- **Input:** Text input with label, placeholder, required indicator, error message, isFluid
+- **TextArea:** Multi-line text with same options as Input
+- **Select:** Single or multi select with options `{ label, value }`; dropdown with placeholder
+- **Date:** Day/month/year picker built from three Selects (DD-MMM-YYYY); `defaultValue` format `"dd-mm-yyyy"`, `onChange(dateValue)`
+- **Checkbox:** Single checkbox with label and `onChange(checked: boolean)`
+- **Radio:** Radio input with label
+- **File:** File input with label
+- **Toggle:** Toggle-style input (renders as radio in current implementation)
+- **Stepper:** Text input for form stepper flows (label, placeholder, error)
+- **Common:** label, isDisabled, isRequired, isFluid, className, error for most controls
+
+## Usage
+
+```jsx
+import { FormControls } from "cleanplate";
+
+const App = () => (
+  <>
+    <FormControls.Input
+      label="Email"
+      placeholder="user@example.com"
+      isRequired
+    />
+    <FormControls.Select
+      label="Fruit"
+      placeholder="Select a fruit"
+      options={[
+        { label: "Apple", value: "apple" },
+        { label: "Mango", value: "mango" },
+      ]}
+    />
+  </>
+);
+```
+
+## Examples
+
+### Input
+
+```jsx
+<FormControls.Input placeholder="Email" />
+<FormControls.Input label="Email" placeholder="user@acme.com" isRequired />
+<FormControls.Input label="Email" error="Email is required" />
+<FormControls.Input label="Email" isFluid />
+```
+
+### TextArea
+
+```jsx
+<FormControls.TextArea placeholder="Message" />
+<FormControls.TextArea label="Message" placeholder="Hello world!" isRequired />
+```
+
+### Select
+
+```jsx
+const options = [
+  { label: "Apple", value: "apple" },
+  { label: "Mango", value: "mango" },
+];
+
+<FormControls.Select placeholder="Select" options={options} />
+<FormControls.Select label="Fruit" options={options} />
+<FormControls.Select label="Fruits" options={options} isMulti />
+```
+
+### Date
+
+```jsx
+<FormControls.Date label="Date of birth" />
+<FormControls.Date label="DOB" defaultValue="31-05-1992" />
+<FormControls.Date label="DOB" onChange={(dateValue) => console.log(dateValue)} />
+```
+
+### Checkbox
+
+```jsx
+const [checked, setChecked] = useState(false);
+<FormControls.Checkbox
+  label="Accept terms?"
+  value={checked}
+  onChange={(v) => setChecked(v)}
+/>
+```
+
+### Radio, File, Toggle, Stepper
+
+```jsx
+<FormControls.Radio label="Option A" name="q" value="a" />
+<FormControls.File label="Upload" />
+<FormControls.Toggle label="Toggle" name="t" value="on" />
+<FormControls.Stepper label="Step" placeholder="Enter" />
+```
+
+### With Container
+
+```jsx
+<Container padding="4" display="flex" flexDirection="column" gap="2">
+  <FormControls.Input label="Email" isFluid />
+  <FormControls.TextArea label="Message" isFluid />
+</Container>
+```
+
+## Behavior
+
+- **Controlled / uncontrolled:** Use `value` + `onChange` for controlled fields, or `defaultValue` for uncontrolled. Select uses `value` (option object or array for multi) and `onChange(option)`.
+- **Select:** Options are `{ label: string, value: string | number }`. Single select passes one option to `onChange`; multi passes an array. Value syncs from prop in useEffect.
+- **Date:** Returns a string `"dd-mm-yyyy"` to `onChange`. Uses DAY_OPTIONS, MONTH_OPTIONS, YEAR_OPTIONS from constants.
+- **Error:** When `error` is set, the field gets an error class and the message is shown below.
+- **isFluid:** Applies full-width styling to the field wrapper.
+
+## Props
+
+FormControls is a namespace. Each control has its own props:
+
+### Input
+
+<ArgsTable of={FormControls.Input} />
+
+### Select
+
+<ArgsTable of={FormControls.Select} />
+
+## Related components
+
+- **Pills** – Uses FormControls.Input in edit mode
+- **Pagination** – Uses FormControls.Select for rows-per-page
+- **Button** – Submit or cancel in forms
+- **Container** – Layout and spacing around form fields

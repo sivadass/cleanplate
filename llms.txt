@@ -119,6 +119,20 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: PillsProps, PillsMode, PillsMargin, SpacingOption
 - Related Components: Container (layout), FormControls.Input, Button, Icon, Spinner, Typography (used internally)
 
+### Animated Component
+- File: `docs/Animated.md`
+- Purpose: Atom that adds scroll-triggered entrance/exit animations. Uses IntersectionObserver; applies animation class when element enters viewport.
+- Key Features: animationType (fade-in/out top, right, bottom, left), as (polymorphic root), delay (ms for stagger), margin (suffix API), isBlock
+- Types: AnimatedProps, AnimatedMargin, AnimationType, AnimationDelay, SpacingOption
+- Related Components: Container, Typography, Avatar (content); Header, BottomSheet, MenuList (use Animated internally)
+
+### FormControls
+- File: `docs/FormControls.md`
+- Purpose: Set of form primitives: Input, TextArea, Select, Date, Checkbox, Radio, File, Toggle, Stepper. Access via FormControls.Input, FormControls.Select, etc.
+- Key Features: Input (text), TextArea, Select (single/multi, options { label, value }), Date (dd-mm-yyyy), Checkbox (onChange(boolean)), Radio, File, Toggle, Stepper; common props label, isRequired, isFluid, error
+- Types: InputProps, SelectProps, SelectOption, TextAreaProps, CheckboxProps, FileProps, RadioProps, ToggleProps, DateProps, FormControlsStepperProps
+- Related Components: Pills (Input), Pagination (Select), Container, Button
+
 ## Documentation Format
 
 All documentation files follow a consistent format:
@@ -149,6 +163,8 @@ All documentation files follow a consistent format:
 | Table | `docs/Table.md` | Structured tabular data with optional pagination and mobile view |
 | Badge | `docs/Badge.md` | Status labels, tags, and counts with colored variants |
 | Pills | `docs/Pills.md` | Tags/chips with read-only, edit, and remove modes |
+| Animated | `docs/Animated.md` | Scroll-triggered entrance/exit animations |
+| FormControls | `docs/FormControls.md` | Form primitives (Input, Select, TextArea, Date, Checkbox, etc.) |
 
 ## Additional Resources
 
@@ -167,5 +183,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, Spinner, Stepper, ConfirmDialog, Modal, Pagination, Table, Badge, Pills } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, Spinner, Stepper, ConfirmDialog, Modal, Pagination, Table, Badge, Pills, Animated, FormControls } from "cleanplate";
 ```

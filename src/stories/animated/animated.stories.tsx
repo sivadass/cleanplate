@@ -1,26 +1,28 @@
-import { Animated, Avatar, Container, Typography } from "../index";
+import React from "react";
+import { Animated, Avatar, Container } from "../../index";
 import {
   SPACING_OPTIONS,
   ANIMATION_TYPE_OPTIONS,
   ANIMATION_DELAY_OPTIONS,
-} from "../constants/common";
+} from "../../constants/common";
+import type { AnimatedProps } from "../../components/animated";
 
 const meta = {
-  title: "components/animated",
+  title: "atoms/Animated/Playground",
   component: Animated,
   parameters: {
     layout: "centered",
   },
 };
 
-export const Defualt = {
+export const Default = {
+  name: "Default",
   args: {
     className: "custom-class-name",
     animationType: ANIMATION_TYPE_OPTIONS[0],
     delay: ANIMATION_DELAY_OPTIONS[0],
   },
   argTypes: {
-    className: {},
     animationType: {
       options: ANIMATION_TYPE_OPTIONS,
       control: { type: "select" },
@@ -34,7 +36,7 @@ export const Defualt = {
       control: { type: "inline-check" },
     },
   },
-  render: (args) => (
+  render: (args: AnimatedProps) => (
     <Container>
       <Container>
         <Animated {...args}>
@@ -46,6 +48,7 @@ export const Defualt = {
 };
 
 export const GroupedWithDelay = {
+  name: "Grouped with delay",
   args: {
     className: "custom-class-name",
     animationType: ANIMATION_TYPE_OPTIONS[0],
@@ -65,8 +68,8 @@ export const GroupedWithDelay = {
       control: { type: "inline-check" },
     },
   },
-  render: (args) => {
-    const animationType = args.animationType;
+  render: (args: AnimatedProps) => {
+    const animationType = args.animationType ?? "fade-in-bottom";
     return (
       <Container>
         <Container>
@@ -74,7 +77,7 @@ export const GroupedWithDelay = {
             <Avatar name="Satya Nadella" />
           </Animated>
           <Animated animationType={animationType} delay={200}>
-            <Avatar name="Warren Buffet" delay={0} />
+            <Avatar name="Warren Buffet" />
           </Animated>
           <Animated animationType={animationType} delay={400}>
             <Avatar name="Mark Zuckerberg" />

@@ -212,9 +212,10 @@ const App = () => <ComponentName prop="value" />;
 
 ## 4. Naming and taxonomy
 
-- **Atoms:** Button, Typography, Icon, Alert, Avatar, Spinner, Stepper, Container.
-- **Molecules:** Dropdown, ConfirmDialog, MediaObject, etc.
+- **Atoms:** Low-level primitives and single-behavior wrappers. Examples: Button, Typography, Icon, Alert, Avatar, Spinner, Stepper, Container, **Animated** (scroll-triggered animation wrapper), Badge, Pills, Table, Pagination.
+- **Molecules:** Composed patterns (multiple components or complex behavior). Examples: Dropdown, ConfirmDialog, Modal, MediaObject, Header, Footer, Menu List.
 - Use the same segment in both titles: `atoms/Alert/Playground` and `atoms/Alert/Documentation`.
+- **How to decide:** If the component mainly wraps content with one clear behavior (e.g. animate on scroll, show a spinner, layout children) and doesn’t compose other full-blown components, use **atoms**. If it combines several components or a full pattern (e.g. dialog with overlay + panel + buttons), use **molecules**.
 
 ---
 

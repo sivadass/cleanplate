@@ -3,7 +3,29 @@ import Icon from "../icon";
 import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
 
-const Select = ({
+export interface SelectOption {
+  label: string;
+  value: string | number;
+}
+
+export interface SelectProps {
+  onChange?: (option: SelectOption | SelectOption[]) => void;
+  value?: SelectOption | SelectOption[] | null;
+  label?: string;
+  isDisabled?: boolean;
+  className?: string;
+  triggerClassName?: string;
+  triggerActiveClassName?: string;
+  contentsClassName?: string;
+  options?: SelectOption[];
+  isRequired?: boolean;
+  placeholder?: string;
+  error?: string;
+  isFluid?: boolean;
+  isMulti?: boolean;
+}
+
+const Select: React.FC<SelectProps> = ({
   onChange,
   value,
   label = "",
@@ -19,83 +41,88 @@ const Select = ({
   isFluid = false,
   isMulti = false,
 }) => {
-  const fieldWrapperClassName = getClassNames(
-    styles["cp-form-field"],
-    {
-      [styles["cp-form-field-fluid"]]: isFluid,
-      [styles["cp-form-field-disabled"]]: isDisabled,
-    },
-    className
-  );
-
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(value);
+  const [selectedOption, setSelectedOption] = useState<
+    SelectOption | SelectOption[] | null | undefined
+  >(value);
   const [isDropdownTop, setIsDropdownTop] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const selectedArray = Array.isArray(selectedOption) ? selectedOption : [];
   const multiSelectionValue =
-    selectedOption && selectedOption.length > 0
-      ? selectedOption.map((s) => s.label).join(", ")
+    selectedArray.length > 0
+      ? selectedArray.map((s) => s.label).join(", ")
       : "";
   const singleSelectValue =
-    selectedOption && selectedOption.label ? selectedOption.label : "";
+    selectedOption && !Array.isArray(selectedOption) && selectedOption.label
+      ? selectedOption.label
+      : "";
   const selectedValue = isMulti ? multiSelectionValue : singleSelectValue;
 
   const selectHeaderOpenClass = isOpen
     ? `${styles["cp-select-field-header-open"]} ${triggerActiveClassName}`
     : "";
   const selectOptionsPositionClass = isDropdownTop
-    ? `${styles["cp-select-field-options-top"]}`
-    : `${styles["cp-select-field-options-bottom"]}`;
+    ? styles["cp-select-field-options-top"]
+    : styles["cp-select-field-options-bottom"];
   const selectHeaderWrapperClass = `${styles["cp-select-field-header"]} ${selectHeaderOpenClass} ${triggerClassName}`;
 
-  const handleOptionClick = (event, optionValue) => {
+  const handleOptionClick = (
+    event: React.MouseEvent,
+    optionValue: SelectOption
+  ) => {
     event.stopPropagation();
     event.preventDefault();
     if (isMulti) {
-      const values = selectedOption.map((s) => s.value);
+      const current = Array.isArray(selectedOption) ? selectedOption : [];
+      const values = current.map((s) => s.value);
       if (values.includes(optionValue.value)) {
-        const selection = [...selectedOption].filter(
-          (f) => f.value !== optionValue.value
-        );
+        const selection = current.filter((f) => f.value !== optionValue.value);
         setSelectedOption(selection);
+        onChange?.(selection);
       } else {
-        const selection = [...selectedOption, optionValue];
+        const selection = [...current, optionValue];
         setSelectedOption(selection);
+        onChange?.(selection);
       }
     } else {
       setSelectedOption(optionValue);
-    }
-    if (typeof onChange === "function") {
-      onChange(optionValue);
+      onChange?.(optionValue);
     }
     setIsOpen(false);
   };
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const el = dropdownRef.current;
+      const target = event.target as Node | null;
+      if (el && target && !el.contains(target)) {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
   useEffect(() => {
-    if (dropdownRef.current) {
-      const dropdownRect = dropdownRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-
-      setIsDropdownTop(dropdownRect.bottom > viewportHeight);
+    const el = dropdownRef.current;
+    if (el && isOpen) {
+      const dropdownRect = el.getBoundingClientRect();
+      setIsDropdownTop(dropdownRect.bottom > window.innerHeight);
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    setSelectedOption(value);
+  }, [value]);
+
   return (
-    <div className={fieldWrapperClassName}>
+    <div
+      className={getClassNames(styles["cp-form-field"], {
+        [styles["cp-form-field-fluid"]]: isFluid,
+        [styles["cp-form-field-disabled"]]: isDisabled,
+      }, className)}
+    >
       {label && (
         <label className={styles["cp-form-label"]}>
           {label} {isRequired && <span>*</span>}
@@ -104,11 +131,11 @@ const Select = ({
       <div className={styles["cp-select-field"]} ref={dropdownRef}>
         <div
           className={selectHeaderWrapperClass}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => !isDisabled && setIsOpen(!isOpen)}
         >
-          {isMulti && selectedOption && selectedOption.length > 0 && (
+          {isMulti && selectedArray.length > 0 && (
             <span className={styles["cp-select-count"]}>
-              {selectedOption.length}
+              {selectedArray.length}
             </span>
           )}
           {selectedValue ? (
@@ -125,16 +152,22 @@ const Select = ({
         </div>
         {isOpen && (
           <div
-            className={`${styles["cp-select-field-options"]} ${selectOptionsPositionClass} ${contentsClassName}`}
+            className={getClassNames(
+              styles["cp-select-field-options"],
+              selectOptionsPositionClass,
+              contentsClassName
+            )}
           >
             {options.map((option) => {
               const isSelected = isMulti
-                ? selectedOption.map((s) => s.value).includes(option.value)
-                : selectedOption && option.value === selectedOption.value;
+                ? selectedArray.some((s) => s.value === option.value)
+                : selectedOption &&
+                  !Array.isArray(selectedOption) &&
+                  option.value === selectedOption.value;
 
               return (
                 <div
-                  key={option.value}
+                  key={String(option.value)}
                   className={styles["cp-select-field-option"]}
                   onClick={(e) => handleOptionClick(e, option)}
                 >
@@ -151,9 +184,11 @@ const Select = ({
           </div>
         )}
       </div>
-      {error && <p className={styles["cp-form-error-message"]}>{error}</p>}
+      {error && (
+        <p className={styles["cp-form-error-message"]}>{error}</p>
+      )}
     </div>
   );
-};
+}
 
 export default Select;
