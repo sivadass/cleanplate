@@ -1,59 +1,105 @@
-import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
-import { MenuList } from "../../index";
+import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
+import { MenuList, Container, Typography } from "../../index";
 
-<Meta title="molecules/Menu List/Documentation" />
+<Meta title="molecules/MenuList/Documentation" />
 
 # MenuList
 
-The MenuList component provides a flexible and stylish way to render a list of navigational items with support for icons, active state highlighting, and customizable layout directions. It adapts to various sizes, themes, and spacing options, featuring smooth animations for an engaging user experience.
+The `MenuList` component renders a list of navigational items with optional icons, active state highlighting, and customizable layout. Use it for nav menus, sidebars, or any list of links. Supports horizontal and vertical directions, sizes, and variants with fade-in animations.
 
-### Usage
+## Features
 
-```
+- **Items:** Each item has `label`, `value`, and optional `icon` (Material icon name)
+- **Active state:** Use `activeItem` (matches `item.value`) to highlight the current item
+- **Directions:** `horizontal` or `vertical` layout
+- **Sizes:** `small`, `medium`, `large`
+- **Variants:** `light`, `dark`
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0)
+- **Animations:** Items use Animated with fade-in-left on mount
+
+## Usage
+
+```jsx
+import { useState } from "react";
 import { MenuList } from "cleanplate";
 
-export const MENU_ITEMS = [
-    {
-        label: "Dashboard",
-        value: "/",
-        icon: "speed",
-    },
-    {
-        label: "Projects",
-        value: "/projects",
-        icon: "receipt_long",
-    },
-    {
-        label: "Clients",
-        value: "/clients",
-        icon: "group",
-    },
-    {
-        label: "Invoices",
-        value: "/invoices",
-        icon: "payments",
-    },
+const MENU_ITEMS = [
+  { label: "Dashboard", value: "/", icon: "speed" },
+  { label: "Projects", value: "/projects", icon: "receipt_long" },
+  { label: "Clients", value: "/clients", icon: "group" },
 ];
 
 const Menu = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState("/");
-  let navigate = useNavigate();
-
-  const handleMenuItemClick = (menuItem) => {
-    setActiveMenuItem(menuItem.value);
-  };
-
+  const [activeItem, setActiveItem] = useState("/");
   return (
     <MenuList
-        items={MENU_ITEMS}
-        onMenuClick={handleMenuItemClick}
-        activeItem={activeMenuItem}
-      />
+      items={MENU_ITEMS}
+      activeItem={activeItem}
+      onMenuClick={(item) => setActiveItem(item.value)}
+    />
   );
-}
+};
 ```
 
-### Props
+## Examples
+
+### Variants
+
+Use `variant` for light or dark styling.
+
+```jsx
+<MenuList items={items} activeItem={activeItem} onMenuClick={handleClick} variant="light" />
+<MenuList items={items} activeItem={activeItem} onMenuClick={handleClick} variant="dark" />
+```
+
+### Directions
+
+```jsx
+<MenuList items={items} direction="horizontal" activeItem={activeItem} onMenuClick={handleClick} />
+<MenuList items={items} direction="vertical" activeItem={activeItem} onMenuClick={handleClick} />
+```
+
+### Sizes
+
+```jsx
+<MenuList items={items} size="small" activeItem={activeItem} onMenuClick={handleClick} />
+<MenuList items={items} size="medium" activeItem={activeItem} onMenuClick={handleClick} />
+<MenuList items={items} size="large" activeItem={activeItem} onMenuClick={handleClick} />
+```
+
+### With Container
+
+```jsx
+<Container padding="4">
+  <MenuList items={items} activeItem={activeItem} onMenuClick={handleClick} margin="b-2" />
+</Container>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<MenuList items={items} margin="0" />
+<MenuList items={items} margin={["b-2"]} />
+```
+
+## Behavior
+
+- **Items:** Each item must have `label` and `value`. `icon` is optional (Material icon name).
+- **onMenuClick:** Called with the clicked item. Use it to update `activeItem` or navigate.
+- **DOM:** A `div` wrapping a `ul` of `li` elements; each `li` contains an anchor.
+- **Animated:** Each item is wrapped in Animated with `fade-in-left` and staggered delay.
+
+## Props
 
 <ArgsTable of={MenuList} />
+
+## Related components
+
+- **Dropdown** – MenuList is often used inside dropdown content for menu items
+- **Header** – MenuList is commonly used in header navigation
+- **Container** – Layout and spacing around the menu
+- **Typography, Icon** – Used internally for labels and icons
+- **Animated** – Used internally for item entrance animations

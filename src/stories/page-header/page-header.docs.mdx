@@ -1,0 +1,157 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { PageHeader, Button, Container, Typography } from "../../index";
+
+<Meta title="molecules/PageHeader/Documentation" />
+
+# PageHeader
+
+The `PageHeader` component provides a two-column page header: **left** (title and optional subtitle) and **right** (primary CTA and optional more menu with a three-dots icon). Use it at the top of a page or section to show the heading and main actions. The right column is aligned to the right edge.
+
+## Features
+
+- **Title:** Required; string or custom ReactNode (left column)
+- **Subtitle:** Optional; string or ReactNode below the title (left column)
+- **Primary CTA:** Optional; any ReactNode, e.g. a Button (right column)
+- **More menu:** Optional; either `moreMenuItems` (list of objects with `label` and `onClick`) or `moreMenuContent` (custom ReactNode). Renders a trigger with the Material **more_vert** (three vertical dots) icon and a dropdown (right column)
+- **Layout:** Flex row with space-between; right column has margin-left: auto for right alignment
+- **className:** Optional root class
+
+## Usage
+
+```jsx
+import { PageHeader, Button } from "cleanplate";
+
+const Page = () => (
+  <PageHeader
+    title="Dashboard"
+    subtitle="Overview of your projects"
+    primaryCta={<Button>Create project</Button>}
+    moreMenuItems={[
+      { label: "Export", onClick: () => exportData() },
+      { label: "Settings", onClick: () => openSettings() },
+    ]}
+  />
+);
+```
+
+## Examples
+
+### Full header
+
+Title, subtitle, primary CTA, and more menu.
+
+```jsx
+<PageHeader
+  title="Projects"
+  subtitle="Manage and track your team projects"
+  primaryCta={<Button>New project</Button>}
+  moreMenuItems={[
+    { label: "Export", onClick: () => {} },
+    { label: "Archive", onClick: () => {} },
+    { label: "Settings", onClick: () => {} },
+  ]}
+/>
+```
+
+### Title and subtitle only
+
+No actions; useful for read-only or simple pages.
+
+```jsx
+<PageHeader
+  title="Settings"
+  subtitle="Configure your account and preferences"
+/>
+```
+
+### With primary CTA only
+
+```jsx
+<PageHeader
+  title="Documents"
+  subtitle="All your documents in one place"
+  primaryCta={<Button>Upload</Button>}
+/>
+```
+
+### With more menu only
+
+```jsx
+<PageHeader
+  title="Report"
+  subtitle="Generated on 17 Feb 2025"
+  moreMenuItems={[
+    { label: "Print", onClick: handlePrint },
+    { label: "Download PDF", onClick: handleDownload },
+    { label: "Share", onClick: handleShare },
+  ]}
+/>
+```
+
+### Custom title or subtitle (ReactNode)
+
+Pass custom elements for title or subtitle instead of strings.
+
+```jsx
+<PageHeader
+  title={
+    <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <span>📋</span>
+      Custom title with icon
+    </span>
+  }
+  subtitle="Subtitle can be custom too"
+  primaryCta={<Button>Action</Button>}
+/>
+```
+
+### Custom more menu content
+
+Use `moreMenuContent` for full control over the dropdown content (e.g. links, dividers, custom markup).
+
+```jsx
+<PageHeader
+  title="Page"
+  primaryCta={<Button>Save</Button>}
+  moreMenuContent={
+    <div style={{ padding: "8px" }}>
+      <a href="/export">Export</a>
+      <hr />
+      <button type="button">Settings</button>
+    </div>
+  }
+/>
+```
+
+### With Container
+
+```jsx
+<Container padding="4" width="full">
+  <PageHeader
+    title="Dashboard"
+    subtitle="Welcome back"
+    primaryCta={<Button>Create</Button>}
+    moreMenuItems={[{ label: "Help", onClick: () => {} }]}
+  />
+</Container>
+```
+
+## Behavior
+
+- **Layout:** Root is a `<header>`. Inside, a flex row (`.cp-page-header__row`) has left (title + subtitle) and right (CTA + more trigger). Right column uses `margin-left: auto` so it stays aligned to the right edge.
+- **Title / subtitle:** If string, rendered with Typography (h4 / p). If ReactNode, rendered in a div with the same layout class.
+- **More menu:** When `moreMenuItems` is provided, the component renders a Dropdown with an icon Button (more_vert) and a list of buttons; each item’s `onClick` runs and the dropdown closes. When `moreMenuContent` is provided, that content is rendered inside the dropdown panel. Only one of `moreMenuItems` or `moreMenuContent` should be used.
+- **Accessibility:** More trigger has `aria-expanded` and `aria-haspopup`; list uses `role="menu"` and `role="menuitem"`.
+
+## Props
+
+<ArgsTable of={PageHeader} />
+
+## Related components
+
+- **Button** – Typically used for `primaryCta`
+- **Typography** – Used internally for string title and subtitle
+- **Dropdown** – Used internally for the more menu
+- **Icon** – Used for the more_vert trigger icon
+- **Container** – Use to wrap PageHeader and page content for layout and padding

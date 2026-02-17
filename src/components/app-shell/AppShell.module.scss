@@ -1,5 +1,42 @@
 .cp-app-shell {
-  font-family: var(--font-family);
-  font-size: var(--font-size);
+  font-family: var(--font-family, inherit);
+  font-size: var(--font-size, inherit);
   line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.cp-app-shell__header-slot {
+  flex-shrink: 0;
+}
+
+.cp-app-shell__body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.cp-app-shell__sidebar {
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--gray-light, #e0e0e0);
+  background: var(--white, #fff);
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.cp-app-shell__main {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-app-shell__footer-slot {
+  flex-shrink: 0;
 }

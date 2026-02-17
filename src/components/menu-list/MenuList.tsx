@@ -1,7 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Icon from "../icon";
-import Button from "../button";
 import styles from "./MenuList.module.scss";
 import Animated from "../animated";
 import { SPACING_OPTIONS } from "../../constants/common";
@@ -9,14 +7,50 @@ import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import Typography from "../typography";
+import type { MaterialIconName } from "../icon/material-icon-names";
 
-const MenuList = ({
+export type SpacingOption = (typeof SPACING_OPTIONS)[number];
+
+export type MenuListSize = "small" | "medium" | "large";
+
+export type MenuListVariant = "light" | "dark";
+
+export type MenuListDirection = "horizontal" | "vertical";
+
+export type MenuListMargin = string | SpacingOption[];
+
+export interface MenuListItem {
+  label: string;
+  value: string;
+  icon?: MaterialIconName;
+}
+
+export interface MenuListProps {
+  /** List of menu items; each has label, value, and optional icon */
+  items: MenuListItem[];
+  /** Value of the currently active item (matches item.value) */
+  activeItem?: string;
+  /** Size of menu items */
+  size?: MenuListSize;
+  /** Visual variant (light, dark) */
+  variant?: MenuListVariant;
+  /** Layout direction of the list */
+  direction?: MenuListDirection;
+  /** Spacing suffix(s) for outer margin; component adds m- prefix */
+  margin?: MenuListMargin;
+  /** Additional class names for the root element */
+  className?: string;
+  /** Called when a menu item is clicked; receives the clicked item */
+  onMenuClick?: (item: MenuListItem) => void;
+}
+
+const MenuList: React.FC<MenuListProps> = ({
   items,
   activeItem,
   size,
   variant,
   margin,
-  className,
+  className = "",
   direction = "horizontal",
   onMenuClick,
 }) => {
@@ -24,15 +58,15 @@ const MenuList = ({
 
   const menuListClassNames = getClassNames(
     styles["cp-menu-list"],
-    styles[size],
-    styles[variant],
+    size && styles[size],
+    variant && styles[variant],
     marginClass,
     className
   );
 
-  const handleMenuClick = (e, menuItem) => {
+  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, menuItem: MenuListItem) => {
     e.preventDefault();
-    onMenuClick(menuItem);
+    onMenuClick?.(menuItem);
   };
 
   return (
@@ -46,7 +80,7 @@ const MenuList = ({
               <Animated
                 as="li"
                 key={item.value}
-                className={isActive ? styles.active : null}
+                className={isActive ? styles.active : undefined}
                 delay={delay}
                 animationType="fade-in-left"
               >
@@ -67,24 +101,6 @@ const MenuList = ({
   );
 };
 
-MenuList.propTypes = {
-  className: PropTypes.string,
-  activeItem: PropTypes.string,
-  size: PropTypes.oneOf(["small", "medium", "large"]),
-  variant: PropTypes.oneOf(["light", "dark"]),
-  direction: PropTypes.oneOf(["horizontal", "vertical"]),
-  onMenuClick: PropTypes.func,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      icon: PropTypes.string,
-    })
-  ).isRequired,
-  margin: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
-};
+MenuList.displayName = "MenuList";
 
 export default MenuList;

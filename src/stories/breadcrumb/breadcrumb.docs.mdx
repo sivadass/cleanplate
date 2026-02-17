@@ -1,0 +1,122 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { BreadCrumb, Container, Typography } from "../../index";
+
+<Meta title="atoms/BreadCrumb/Documentation" />
+
+# BreadCrumb
+
+The `BreadCrumb` component renders a semantic navigation trail (e.g. Home → Products → Current page). Use it at the top of a page to show hierarchy and let users navigate back. The last item is treated as the current page when it has no `href`.
+
+## Features
+
+- **Semantic markup:** `<nav aria-label="Breadcrumb">` with `<ol>` / `<li>`; current page has `aria-current="page"`
+- **Schema.org:** BreadcrumbList and ListItem microdata for SEO
+- **Separators:** `chevron` (default) or `slash` between items
+- **Config-driven:** Pass an `items` array with `label` and optional `href` (omit href for current page)
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0, `"b-2"` → m-b-2)
+
+## Usage
+
+```jsx
+import { BreadCrumb } from "cleanplate";
+
+const items = [
+  { label: "Home", href: "/" },
+  { label: "Products", href: "/products" },
+  { label: "Current Product" },
+];
+
+const App = () => <BreadCrumb items={items} />;
+```
+
+## Examples
+
+### Default (chevron separator)
+
+```jsx
+<BreadCrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/products" },
+    { label: "Category", href: "/products/category" },
+    { label: "Current Product" },
+  ]}
+/>
+```
+
+### Slash separator
+
+```jsx
+<BreadCrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Docs", href: "/docs" },
+    { label: "Getting started" },
+  ]}
+  separator="slash"
+/>
+```
+
+### Short trail
+
+```jsx
+<BreadCrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Current page" },
+  ]}
+/>
+```
+
+### With Container
+
+```jsx
+<Container padding="4">
+  <BreadCrumb
+    items={[
+      { label: "Home", href: "/" },
+      { label: "Products", href: "/products" },
+      { label: "Current" },
+    ]}
+    margin="b-2"
+  />
+  <Typography variant="p">Page content below the breadcrumb.</Typography>
+</Container>
+```
+
+### Custom aria label
+
+```jsx
+<BreadCrumb
+  items={[{ label: "Home", href: "/" }, { label: "Here" }]}
+  ariaLabel="Page location"
+/>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<BreadCrumb items={items} margin="0" />
+<BreadCrumb items={items} margin={["b-2"]} />
+```
+
+## Behavior
+
+- **Current page:** The last item in `items` is rendered as the current page (non-link with `aria-current="page"`) when it has no `href`. You can also omit `href` on a non-last item to render it as plain text.
+- **Links:** Items with `href` are rendered as `<a href="...">` for navigation and keyboard/screen reader support.
+- **Separator:** Rendered with `aria-hidden="true"` so it is not announced. Chevron uses the Icon component; slash is a "/" character.
+- **Root element:** A `<nav>` with `aria-label` (default `"Breadcrumb"`). The list uses Schema.org BreadcrumbList and ListItem for SEO.
+
+## Props
+
+<ArgsTable of={BreadCrumb} />
+
+## Related components
+
+- **Container** – Use for layout and spacing around the breadcrumb
+- **Typography** – Often used for page title or content below the breadcrumb
+- **Icon** – Used internally for the chevron separator
+- **Header** – Breadcrumbs are often placed inside or next to the header

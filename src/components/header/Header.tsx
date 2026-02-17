@@ -1,21 +1,53 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 import Icon from "../icon";
 import styles from "./Header.module.scss";
 import Animated from "../animated";
 import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
-
 import utilStyles from "../../styles/utils.module.scss";
 import Button from "../button";
 import MenuList from "../menu-list";
+import type { MenuListItem } from "../menu-list";
 
-const Header = ({
+export type SpacingOption = (typeof SPACING_OPTIONS)[number];
+
+export type HeaderSize = "small" | "medium" | "large";
+
+export type HeaderVariant = "light" | "dark";
+
+export type HeaderMargin = string | SpacingOption[];
+
+export interface HeaderProps {
+  /** URL for the logo image (shown when headerLeft is not provided) */
+  logoUrl?: string;
+  /** Value of the currently active menu item */
+  activeMenuItem?: string;
+  /** Called when a menu item is clicked */
+  onMenuItemClick?: (item: MenuListItem) => void;
+  /** Additional class names for the root element */
+  className?: string;
+  /** Custom content for the left area (replaces logo when provided) */
+  headerLeft?: React.ReactNode;
+  /** Custom content for the right area */
+  headerRight?: React.ReactNode;
+  /** Custom content for the center area (replaces MenuList when provided) */
+  headerCenter?: React.ReactNode;
+  /** Menu items for the center/vertical menu */
+  menuItems: MenuListItem[];
+  /** Size of the header */
+  size?: HeaderSize;
+  /** Visual variant */
+  variant?: HeaderVariant;
+  /** Spacing suffix(s) for outer margin; component adds m- prefix */
+  margin?: HeaderMargin;
+}
+
+const Header: React.FC<HeaderProps> = ({
   logoUrl,
   activeMenuItem,
   onMenuItemClick,
-  className,
+  className = "",
   headerLeft,
   headerRight,
   headerCenter,
@@ -24,14 +56,14 @@ const Header = ({
   margin,
   menuItems,
 }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [animationType, setAnimationType] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [animationType, setAnimationType] = useState<"fade-in-left" | "fade-out-left">("fade-in-left");
   const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const headerClassNames = getClassNames(
     styles["cp-header"],
-    styles[size],
-    styles[variant],
+    size && styles[size],
+    variant && styles[variant],
     marginClass,
     className
   );
@@ -48,8 +80,8 @@ const Header = ({
     }, 300);
   };
 
-  const handleMenuItem = (menuItem) => {
-    onMenuItemClick(menuItem);
+  const handleMenuItem = (menuItem: MenuListItem) => {
+    onMenuItemClick?.(menuItem);
     handleCloseMobileMenu();
   };
 
@@ -60,22 +92,22 @@ const Header = ({
           <Button
             className={styles.mobileMenuTrigger}
             variant="icon"
-            onClick={() => handleOpenMobileMenu()}
+            onClick={handleOpenMobileMenu}
           >
             <Icon name="menu" />
           </Button>
           {headerLeft ? (
             headerLeft
-          ) : (
-            <img className={styles.logo} src={logoUrl} />
-          )}
+          ) : logoUrl ? (
+            <img className={styles.logo} src={logoUrl} alt="" />
+          ) : null}
         </div>
         <div className={styles.headerCenter}>
-          {headerCenter || (
+          {headerCenter ?? (
             <MenuList
               items={menuItems}
               activeItem={activeMenuItem}
-              onMenuClick={(menuItem) => handleMenuItem(menuItem)}
+              onMenuClick={handleMenuItem}
             />
           )}
         </div>
@@ -84,9 +116,9 @@ const Header = ({
       {isMobileMenuOpen && (
         <Animated animationType={animationType} className={styles.mobileMenu}>
           <Button
-            className={[styles.mobileMenuTrigger, styles.mobileMenuClose]}
+            className={getClassNames(styles.mobileMenuTrigger, styles.mobileMenuClose)}
             variant="icon"
-            onClick={() => handleCloseMobileMenu()}
+            onClick={handleCloseMobileMenu}
           >
             <Icon name="close" />
           </Button>
@@ -94,7 +126,7 @@ const Header = ({
             direction="vertical"
             items={menuItems}
             activeItem={activeMenuItem}
-            onMenuClick={(menuItem) => handleMenuItem(menuItem)}
+            onMenuClick={handleMenuItem}
           />
         </Animated>
       )}
@@ -102,27 +134,6 @@ const Header = ({
   );
 };
 
-Header.propTypes = {
-  logoUrl: PropTypes.string,
-  activeMenuItem: PropTypes.string,
-  onMenuItemClick: PropTypes.func,
-  className: PropTypes.string,
-  headerLeft: PropTypes.elementType,
-  headerRight: PropTypes.elementType,
-  headerCenter: PropTypes.elementType,
-  menuItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      icon: PropTypes.string,
-    })
-  ).isRequired,
-  size: PropTypes.oneOf(["small", "medium", "large"]),
-  variant: PropTypes.oneOf(["light", "dark"]),
-  margin: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
-};
+Header.displayName = "Header";
 
 export default Header;

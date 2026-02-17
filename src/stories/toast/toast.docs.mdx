@@ -1,0 +1,93 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Toast, Container, Button } from "../../index";
+
+<Meta title="atoms/Toast/Documentation" />
+
+# Toast
+
+The `Toast` component displays transient messages in a portal (fixed top-right). Use a ref to call `addMessage({ mode, message })` imperatively. The parent does not need to manage toast state; the component handles rendering, stacking, and optional auto-close.
+
+## Features
+
+- **Imperative API:** Use `ref.current.addMessage({ mode, message })` to show toasts
+- **Variants:** `info`, `error`, `warning`, `success` (each with a matching icon)
+- **Auto-close:** Optional `autoClose` and `autoCloseTime` to dismiss after a delay
+- **Portal:** Renders in a fixed top-right container, independent of layout
+- **Click to dismiss:** Clicking a toast removes it
+
+## Usage
+
+```jsx
+import { useRef } from "react";
+import { Toast, Button } from "cleanplate";
+
+const App = () => {
+  const toastRef = useRef(null);
+  const showToast = () => {
+    toastRef.current?.addMessage({ mode: "success", message: "Saved!" });
+  };
+  return (
+    <>
+      <Button onClick={showToast}>Save</Button>
+      <Toast ref={toastRef} />
+    </>
+  );
+};
+```
+
+## Examples
+
+### Variants
+
+Use `mode` in `addMessage` to set the style and icon.
+
+```jsx
+const toastRef = useRef(null);
+
+// Show different variants
+toastRef.current?.addMessage({ mode: "info", message: "Info message" });
+toastRef.current?.addMessage({ mode: "error", message: "Error message" });
+toastRef.current?.addMessage({ mode: "warning", message: "Warning message" });
+toastRef.current?.addMessage({ mode: "success", message: "Success message" });
+
+<Toast ref={toastRef} />
+```
+
+### With auto close
+
+Enable `autoClose` and optionally set `autoCloseTime` (default 5000 ms).
+
+```jsx
+<Toast ref={toastRef} autoClose autoCloseTime={5000} />
+```
+
+### With Container
+
+Use `Container` and `Button` to trigger toasts from your layout.
+
+```jsx
+<Container padding="4">
+  <Button variant="outline" onClick={() => toastRef.current?.addMessage({ mode: "info", message: "Hello" })}>
+    Show toast
+  </Button>
+</Container>
+<Toast ref={toastRef} />
+```
+
+## Behavior
+
+- **Imperative handle:** `forwardRef` + `useImperativeHandle` expose `addMessage` on the ref. The parent never manages a toast list.
+- **Portal:** Toasts render in a `div` prepended to `document.body`, fixed at top-right (16px). Each Toast instance creates its own portal.
+- **Icon:** Each mode maps to an icon via `getVariantIcon` (e.g. error → "error", success → "check_circle", info → "info").
+- **Click to dismiss:** Clicking a toast removes it from the list.
+
+## Props
+
+<ArgsTable of={Toast} />
+
+## Related components
+
+- **Alert** – Inline feedback; use when the message should stay in the layout
+- **Button** – Commonly used to trigger toasts
+- **Container** – Layout around trigger buttons

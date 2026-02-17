@@ -1,101 +1,113 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Footer } from "../../index";
+import { Footer, Container, Typography } from "../../index";
 
 <Meta title="molecules/Footer/Documentation" />
 
 # Footer
 
-The `Footer` component serves as a customizable and responsive footer element, allowing for branding, copyright details, and optional powered-by links. It supports custom content, adaptable sizes, themes, and spacing options to seamlessly integrate with various design requirements.
+The `Footer` component provides a customizable footer with copyright text, optional powered-by link, and custom content via children. Use it for app footers with branding, legal links, or column layouts. Supports sizes, variants, and margin spacing.
 
-### Usage
+## Features
 
-```
+- **Copyright:** `brandName` in "© [year] [brandName]. All rights reserved." (year is current year)
+- **Powered-by link:** `poweredByLabel` and `poweredByLink` for optional attribution
+- **Custom content:** `children` rendered above the copyright line
+- **Sizes:** `small`, `medium`, `large`
+- **Variants:** `light`, `dark`
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0)
+
+## Usage
+
+```jsx
 import { Footer } from "cleanplate";
 
-const AppFooter = () => {
-  return (
-    <Footer
-        brandName="Acme Inc."
-        poweredByLabel="Google"
-        poweredByLink="https://google.com"
-    />
-  );
-}
+const AppFooter = () => (
+  <Footer
+    brandName="Acme Inc"
+    poweredByLabel="Powered by Sivadass"
+    poweredByLink="https://sivadass.in"
+  />
+);
 ```
 
-### Advanced Usage
+## Examples
 
-```
-import { Footer, Container } from "cleanplate";
+### Basic
 
-const AppFooter = () => {
-  return (
-    <Footer
-        brandName="Acme Inc."
-        poweredByLabel="Google"
-        poweredByLink="https://google.com"
-    >
-      <Container display="flex" paddingLeft="none" paddingRight="none">
-          <Container width="quarter">
-            <Typography variant="h6" margin="b-4">
-              The Company
-            </Typography>
-            <ul>
-              <li>
-                <a href="https://google.co.in">Contact Us</a>
-              </li>
-              <li>
-                <a href="https://google.co.in">About Us</a>
-              </li>
-            </ul>
-          </Container>
-          <Container width="quarter">
-            <Typography variant="h6" margin="b-4">
-              Policies
-            </Typography>
-            <ul>
-              <li>
-                <a href="https://google.co.in">Terms & Conditions</a>
-              </li>
-              <li>
-                <a href="https://google.co.in">Privacy Policy</a>
-              </li>
-            </ul>
-          </Container>
-          <Container width="quarter">
-            <Typography variant="h6" margin="b-4">
-              Our Products
-            </Typography>
-            <ul>
-              <li>
-                <a href="https://google.co.in">AcmeDesk</a>
-              </li>
-              <li>
-                <a href="https://google.co.in">AcmeApp</a>
-              </li>
-            </ul>
-          </Container>
-          <Container width="quarter">
-            <Typography variant="h6" margin="b-4">
-              Contact Info
-            </Typography>
-            <ul>
-              <li>
-                <a href="tel:+919876543210">+91-98765-43210</a>
-              </li>
-              <li>
-                <a href="mailto:hello@company.com">hello@company.com</a>
-              </li>
-            </ul>
-          </Container>
-        </Container>
-      </Container>
-    </Footer>
-  );
-}
+```jsx
+<Footer brandName="Acme Inc" />
 ```
 
-### Props
+### With powered-by link
+
+```jsx
+<Footer
+  brandName="Acme Inc"
+  poweredByLabel="Powered by Sivadass"
+  poweredByLink="https://sivadass.in"
+/>
+```
+
+### Variants
+
+```jsx
+<Footer brandName="Acme Inc" variant="light" />
+<Footer brandName="Acme Inc" variant="dark" />
+```
+
+### Sizes
+
+```jsx
+<Footer brandName="Acme Inc" size="small" />
+<Footer brandName="Acme Inc" size="medium" />
+<Footer brandName="Acme Inc" size="large" />
+```
+
+### With custom content (columns)
+
+```jsx
+<Footer brandName="Acme Inc">
+  <Container display="flex" gap="4">
+    <Container width="quarter">
+      <Typography variant="h6" margin={["0", "b-2"]}>The Company</Typography>
+      <ul>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/about">About Us</a></li>
+      </ul>
+    </Container>
+    <Container width="quarter">
+      <Typography variant="h6" margin={["0", "b-2"]}>Policies</Typography>
+      <ul>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </Container>
+  </Container>
+</Footer>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Footer brandName="Acme Inc" margin="0" />
+<Footer brandName="Acme Inc" margin={["b-2"]} />
+```
+
+## Behavior
+
+- **Copyright:** Uses current year and `brandName`. Powered-by link shows only when both `poweredByLabel` and `poweredByLink` are set.
+- **children:** Rendered in a wrapper div above the copyright line.
+- **DOM:** Native `footer` element. Typography for copyright; link has `rel="noopener noreferrer"` when `target="_blank"`.
+
+## Props
 
 <ArgsTable of={Footer} />
+
+## Related components
+
+- **Container** – Layout for footer columns or custom content
+- **Typography** – Used internally for copyright text
+- **Header** – Often paired with Footer for app layout

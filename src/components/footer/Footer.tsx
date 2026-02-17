@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Typography from "../typography";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
@@ -7,8 +6,35 @@ import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import styles from "./Footer.module.scss";
 
-const Footer = ({
-  margin = "m-0",
+export type SpacingOption = (typeof SPACING_OPTIONS)[number];
+
+export type FooterSize = "small" | "medium" | "large";
+
+export type FooterVariant = "light" | "dark";
+
+export type FooterMargin = string | SpacingOption[];
+
+export interface FooterProps {
+  /** Spacing suffix(s) for outer margin; component adds m- prefix */
+  margin?: FooterMargin;
+  /** Size of the footer */
+  size?: FooterSize;
+  /** Visual variant */
+  variant?: FooterVariant;
+  /** Brand name shown in copyright (e.g. "Acme Inc") */
+  brandName?: string;
+  /** Label for the powered-by link (e.g. "Powered by X") */
+  poweredByLabel?: string;
+  /** URL for the powered-by link; shown when poweredByLabel is also set */
+  poweredByLink?: string;
+  /** Custom content rendered above the copyright line */
+  children?: React.ReactNode;
+  /** Additional class names for the root element */
+  className?: string;
+}
+
+const Footer: React.FC<FooterProps> = ({
+  margin = "0",
   size = "large",
   variant = "light",
   brandName = "",
@@ -26,7 +52,9 @@ const Footer = ({
     marginClass,
     className
   );
+
   const currentYear = new Date().getFullYear();
+
   return (
     <footer className={footerClasses}>
       {children && (
@@ -38,7 +66,7 @@ const Footer = ({
           {poweredByLabel && poweredByLink && (
             <>
               &nbsp;
-              <a href={poweredByLink} target="_blank">
+              <a href={poweredByLink} target="_blank" rel="noopener noreferrer">
                 {poweredByLabel}
               </a>
             </>
@@ -49,16 +77,6 @@ const Footer = ({
   );
 };
 
-Footer.propTypes = {
-  brandName: PropTypes.string,
-  poweredByLabel: PropTypes.string,
-  poweredByLink: PropTypes.string,
-  size: PropTypes.oneOf(["small", "medium", "large"]),
-  variant: PropTypes.oneOf(["light", "dark"]),
-  margin: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(SPACING_OPTIONS),
-  ]),
-};
+Footer.displayName = "Footer";
 
 export default Footer;

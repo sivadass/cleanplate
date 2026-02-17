@@ -1,60 +1,113 @@
-import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
-import { Header } from "../../index";
+import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
+import { Header, Avatar, Typography } from "../../index";
 
 <Meta title="molecules/Header/Documentation" />
 
 # Header
 
-The `Header` component is a versatile and customizable UI element designed for navigation, supporting properties like logo, menu items, and customizable sections for the left, center, and right areas. It adapts to different sizes, themes, and spacing options while offering a responsive mobile menu with smooth animations.
+The `Header` component provides a responsive navigation header with logo, menu items, and customizable left, center, and right slots. Use it for app navigation with a responsive mobile menu that slides in from the left. Supports sizes, variants, and margin spacing.
 
-### Usage
+## Features
 
-```
+- **Logo:** `logoUrl` for default left content, or `headerLeft` for custom content
+- **Menu items:** `menuItems` (label, value, optional icon) drive center nav and mobile menu
+- **Slots:** `headerLeft`, `headerCenter`, `headerRight` for custom content
+- **Active state:** `activeMenuItem` and `onMenuItemClick` for navigation
+- **Sizes:** `small`, `medium`, `large`
+- **Variants:** `light`, `dark`
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0)
+- **Mobile menu:** Hamburger trigger, slide-in menu with close button
+
+## Usage
+
+```jsx
+import { useState } from "react";
 import { Header, Avatar } from "cleanplate";
-import { useNavigate } from "react-router";
 
-export const MENU_ITEMS = [
-  {
-    label: "Home",
-    value: "/",
-    icon: "home",
-  },
-  {
-    label: "About",
-    value: "/about",
-    icon: "info",
-  },
-  {
-    label: "Login",
-    value: "/login",
-    icon: "home",
-  },
+const MENU_ITEMS = [
+  { label: "Dashboard", value: "/", icon: "speed" },
+  { label: "Projects", value: "/projects", icon: "receipt_long" },
 ];
 
 const AppHeader = () => {
   const [activeMenuItem, setActiveMenuItem] = useState("/");
-  let navigate = useNavigate();
-
-  const handleMenuItemClick = (menuItem) => {
-    setActiveMenuItem(menuItem.value);
-    navigate(menuItem.value);
-  };
-
   return (
     <Header
-        className={styles["header"]}
-        logoUrl="/logo.svg"
-        menuItems={MENU_ITEMS}
-        headerRight={<Avatar name="John Doe" />}
-        headerCenter={() => null}
-        onMenuItemClick={(menuItem) => handleMenuItemClick(menuItem)}
-        activeMenuItem={activeMenuItem}
+      logoUrl="/logo.svg"
+      menuItems={MENU_ITEMS}
+      activeMenuItem={activeMenuItem}
+      onMenuItemClick={(item) => setActiveMenuItem(item.value)}
+      headerRight={<Avatar name="John" />}
     />
   );
-}
+};
 ```
 
-### Props
+## Examples
+
+### Basic
+
+```jsx
+<Header
+  logoUrl="/logo.svg"
+  menuItems={menuItems}
+  activeMenuItem={activeItem}
+  onMenuItemClick={(item) => setActiveItem(item.value)}
+/>
+```
+
+### With custom slots
+
+```jsx
+<Header
+  menuItems={menuItems}
+  activeMenuItem={activeItem}
+  onMenuItemClick={handleClick}
+  headerLeft={<img src="/logo.svg" alt="Logo" />}
+  headerRight={<Avatar name="User" />}
+/>
+```
+
+### Variants
+
+```jsx
+<Header menuItems={items} variant="light" activeMenuItem={active} onMenuItemClick={handle} />
+<Header menuItems={items} variant="dark" activeMenuItem={active} onMenuItemClick={handle} />
+```
+
+### Sizes
+
+```jsx
+<Header menuItems={items} size="small" activeMenuItem={active} onMenuItemClick={handle} />
+<Header menuItems={items} size="medium" activeMenuItem={active} onMenuItemClick={handle} />
+<Header menuItems={items} size="large" activeMenuItem={active} onMenuItemClick={handle} />
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Header menuItems={items} margin="0" />
+<Header menuItems={items} margin={["b-2"]} />
+```
+
+## Behavior
+
+- **menuItems:** Required; each item has `label`, `value`, optional `icon` (Material icon name).
+- **headerLeft / headerCenter / headerRight:** When provided, replace the default logo, MenuList, or right slot.
+- **Mobile:** Below 1024px, center nav hides; hamburger shows. Click opens slide-in menu (Animated fade-in-left).
+- **onMenuItemClick:** Called with the clicked item; mobile menu closes on click.
+- **DOM:** Root div with wrapper; left/center/right sections; mobile menu panel with MenuList.
+
+## Props
 
 <ArgsTable of={Header} />
+
+## Related components
+
+- **MenuList** – Used in center and mobile menu for navigation items
+- **Avatar** – Commonly used in headerRight for user identity
+- **Button, Icon** – Used internally for mobile menu trigger and close
+- **Animated** – Used for mobile menu slide-in

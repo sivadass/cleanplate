@@ -1,115 +1,209 @@
-import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
-
-import { Icon } from "../index";
+import { Meta } from "@storybook/blocks";
 
 <Meta title="Introduction/Installation" />
 
 # CleanPlate
 
-A headless React UI Framework
+**A headless React UI framework** — reusable, accessible components you can style to match your brand. No opinionated theme; you bring the look and feel.
 
-### Installation
+---
 
-With NPM:
+## Getting started
 
-```
+### 1. Install
+
+```bash
 npm install cleanplate
 ```
 
-With Yarn:
+Or with Yarn:
 
-```
+```bash
 yarn add cleanplate
 ```
 
-### Usage
+### 2. Add styles
 
-All components can be consumed by `import` using their respective names from `cleanplate` package.
+Import the reset and base styles once at your app root (e.g. in `main.jsx` or `App.jsx`):
 
-#### Initial Setup
-
-Import the CSS Reset and minimal cleanplate styles at top most level or root level.
-
-```
+```jsx
 import "cleanplate/dist/index.css";
 ```
 
-#### Button
+### 3. Import and use components
 
+Everything is named exports from the `cleanplate` package. For example:
+
+```jsx
+import { Button, Typography } from "cleanplate";
+
+function App() {
+  return (
+    <>
+      <Typography variant="h1">Hello</Typography>
+      <Button variant="solid" onClick={() => alert("Hi!")}>
+        Say hi
+      </Button>
+    </>
+  );
+}
 ```
+
+---
+
+## Quick examples
+
+Here are a few components to get a feel for the API. Use the **sidebar** to open full docs and playgrounds for each component.
+
+### Button
+
+Variants: `solid`, `outline`, `ghost`, `icon`. Sizes: `small`, `medium`.
+
+```jsx
 import { Button } from "cleanplate";
 
-<Button variant="primary" onClick={() => {}}>Save</Button>
-<Button variant="secondary" onClick={() => {}}>Save</Button>
-<Button variant="nude" onClick={() => {}}>Save</Button>
-<Button variant="special" onClick={() => {}}>Save</Button>
+<Button variant="solid">Save</Button>
+<Button variant="outline">Cancel</Button>
+<Button variant="ghost">Skip</Button>
 ```
 
-#### Typography
+### Typography
 
-```
+Use for headings and body text. Variants: `h1`–`h6`, `p`, `span`, `small`.
+
+```jsx
 import { Typography } from "cleanplate";
 
-<Typography variant="h1">Hello World!</Typography>
-<Typography variant="h2">Hello World!</Typography>
-<Typography variant="h3">Hello World!</Typography>
-<Typography variant="h4">Hello World!</Typography>
-<Typography variant="h5">Hello World!</Typography>
-<Typography variant="h6">Hello World!</Typography>
-<Typography variant="p">Hello World!</Typography>
-<Typography variant="small">Hello World!</Typography>
-
+<Typography variant="h1">Heading 1</Typography>
+<Typography variant="h4">Heading 4</Typography>
+<Typography variant="p">A paragraph of body text.</Typography>
 ```
 
-#### Badge
+### Badge
 
-```
+Short labels for status or tags.
+
+```jsx
 import { Badge } from "cleanplate";
 
 <Badge label="New" />
+<Badge label="Draft" variant="info" />
 ```
 
-#### Form Controls
+### Form controls
 
-```
-import { FormControl } from "cleanplate";
+Inputs, selects, text areas, checkboxes, and more live under `FormControls`:
 
-<FormControl.Input
-    name="email"
-    onChange={(e) => handleChange(e)}
-    value={values.email}
+```jsx
+import { FormControls } from "cleanplate";
+
+<FormControls.Input
+  label="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
 />
 
-<FormControl.TextArea
-    name="bio"
-    onChange={(e) => handleChange(e)}
-    value={values.bio}
-/>
-
-<FormControl.Select
-    name="bio"
-    onChange={(e) => handleChange(e)}
-    options={
-        [
-            {
-                label: "A",
-                value: "a",
-            },
-            {
-                label: "B",
-                value: "b",
-            },
-        ]
-    }
+<FormControls.Select
+  label="Country"
+  options={[
+    { label: "United States", value: "us" },
+    { label: "Canada", value: "ca" },
+  ]}
+  value={country}
+  onChange={(e) => setCountry(e.target.value)}
 />
 ```
 
-#### Icon
+### Icon
 
-```
+Material Symbols–style icons. Pass a `name` (e.g. from [Google Material Icons](https://fonts.google.com/icons)), and optional `size` and `color`.
+
+```jsx
 import { Icon } from "cleanplate";
 
-<Icon name="settings" size="small" color="balck">
+<Icon name="settings" size="small" color="black" />
+<Icon name="check_circle" size="medium" />
 ```
 
-View all the available icon names from [Google Material Icons](https://fonts.google.com/icons).
+---
+
+## All available components
+
+Every component is a named export from `cleanplate`. Use the sidebar in this Storybook to open **Playground** (interactive props) and **Documentation** (examples, props, behavior) for each.
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Accordion</strong></td><td>Collapsible panels; FAQ sections, expandable content.</td></tr>
+    <tr><td><strong>Alert</strong></td><td>Inline feedback and notices (success, error, warning, info) with optional dismiss.</td></tr>
+    <tr><td><strong>Animated</strong></td><td>Scroll-triggered entrance/exit animations.</td></tr>
+    <tr><td><strong>AppShell</strong></td><td>Full-page layout: optional Header, Footer, and MenuList sidebar with main content.</td></tr>
+    <tr><td><strong>Avatar</strong></td><td>User identity: initials, image, or icon in a circle.</td></tr>
+    <tr><td><strong>Badge</strong></td><td>Short status labels or tags with colored variants.</td></tr>
+    <tr><td><strong>BottomSheet</strong></td><td>Slide-up panel from the bottom for forms or actions.</td></tr>
+    <tr><td><strong>BreadCrumb</strong></td><td>Navigation trail (e.g. Home → Products → Current page).</td></tr>
+    <tr><td><strong>Button</strong></td><td>Actions and interactions; variants: solid, outline, ghost, icon.</td></tr>
+    <tr><td><strong>ConfirmDialog</strong></td><td>Confirmation modal for destructive or important actions.</td></tr>
+    <tr><td><strong>Container</strong></td><td>Layout wrapper: display, width, margin, padding, gap, flex alignment.</td></tr>
+    <tr><td><strong>Dropdown</strong></td><td>Floating panel relative to a trigger; menus, option lists.</td></tr>
+    <tr><td><strong>Footer</strong></td><td>App footer with copyright and optional links.</td></tr>
+    <tr><td><strong>FormControls</strong></td><td>Form primitives: Input, Select, TextArea, Date, Checkbox, Radio, File, Toggle, Stepper.</td></tr>
+    <tr><td><strong>Header</strong></td><td>Responsive app header with logo, menu items, and left/center/right slots.</td></tr>
+    <tr><td><strong>Icon</strong></td><td>Material Symbols–style icons; size and color options.</td></tr>
+    <tr><td><strong>MediaObject</strong></td><td>Media (icon, image, avatar) plus title and description.</td></tr>
+    <tr><td><strong>MenuList</strong></td><td>Navigation list with optional icons and active state.</td></tr>
+    <tr><td><strong>Modal</strong></td><td>Full overlay for forms, long content, or custom dialogs.</td></tr>
+    <tr><td><strong>PageHeader</strong></td><td>Page title, subtitle, primary CTA, and more menu (two-column header).</td></tr>
+    <tr><td><strong>Pagination</strong></td><td>Page navigation for tables and lists.</td></tr>
+    <tr><td><strong>Pills</strong></td><td>Tags/chips: read-only, edit, or remove modes.</td></tr>
+    <tr><td><strong>ProgressBar</strong></td><td>Progress or loading bar.</td></tr>
+    <tr><td><strong>Spinner</strong></td><td>Loading/activity indicator.</td></tr>
+    <tr><td><strong>Stepper</strong></td><td>Multi-step flows and wizards.</td></tr>
+    <tr><td><strong>Table</strong></td><td>Tabular data with optional pagination and mobile card view.</td></tr>
+    <tr><td><strong>Toast</strong></td><td>Transient messages (imperative API: ref.addMessage).</td></tr>
+    <tr><td><strong>Typography</strong></td><td>Headings and text: h1–h6, p, span, small.</td></tr>
+  </tbody>
+</table>
+
+**Import example:**
+
+```jsx
+import {
+  Button,
+  Typography,
+  Container,
+  Header,
+  PageHeader,
+  BreadCrumb,
+  Table,
+  Pagination,
+  FormControls,
+  // ... any of the components above
+} from "cleanplate";
+```
+
+---
+
+## LLM / AI-friendly documentation
+
+CleanPlate ships **documentation written for AI assistants** (e.g. Cursor, Claude Code, or any LLM that reads your repo). Use it to get accurate component APIs, props, and examples when coding with AI.
+
+- **`llms.txt`** (project root) — Index of all components with file paths, purpose, key features, types, and related components. Point your AI at this file so it can discover and open the right docs.
+- **`docs/`** — One Markdown file per component (e.g. `docs/Button.md`, `docs/PageHeader.md`). Each doc includes props tables, TypeScript types, usage examples, behavior notes, and related components.
+
+When working in **Cursor** or **Claude Code**, reference `llms.txt` or `docs/<ComponentName>.md` in your prompts so the assistant uses up-to-date CleanPlate APIs and patterns.
+
+---
+
+## What's in this Storybook
+
+- **Introduction** (here) — install, first steps, and component list.
+- **Atoms** — Button, Typography, Icon, Alert, Avatar, Container, Badge, Pills, Table, Pagination, BreadCrumb, Stepper, Spinner, Animated, ProgressBar.
+- **Molecules** — Accordion, ConfirmDialog, Modal, Dropdown, MediaObject, Header, Footer, PageHeader, MenuList, AppShell, BottomSheet.
+
+Each component has a **Playground** (try props in the Controls panel) and **Documentation** (overview, examples, props, and behavior). Pick a component from the sidebar to dive in.

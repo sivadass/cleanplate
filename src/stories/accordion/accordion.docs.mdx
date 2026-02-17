@@ -1,29 +1,119 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Accordion } from "../../index";
+import { Accordion, Container, Typography } from "../../index";
 
 <Meta title="atoms/Accordion/Documentation" />
 
 # Accordion
 
-The `Accordion` component is a flexible and interactive UI element for displaying collapsible content sections. It supports dynamic toggling, multiple or single active panels, and customizable styles, making it ideal for organizing and presenting information efficiently in a compact space.
+The `Accordion` component displays collapsible panels from an array of title and content items. Use it for FAQ sections, feature lists, or any expandable content. Supports grouped or spaced layout, icon styles (arrows or plus/minus), semantic headings for SEO, and margin/padding spacing.
 
-### Usage
+## Features
 
-```
+- **Items:** Array of `{ title, content }`; content can be string or ReactNode
+- **Layout:** `grouped` (one unit with dividers) or `spaced` (separate items with gap, e.g. FAQ)
+- **Icons:** `expand` (arrows) or `plus` (+/-)
+- **Semantic headings:** `titleTag` (span, h2–h6) for SEO-friendly FAQ pages
+- **Spacing:** Margin and padding use the suffix API (e.g. `"0"` → m-0, `"4"` → p-4)
+- **allowMultiple:** Keep multiple panels open at once
+- **defaultExpandedIndex:** Index or array of indices for panel(s) open initially (default: 0)
+
+## Usage
+
+```jsx
 import { Accordion } from "cleanplate";
 
-const App = () => {
-  return (
-    <Accordion
-        size="medium"
-        className="my-custom-icon"
-        variant="light"
-    />
-  );
-}
+const items = [
+  { title: "Section 1", content: "Content here." },
+  { title: "Section 2", content: "More content." },
+];
+
+const App = () => <Accordion items={items} />;
 ```
 
-### Props
+## Examples
+
+### Basic
+
+```jsx
+<Accordion
+  items={[
+    { title: "Section 1", content: "Content for section 1." },
+    { title: "Section 2", content: "Content for section 2." },
+  ]}
+/>
+```
+
+### Variants
+
+```jsx
+<Accordion items={items} variant="grouped" />
+<Accordion items={items} variant="spaced" />
+```
+
+### Icon variants
+
+```jsx
+<Accordion items={items} iconVariant="expand" />
+<Accordion items={items} iconVariant="plus" />
+```
+
+### FAQ (SEO-friendly)
+
+```jsx
+<Accordion
+  items={faqItems}
+  variant="spaced"
+  titleTag="h3"
+  iconVariant="plus"
+/>
+```
+
+### Allow multiple
+
+```jsx
+<Accordion items={items} allowMultiple />
+```
+
+### Initial panel(s)
+
+```jsx
+<Accordion items={items} defaultExpandedIndex={1} />
+<Accordion items={items} allowMultiple defaultExpandedIndex={[0, 2]} />
+```
+
+### With Container and spacing
+
+```jsx
+<Container padding="4">
+  <Accordion items={items} margin="b-2" padding="4" />
+</Container>
+```
+
+## Spacing (margin and padding)
+
+`margin` and `padding` accept the **spacing suffix**. The component adds the `m-` or `p-` prefix internally (e.g. `"0"` → m-0, `"4"` → p-4, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<Accordion items={items} margin="0" />
+<Accordion items={items} margin={["b-2"]} />
+<Accordion items={items} padding="4" />
+```
+
+## Behavior
+
+- **items:** Each item has `title` (string) and `content` (string or ReactNode). String content is wrapped in Typography.
+- **titleTag:** When `h2`–`h6`, titles render as headings for SEO; header uses `role="button"` with keyboard support.
+- **variant:** `grouped` = single bordered block; `spaced` = separate items with gap.
+- **defaultExpandedIndex:** Single number or array; controls which panel(s) are open on initial render.
+- **DOM:** Root div; each item has a header (button or div) and content region with ARIA attributes.
+
+## Props
 
 <ArgsTable of={Accordion} />
+
+## Related components
+
+- **Container** – Layout around accordion; use padding for spacing
+- **Typography** – Used internally for title and string content
+- **Icon** – Used for expand/collapse indicator

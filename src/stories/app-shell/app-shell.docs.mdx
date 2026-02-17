@@ -1,0 +1,175 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { AppShell, Container, Typography, Avatar } from "../../index";
+
+<Meta title="molecules/AppShell/Documentation" />
+
+# AppShell
+
+The `AppShell` component provides a full-page layout that combines an optional **Header** (top), optional **Footer** (bottom), and an optional **MenuList** as a left **sidebar**, with the main content in the center. Use it for dashboard-style apps where the sidebar holds primary navigation and the header holds logo and utilities (e.g. user menu).
+
+## Features
+
+- **Header slot:** Optional. Pass Header props (object) or custom ReactNode. Renders full width at the top.
+- **Footer slot:** Optional. Pass Footer props (object) or custom ReactNode. Renders full width at the bottom.
+- **Sidebar:** Optional. Config object with `items`, `activeItem`, `onMenuClick`, and optional `size`/`variant`. Renders MenuList in vertical direction on the left.
+- **Sidebar width:** Configurable via `sidebarWidth` (e.g. `"240px"`, `"16rem"`).
+- **Responsive:** Sidebar is hidden below 1024px; pass the same menu items to the header so the header’s mobile menu can be used for navigation.
+- **Main content:** `children` render inside a scrollable `<main>`; optional `contentClassName`.
+
+## Usage
+
+```jsx
+import { useState } from "react";
+import { AppShell, Container, Typography, Avatar } from "cleanplate";
+
+const MENU_ITEMS = [
+  { label: "Dashboard", value: "/", icon: "speed" },
+  { label: "Settings", value: "/settings", icon: "settings" },
+];
+
+const Dashboard = () => {
+  const [active, setActive] = useState("/");
+  const onMenuClick = (item) => setActive(item.value);
+  return (
+    <AppShell
+      sidebar={{
+        items: MENU_ITEMS,
+        activeItem: active,
+        onMenuClick,
+        variant: "light",
+      }}
+      header={{
+        logoUrl="/logo.svg",
+        menuItems: MENU_ITEMS,
+        activeMenuItem: active,
+        onMenuItemClick: onMenuClick,
+        headerRight: <Avatar name="User" />,
+      }}
+      footer={{ brandName: "Acme Inc" }}
+      sidebarWidth="260px"
+    >
+      <Container padding="4">
+        <Typography variant="h4">Dashboard</Typography>
+      </Container>
+    </AppShell>
+  );
+};
+```
+
+## Examples
+
+### Full dashboard
+
+Sidebar + header + footer with shared menu state.
+
+```jsx
+const [active, setActive] = useState("/");
+const onMenuClick = (item) => setActive(item.value);
+
+<AppShell
+  sidebar={{
+    items: menuItems,
+    activeItem: active,
+    onMenuClick,
+    variant: "light",
+  }}
+  header={{
+    logoUrl="/logo.svg",
+    menuItems,
+    activeMenuItem: active,
+    onMenuItemClick: onMenuClick,
+    headerRight: <Avatar name="Jane" />,
+  }}
+  footer={{ brandName: "Acme Inc" }}
+  sidebarWidth="260px"
+>
+  <Container padding="4">
+    <Typography variant="h4">Page title</Typography>
+    <Typography variant="p">Content...</Typography>
+  </Container>
+</AppShell>
+```
+
+### Sidebar only
+
+No header or footer; sidebar + main content.
+
+```jsx
+<AppShell
+  sidebar={{
+    items: menuItems,
+    activeItem: activeItem,
+    onMenuClick: (item) => setActiveItem(item.value),
+  }}
+  sidebarWidth="240px"
+>
+  <Container padding="4">
+    <Typography variant="p">Main content</Typography>
+  </Container>
+</AppShell>
+```
+
+### Header and footer only
+
+Full-width header and footer; no sidebar. Use when navigation lives in the header (e.g. horizontal nav).
+
+```jsx
+<AppShell
+  header={{
+    logoUrl="/logo.svg",
+    menuItems,
+    activeMenuItem: active,
+    onMenuItemClick: (item) => setActive(item.value),
+    headerRight: <Avatar name="User" />,
+  }}
+  footer={{ brandName: "My App" }}
+>
+  <Container padding="4">
+    <Typography variant="p">Content</Typography>
+  </Container>
+</AppShell>
+```
+
+### Content only
+
+No header, sidebar, or footer. Useful for login or landing pages.
+
+```jsx
+<AppShell>
+  <Container padding="4">
+    <Typography variant="h4">Welcome</Typography>
+  </Container>
+</AppShell>
+```
+
+### Custom sidebar width
+
+```jsx
+<AppShell
+  sidebar={{ items: menuItems, activeItem, onMenuClick }}
+  sidebarWidth="16rem"
+>
+  ...
+</AppShell>
+```
+
+## Behavior
+
+- **Layout:** Root is a flex column with `min-height: 100vh`. Header and footer slots are flex-shrink: 0. The body is a flex row (sidebar + main) with flex: 1; main is scrollable.
+- **Header / footer props:** When `header` or `footer` is a plain object (with `menuItems` for header or footer-specific keys), the component renders `<Header {...header} />` or `<Footer {...footer} />`. Otherwise it renders the ReactNode as-is.
+- **Sidebar:** Rendered in an `<aside aria-label="Main navigation">` with a vertical MenuList. Width is set via inline style from `sidebarWidth`.
+- **Responsive:** At viewport width ≤ 1024px the sidebar is hidden (CSS). Pass the same `menuItems` (and `activeMenuItem` / `onMenuItemClick`) to `header` so the header’s built-in mobile menu provides navigation.
+- **No spacing props on root:** AppShell does not expose margin/padding; use `className` or `contentClassName` for layout tweaks.
+
+## Props
+
+<ArgsTable of={AppShell} />
+
+## Related components
+
+- **Header** – Rendered in the header slot when `header` is a Header props object; often used with the same menu items as the sidebar for mobile.
+- **Footer** – Rendered in the footer slot when `footer` is a Footer props object.
+- **MenuList** – Used inside the sidebar with `direction="vertical"`.
+- **Container** – Use inside `children` for padding and layout of page content.
+- **Typography**, **Avatar** – Common content inside header and main.

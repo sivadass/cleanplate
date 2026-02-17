@@ -1,78 +1,96 @@
-import { Meta, Title, IconGallery, IconItem } from "@storybook/blocks";
-import { BottomSheet } from "../../index";
+import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
+import { BottomSheet, Button, Container, Typography } from "../../index";
 
-<Meta title="atoms/Bottom Sheet/Documentation" />
+<Meta title="molecules/BottomSheet/Documentation" />
 
 # BottomSheet
 
-The BottomSheet component is a versatile UI element that slides up from the bottom of the screen. It provides a native-like experience with smooth animations, drag gestures, and snap points. Perfect for displaying additional content, forms, or actions without leaving the current context.
+The `BottomSheet` component slides up from the bottom of the screen. Use it for additional content, forms, or actions without leaving the current context. Supports drag-to-close, snap points (30%, 60%, 90%), touch and mouse gestures, and body scroll lock when open.
 
-### Features
+## Features
 
-- Drag-to-close functionality
-- Multiple snap points (30%, 60%, 90% of screen height)
-- Smooth animations and transitions
-- Touch and mouse support
-- Backdrop overlay
-- Scrollable content
-- Responsive design
+- **Controlled:** `isOpen` and `onClose` control visibility
+- **Snap points:** 30%, 60%, 90% of screen height
+- **Drag to close:** Drag down past threshold to close
+- **Touch and mouse:** Full pointer support
+- **Body scroll lock:** Disables body scroll when open
+- **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0)
 
-### Usage
+## Usage
 
 ```jsx
-import { BottomSheet } from "cleanplate";
+import { useState } from "react";
+import { BottomSheet, Button } from "cleanplate";
 
-const MyComponent = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <div>
-      <Button onClick={() => setIsOpen(true)}>
-        Open Bottom Sheet
-      </Button>
-      
-      <BottomSheet 
-        isOpen={isOpen}
-        onClose={handleClose}
-        margin="m-0"
-      >
-        <div>
-          <h2>Bottom Sheet Content</h2>
-          <p>Your content goes here...</p>
-        </div>
+    <>
+      <Button onClick={() => setIsOpen(true)}>Open</Button>
+      <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <p>Content here</p>
       </BottomSheet>
-    </div>
+    </>
   );
 };
 ```
 
-### Props
+## Examples
+
+### Basic
+
+```jsx
+const [isOpen, setIsOpen] = useState(false);
+
+<Button onClick={() => setIsOpen(true)}>Open</Button>
+<BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
+  <p>Your content</p>
+</BottomSheet>
+```
+
+### With Container and Typography
+
+```jsx
+<BottomSheet isOpen={isOpen} onClose={handleClose}>
+  <Container padding="4">
+    <Typography variant="h5" margin="m-0 m-b-2">Title</Typography>
+    <Typography variant="p">Body text</Typography>
+  </Container>
+</BottomSheet>
+```
+
+### With margin
+
+```jsx
+<BottomSheet isOpen={isOpen} onClose={handleClose} margin="0">
+  <Container padding="4">Content</Container>
+</BottomSheet>
+```
+
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
+
+```jsx
+<BottomSheet isOpen={isOpen} onClose={handleClose} margin="0" />
+<BottomSheet isOpen={isOpen} onClose={handleClose} margin={["b-2"]} />
+```
+
+## Behavior
+
+- **isOpen / onClose:** Controlled visibility. `onClose` is called when the user drags to close (past threshold).
+- **Snap points:** Sheet snaps to 30%, 60%, or 90% of viewport height.
+- **DOM:** Overlay div wrapping the sheet panel; handle area for drag; content area for children.
+- **Body overflow:** Set to `hidden` when open, restored on close or unmount.
+
+## Props
 
 <ArgsTable of={BottomSheet} />
 
-### Best Practices
+## Related components
 
-1. **Content Organization**
-   - Keep content concise and focused
-   - Use appropriate spacing and typography
-   - Consider using a scrollable container for long content
-
-2. **Interaction Design**
-   - Provide clear visual feedback for drag gestures
-   - Use the drag handle for better UX
-   - Consider adding a close button for accessibility
-
-3. **Performance**
-   - Minimize content updates during animations
-   - Use appropriate snap points based on content length
-   - Consider lazy loading for heavy content
-
-4. **Accessibility**
-   - Ensure content is keyboard navigable
-   - Provide appropriate ARIA labels
-   - Consider screen reader support
+- **Modal** – Full overlay dialog; use for larger forms or content
+- **ConfirmDialog** – Simple confirmation overlay
+- **Button** – Commonly used to trigger opening
+- **Container, Typography** – Layout and content inside the sheet
