@@ -8,6 +8,7 @@
 - [Documentation](#documentation)
 - [TypeScript](#typescript)
 - [LLM / AI-friendly docs](#llm--ai-friendly-docs)
+- [GitHub MCP server](#github-mcp-server)
 
 ---
 
@@ -203,6 +204,20 @@ The repo includes documentation aimed at **AI assistants** (e.g. Cursor, Claude 
 - **`docs/`** — One Markdown file per component (e.g. `docs/Button.md`, `docs/PageHeader.md`) with props, types, examples, and behavior.
 
 Reference `llms.txt` or `docs/<ComponentName>.md` in your prompts when using Cursor or Claude Code for more accurate suggestions.
+
+---
+
+## GitHub MCP server
+
+This repository is **compatible with the [GitHub MCP server](https://github.com/github/github-mcp-server)** (Model Context Protocol). The GitHub MCP server lets AI assistants (e.g. in Cursor or VS Code) access GitHub—repos, issues, pull requests, and workflows—so you can work with this codebase using natural language.
+
+- **Compatibility:** CleanPlate is a standard GitHub repo with no special constraints. The GitHub MCP server can read and interact with it once connected.
+- **Setup:** Add the GitHub MCP server in your editor:
+  - **Cursor:** Settings → Tools & MCP → add the GitHub MCP server (or add it to `~/.cursor/mcp.json`). Use [Cursor’s MCP docs](https://cursor.com/docs/context/mcp) for the exact config.
+  - **VS Code (1.101+):** Use the MCP servers UI or add the server to `.vscode/mcp.json`. See [GitHub: Using the GitHub MCP Server](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/use-the-github-mcp-server).
+- **Auth:** You’ll need to authenticate with GitHub (OAuth or a Personal Access Token with the scopes the MCP server needs).
+
+No project-level MCP config is required; configure the GitHub MCP server in your editor or global config and point it at this repo.
 
 ---
 
