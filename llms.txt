@@ -6,6 +6,38 @@ This file contains an index of all available component documentation for the Cle
 
 CleanPlate is a Headless React UI Framework providing reusable, accessible, and customizable components for building modern web applications.
 
+## Guidelines for AI / LLM code generation
+
+When generating code that uses CleanPlate components, **use component props instead of inline `style`** for layout, spacing, and alignment. The framework exposes these via props; inline styles bypass design tokens and consistency.
+
+### Spacing (margin, padding, gap) — common rule for all components
+
+**This rule applies to every CleanPlate component** that accepts `margin`, `padding`, or `gap` (Typography, Button, Container, Alert, Avatar, Accordion, Header, Footer, and others). All of them use the same **suffix-only** API; the component adds the prefix internally.
+
+- **Correct:** `margin="0"`, `margin="b-2"`, `margin={["b-2", "t-1"]}`, `padding="4"`, `gap="2"`. The component turns these into m-0, m-b-2, p-4, g-2, etc.
+- **Wrong:** `margin="m-0"`, `padding="p-4"`, `gap="g-2"` — do not include the m-, p-, or g- prefix.
+- Common suffixes: "0", "1", "2", "3", "4", "b-1", "b-2", "t-2", "y-2", "x-2".
+- Use the `margin` / `padding` / `gap` prop instead of `style={{ marginBottom, paddingTop, gap }}` for spacing.
+
+### Typography
+- **Text alignment:** Use the `align` prop. Example: `<Typography align="center">` not `style={{ textAlign: "center" }}`. Values: `"left"`, `"center"`, `"right"`.
+- **Spacing:** Use `margin` with the spacing suffix (see above; same rule as all components).
+- **Bold:** Use `isBold` prop, not `style={{ fontWeight: "bold" }}`.
+
+### Other components
+- **Container:** Use `padding`, `margin`, `gap`, `align`, `justify`, `display`, `width` props (spacing uses suffix rule above).
+- **Button, Alert, Badge, etc.:** Each has documented props (e.g. variant, size, margin). Prefer these over inline style. Any `margin` or `padding` prop follows the suffix rule. See `docs/<ComponentName>.md` for the full prop list.
+
+### Example (correct)
+```jsx
+<Typography variant="h4" align="center" margin="b-2">Login</Typography>
+```
+
+### Example (avoid)
+```jsx
+<Typography variant="h4" style={{ textAlign: "center", marginBottom: "1rem" }}>Login</Typography>
+```
+
 ## Component Documentation
 
 All component documentation is located in the `docs/` folder. The following documentation files are available:

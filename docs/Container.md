@@ -1,6 +1,6 @@
 # Container Component
 
-Purpose: A layout wrapper that controls display type, width, spacing (margin, padding, gap), and flex alignment. Use it to structure content, create flex layouts, and apply consistent spacing. Below the mobile breakpoint (600px), width variants collapse to full width for a responsive default.
+Purpose: A layout wrapper that controls display type, width, spacing (margin, padding, gap), and flex alignment. Use it to structure content, create flex layouts, and apply consistent spacing. Below the mobile breakpoint (600px), width variants collapse to full width for a responsive default. **Spacing (margin, padding, gap)** uses the **framework-wide suffix rule** (same for all CleanPlate components); see `llms.txt`.
 
 ## Props / Inputs
 

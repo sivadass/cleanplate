@@ -1,6 +1,12 @@
+# LLM/component doc structure (docs/<ComponentName>.md)
+
+Use this order: **Purpose** → **Props / Inputs** → **Types** → **Usage Examples** → **Behavior Notes** → **Related Components / Links**. For any component with `margin`, `padding`, or `gap`: state in Purpose and in the prop description that spacing uses the **framework-wide suffix rule** (suffix only; component adds m-/p-/g- prefix); see `llms.txt`. Optional: add a **For AI / LLM** line after Purpose for components where LLMs often use inline style (e.g. Typography).
+
+---
+
 # Avatar Component
 
-Purpose: Display a user avatar as an image, icon, or initials.
+Purpose: Display a user avatar as an image, icon, or initials. **Margin** uses the **framework-wide spacing suffix rule** (same for all components); see `llms.txt`.
 
 ## Props / Inputs
 
@@ -10,7 +16,7 @@ Purpose: Display a user avatar as an image, icon, or initials.
 | image | string | no | "" | Image URL to render when `icon` is not set. |
 | icon | string | no | "" | Icon name to render when `image` is not set. |
 | size | "small" \| "medium" | no | "medium" | Size variant. |
-| margin | string \| string[] | no | "m-0" | Spacing utility token(s), such as `m-0` or `m-b-2`. |
+| margin | string \| string[] | no | "0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`. Do not pass `"m-0"`. |
 | className | string | no | "" | Additional class names for the root element. |
 | onClick | function | no | — | Called with the click event. |
 
@@ -60,6 +66,7 @@ export const Example = () => (
 - Background color is generated from `name`, so the same name yields the same color.
 - Provide only one of `image` or `icon`. If both are set, the component renders no content.
 - The root element sets `title` to the value of `name`.
+- **Margin** uses the framework-wide spacing rule: pass suffix only (e.g. `"b-2"`); component adds the `m-` prefix.
 
 ## Related Components / Links
 

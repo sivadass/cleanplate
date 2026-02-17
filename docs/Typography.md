@@ -2,13 +2,15 @@
 
 Purpose: Provides a consistent set of text styles for headings, paragraphs, and inline elements, ensuring clear hierarchy, readability, and brand-aligned communication across the interface.
 
+**For AI / LLM:** Prefer component props over inline `style`. Use `align="center"` for text alignment (not `style={{ textAlign: "center" }}`). For spacing, use the `margin` prop with the **framework-wide spacing suffix rule** (same for all CleanPlate components): pass suffix only (e.g. `margin="b-2"`), not `style={{ marginBottom }}` and not `"m-0"` or `"m-b-2"` — the component adds the `m-` prefix. See `llms.txt` for the full spacing rule.
+
 ## Props / Inputs
 
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | children | React.ReactNode | no | — | Text content to display. |
 | variant | "h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6" \| "p" \| "span" \| "small" | no | "p" | HTML element type to render. Determines the semantic meaning and default styling. |
-| margin | string \| string[] | no | "m-0" | Spacing utility token(s), such as `m-0` or `["m-1", "m-b-2"]`. |
+| margin | string \| string[] | no | "m-0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
 | className | string | no | "" | Additional class names for the root element. |
 | isBold | boolean | no | false | Applies bold font weight to the text. |
 | align | "left" \| "center" \| "right" | no | "left" | Text alignment within its container. |
@@ -158,24 +160,26 @@ export const Example = () => (
 );
 ```
 
-### With margin spacing
+### With margin spacing (suffix only)
+
+Use the spacing **suffix**; the component adds the `m-` prefix. E.g. `"2"` → m-2, `"b-2"` → m-b-2.
 
 ```jsx
 import { Typography } from "cleanplate";
 
 export const Example = () => (
   <>
-    <Typography variant="h1" margin="m-2">
+    <Typography variant="h1" margin="2">
       Heading with margin
     </Typography>
-    <Typography margin={["m-1", "m-b-3"]}>
+    <Typography margin={["1", "b-3"]}>
       Paragraph with multiple margins
     </Typography>
   </>
 );
 ```
 
-### Combined properties
+### Combined properties (prefer props over style)
 
 ```jsx
 import { Typography } from "cleanplate";
@@ -185,7 +189,7 @@ export const Example = () => (
     variant="h2"
     isBold
     align="center"
-    margin="m-4"
+    margin="4"
   >
     Centered, bold heading with margin
   </Typography>
@@ -215,9 +219,10 @@ export const Example = () => (
 - The `variant` prop determines both the HTML element type (h1, h2, p, etc.) and the default styling applied.
 - The component uses semantic HTML elements, which is important for accessibility and SEO.
 - All standard HTML attributes can be passed through via the spread operator (`...rest`), allowing for custom `id`, `data-*`, `aria-*`, and other attributes.
-- The `align` prop controls text alignment using CSS classes, not inline styles.
+- **Use props, not inline style:** Use `align` for text alignment (e.g. `align="center"`), and `margin` for spacing. Do not use `style={{ textAlign, marginBottom }}` for these.
+- The `align` prop controls text alignment using CSS classes. Values: `"left"`, `"center"`, `"right"`.
 - The `wordBreak` prop provides control over how text wraps when it exceeds container width.
-- Margin spacing accepts either a single string token (e.g., `"m-2"`) or an array of tokens (e.g., `["m-1", "m-b-3"]`).
+- **Margin uses the framework-wide spacing rule (all components):** Pass suffix only: `"0"`, `"2"`, `"b-2"`, `["1", "b-3"]` etc. The component adds the `m-` prefix. Do not pass `"m-2"` or `"m-b-2"`.
 - The `isBold` prop applies bold font weight, which can be combined with any variant.
 
 ## Related Components / Links

@@ -1,6 +1,6 @@
 # Alert Component
 
-Purpose: Displays a short message with an optional variant icon and dismiss button. Use it for inline feedback (success, error, warning, info) or neutral notices. When dismissed, the alert unmounts (returns null).
+Purpose: Displays a short message with an optional variant icon and dismiss button. Use it for inline feedback (success, error, warning, info) or neutral notices. When dismissed, the alert unmounts (returns null). **Margin** uses the **framework-wide spacing suffix rule** (same for all components); see `llms.txt`.
 
 ## Props / Inputs
 
