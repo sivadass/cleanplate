@@ -7,7 +7,7 @@
 - [Available components](#available-components)
 - [Documentation](#documentation)
 - [TypeScript](#typescript)
-- [LLM / AI-friendly docs](#llm--ai-friendly-docs)
+- [LLM / AI-friendly docs & agents](#llm--ai-friendly-docs--agents)
 - [GitHub MCP server](#github-mcp-server)
 
 ---
@@ -196,14 +196,25 @@ import type { ButtonProps } from "cleanplate";
 
 ---
 
-## LLM / AI-friendly docs
+## LLM / AI-friendly docs & agents
 
-The repo includes documentation aimed at **AI assistants** (e.g. Cursor, Claude Code):
+Documentation for **coding agents** and LLMs ships with the npm package alongside the compiled library.
 
-- **`llms.txt`** (project root) — Index of all components with file paths, purpose, and features. Point your AI at this file to discover the right docs.
-- **`docs/`** — One Markdown file per component (e.g. `docs/Button.md`, `docs/PageHeader.md`) with props, types, examples, and behavior.
+### After `npm install cleanplate`
 
-Reference `llms.txt` or `docs/<ComponentName>.md` in your prompts when using Cursor or Claude Code for more accurate suggestions.
+- **Index:** `node_modules/cleanplate/llms.txt` — component list, conventions, and links to each doc file.
+- **Per-component docs:** `node_modules/cleanplate/docs/<ComponentName>.md` — props, types, examples, behavior.
+
+**Agent workflow:** read `node_modules/cleanplate/llms.txt` first, then open the specific files under `node_modules/cleanplate/docs/` (not imports alone).
+
+### Version-pinned URLs (no download step)
+
+CDN mirrors of the published tarball work well for prompts and CI; pin the semver you depend on:
+
+- **Latest:** [unpkg — `llms.txt`](https://unpkg.com/cleanplate@latest/llms.txt) · [jsDelivr — `llms.txt`](https://cdn.jsdelivr.net/npm/cleanplate@latest/llms.txt)
+- **Pinned example:** `https://unpkg.com/cleanplate@0.2.0/llms.txt` and `https://unpkg.com/cleanplate@0.2.0/docs/Button.md` (substitute your installed version)
+
+Human-facing Storybook: [cleanplate.sivadass.in](https://cleanplate.sivadass.in).
 
 ---
 

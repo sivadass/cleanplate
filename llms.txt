@@ -1,5 +1,7 @@
 # CleanPlate Component Documentation Index
 
+This file is published in the **`cleanplate` npm package** (next to `package.json`). Consumers and coding agents should use `node_modules/cleanplate/llms.txt` or a CDN URL pinned to their installed semver (see the README “LLM / AI-friendly docs & agents” section).
+
 This file contains an index of all available component documentation for the CleanPlate UI framework.
 
 ## Project Overview

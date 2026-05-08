@@ -9,13 +9,11 @@
 rollup.config.mjs
 tsconfig.json
 
-# Storybook and docs (dev-only)
+# Storybook and docs site (dev-only). Component Markdown in /docs and llms.txt are published via package.json "files".
 /.storybook
 /storybook-static
 /website
-/docs
 /templates
-llms.txt
 llms.config.js
 
 # Dependencies and lockfile

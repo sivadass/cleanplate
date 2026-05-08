@@ -1,6 +1,6 @@
 # Button Component
 
-Purpose: A highly customizable and interactive UI element designed to handle user actions with various styles, sizes, and variants. Supports loading states, disabled states, and click events.
+Purpose: A customizable action trigger for user interactions. Supports visual variants, size options, loading/disabled states, fluid layout, spacing utilities, and standard button behaviors.
 
 ## Props / Inputs
 
@@ -11,7 +11,7 @@ Purpose: A highly customizable and interactive UI element designed to handle use
 | isDisabled | boolean | no | false | Disables the button and prevents click events. |
 | isFluid | boolean | no | false | Makes the button take full width of its container. |
 | size | "small" \| "medium" | no | "medium" | Size variant of the button. |
-| variant | "solid" \| "outline" \| "ghost" \| "icon" | no | "solid" | Visual style variant of the button. |
+| variant | "solid" \| "outline" \| "ghost" \| "icon" | no | "solid" | Visual style variant of the button (`icon` is a style variant, not an icon prop). |
 | margin | string \| string[] | no | "m-0" | Spacing utility token(s), such as `m-0` or `["m-1", "m-b-2"]`. |
 | onClick | function | no | — | Called with the click event when button is clicked. Prevents execution if `isDisabled` or `isLoading` is true. |
 | className | string | no | "" | Additional class names for the root element. |
@@ -82,6 +82,18 @@ export const Example = () => (
     <Button variant="ghost">Ghost</Button>
     <Button variant="icon">Icon</Button>
   </>
+);
+```
+
+### Icon variant (icon-only action)
+
+```jsx
+import { Button, Icon } from "cleanplate";
+
+export const Example = () => (
+  <Button variant="icon" aria-label="Close dialog">
+    <Icon name="close" />
+  </Button>
 );
 ```
 
@@ -161,13 +173,15 @@ export const Example = () => (
 
 ## Behavior Notes
 
-- When `isLoading` is true, a progress spinner icon is displayed and the button is automatically disabled.
+- When `isLoading` is true, an internal loading icon (`progress_activity`) is displayed and the button is automatically disabled.
 - When `isDisabled` is true, click events are prevented and the button appears visually disabled.
-- If both `isDisabled` and `isLoading` are true, the button is disabled and the loading spinner is shown.
+- If both `isDisabled` and `isLoading` are true, the button is disabled and the loading icon is shown.
 - The `onClick` handler is not called if the button is disabled or loading, even if the event is triggered.
 - The button extends standard HTML button attributes, so you can use props like `aria-label`, `data-*`, etc.
 - The `type` prop defaults to `"button"` to prevent accidental form submissions. Use `type="submit"` for form submission buttons.
 - Margin spacing accepts either a single string token (e.g., `"m-2"`) or an array of tokens (e.g., `["m-1", "m-b-3"]`).
+- `variant="icon"` is a visual style variant. For icon-only buttons, pass an accessible name using `aria-label`.
+- In `size="medium"` + `variant="icon"`, styling uses compact horizontal padding and a 44px minimum width.
 
 ## Related Components / Links
 

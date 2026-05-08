@@ -6,26 +6,108 @@ import { Button } from "../../index";
 
 # Button
 
-The `Button` component is a highly customizable and interactive UI element, designed to handle user actions with various styles, sizes, and variants. It supports icons, click events, and dynamic states, making it a versatile choice for enhancing interactivity across interfaces.
+The `Button` component is a customizable action trigger for user interactions. It supports multiple visual variants, size options, loading and disabled states, fluid width mode, and margin spacing utilities.
 
-### Usage
+## Features
 
-```
+- **Variants:** `solid`, `outline`, `ghost`, and `icon`
+- **Sizes:** `small` and `medium`
+- **States:** `isLoading` and `isDisabled`
+- **Layout:** `isFluid` for full-width buttons
+- **Spacing:** `margin` accepts spacing utility token(s)
+- **Type-safe defaults:** `type="button"` to prevent accidental form submit
+
+## Usage
+
+```jsx
 import { Button } from "cleanplate";
 
-const App = () => {
-  return (
-    <Button
-        size="medium"
-        className="custom-button"
-        variant="solid"
-        isLoading={false}
-        isDisabled={false}
-    />
-  );
-}
+const App = () => (
+  <Button variant="solid" size="medium" onClick={() => console.log("clicked")}>
+    Save changes
+  </Button>
+);
 ```
 
-### Props
+## Examples
+
+### Variants
+
+```jsx
+<>
+  <Button variant="solid">Solid</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="icon">Icon</Button>
+</>
+```
+
+### Icon variant (icon-only action)
+
+```jsx
+import { Button, Icon } from "cleanplate";
+
+<Button variant="icon" aria-label="Close dialog">
+  <Icon name="close" />
+</Button>;
+```
+
+### Sizes
+
+```jsx
+<>
+  <Button size="small">Small</Button>
+  <Button size="medium">Medium</Button>
+</>
+```
+
+### Loading and disabled states
+
+```jsx
+<>
+  <Button isLoading>Loading...</Button>
+  <Button isDisabled>Disabled</Button>
+</>
+```
+
+### Fluid width
+
+```jsx
+<Button isFluid>Full width button</Button>
+```
+
+### Margin spacing
+
+```jsx
+<>
+  <Button margin="m-2">Single margin token</Button>
+  <Button margin={["m-1", "m-b-3"]}>Multiple margin tokens</Button>
+</>
+```
+
+### Form submit button
+
+```jsx
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    console.log("submitted");
+  }}
+>
+  <Button type="submit">Submit</Button>
+</form>
+```
+
+## Behavior
+
+- When `isLoading` is true, a loading icon is displayed and the button is disabled.
+- When `isDisabled` is true, click events are prevented and native `disabled` is applied.
+- If both `isDisabled` and `isLoading` are true, the button stays disabled and shows loading.
+- `onClick` is not invoked while disabled/loading, even if an event reaches the element.
+- `margin` accepts a token string or array of tokens (for example `"m-2"` or `["m-1", "m-b-3"]`).
+- `variant="icon"` is a visual style. For icon-only buttons, provide an accessible name via `aria-label`.
+- In `size="medium"` with `variant="icon"`, the button uses compact horizontal padding and a 44px minimum width.
+
+## Props
 
 <ArgsTable of={Button} />
