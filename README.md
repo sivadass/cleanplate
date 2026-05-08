@@ -8,6 +8,7 @@
 - [Documentation](#documentation)
 - [TypeScript](#typescript)
 - [LLM / AI-friendly docs & agents](#llm--ai-friendly-docs--agents)
+- [`AGENTS.md` in your app repo](#agentsmd-in-your-app-repo)
 - [GitHub MCP server](#github-mcp-server)
 
 ---
@@ -215,6 +216,17 @@ CDN mirrors of the published tarball work well for prompts and CI; pin the semve
 - **Pinned example:** `https://unpkg.com/cleanplate@0.2.0/llms.txt` and `https://unpkg.com/cleanplate@0.2.0/docs/Button.md` (substitute your installed version)
 
 Human-facing Storybook: [cleanplate.sivadass.in](https://cleanplate.sivadass.in).
+
+### `AGENTS.md` in your app repo
+
+Many coding agents automatically read **`AGENTS.md`** at the **root of the repository** they are working in. To give agents CleanPlate-specific context in **your** frontend project:
+
+1. Copy the template into your app root:
+   - From this repo: [`AGENTS.md`](https://github.com/sivadass/cleanplate/blob/main/AGENTS.md) (raw: [`AGENTS.md` raw](https://raw.githubusercontent.com/sivadass/cleanplate/main/AGENTS.md))
+   - Or from an install: `node_modules/cleanplate/AGENTS.md` → paste/rename as `AGENTS.md` at your project root  
+2. Commit `AGENTS.md` so teammates and agents see the same rules.
+
+The published tarball also includes **`AGENTS.md`** next to `llms.txt` for easy copying after `npm install`.
 
 ---
 
