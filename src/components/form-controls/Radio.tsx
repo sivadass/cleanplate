@@ -1,61 +1,252 @@
-import React from "react";
+import React, { useId, useState } from "react";
 import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
 
-export interface RadioProps {
-  name?: string;
-  id?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  defaultValue?: string;
-  value?: string;
-  label?: string;
+export type RadioValue = string | number;
+
+export interface RadioOption {
+  /** Visible label next to the radio control. */
+  label: string;
+  /** Submitted value when the option is selected. */
+  value: RadioValue;
+  /** Disable just this option (group-level `isDisabled` overrides this). */
   isDisabled?: boolean;
-  className?: string;
-  isFluid?: boolean;
-  error?: string;
+  /** Optional helper text rendered below the option label. */
+  description?: string;
+  /**
+   * Optional leading visual. Pass any node — a CleanPlate `<Icon>`, an image
+   * (e.g. brand logo), an emoji, or custom SVG.
+   */
+  icon?: React.ReactNode;
+  /** Maps to `data-testid` on this option's underlying `<input>`. */
+  dataTestId?: string;
+  /** Optional explicit id for this option (otherwise derived from name + value). */
+  id?: string;
 }
 
+export interface RadioProps {
+  /** At least one option; use a one-element array for a single radio. */
+  options: [RadioOption, ...RadioOption[]];
+  /** Shared `name` for every radio in the group (form submission + grouping). */
+  name: string;
+  /** Group label rendered in `<legend>`. Required `*` is appended here when `isRequired`. */
+  label: string;
+  /** Stable id used to derive option ids and the legend / error ids. */
+  id?: string;
+  /** Controlled selected value. */
+  value?: RadioValue;
+  /** Uncontrolled initial value. */
+  defaultValue?: RadioValue;
+  /** Fires with the next value (and the underlying change event). */
+  onChange?: (value: RadioValue, e: React.ChangeEvent<HTMLInputElement>) => void;
+  /** Disable every option in the group. */
+  isDisabled?: boolean;
+  /**
+   * Mark the group as required. Renders `*` on the legend, sets `required` /
+   * `aria-required` on the first enabled option (HTML5 group validation only
+   * needs one input in the group to carry `required`).
+   */
+  isRequired?: boolean;
+  /** Full-width wrapper. */
+  isFluid?: boolean;
+  /** Layout direction for the options. */
+  orientation?: "vertical" | "horizontal";
+  /**
+   * Visual style for each option.
+   * - `default`: stacked rows with the ring inline.
+   * - `card`: tile with the ring in the top-right, icon on the left, primary-brand
+   *   border + tint when selected.
+   */
+  variant?: "default" | "card";
+  /** Error message rendered under the group. */
+  error?: string;
+  className?: string;
+  /** Maps to `data-testid` on the wrapping `<fieldset>`. */
+  dataTestId?: string;
+}
+
+const toKey = (v: RadioValue | undefined | null): string => {
+  if (v === undefined || v === null) return "option";
+  return String(v).replace(/\W/g, "-") || "option";
+};
+
 const Radio: React.FC<RadioProps> = ({
+  options,
   name,
   id,
-  onChange,
-  defaultValue,
+  label,
   value,
-  label = "",
+  defaultValue,
+  onChange,
   isDisabled = false,
-  className = "",
+  isRequired = false,
   isFluid = false,
+  orientation = "vertical",
+  variant = "default",
   error = "",
+  className = "",
+  dataTestId,
 }) => {
-  const fieldWrapperClassName = getClassNames(
+  const generatedId = useId();
+  const fieldId = id ?? name ?? generatedId;
+  const legendId = `${fieldId}-legend`;
+  const errorId = `${fieldId}-error`;
+
+  const isControlled = value !== undefined;
+  const [internalValue, setInternalValue] = useState<RadioValue | undefined>(
+    defaultValue
+  );
+
+  const selectedValue: RadioValue | undefined = isControlled
+    ? value
+    : internalValue;
+
+  const wrapperClassName = getClassNames(
     styles["cp-form-field"],
     styles["cp-radio-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
     className
   );
-  const fieldErrorClassName = error ? styles["cp-form-control-error"] : "";
-  const formControlFieldClassName = getClassNames(
-    styles["cp-form-control"],
-    fieldErrorClassName
+
+  const optionsClassName = getClassNames(
+    styles["cp-radio-options"],
+    orientation === "horizontal"
+      ? styles["cp-radio-options-horizontal"]
+      : styles["cp-radio-options-vertical"],
+    variant === "card" ? styles["cp-radio-options-card"] : ""
+  );
+
+  const handleChange = (
+    next: RadioValue,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (!isControlled) {
+      setInternalValue(next);
+    }
+    onChange?.(next, e);
+  };
+
+  const firstEnabledIdx = options.findIndex(
+    (opt) => !opt.isDisabled && !isDisabled
   );
 
   return (
-    <div className={fieldWrapperClassName}>
-      {label && <label className={styles["cp-form-label"]}>{label}</label>}
-      <input
-        className={formControlFieldClassName}
-        type="radio"
-        disabled={isDisabled}
-        name={name}
-        id={id}
-        defaultValue={defaultValue}
-        value={value}
-        onChange={(e) => onChange?.(e)}
-      />
+    <fieldset
+      className={wrapperClassName}
+      disabled={isDisabled}
+      aria-invalid={error ? true : undefined}
+      aria-describedby={error ? errorId : undefined}
+      data-invalid={error ? "true" : undefined}
+      data-variant={variant}
+      data-testid={dataTestId}
+    >
+      <legend
+        id={legendId}
+        className={getClassNames(
+          styles["cp-form-label"],
+          styles["cp-radio-legend"]
+        )}
+      >
+        {label}
+        {isRequired && (
+          <>
+            {" "}
+            <span aria-hidden="true">*</span>
+          </>
+        )}
+      </legend>
+
+      <div
+        className={optionsClassName}
+        role="radiogroup"
+        aria-labelledby={legendId}
+        aria-required={isRequired || undefined}
+      >
+        {options.map((opt, idx) => {
+          const optionId = opt.id ?? `${fieldId}-${toKey(opt.value)}-${idx}`;
+          const optionDescId = opt.description
+            ? `${optionId}-desc`
+            : undefined;
+          const optionDisabled = isDisabled || Boolean(opt.isDisabled);
+          const isOptionRequired = isRequired && idx === firstEnabledIdx;
+          const isChecked =
+            selectedValue !== undefined &&
+            String(selectedValue) === String(opt.value);
+
+          return (
+            <div key={optionId} className={styles["cp-radio-row"]}>
+              <input
+                className={getClassNames(
+                  styles["cp-visually-hidden"],
+                  styles["cp-radio-native"]
+                )}
+                type="radio"
+                name={name}
+                id={optionId}
+                value={String(opt.value)}
+                checked={isChecked}
+                disabled={optionDisabled}
+                required={isOptionRequired}
+                aria-required={isOptionRequired || undefined}
+                aria-invalid={error ? true : undefined}
+                aria-describedby={
+                  [error ? errorId : undefined, optionDescId]
+                    .filter(Boolean)
+                    .join(" ") || undefined
+                }
+                aria-label={!opt.label ? String(opt.value) : undefined}
+                data-testid={opt.dataTestId}
+                onChange={(e) => handleChange(opt.value, e)}
+              />
+              <label
+                htmlFor={optionId}
+                className={getClassNames(
+                  styles["cp-form-label"],
+                  styles["cp-form-label-inline"]
+                )}
+              >
+                <span
+                  className={styles["cp-radio-visual"]}
+                  aria-hidden="true"
+                >
+                  <span className={styles["cp-radio-dot"]} />
+                </span>
+                {opt.icon !== undefined && opt.icon !== null && (
+                  <span className={styles["cp-radio-icon"]} aria-hidden="true">
+                    {opt.icon}
+                  </span>
+                )}
+                {opt.label && (
+                  <span className={styles["cp-radio-label-text"]}>
+                    <span className={styles["cp-radio-label-title"]}>
+                      {opt.label}
+                    </span>
+                    {opt.description && (
+                      <span
+                        id={optionDescId}
+                        className={styles["cp-radio-description"]}
+                      >
+                        {opt.description}
+                      </span>
+                    )}
+                  </span>
+                )}
+              </label>
+            </div>
+          );
+        })}
+      </div>
+
       {error && (
-        <p className={styles["cp-form-error-message"]}>{error}</p>
+        <p
+          id={errorId}
+          role="alert"
+          className={styles["cp-form-error-message"]}
+        >
+          {error}
+        </p>
       )}
-    </div>
+    </fieldset>
   );
 };
 

@@ -23,10 +23,10 @@ export default {
 export { Input, TextArea, Select, File, Checkbox, Radio, Date, Stepper, Toggle };
 export type { InputProps } from "./Input";
 export type { SelectProps, SelectOption } from "./Select";
-export type { CheckboxProps } from "./Checkbox";
+export type { CheckboxProps, CheckboxOption, CheckboxValue } from "./Checkbox";
 export type { TextAreaProps } from "./TextArea";
-export type { FileProps } from "./File";
-export type { RadioProps } from "./Radio";
+export type { FileProps, FileVariant } from "./File";
+export type { RadioProps, RadioOption, RadioValue } from "./Radio";
 export type { ToggleProps } from "./Toggle";
 export type { DateProps } from "./Date";
 export type { FormControlsStepperProps } from "./Stepper";

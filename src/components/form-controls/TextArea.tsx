@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
 
@@ -15,6 +15,7 @@ export interface TextAreaProps {
   className?: string;
   placeholder?: string;
   error?: string;
+  dataTestId?: string;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -30,7 +31,12 @@ const TextArea: React.FC<TextAreaProps> = ({
   className = "",
   placeholder = "",
   error = "",
+  dataTestId,
 }) => {
+  const generatedId = useId();
+  const inputId = id ?? name ?? generatedId;
+  const errorId = `${inputId}-error`;
+
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
@@ -46,22 +52,34 @@ const TextArea: React.FC<TextAreaProps> = ({
   return (
     <div className={fieldWrapperClassName}>
       {label && (
-        <label className={styles["cp-form-label"]}>
-          {label} {isRequired && <span>*</span>}
+        <label className={styles["cp-form-label"]} htmlFor={inputId}>
+          {label}{" "}
+          {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
       <textarea
         className={formControlFieldClassName}
         disabled={isDisabled}
+        required={isRequired}
+        aria-required={isRequired || undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
         name={name}
-        id={id}
+        id={inputId}
         defaultValue={defaultValue}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange?.(e)}
+        data-testid={dataTestId}
       />
       {error && (
-        <p className={styles["cp-form-error-message"]}>{error}</p>
+        <p
+          id={errorId}
+          role="alert"
+          className={styles["cp-form-error-message"]}
+        >
+          {error}
+        </p>
       )}
     </div>
   );

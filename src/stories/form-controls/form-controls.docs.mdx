@@ -10,14 +10,14 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbo
 
 ## Features
 
-- **Input:** Text input with label, placeholder, required indicator, error message, isFluid
+- **Input:** Text input with label, placeholder, required indicator, error message, isFluid. `type="number"` is mapped to `<input type="text" inputmode="numeric" pattern="[0-9]*">` for predictable behavior on desktop and a numeric keypad on mobile (avoids the UX issues of native `type="number"`). `type="search"` adds a leading `search` icon, hides the browser's native clear button, and renders a custom `close` clear control that appears only when the field has content. Pass `prefix` / `suffix` (≤ 4 chars) for inline affixes like currency (`$`), country code (`+91`), unit (`kg`, `%`), or TLD (`.com`).
 - **TextArea:** Multi-line text with same options as Input
 - **Select:** Single or multi select with options `{ label, value }`; dropdown with placeholder
 - **Date:** Day/month/year picker built from three Selects (DD-MMM-YYYY); `defaultValue` format `"dd-mm-yyyy"`, `onChange(dateValue)`
-- **Checkbox:** Single checkbox with label and `onChange(checked: boolean)`
-- **Radio:** Radio input with label
-- **File:** File input with label
-- **Toggle:** Toggle-style input (renders as radio in current implementation)
+- **Checkbox:** Group-first API — pass an `options` array (single item is fine for one checkbox). Renders `<fieldset>` + `<legend>` with `value: CheckboxValue[]` + `onChange(values, e)`. Each option supports `description` and an optional `icon`. Set `variant="card"` for tile-style options.
+- **Radio:** Each row is a native `radio` (visually hidden) with a custom ring/dot aligned like Checkbox/Toggle; unique `id` is derived from `name` + `value` so groups never get duplicate ids. Use `fieldset`/`legend` for the group label.
+- **File:** File picker with `button` (default) and `card` variants. Both render a removable file list below the trigger; the card variant adds a dashed drop zone with drag-and-drop. Use `multiple`, `accept`, `buttonLabel`, `dropZoneText` to tailor the UX.
+- **Toggle:** Accessible switch (`checkbox` + `role="switch"`) with track/thumb; `checked` / `defaultChecked` and `onChange(checked: boolean)`
 - **Stepper:** Text input for form stepper flows (label, placeholder, error)
 - **Common:** label, isDisabled, isRequired, isFluid, className, error for most controls
 
@@ -84,24 +84,95 @@ const options = [
 <FormControls.Date label="DOB" onChange={(dateValue) => console.log(dateValue)} />
 ```
 
-### Checkbox
+### Checkbox group
 
 ```jsx
-const [checked, setChecked] = useState(false);
+const [interests, setInterests] = useState(["product"]);
 <FormControls.Checkbox
-  label="Accept terms?"
-  value={checked}
-  onChange={(v) => setChecked(v)}
+  label="Email me about"
+  name="interests"
+  value={interests}
+  onChange={(v) => setInterests(v)}
+  options={[
+    { label: "Newsletters",     value: "newsletter", description: "Weekly digest" },
+    { label: "Product updates", value: "product",    description: "Release notes" },
+    { label: "Promotions",      value: "promo",      isDisabled: true },
+  ]}
 />
 ```
 
-### Radio, File, Toggle, Stepper
+For a single checkbox (consent / opt-in), pass a one-element array — `value=[]` is unchecked:
 
 ```jsx
-<FormControls.Radio label="Option A" name="q" value="a" />
-<FormControls.File label="Upload" />
-<FormControls.Toggle label="Toggle" name="t" value="on" />
+const [accepted, setAccepted] = useState([]);
+<FormControls.Checkbox
+  label="Terms and conditions"
+  name="accept"
+  isRequired
+  value={accepted}
+  onChange={(v) => setAccepted(v)}
+  options={[{ label: "I accept the terms", value: "yes" }]}
+/>
+```
+
+### Checkbox (card variant with icons)
+
+```jsx
+import { FormControls, Icon } from "cleanplate";
+
+<FormControls.Checkbox
+  label="Add-ons"
+  name="addons"
+  variant="card"
+  orientation="horizontal"
+  isFluid
+  value={addons}
+  onChange={(v) => setAddons(v)}
+  options={[
+    { label: "Analytics",     value: "analytics",  description: "Real-time dashboards", icon: <Icon name="bar_chart" /> },
+    { label: "Automation",    value: "automation", description: "Trigger on events",    icon: <Icon name="bolt" /> },
+    { label: "Collaboration", value: "collab",     description: "Roles and comments",   icon: <Icon name="groups" /> },
+  ]}
+/>
+```
+
+### Radio, Toggle, Stepper
+
+```jsx
+const [on, setOn] = useState(false);
+const [pick, setPick] = useState("a");
+<FormControls.Radio
+  label="Pick one"
+  name="q"
+  value={pick}
+  onChange={(v) => setPick(String(v))}
+  options={[
+    { label: "Option A", value: "a" },
+    { label: "Option B", value: "b" },
+    { label: "Option C", value: "c", isDisabled: true },
+  ]}
+/>
+<FormControls.Toggle label="Notifications" name="t" checked={on} onChange={setOn} />
+<FormControls.Toggle label="Remember me" name="t2" defaultChecked />
 <FormControls.Stepper label="Step" placeholder="Enter" />
+```
+
+### File (button + card)
+
+```jsx
+const [files, setFiles] = useState([]);
+
+<FormControls.File label="Upload file" name="upload" value={files} onChange={(next) => setFiles(next)} />
+
+<FormControls.File
+  label="File Upload"
+  name="upload-card"
+  variant="card"
+  multiple
+  accept="image/*,application/pdf"
+  value={files}
+  onChange={(next) => setFiles(next)}
+/>
 ```
 
 ### With Container
@@ -116,10 +187,18 @@ const [checked, setChecked] = useState(false);
 ## Behavior
 
 - **Controlled / uncontrolled:** Use `value` + `onChange` for controlled fields, or `defaultValue` for uncontrolled. Select uses `value` (option object or array for multi) and `onChange(option)`.
+- **Radio:** Group-first API — pass `options: RadioOption[]` and the component renders the entire `<fieldset>` + `<legend>` group. Use `value` + `onChange(value, e)` for controlled groups, or `defaultValue` for uncontrolled. `isRequired` shows `*` on the group label and is wired into the first enabled option for HTML5 validation. Each option may include `description` (muted helper text) and `icon` (`ReactNode` — Material `<Icon>`, brand logo, custom SVG). Set `variant="card"` for tile-style options with the ring in the top-right corner. For a single radio, just pass an array with one entry.
+- **Checkbox:** Group-first API — pass `options: CheckboxOption[]` and the component renders the entire `<fieldset>` + `<legend>` group. Use `value` (`CheckboxValue[]`) + `onChange(values, e)` for controlled groups, or `defaultValue` for uncontrolled. `isRequired` shows `*` on the group label and sets `aria-required` on the group; native HTML5 doesn't enforce "at least one" for checkbox groups, so add custom validation at the form layer. Each option may include `description` (muted helper text) and `icon` (`ReactNode`). Set `variant="card"` for tile-style options. For a single checkbox, pass a one-element `options` array — `value=[]` is unchecked.
+- **Toggle:** Switch control — use `checked` + `onChange(checked)` when controlled, or `defaultChecked` when uncontrolled. Renders `type="checkbox"` with `role="switch"`.
+- **File:** `variant="button"` (default) renders a primary-brand trigger; `variant="card"` renders a dashed drop zone with click + drag-and-drop. Selection is a `File[]` exposed via `value` (controlled) / `defaultValue` (uncontrolled initial visual list) and emitted from `onChange(files, e)`. With `multiple`, picks/drops append to the list; without, the new selection replaces it. Each selected file renders below the trigger with a type-specific thumbnail icon, name, formatted size, and a remove button.
 - **Select:** Options are `{ label: string, value: string | number }`. Single select passes one option to `onChange`; multi passes an array. Value syncs from prop in useEffect.
 - **Date:** Returns a string `"dd-mm-yyyy"` to `onChange`. Uses DAY_OPTIONS, MONTH_OPTIONS, YEAR_OPTIONS from constants.
 - **Error:** When `error` is set, the field gets an error class and the message is shown below.
 - **isFluid:** Applies full-width styling to the field wrapper.
+
+## Storybook playground
+
+In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
 
 ## Props
 

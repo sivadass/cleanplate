@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useId, useState, useRef, useEffect } from "react";
 import Icon from "../icon";
 import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
@@ -9,6 +9,8 @@ export interface SelectOption {
 }
 
 export interface SelectProps {
+  name?: string;
+  id?: string;
   onChange?: (option: SelectOption | SelectOption[]) => void;
   value?: SelectOption | SelectOption[] | null;
   label?: string;
@@ -23,9 +25,12 @@ export interface SelectProps {
   error?: string;
   isFluid?: boolean;
   isMulti?: boolean;
+  dataTestId?: string;
 }
 
 const Select: React.FC<SelectProps> = ({
+  name,
+  id,
   onChange,
   value,
   label = "",
@@ -40,7 +45,15 @@ const Select: React.FC<SelectProps> = ({
   error = "",
   isFluid = false,
   isMulti = false,
+  dataTestId,
 }) => {
+  const generatedId = useId();
+  const fieldId = id ?? name ?? generatedId;
+  const labelId = `${fieldId}-label`;
+  const triggerId = `${fieldId}-trigger`;
+  const listboxId = `${fieldId}-listbox`;
+  const errorId = `${fieldId}-error`;
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<
     SelectOption | SelectOption[] | null | undefined
@@ -118,20 +131,50 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div
-      className={getClassNames(styles["cp-form-field"], {
-        [styles["cp-form-field-fluid"]]: isFluid,
-        [styles["cp-form-field-disabled"]]: isDisabled,
-      }, className)}
+      className={getClassNames(
+        styles["cp-form-field"],
+        {
+          [styles["cp-form-field-fluid"]]: isFluid,
+          [styles["cp-form-field-disabled"]]: isDisabled,
+        },
+        className
+      )}
+      data-testid={dataTestId}
     >
       {label && (
-        <label className={styles["cp-form-label"]}>
-          {label} {isRequired && <span>*</span>}
+        <label
+          id={labelId}
+          htmlFor={triggerId}
+          className={styles["cp-form-label"]}
+        >
+          {label}{" "}
+          {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
       <div className={styles["cp-select-field"]} ref={dropdownRef}>
         <div
+          id={triggerId}
+          role="combobox"
+          tabIndex={isDisabled ? -1 : 0}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-controls={listboxId}
+          aria-labelledby={label ? labelId : undefined}
+          aria-disabled={isDisabled || undefined}
+          aria-required={isRequired || undefined}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
           className={selectHeaderWrapperClass}
           onClick={() => !isDisabled && setIsOpen(!isOpen)}
+          onKeyDown={(e) => {
+            if (isDisabled) return;
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setIsOpen((prev) => !prev);
+            } else if (e.key === "Escape" && isOpen) {
+              setIsOpen(false);
+            }
+          }}
         >
           {isMulti && selectedArray.length > 0 && (
             <span className={styles["cp-select-count"]}>
@@ -152,6 +195,10 @@ const Select: React.FC<SelectProps> = ({
         </div>
         {isOpen && (
           <div
+            id={listboxId}
+            role="listbox"
+            aria-multiselectable={isMulti || undefined}
+            aria-labelledby={label ? labelId : undefined}
             className={getClassNames(
               styles["cp-select-field-options"],
               selectOptionsPositionClass,
@@ -168,6 +215,8 @@ const Select: React.FC<SelectProps> = ({
               return (
                 <div
                   key={String(option.value)}
+                  role="option"
+                  aria-selected={Boolean(isSelected)}
                   className={styles["cp-select-field-option"]}
                   onClick={(e) => handleOptionClick(e, option)}
                 >
@@ -184,11 +233,31 @@ const Select: React.FC<SelectProps> = ({
           </div>
         )}
       </div>
+      {/* Hidden form control to participate in HTML form submission and validation */}
+      {name && (
+        <input
+          type="hidden"
+          name={name}
+          value={
+            isMulti
+              ? selectedArray.map((s) => String(s.value)).join(",")
+              : selectedOption && !Array.isArray(selectedOption)
+                ? String(selectedOption.value)
+                : ""
+          }
+        />
+      )}
       {error && (
-        <p className={styles["cp-form-error-message"]}>{error}</p>
+        <p
+          id={errorId}
+          role="alert"
+          className={styles["cp-form-error-message"]}
+        >
+          {error}
+        </p>
       )}
     </div>
   );
-}
+};
 
 export default Select;

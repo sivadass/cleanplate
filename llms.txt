@@ -177,8 +177,8 @@ All component documentation is located in the `docs/` folder. The following docu
 ### FormControls
 - File: `docs/FormControls.md`
 - Purpose: Set of form primitives: Input, TextArea, Select, Date, Checkbox, Radio, File, Toggle, Stepper. Access via FormControls.Input, FormControls.Select, etc.
-- Key Features: Input (text), TextArea, Select (single/multi, options { label, value }), Date (dd-mm-yyyy), Checkbox (onChange(boolean)), Radio, File, Toggle, Stepper; common props label, isRequired, isFluid, error
-- Types: InputProps, SelectProps, SelectOption, TextAreaProps, CheckboxProps, FileProps, RadioProps, ToggleProps, DateProps, FormControlsStepperProps
+- Key Features: Input (supports text/search/number + prefix/suffix; number maps to numeric text input and clamps via `min`/`max` on blur; search adds icon + clear button), TextArea, Select (single/multi, options { label, value }, supports `name`/`id`, ARIA wiring, and hidden input for native form submission), Date (dd-mm-yyyy), Checkbox (group-first: options[], CheckboxValue[] for multi-select, onChange(values, e); each option supports `description` and `icon`; `variant="card"` for tile-style options), Radio (group-first: options[], single value, onChange(value, e); each option supports `description` and `icon`; `variant="card"` for tile-style options), File (`variant="button" | "card"`; card variant has dashed drop zone with drag-and-drop; `value: File[]` + `onChange(files, e)`; renders a removable file list with type-aware thumbnail, name, and size), Toggle (switch semantics via checkbox + role="switch"), Stepper; common props label, isRequired, isFluid, error
+- Types: InputProps, SelectProps, SelectOption, TextAreaProps, CheckboxProps, CheckboxOption, CheckboxValue, FileProps, FileVariant, RadioProps, RadioOption, RadioValue, ToggleProps, DateProps, FormControlsStepperProps
 - Related Components: Pills (Input), Pagination (Select), Container, Button
 
 ### Toast Component

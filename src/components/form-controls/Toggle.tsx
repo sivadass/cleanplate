@@ -1,59 +1,109 @@
-import React from "react";
+import React, { useId, useState } from "react";
 import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
 
 export interface ToggleProps {
   name?: string;
   id?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  defaultValue?: string;
-  value?: string;
+  onChange?: (checked: boolean) => void;
+  defaultChecked?: boolean;
+  checked?: boolean;
   label?: string;
   isDisabled?: boolean;
+  isRequired?: boolean;
   className?: string;
   isFluid?: boolean;
   error?: string;
+  dataTestId?: string;
 }
 
 const Toggle: React.FC<ToggleProps> = ({
   name,
   id,
   onChange,
-  defaultValue,
-  value,
+  defaultChecked = false,
+  checked: checkedProp,
   label = "",
   isDisabled = false,
+  isRequired = false,
   className = "",
   isFluid = false,
   error = "",
+  dataTestId,
 }) => {
+  const generatedId = useId();
+  const inputId = id ?? name ?? generatedId;
+  const errorId = `${inputId}-error`;
+
+  const isControlled = checkedProp !== undefined;
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
+  const checked = isControlled ? Boolean(checkedProp) : internalChecked;
+
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
-    styles["cp-radio-field"],
+    styles["cp-toggle-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
     className
   );
-  const fieldErrorClassName = error ? styles["cp-form-control-error"] : "";
-  const formControlFieldClassName = getClassNames(
-    styles["cp-form-control"],
-    fieldErrorClassName
-  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = e.target.checked;
+    if (!isControlled) {
+      setInternalChecked(next);
+    }
+    onChange?.(next);
+  };
 
   return (
-    <div className={fieldWrapperClassName}>
-      {label && <label className={styles["cp-form-label"]}>{label}</label>}
-      <input
-        className={formControlFieldClassName}
-        type="radio"
-        disabled={isDisabled}
-        name={name}
-        id={id}
-        defaultValue={defaultValue}
-        value={value}
-        onChange={(e) => onChange?.(e)}
-      />
+    <div
+      className={fieldWrapperClassName}
+      data-invalid={error ? "true" : undefined}
+    >
+      <div className={styles["cp-toggle-row"]}>
+        <input
+          className={getClassNames(
+            styles["cp-visually-hidden"],
+            styles["cp-toggle-native"]
+          )}
+          type="checkbox"
+          role="switch"
+          disabled={isDisabled}
+          required={isRequired}
+          aria-required={isRequired || undefined}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
+          aria-label={!label ? name : undefined}
+          name={name}
+          id={inputId}
+          onChange={handleChange}
+          data-testid={dataTestId}
+          {...(isControlled ? { checked } : { defaultChecked })}
+        />
+        <label htmlFor={inputId} className={styles["cp-toggle-ui"]}>
+          <span className={styles["cp-toggle-track"]} aria-hidden="true">
+            <span className={styles["cp-toggle-thumb"]} />
+          </span>
+          {label && (
+            <span>
+              {label}
+              {isRequired && (
+                <>
+                  {" "}
+                  <span aria-hidden="true">*</span>
+                </>
+              )}
+            </span>
+          )}
+        </label>
+      </div>
       {error && (
-        <p className={styles["cp-form-error-message"]}>{error}</p>
+        <p
+          id={errorId}
+          role="alert"
+          className={styles["cp-form-error-message"]}
+        >
+          {error}
+        </p>
       )}
     </div>
   );
