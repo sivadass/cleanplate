@@ -284,6 +284,48 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **File:** Native `<input type="file">` is visually hidden but stays in the a11y tree. Manages a `File[]` selection internally; `onChange(files, e)` fires for picker selections, drops, and removals (the underlying event is `undefined` for non-picker triggers). With `multiple`, subsequent picks/drops append; without, the new selection replaces the old. The card variant supports drag-and-drop and tints primary-brand on hover. Removing a file resets the native input so re-selecting the same file still emits a change. `defaultValue` seeds the visual list only — browsers don't allow programmatic pre-population of file inputs.
 - **isFluid:** Full-width field wrapper.
 
+## Theming
+
+CleanPlate exposes a thin layer of CSS custom properties on `:root` so consumer apps can retheme the form-control surface without forking styles or wrestling specificity. Override these in your own stylesheet **after** the `cleanplate/dist/index.css` import.
+
+| Token | Default | What it controls |
+| --- | --- | --- |
+| `--cp-form-control-radius` | `var(--radius-large)` (12px) | Corner radius for `Input`, `TextArea`, `Stepper`, `Select` trigger + open dropdown corners, `Date` day/month/year segments, `File` (outline trigger, drop zone, in-card CTA, file list rows), and `Radio` / `Checkbox` `variant="card"` option tiles. |
+
+### Recipes
+
+```css
+/* Square-ish form fields across the whole app, while leaving badges, cards,   */
+/* and other --radius-large surfaces alone.                                    */
+:root {
+  --cp-form-control-radius: 4px;
+}
+```
+
+```css
+/* Scope the override to one section — CSS custom properties cascade, so any   */
+/* wrapper works as the boundary.                                              */
+.checkout-form {
+  --cp-form-control-radius: 0;
+}
+```
+
+```jsx
+// Per-instance override — same token, scoped to one element via the style prop.
+<FormControls.Input
+  name="zip"
+  label="ZIP"
+  style={{ "--cp-form-control-radius": "20px" }}
+/>
+```
+
+### When to override what
+
+- **`--cp-form-control-radius`** when you want to retheme just the form-field family (Input, Select trigger, Date, Stepper, TextArea, File triggers and card CTA, file list rows, Radio/Checkbox card tiles). Recommended path.
+- **`--radius-large`** (the underlying design token) when you want every "large radius" surface in CleanPlate — form fields *and* anything else that opts into the same scale — to move together. Coarser, but useful for whole-product rebrands.
+
+The component-level token is the public, supported override. Underlying design tokens (`--radius-small`, `--radius-medium`, `--radius-large`, …) are exposed but treated as the lower tier — overriding them is allowed, but expect broader visual impact.
+
 ## Related Components / Links
 
 - Pills (uses FormControls.Input in edit mode)

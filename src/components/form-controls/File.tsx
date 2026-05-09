@@ -220,7 +220,7 @@ const File: React.FC<FileProps> = ({
         </label>
       ) : (
         <label htmlFor={inputId} className={triggerClass}>
-          <Icon name="upload_file" size="small" aria-hidden={true} />
+          <Icon name="upload" size="medium" aria-hidden={true} />
           <span>{buttonLabel}</span>
         </label>
       )}

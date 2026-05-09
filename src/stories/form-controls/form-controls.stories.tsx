@@ -1034,14 +1034,20 @@ export const Stepper = {
     placeholder: { control: "text" },
     value: { control: "text" },
     defaultValue: { control: "text" },
+    min: { control: "text" },
+    max: { control: "text" },
+    step: { control: "text" },
     onChange: { action: "onChange" },
   },
   args: {
-    label: "Quantity",
+    label: "Max Late Arrivals",
     name: "qty",
     type: "number",
-    placeholder: "Enter value",
-    value: "",
+    placeholder: "",
+    defaultValue: "2",
+    min: "0",
+    max: "99",
+    step: "1",
     isRequired: false,
     isDisabled: false,
     isFluid: false,
@@ -1115,7 +1121,13 @@ export const AllControls = {
             onChange={(v) => setPick(v)}
           />
           <FormControls.File label="Upload file" />
-          <FormControls.Stepper label="Quantity" placeholder="Enter value" type="number" />
+          <FormControls.Stepper
+            label="Max Late Arrivals"
+            type="number"
+            defaultValue="2"
+            min="0"
+            max="99"
+          />
         </div>
       </Container>
     );

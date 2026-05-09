@@ -151,7 +151,11 @@ const Select: React.FC<SelectProps> = ({
           {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
-      <div className={styles["cp-select-field"]} ref={dropdownRef}>
+      <div
+        className={styles["cp-select-field"]}
+        ref={dropdownRef}
+        data-invalid={error ? "true" : undefined}
+      >
         <div
           id={triggerId}
           role="combobox"

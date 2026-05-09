@@ -40,8 +40,8 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 /* truth for height, side padding, border, focus + disabled states.             */
 /* ---------------------------------------------------------------------------- */
 .cp-form-control {
-  height: 44px;
-  border-radius: 8px;
+  height: 50px;
+  border-radius: var(--cp-form-control-radius);
   border: 1px solid var(--gray);
   padding: 0 16px;
   width: 100%;
@@ -50,10 +50,14 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
-
-  &:focus-visible {
+  &:hover {
     border-color: var(--primary-brand);
-    outline: none;
+  }
+  &:focus {
+    border-color: var(--primary-brand);
+    // outline: none;
+    outline: 1px solid var(--primary-brand);
+    outline-offset: 0px;   
   }
 
   &:disabled {
@@ -223,6 +227,96 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   }
 }
 
+/* ---------------------------------------------------------------------------- */
+/* Stepper — value with integrated − / + actions (numeric fields).              */
+/* ---------------------------------------------------------------------------- */
+.cp-form-control.cp-stepper-shell {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: var(--primary-brand);
+    outline: 1px solid var(--primary-brand);
+    outline-offset: 0;
+  }
+
+  &.cp-form-control-error:focus-within {
+    border-color: var(--red);
+    outline: 1px solid var(--red);
+    outline-offset: 0;
+  }
+}
+
+.cp-stepper-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0 8px 0 16px;
+  border-radius: 0;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--black);
+  text-align: left;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border: none;
+  }
+
+  &:disabled {
+    opacity: 1;
+  }
+
+  &::placeholder {
+    color: var(--gray);
+  }
+}
+
+.cp-stepper-divider {
+  flex-shrink: 0;
+  width: 1px;
+  align-self: stretch;
+  background: var(--gray);
+  opacity: 0.55;
+}
+
+.cp-stepper-btn {
+  flex-shrink: 0;
+  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--gray);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--gray-light);
+    color: var(--black);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-brand);
+    outline-offset: -2px;
+  }
+}
+
 /* Keeps native inputs in the a11y tree and discoverable by e2e (unlike `hidden` / visibility: hidden). */
 .cp-visually-hidden {
   position: absolute;
@@ -286,24 +380,39 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   padding: 8px 16px;
   background: var(--white);
   border: 1px solid var(--gray);
-  border-radius: 4px;
+  border-radius: var(--cp-form-control-radius);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: inherit;
   font-size: inherit;
   margin-bottom: 8px;
-  border-radius: var(--radius-medium);
-  height: 44px;
+  height: 50px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  &:hover {
+    border-color: var(--primary-brand);
+  }
+  &:focus {
+    border-color: var(--primary-brand);
+    outline: 1px solid var(--primary-brand);
+    outline-offset: 0px;
+  }
 }
 
+/* While the dropdown is open we straighten the bottom corners so the trigger
+ * and options panel read as one surface. */
 .cp-select-field-header-open {
-  border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+  border-radius: var(--cp-form-control-radius) var(--cp-form-control-radius) 0
+    0;
 }
 
 .cp-select-field-options {
   position: absolute;
-  top: 43px;
+  /* Sit just below the trigger; -1px overlaps the borders into a single line. */
+  top: 49px;
   left: 0;
   right: 0;
   border: 1px solid var(--gray);
@@ -317,13 +426,12 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 
 .cp-select-field-options-top {
   top: -198px;
-  /* background-color: pink; */
-  border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+  border-radius: var(--cp-form-control-radius) var(--cp-form-control-radius) 0 0;
 }
 
 .cp-select-field-options-bottom {
-  top: 43px;
-  border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+  top: 49px;
+  border-radius: 0 0 var(--cp-form-control-radius) var(--cp-form-control-radius);
 }
 
 .cp-select-field-option {
@@ -355,6 +463,24 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 
 .cp-select-field-arrow {
   margin-left: 8px;
+}
+
+/* Error state — paints the trigger border red so it reads consistently with
+ * the rest of the form controls. Lives below `.cp-select-field-header` so its
+ * border shorthand doesn't override `border-color`. */
+.cp-select-field[data-invalid="true"] .cp-select-field-header {
+  border-color: var(--red);
+}
+
+.cp-select-field[data-invalid="true"] .cp-select-field-header:focus,
+.cp-select-field[data-invalid="true"] .cp-select-field-header:focus-visible {
+  border-color: var(--red);
+  outline: 1px solid var(--red);
+  outline-offset: 0px;
+}
+
+.cp-select-field[data-invalid="true"] .cp-select-field-options {
+  border-color: var(--red);
 }
 
 .cp-radio-field {
@@ -532,7 +658,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
       padding: 16px;
       padding-right: 44px; /* room for the top-right ring */
       border: 1px solid var(--gray-light);
-      border-radius: var(--radius-medium);
+      border-radius: var(--cp-form-control-radius);
       background: var(--white);
       transition:
         border-color 0.15s ease,
@@ -743,7 +869,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
       padding: 16px;
       padding-right: 44px;
       border: 1px solid var(--gray-light);
-      border-radius: var(--radius-medium);
+      border-radius: var(--cp-form-control-radius);
       background: var(--white);
       transition:
         border-color 0.15s ease,
@@ -887,7 +1013,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     height: 44px;
     padding: 0 20px;
     border: 1px solid var(--primary-brand);
-    border-radius: var(--radius-medium);
+    border-radius: var(--cp-form-control-radius);
     background: var(--white);
     color: var(--primary-brand);
     font-weight: 500;
@@ -912,7 +1038,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     gap: 6px;
     padding: 32px 16px;
     border: 2px dashed var(--gray);
-    border-radius: var(--radius-medium);
+    border-radius: var(--cp-form-control-radius);
     background: var(--white);
     color: var(--gray);
     text-align: center;
@@ -937,7 +1063,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     justify-content: center;
     height: 40px;
     padding: 0 20px;
-    border-radius: var(--radius-medium);
+    border-radius: var(--cp-form-control-radius);
     background: var(--primary-brand);
     color: var(--white);
     font-weight: 500;
@@ -993,7 +1119,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     gap: 12px;
     padding: 10px 12px;
     border: 1px solid var(--gray-light);
-    border-radius: var(--radius-medium);
+    border-radius: var(--cp-form-control-radius);
     background: var(--white);
   }
 
@@ -1071,17 +1197,19 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 }
 
 .cp-date-field-day {
-  border-radius: 8px 0 0 8px;
+  border-radius: var(--cp-form-control-radius) 0 0
+    var(--cp-form-control-radius);
   min-width: 72px;
   margin-bottom: 0;
   flex-grow: 1;
   .custom-field {
-    border-radius: 8px 0 0 8px;
+    border-radius: var(--cp-form-control-radius) 0 0
+      var(--cp-form-control-radius);
     padding-right: 4px;
     margin-bottom: 0;
     border-right-color: transparent;
     &.custom-field-open {
-      border-radius: 8px 0 0 0;
+      border-radius: var(--cp-form-control-radius) 0 0 0;
     }
   }
 }
@@ -1102,12 +1230,13 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   margin-bottom: 0;
   flex-grow: 1;
   .custom-field {
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 var(--cp-form-control-radius)
+      var(--cp-form-control-radius) 0;
     padding-right: 4px;
     margin-bottom: 0;
     border-left-color: transparent;
     &.custom-field-open {
-      border-radius: 0 8px 0 0;
+      border-radius: 0 var(--cp-form-control-radius) 0 0;
     }
   }
 }

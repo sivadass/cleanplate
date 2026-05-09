@@ -27,6 +27,13 @@
   --radius-xx-large: 20px;
   --radius-xxx-large: 24px;
   --radius-round: 50%;
+  /* ------------------------------------------------------------------ */
+  /* Public component tokens — overridable per component family without */
+  /* clobbering the underlying design tokens above. Consumer apps can   */
+  /* set these on :root (or any wrapper) after importing                */
+  /* "cleanplate/dist/index.css" to retheme just one surface.           */
+  /* ------------------------------------------------------------------ */
+  --cp-form-control-radius: var(--radius-large);
   /* length */
   --length-small: 240px;
   --length-medium: 360px;
@@ -92,5 +99,5 @@ textarea {
   font-family: var(--font-family);
   font-size: var(--font-size);
   border: 1px solid #ccc;
-  height: 44px;
+  height: 50px;
 }
