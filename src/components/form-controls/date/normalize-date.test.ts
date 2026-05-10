@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   calendarDatesEqual,
+  coerceToCalendarDate,
+  coerceToCalendarDates,
   formatISODate,
   toCalendarDate,
 } from "./normalize-date";
@@ -38,5 +40,35 @@ describe("formatISODate", () => {
   });
   it("zero-pads month and day", () => {
     expect(formatISODate(new Date(2026, 0, 2))).toBe("2026-01-02");
+  });
+});
+
+describe("coerceToCalendarDate", () => {
+  it("accepts epoch ms (Storybook date control)", () => {
+    const t = new Date(2026, 5, 15).getTime();
+    const d = coerceToCalendarDate(t);
+    expect(d).toBeDefined();
+    expect(d!.getFullYear()).toBe(2026);
+    expect(d!.getMonth()).toBe(5);
+    expect(d!.getDate()).toBe(15);
+  });
+  it("accepts stringified epoch ms", () => {
+    const t = new Date(2026, 2, 3).getTime();
+    const d = coerceToCalendarDate(String(t));
+    expect(d!.getFullYear()).toBe(2026);
+    expect(d!.getMonth()).toBe(2);
+    expect(d!.getDate()).toBe(3);
+  });
+  it("returns undefined for invalid input", () => {
+    expect(coerceToCalendarDate(undefined)).toBeUndefined();
+    expect(coerceToCalendarDate("not a date")).toBeUndefined();
+  });
+});
+
+describe("coerceToCalendarDates", () => {
+  it("maps mixed serializations", () => {
+    const ms = new Date(2026, 0, 1).getTime();
+    const arr = coerceToCalendarDates([new Date(2026, 0, 2), ms, "2026-01-03"]);
+    expect(arr!.length).toBe(3);
   });
 });

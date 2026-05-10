@@ -12,17 +12,21 @@ export interface ScrollPickerProps<T> {
   items: ScrollPickItem<T>[];
   onPick: (value: T) => void;
   activePredicate?: (value: T) => boolean;
+  /** When set, labels the listbox (preferred over `aria-label`). */
+  ariaLabelledBy?: string;
 }
 
 const ScrollPicker = <T,>({
   items,
   onPick,
   activePredicate,
+  ariaLabelledBy,
 }: ScrollPickerProps<T>): React.ReactElement => (
   <ul
     className={styles["cp-date-picker-scroll"]}
     role="listbox"
-    aria-label="Choose option"
+    aria-labelledby={ariaLabelledBy}
+    aria-label={ariaLabelledBy ? undefined : "Choose option"}
   >
     {items.map((item, idx) => {
       const active = Boolean(activePredicate?.(item.value));

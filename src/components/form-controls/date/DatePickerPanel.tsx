@@ -20,6 +20,7 @@ import {
 } from "./date-constraints";
 import { toCalendarDate } from "./normalize-date";
 import type { UseDatePickerStateReturn } from "./use-date-picker-state";
+import Icon from "../../icon";
 import styles from "../FormControls.module.scss";
 
 export interface DatePickerPanelProps {
@@ -141,6 +142,13 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
     });
   }, [constraints.maxDate, constraints.minDate, loc, picker.displayedMonth]);
 
+  const monthSubviewTitleId = `${panelId}-subview-month-title`;
+  const yearSubviewTitleId = `${panelId}-subview-year-title`;
+  const monthSubviewYear = format(picker.displayedMonth, "yyyy", { locale: loc });
+  const yearSubviewMonthName = format(picker.displayedMonth, "MMMM", {
+    locale: loc,
+  });
+
   return (
     <div id={panelId} className={styles["cp-date-picker-panel-inner"]}>
       {picker.panelView === "calendar" ? (
@@ -189,15 +197,25 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
             <button
               type="button"
               className={styles["cp-date-picker-subview-back"]}
+              aria-label="Back to calendar"
               onClick={(e) => {
                 e.stopPropagation();
                 picker.setPanelView("calendar");
               }}
             >
-              Back
+              <Icon name="arrow_back" aria-hidden />
             </button>
+            <span
+              id={monthSubviewTitleId}
+              className={styles["cp-date-picker-subview-title"]}
+            >
+              <span className={styles["cp-date-picker-subview-title-line"]}>
+                Select a month of {monthSubviewYear}
+              </span>
+            </span>
           </div>
           <ScrollPicker
+            ariaLabelledBy={monthSubviewTitleId}
             items={monthItems}
             activePredicate={(mi) =>
               mi === picker.displayedMonth.getMonth()
@@ -219,15 +237,25 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
             <button
               type="button"
               className={styles["cp-date-picker-subview-back"]}
+              aria-label="Back to calendar"
               onClick={(e) => {
                 e.stopPropagation();
                 picker.setPanelView("calendar");
               }}
             >
-              Back
+              <Icon name="arrow_back" aria-hidden />
             </button>
+            <span
+              id={yearSubviewTitleId}
+              className={styles["cp-date-picker-subview-title"]}
+            >
+              <span className={styles["cp-date-picker-subview-title-line"]}>
+                Select a year for {yearSubviewMonthName}
+              </span>
+            </span>
           </div>
           <ScrollPicker
+            ariaLabelledBy={yearSubviewTitleId}
             items={yearItems}
             activePredicate={(y) => y === picker.displayedMonth.getFullYear()}
             onPick={(y) => {

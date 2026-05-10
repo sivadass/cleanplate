@@ -9,7 +9,7 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 | Input | Single-line text | placeholder, value, onChange(e), type |
 | TextArea | Multi-line text | placeholder, value, onChange(e) |
 | Select | Floating UI combobox: desktop portalled list; **≤768px** bottom sheet; sync or async options, search, groups, multi chips + cap | `mode` / `isMulti`, `options`, `onSearch`, `groups`, `maxSelect`, `triggerMaxItems`, `name`, `placeholder`, `error` |
-| Date | Calendar date picker (`date-fns`); staged **Cancel** / **OK**; desktop popover (**280px**) or **≤768px** bottom sheet | `value`/`defaultValue` (`Date \| null`), `onChange(Date \| null)`, constraints, `locale`, `weekStartsOn`, `name` (hidden ISO), `popoverPlacement` |
+| Date | Calendar date picker (`date-fns` + Floating UI); **Cancel** / **OK** staging; desktop **popover** (~**400px** max width, viewport-capped); **≤768px** **bottom sheet** + backdrop; **month** / **year** subviews with back + titled headers; trigger **`calendar_month`** icon | `value`/`defaultValue` (`Date \| null`), `onChange`, `minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`, `locale`, `weekStartsOn`, `dateFormat`, `clearable`, `readOnly`, `name` (hidden **yyyy-MM-dd**), `popoverPlacement`, `onOpen`/`onClose` |
 | Checkbox | Checkbox group (array-based, multi-select) | name, label, options, value (CheckboxValue[]), defaultValue, onChange(values, e), orientation, variant |
 | Radio | Radio group (array-based) | name, label, options, value, defaultValue, onChange(value, e), orientation, variant |
 | File | File picker with `button` / `card` variants, drag-and-drop, and a removable file list | name, label, variant, multiple, accept, value (File[]), onChange(files, e), buttonLabel, dropZoneText |
@@ -136,7 +136,7 @@ interface InputProps {
 - **ToggleProps**: checked, defaultChecked, onChange(checked: boolean), label, isDisabled, isRequired, isFluid, className, error, dataTestId.
 - **CheckboxProps**: `options` (non-empty `CheckboxOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value` (`CheckboxValue[]`), `defaultValue` (`CheckboxValue[]`), `onChange(values, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`.
 - **CheckboxOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. `CheckboxValue = string | number`.
-- **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, `dateFormat`, `name` (`yyyy-MM-dd` hidden field), constraints (`minDate`, `maxDate`, `disabledDates`, `disabledDaysOfWeek`), `locale`, `weekStartsOn`, `clearable`, `readOnly`, `popoverPlacement`, `onOpen`, `onClose`, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`.
+- **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`.
 - **FormControlsStepperProps**: label, placeholder, value/defaultValue, onChange(e), type, isDisabled, isRequired, isFluid, className, error, dataTestId.
 
 ## Usage Examples
@@ -203,8 +203,23 @@ const [tags, setTags] = useState([{ label: "A", value: "a" }]);
 ### TextArea and Date
 
 ```jsx
+import { de } from "date-fns/locale/de";
+
 <FormControls.TextArea label="Message" placeholder="Hello" />
 <FormControls.Date label="DOB" defaultValue={new Date(1992, 4, 31)} onChange={(d) => {}} />
+<FormControls.Date
+  label="Ship date"
+  minDate={new Date(2026, 0, 1)}
+  maxDate={new Date(2026, 11, 31)}
+  disabledDaysOfWeek={[0, 6]}
+  weekStartsOn={1}
+/>
+<FormControls.Date
+  label="Start (DE)"
+  locale={de}
+  dateFormat="dd.MM.yyyy"
+  defaultValue={new Date(2026, 3, 20)}
+/>
 ```
 
 ### Checkbox group
@@ -357,7 +372,7 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **Input (validation / constraints):** `maxLength` is passed straight to the native attribute (works for any `type`). `min` / `max` are passed to the native attribute (HTML5 form-validation hints) and, for `type="number"` only, also clamped on `blur` — the user can finish typing freely and the value snaps to the bound when they leave the field.
 - **Input (`autoComplete` / `onBlur`):** `autoComplete` maps to the native attribute (`"email"`, `"current-password"`, `"off"`, …). `onBlur` runs after any internal numeric clamp so consumers see the final value.
 - **Select:** Built on **Floating UI** — desktop uses a **portalled** panel with flip/shift to stay in the viewport; **≤768px** uses a **bottom sheet** (`role="dialog"`, `aria-modal`, `aria-labelledby` to the field label when the label exists). **Option** shape supports `group`, `icon`, `avatar`, `meta`, `disabled`. **`mode`** (`'single' | 'multi'`) replaces **`isMulti`** (still supported, deprecated). Single mode: **`onChange(Option | null)`** — `null` when cleared. Multi mode: **`onChange(Option[])`** — use **`[]`** for clear. **`name` + hidden `<input>`:** native form submit posts the selected **`value`**(s); **multi** joins with **commas** — avoid comma characters inside `value` if you rely on `FormData`, or parse manually. **`options={null}` + `onSearch`:** async loading; show loading/empty/error states in the panel. **`groups`:** sticky headings for shared `Option.group`. **`maxSelect`:** multi only; **`triggerMaxItems`:** chip overflow **`+N`**. **`aria-controls`** on the combobox trigger and panel search point at the listbox **only while open**. **`aria-invalid`** reflects **`error`** on trigger, search field, and listbox. Validation message uses **`role="alert"`** (via shared field error pattern).
-- **Date:** Calendar picker with **`Date | null`** / `onChange`, **Cancel vs OK** staging, **`date-fns`**, Floating UI (**≤768px** bottom sheet), constraints, **`name`** → hidden ISO date.
+- **Date:** **`Date | null`** with **`onChange`**. Opens a **`role="dialog"`** calendar: **staging** applies on day tap; **Cancel** reverts to the last committed value; **OK** commits (and clears staging). **Desktop:** portalled Floating UI panel with flip/shift, fixed **max width ~400px** (capped by viewport). **≤768px:** bottom sheet fixed to the lower viewport + dimmed backdrop, `aria-modal`, body scroll lock while open (same breakpoint idea as Select). **Header:** month cluster + year cluster (44px arrow hits); tapping month/year opens **scrollable subviews** with **back (`arrow_back`)** and headings **“Select a month of {yyyy}”** / **“Select a year for {MMMM}”** (locale-aware via `locale`). **Trigger:** **`calendar_month`** trailing icon (not Select chevrons); optional **clear** when `clearable`. **`readOnly`** and **`isDisabled`** block interaction. Constraints: **`minDate`/`maxDate`** (inclusive), **`disabledDates`**, **`disabledDaysOfWeek`**. **`dateFormat`** + **`locale`** control the field string; grid labels follow **`locale`** and **`weekStartsOn`**. **`name`:** hidden input posts **`yyyy-MM-dd`** for the **committed** value only. **`onOpen`/`onClose`** fire when the panel opens/closes. **`popoverPlacement`** adjusts desktop anchor (default `bottom-start`). **`error`** / **`isRequired`** use the shared field error pattern (`aria-invalid`, message under the field).
 - **Radio:** Group-first API — pass `options: RadioOption[]`. Renders `<fieldset>` + `<legend>` with a single `value` and `onChange(value, e)`. `isRequired` puts `*` on the legend and adds `required`/`aria-required` to the first enabled option (HTML5 only requires one input in the group to carry it). Custom ring/dot follows the native `:checked` state so uncontrolled groups stay visually correct. Pass `variant="card"` for tile-style options (ring in top-right, optional `icon` on the left, primary-brand border + tint when selected).
 - **Checkbox:** Group-first API — pass `options: CheckboxOption[]`. Renders `<fieldset>` + `<legend>` with a `value: CheckboxValue[]` and `onChange(values, e)`. `isRequired` puts `*` on the legend and sets `aria-required` on the group; native HTML5 doesn't enforce "at least one" for checkbox groups, so add custom validation at the form layer. Custom box/tick follows the native `:checked` state. Pass `variant="card"` for tile-style options (box in top-right, optional `icon` on the left, primary-brand border + tint when checked). For a single checkbox, pass a one-element `options` array — `value=[]` is unchecked, `value=[opt.value]` is checked.
 - **File:** Native `<input type="file">` is visually hidden but stays in the a11y tree. Manages a `File[]` selection internally; `onChange(files, e)` fires for picker selections, drops, and removals (the underlying event is `undefined` for non-picker triggers). With `multiple`, subsequent picks/drops append; without, the new selection replaces the old. The card variant supports drag-and-drop and tints primary-brand on hover. Removing a file resets the native input so re-selecting the same file still emits a change. `defaultValue` seeds the visual list only — browsers don't allow programmatic pre-population of file inputs.

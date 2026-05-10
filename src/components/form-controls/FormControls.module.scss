@@ -1835,9 +1835,18 @@ $cp-select-panel-hairline: rgb(235 236 239);
   border: 0;
 }
 
+/*
+ * Width comes from CSS only (not inline — Date.tsx intentionally omits width on the floating root).
+ * Two nav clusters × 44px hits + labels need ~320–360px inner space; reserve room for locales.
+ */
 .cp-date-picker-floating-shell.cp-select-dropdown-panel.cp-select-field-options {
-  width: 280px;
-  max-width: 280px;
+  width: min(400px, calc(100vw - 24px));
+  max-width: min(400px, calc(100vw - 24px));
+  /*
+   * Match panel-inner max height so the floating root doesn’t grow with long year lists;
+   * scrolling stays on .cp-date-picker-scroll inside the subview.
+   */
+  max-height: min(452px, 78dvh);
   box-sizing: border-box;
 }
 
@@ -1847,17 +1856,36 @@ $cp-select-panel-hairline: rgb(235 236 239);
     92dvh,
     calc(100dvh - env(safe-area-inset-bottom, 0px))
   ) !important;
+  /* Content can exceed max-height; clip the shell and let panel-inner/list scroll inside. */
+  display: flex !important;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
+.cp-date-picker-floating-shell.cp-select-mobile-sheet.cp-select-field-options > .cp-date-picker-panel-inner {
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  /* Let calendar/grid use natural height up to sheet max; lists scroll inside. */
+}
+
+/* Stable footprint: 6 calendar rows + header + footer; month/year subviews fill same box with internal scroll. */
 .cp-date-picker-panel-inner {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 16px;
   box-sizing: border-box;
-  background: #f4f3f8;
+  background: var(--white);
   border-radius: inherit;
-  min-height: 0;
+  min-height: min(452px, 78dvh);
+  overflow: hidden;
+}
+
+/* Desktop popover: definite max height so flex children (subview + ul) can shrink and overflow-y: auto works. */
+.cp-date-picker-floating-shell.cp-select-dropdown-panel.cp-select-field-options > .cp-date-picker-panel-inner {
+  max-height: min(452px, 78dvh);
 }
 
 .cp-date-picker-header {
@@ -1865,12 +1893,14 @@ $cp-select-panel-hairline: rgb(235 236 239);
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .cp-date-picker-header-cluster {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .cp-date-picker-nav-hit {
@@ -1904,6 +1934,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 .cp-date-picker-label-hit {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 2px;
   min-height: 44px;
   padding: 0 8px;
@@ -1913,6 +1944,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   font-weight: 600;
   color: var(--black);
   cursor: pointer;
+  white-space: nowrap;
 
   &:hover {
     background: rgb(15 23 42 / 0.06);
@@ -1924,10 +1956,23 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 
+/* Room for longest short month labels + chevron without shifting panel width when month changes */
+.cp-date-picker-header-cluster:first-child .cp-date-picker-label-hit {
+  min-width: 5.75rem;
+}
+
+.cp-date-picker-header-cluster:last-child .cp-date-picker-label-hit {
+  min-width: 4.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .cp-date-picker-grid {
   background: transparent;
   border-radius: 12px;
   padding: 4px 0;
+  flex-shrink: 0;
+  /* Always reserve 6 weekday rows (~44px hits) so 5-week months do not shorten the sheet */
+  min-height: calc(8px + 4px + 28px + 4px + 6 * 44px);
 }
 
 .cp-date-picker-weekdays {
@@ -2007,6 +2052,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
   justify-content: flex-end;
   gap: 16px;
   padding-top: 4px;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .cp-date-picker-footer-btn {
@@ -2033,7 +2080,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
   list-style: none;
   margin: 0;
   padding: 0;
-  max-height: 220px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 
@@ -2062,19 +2110,70 @@ $cp-select-panel-hairline: rgb(235 236 239);
 .cp-date-picker-subview {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
+/* Toolbar: symmetrical columns so the title stays optically centered vs the back affordance */
 .cp-date-picker-subview-head {
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 4px 0 10px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgb(15 23 42 / 0.06);
 }
 
 .cp-date-picker-subview-back {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
   border: none;
-  background: none;
-  color: var(--primary-brand);
-  font-weight: 600;
+  border-radius: var(--radius-small);
+  background: transparent;
+  color: var(--black);
   cursor: pointer;
-  padding: 8px;
+
+  &:hover {
+    background: rgb(15 23 42 / 0.07);
+    color: var(--primary-brand);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-brand);
+    outline-offset: 2px;
+  }
+}
+
+.cp-date-picker-subview-title {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  text-align: center;
+  gap: 3px;
+  padding-inline: 4px;
+  box-sizing: border-box;
+}
+
+.cp-date-picker-subview-title-line {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--black);
 }

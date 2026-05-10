@@ -19,7 +19,12 @@ import getClassNames from "../../utils/get-class-names";
 import styles from "./FormControls.module.scss";
 import DatePickerPanel from "./date/DatePickerPanel";
 import type { Constraints } from "./date/date-types";
-import { formatISODate, toCalendarDate } from "./date/normalize-date";
+import {
+  coerceToCalendarDate,
+  coerceToCalendarDates,
+  formatISODate,
+  toCalendarDate,
+} from "./date/normalize-date";
 import { useDatePickerState } from "./date/use-date-picker-state";
 import { useMediaQuery } from "./date/use-media-query";
 
@@ -103,24 +108,45 @@ const DatePicker: React.FC<DateProps> = ({
   const panelDomId = `${fieldId}-date-panel`;
   const gridLabelId = `${fieldId}-grid-caption`;
 
+  const resolvedMinDate = coerceToCalendarDate(minDate);
+  const resolvedMaxDate = coerceToCalendarDate(maxDate);
+  const resolvedDisabledDates = useMemo(
+    () => coerceToCalendarDates(disabledDates),
+    [disabledDates],
+  );
+
+  /** Storybook Controls may pass timestamps for `value` / `defaultValue`. */
+  const resolvedValue =
+    value === undefined
+      ? undefined
+      : value === null
+        ? null
+        : coerceToCalendarDate(value) ?? null;
+  const resolvedDefaultValue =
+    defaultValue === undefined
+      ? undefined
+      : defaultValue === null
+        ? null
+        : coerceToCalendarDate(defaultValue) ?? null;
+
   const isControlled = value !== undefined;
 
   const disabledDatesStamp =
-    disabledDates
+    resolvedDisabledDates
       ?.map((d) => toCalendarDate(d).getTime())
       .join("|") ?? "";
   const disabledDowStamp = disabledDaysOfWeek?.join(",") ?? "";
 
   const constraints: Constraints = useMemo(
     () => ({
-      minDate,
-      maxDate,
-      disabledDates,
+      minDate: resolvedMinDate,
+      maxDate: resolvedMaxDate,
+      disabledDates: resolvedDisabledDates,
       disabledDaysOfWeek,
     }),
     [
-      minDate?.getTime(),
-      maxDate?.getTime(),
+      resolvedMinDate?.getTime(),
+      resolvedMaxDate?.getTime(),
       disabledDatesStamp,
       disabledDowStamp,
       disabledDates,
@@ -129,8 +155,8 @@ const DatePicker: React.FC<DateProps> = ({
   );
 
   const picker = useDatePickerState({
-    value: isControlled ? value : undefined,
-    defaultValue: isControlled ? undefined : defaultValue,
+    value: isControlled ? resolvedValue : undefined,
+    defaultValue: isControlled ? undefined : resolvedDefaultValue,
     onChange,
     constraints,
   });
@@ -313,8 +339,9 @@ const DatePicker: React.FC<DateProps> = ({
               </button>
             ) : null}
             <Icon
-              name={picker.isOpen ? "arrow_drop_up" : "arrow_drop_down"}
-              className={`arrow ${picker.isOpen ? "up" : "down"}`}
+              name="calendar_month"
+              size="small"
+              color="gray"
               aria-hidden
             />
           </div>
@@ -338,11 +365,7 @@ const DatePicker: React.FC<DateProps> = ({
                 className: floatingSurfaceClass,
                 style: isMobileSheetViewport
                   ? DATE_MOBILE_SHEET_SURFACE_STYLE
-                  : {
-                      ...floatingStyles,
-                      width: "280px",
-                      maxWidth: "280px",
-                    },
+                  : floatingStyles,
                 onPointerDown: handlePanelPointerDown,
               })}
             >
