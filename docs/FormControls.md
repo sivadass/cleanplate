@@ -8,7 +8,7 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 | --- | --- | --- |
 | Input | Single-line text | placeholder, value, onChange(e), type |
 | TextArea | Multi-line text | placeholder, value, onChange(e) |
-| Select | Single or multi select dropdown | options ({ label, value }[]), value, onChange(option \| option[]), isMulti, placeholder |
+| Select | Floating UI combobox: desktop portalled list; **≤768px** bottom sheet; sync or async options, search, groups, multi chips + cap | `mode` / `isMulti`, `options`, `onSearch`, `groups`, `maxSelect`, `triggerMaxItems`, `name`, `placeholder`, `error` |
 | Date | Day/month/year picker (DD-MMM-YYYY) | defaultValue, onChange(dateValue: string) |
 | Checkbox | Checkbox group (array-based, multi-select) | name, label, options, value (CheckboxValue[]), defaultValue, onChange(values, e), orientation, variant |
 | Radio | Radio group (array-based) | name, label, options, value, defaultValue, onChange(value, e), orientation, variant |
@@ -18,23 +18,54 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 
 ## Types
 
-### SelectOption
+### Option (and SelectOption)
+
+`Option` is the canonical option shape. **`SelectOption` is a deprecated alias** — use `Option` in new code.
+
 ```typescript
-interface SelectOption {
-  label: string;
+interface Option {
   value: string | number;
+  label: string;
+  /** Contiguous rows with the same non-empty string get a sticky group heading when `groups` is true. */
+  group?: string;
+  /** Material Symbols icon name (row-leading). */
+  icon?: string;
+  /** Image URL for a circular avatar (row-leading). */
+  avatar?: string;
+  /** Muted secondary line (e.g. subtitle). */
+  meta?: string;
+  disabled?: boolean;
 }
 ```
 
 ### SelectProps
+
 ```typescript
+type SelectValue = Option | Option[] | null;
+
 interface SelectProps {
-  onChange?: (option: SelectOption | SelectOption[]) => void;
-  value?: SelectOption | SelectOption[] | null;
+  name?: string;
+  id?: string;
   label?: string;
-  options?: SelectOption[];
+  /** Controlled selection: one option, array (multi), or `null` when cleared (single). Multi clear uses `[]`. */
+  value?: SelectValue;
+  onChange?: (option: Option | Option[] | null) => void;
+  /**
+   * Static list, or `null` with `onSearch` for async/search-backed data.
+   * `[]` or missing = empty sync list.
+   */
+  options?: Option[] | null;
+  /** Required when `options` is `null`. Debounced by `searchDebounce`; empty query runs immediately. */
+  onSearch?: (query: string) => Promise<Option[]>;
+  /** Debounce for `onSearch` only (ms). @default 300 */
+  searchDebounce?: number;
+  /** Panel search field placeholder. @default "Search" */
+  searchPlaceholder?: string;
+  /** When search text matches nothing, optional “add” callback receives trimmed string. */
+  onAddOption?: (value: string) => void;
+  /** @default true */
+  closeOnAddOption?: boolean;
   placeholder?: string;
-  isMulti?: boolean;
   isRequired?: boolean;
   isDisabled?: boolean;
   isFluid?: boolean;
@@ -43,6 +74,19 @@ interface SelectProps {
   triggerClassName?: string;
   triggerActiveClassName?: string;
   contentsClassName?: string;
+  dataTestId?: string;
+  /** Selection mode. @default 'single'. Prefer over legacy `isMulti`. */
+  mode?: "single" | "multi";
+  /** @deprecated Use `mode="multi"`. */
+  isMulti?: boolean;
+  /** Multi: max chips before a "+N" overflow badge. @default 2 */
+  triggerMaxItems?: number;
+  /** Multi: show clear control on trigger when allowed. @default true */
+  clearable?: boolean;
+  /** Group headings for contiguous same-`group` options. @default false */
+  groups?: boolean;
+  /** Multi only: max selectable options; “Select all” respects cap. No effect in single mode. */
+  maxSelect?: number;
 }
 ```
 
@@ -110,6 +154,41 @@ import { FormControls } from "cleanplate";
   onChange={(option) => console.log(option)}
 />
 ```
+
+### Select — multi, groups, async
+
+**Multi** with `mode="multi"` (or legacy `isMulti`). **`triggerMaxItems`** limits visible chips; extra selections show a **`+N`** badge with an accessible label. **`maxSelect`** caps how many options can be chosen (optional).
+
+```jsx
+const [tags, setTags] = useState([{ label: "A", value: "a" }]);
+<FormControls.Select
+  label="Tags"
+  mode="multi"
+  placeholder="Choose"
+  triggerMaxItems={2}
+  maxSelect={5}
+  value={tags}
+  onChange={(next) => setTags(Array.isArray(next) ? next : [])}
+  options={[
+    { label: "Apple", value: "apple", group: "Fruit" },
+    { label: "Carrot", value: "carrot", group: "Veg" },
+  ]}
+  groups
+/>
+```
+
+**Async / search-backed list:** pass **`options={null}`** and implement **`onSearch(query)`** returning a `Promise<Option[]>`. The panel search field debounces calls (**`searchDebounce`**, default 300ms); an empty query runs immediately. For a fixed in-memory list, pass **`options={items}`** — the same search field **filters** options client-side.
+
+```jsx
+<FormControls.Select
+  label="City"
+  options={null}
+  onSearch={async (q) => fetchCities(q)} // return Option[]
+  searchPlaceholder="Type to search"
+/>
+```
+
+**Mobile:** At **viewport width ≤768px**, the panel opens as a **bottom sheet** (fixed to the lower viewport) with dialog semantics when a **label** is present, instead of a floating anchored list.
 
 ### Input with prefix / suffix
 
@@ -277,7 +356,7 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **Input (`prefix` / `suffix`):** Inline leading/trailing text affix for currency (`$`), country code (`+91`), unit (`kg`, `%`), TLD (`.com`), etc. Soft-capped at 4 characters so the layout stays predictable; longer strings are truncated. When set, the field's outer wrapper takes over the visible border / padding / focus ring so the affixes read as part of the same input. Affixes are linked to the input via `aria-describedby`, so screen readers announce e.g. "Amount, dollars, $500" when the visible affix is `$`. For symbols/abbreviations that don't read well, pass `prefixA11yLabel` / `suffixA11yLabel` (e.g. `prefix="$"`, `prefixA11yLabel="dollars"`). Ignored when `type="search"` (search already uses both edges) — for any other `type`, including `number`, affixes work as expected.
 - **Input (validation / constraints):** `maxLength` is passed straight to the native attribute (works for any `type`). `min` / `max` are passed to the native attribute (HTML5 form-validation hints) and, for `type="number"` only, also clamped on `blur` — the user can finish typing freely and the value snaps to the bound when they leave the field.
 - **Input (`autoComplete` / `onBlur`):** `autoComplete` maps to the native attribute (`"email"`, `"current-password"`, `"off"`, …). `onBlur` runs after any internal numeric clamp so consumers see the final value.
-- **Select:** options are `{ label, value }`; single select passes one option to onChange, multi passes an array. value can be option or array for multi.
+- **Select:** Built on **Floating UI** — desktop uses a **portalled** panel with flip/shift to stay in the viewport; **≤768px** uses a **bottom sheet** (`role="dialog"`, `aria-modal`, `aria-labelledby` to the field label when the label exists). **Option** shape supports `group`, `icon`, `avatar`, `meta`, `disabled`. **`mode`** (`'single' | 'multi'`) replaces **`isMulti`** (still supported, deprecated). Single mode: **`onChange(Option | null)`** — `null` when cleared. Multi mode: **`onChange(Option[])`** — use **`[]`** for clear. **`name` + hidden `<input>`:** native form submit posts the selected **`value`**(s); **multi** joins with **commas** — avoid comma characters inside `value` if you rely on `FormData`, or parse manually. **`options={null}` + `onSearch`:** async loading; show loading/empty/error states in the panel. **`groups`:** sticky headings for shared `Option.group`. **`maxSelect`:** multi only; **`triggerMaxItems`:** chip overflow **`+N`**. **`aria-controls`** on the combobox trigger and panel search point at the listbox **only while open**. **`aria-invalid`** reflects **`error`** on trigger, search field, and listbox. Validation message uses **`role="alert"`** (via shared field error pattern).
 - **Date:** Returns string "dd-mm-yyyy" to onChange; uses internal day/month/year Selects.
 - **Radio:** Group-first API — pass `options: RadioOption[]`. Renders `<fieldset>` + `<legend>` with a single `value` and `onChange(value, e)`. `isRequired` puts `*` on the legend and adds `required`/`aria-required` to the first enabled option (HTML5 only requires one input in the group to carry it). Custom ring/dot follows the native `:checked` state so uncontrolled groups stay visually correct. Pass `variant="card"` for tile-style options (ring in top-right, optional `icon` on the left, primary-brand border + tint when selected).
 - **Checkbox:** Group-first API — pass `options: CheckboxOption[]`. Renders `<fieldset>` + `<legend>` with a `value: CheckboxValue[]` and `onChange(values, e)`. `isRequired` puts `*` on the legend and sets `aria-required` on the group; native HTML5 doesn't enforce "at least one" for checkbox groups, so add custom validation at the form layer. Custom box/tick follows the native `:checked` state. Pass `variant="card"` for tile-style options (box in top-right, optional `icon` on the left, primary-brand border + tint when checked). For a single checkbox, pass a one-element `options` array — `value=[]` is unchecked, `value=[opt.value]` is checked.

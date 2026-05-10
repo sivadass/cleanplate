@@ -22,7 +22,12 @@ export default {
 
 export { Input, TextArea, Select, File, Checkbox, Radio, Date, Stepper, Toggle };
 export type { InputProps } from "./Input";
-export type { SelectProps, SelectOption } from "./Select";
+export type {
+  SelectProps,
+  SelectOption,
+  Option,
+  SelectValue,
+} from "./Select";
 export type { CheckboxProps, CheckboxOption, CheckboxValue } from "./Checkbox";
 export type { TextAreaProps } from "./TextArea";
 export type { FileProps, FileVariant } from "./File";
