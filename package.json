@@ -12,13 +12,15 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "storybook": "storybook dev -p 6001",
-    "build-storybook": "storybook build",
     "build-package": "npm run generate-icons && rollup -c && npm run build-types",
+    "build-storybook": "storybook build",
     "build-types": "tsc --emitDeclarationOnly",
-    "type-check": "tsc --noEmit",
+    "generate-icons": "node scripts/generate-icons.js",
     "generate-llms-txt": "storybook-llms-extractor --config llms.config.js",
-    "generate-icons": "node scripts/generate-icons.js"
+    "storybook": "storybook dev -p 6001",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -36,7 +38,8 @@
   },
   "homepage": "https://cleanplate.sivadass.in",
   "dependencies": {
-    "@floating-ui/react": "^0.27.16"
+    "@floating-ui/react": "^0.27.16",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.23.3",
@@ -53,10 +56,16 @@
     "@storybook/react": "^7.5.3",
     "@storybook/react-vite": "^7.5.3",
     "@storybook/testing-library": "^0.2.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^25.0.9",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/ui": "^3.2.0",
     "cheerio": "^1.2.0",
+    "jsdom": "^26.1.0",
     "node-fetch": "^2.7.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -66,7 +75,9 @@
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.72.0",
     "storybook": "^7.5.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1",
+    "vitest": "^3.2.0"
   },
   "peerDependencies": {
     "react": ">=18",
