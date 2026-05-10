@@ -28,6 +28,36 @@ const fiveFruitSelection: SelectValue = [
   selectOptionsExtended[4],
 ];
 
+/** Long static list for narrow-viewport / bottom-sheet scroll testing in Storybook. */
+const selectOptionsMobileScrollTest: Option[] = [
+  ...selectOptionsExtended,
+  { label: "Blueberry", value: "blueberry" },
+  { label: "Cherry", value: "cherry" },
+  { label: "Coconut", value: "coconut" },
+  { label: "Dragon fruit", value: "dragon_fruit" },
+  { label: "Guava", value: "guava" },
+  { label: "Lime", value: "lime" },
+  { label: "Lychee", value: "lychee" },
+  { label: "Melon", value: "melon" },
+  { label: "Passion fruit", value: "passion_fruit" },
+  { label: "Peach", value: "peach" },
+  { label: "Pear", value: "pear" },
+  { label: "Pineapple", value: "pineapple" },
+  { label: "Plum", value: "plum" },
+  { label: "Pomegranate", value: "pomegranate" },
+  { label: "Raspberry", value: "raspberry" },
+  { label: "Strawberry", value: "strawberry" },
+  { label: "Watermelon", value: "watermelon" },
+  { label: "Papaya", value: "papaya" },
+  { label: "Apricot", value: "apricot" },
+  { label: "Blackberry", value: "blackberry" },
+  { label: "Cranberry", value: "cranberry" },
+  { label: "Date", value: "date" },
+  { label: "Fig", value: "fig" },
+  { label: "Grapefruit", value: "grapefruit" },
+  { label: "Jackfruit", value: "jackfruit" },
+];
+
 function filterSelectDemoOptions(query: string): Option[] {
   const q = query.trim().toLowerCase();
   if (!q) return selectOptions;
@@ -528,13 +558,15 @@ export const SelectMobileBottomSheet = {
     docs: {
       description: {
         story:
-          "Canvas uses the **mobile1** preset (320×568 — under the 768px breakpoint). Open the control: the panel should use the bottom sheet + dimmed backdrop.",
+          "Canvas uses the **mobile1** preset (320×568 — under the 768px breakpoint). Open the control: the panel should use the bottom sheet + dimmed backdrop. Options are a long static list so you can verify **in-panel scrolling**.",
       },
     },
   },
   argTypes: Select.argTypes,
   args: {
     ...(Select.args as Partial<SelectArgs>),
+    options: selectOptionsMobileScrollTest,
+    placeholder: "Open to scroll a long list",
   } as Partial<SelectArgs>,
   render: Select.render,
 };

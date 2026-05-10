@@ -516,33 +516,125 @@ $cp-select-panel-hairline: rgb(235 236 239);
   /* Width + max-height are set inline via Floating UI (match trigger / viewport). */
 }
 
+/* Desktop floating list: fade only — Floating UI sets `transform` for placement. */
+.cp-select-dropdown-panel.cp-select-field-options {
+  --cp-select-desktop-panel-ms: 200ms;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--cp-select-desktop-panel-ms)
+    cubic-bezier(0.33, 0, 0.2, 1);
+
+  &.cp-select-dropdown-panel-entered {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0.01ms;
+
+    &.cp-select-dropdown-panel-entered {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
 .cp-select-mobile-backdrop {
+  --cp-select-mobile-sheet-ms: 300ms;
+
   position: fixed;
   inset: 0;
   z-index: 1099;
   background: rgb(15 23 42 / 0.45);
   opacity: 0;
-  transition: opacity 160ms ease;
+  transition: opacity var(--cp-select-mobile-sheet-ms)
+    cubic-bezier(0.33, 0, 0.2, 1);
   pointer-events: auto;
+  /* Keep pan gestures from reaching the document scroll view while the sheet is open. */
+  touch-action: none;
+  overscroll-behavior: none;
 
   &[data-visible="true"] {
     opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0.01ms;
   }
 }
 
 /* Bottom sheet (≤768px): CSS-only motion per Select rebuild plan. */
 .cp-select-mobile-sheet.cp-select-field-options {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --cp-select-mobile-sheet-ms: 300ms;
+
+  /*
+   * Fixed shell height = half the viewport (not content height) so filter/search
+   * never resizes the chrome — only the inner list scrolls.
+   */
+  --cp-select-mobile-sheet-height: min(
+    50dvh,
+    calc(100dvh - env(safe-area-inset-bottom, 0px))
+  );
+  height: var(--cp-select-mobile-sheet-height) !important;
+  max-height: var(--cp-select-mobile-sheet-height) !important;
+  /* Comfortable gutters vs edge-to-edge content (rounded shell + cramped feel). */
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   border-radius: 20px 20px 0 0 !important;
   box-shadow:
     0 -8px 32px rgb(15 23 42 / 0.12),
     0 -1px 0 rgb(15 23 42 / 0.06);
   transform: translateY(100%);
-  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  max-height: min(85dvh, calc(100dvh - env(safe-area-inset-bottom, 0px))) !important;
+  transition: transform var(--cp-select-mobile-sheet-ms)
+    cubic-bezier(0.33, 0.92, 0.25, 1);
+  will-change: transform;
+  overscroll-behavior: contain;
+
+  .cp-select-panel-search {
+    padding: 0 0 16px;
+  }
+
+  .cp-select-panel-bulk {
+    padding: 16px 0 16px;
+  }
+
+  .cp-select-search-input {
+    min-height: 44px;
+    height: 44px;
+  }
+
+  .cp-select-field-option {
+    padding: 8px;
+  }
+
+  .cp-select-field-group-heading {
+    padding: 16px 8px 8px;
+  }
+
+  .cp-select-empty-region .cp-select-panel-status,
+  .cp-select-panel-status {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .cp-select-field-options-list {
+    padding-bottom: 8px;
+  }
 
   &.cp-select-mobile-sheet-entered {
-    transform: translateY(0);
+    transform: translateZ(0) translateY(0);
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0.01ms;
+
+    &.cp-select-mobile-sheet-entered {
+      transform: translateY(0);
+    }
   }
 }
 
@@ -558,7 +650,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 16px 14px;
+  padding: 12px 16px 16px;
   border-bottom: 1px solid $cp-select-panel-hairline;
   box-sizing: border-box;
 }
@@ -643,7 +735,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-search-icon {
   position: absolute;
-  left: 10px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
@@ -655,7 +747,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   box-sizing: border-box;
   width: 100%;
   height: 40px;
-  padding: 0 12px 0 38px;
+  padding: 0 12px 0 40px;
   border: 1px solid var(--gray);
   border-radius: var(--radius-medium);
   font-family: inherit;
@@ -709,6 +801,9 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
 }
 
 .cp-select-panel-status {
@@ -743,7 +838,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 /* Tighter stack when empty copy appears with “Add …” */
 .cp-select-empty-region-has-add .cp-select-panel-status {
   min-height: auto;
-  padding: 14px 16px 8px;
+  padding: 16px 16px 8px;
   gap: 0;
 }
 
@@ -759,7 +854,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   width: 100%;
   box-sizing: border-box;
   margin: 0;
-  padding: 10px 16px 14px;
+  padding: 12px 16px 16px;
   border: none;
   border-top: 1px solid $cp-select-panel-hairline;
   background: rgb(248 252 255);
@@ -782,7 +877,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-retry {
   margin-top: 4px;
-  padding: 6px 14px;
+  padding: 8px 16px;
   font-family: inherit;
   font-size: 14px;
   border-radius: var(--radius-medium);
@@ -802,7 +897,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-select-field-group-heading {
-  padding: 10px 16px 6px;
+  padding: 8px 16px 8px;
   margin: 0;
   font-size: 11px;
   font-weight: 600;
@@ -818,7 +913,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 
   &-has-media {
     align-items: center;
@@ -836,12 +931,37 @@ $cp-select-panel-hairline: rgb(235 236 239);
     pointer-events: none;
   }
 
+  &-selected-row {
+    background-color: var(--primary-brand-lightest);
+    color: var(--black);
+
+    .cp-select-field-option-meta {
+      color: var(--gray);
+    }
+
+    .cp-select-field-option-icon {
+      color: var(--primary-brand);
+    }
+
+    &:not(.cp-select-field-option-disabled):not(.cp-select-field-option-capped):hover {
+      background-color: var(--primary-brand-light);
+      color: var(--black);
+
+      .cp-select-field-option-meta {
+        color: var(--gray);
+      }
+
+      .cp-select-field-option-icon {
+        color: var(--primary-brand);
+      }
+    }
+  }
+
+  /* Roaming highlight: stronger primary tint; no outline (theme tokens only). */
   &-keyboard-active:not(.cp-select-field-option-disabled):not(
       .cp-select-field-option-capped
     ) {
-    background-color: rgb(237 246 254);
-    outline: 2px solid var(--primary-brand);
-    outline-offset: -2px;
+    background-color: var(--primary-brand-light);
   }
 }
 
@@ -906,16 +1026,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-field-option:not(.cp-select-field-option-disabled):not(
     .cp-select-field-option-capped
-  ):hover {
-  background: var(--primary-brand);
-  color: var(--white);
+  ):not(.cp-select-field-option-selected-row):hover {
+  background: var(--secondary-brand-light);
+  color: var(--black);
 
   .cp-select-field-option-meta {
-    color: rgb(255 255 255 / 0.85);
+    color: var(--gray);
   }
 
   .cp-select-field-option-icon {
-    color: var(--white);
+    color: var(--gray);
   }
 }
 

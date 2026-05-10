@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useId,
   useLayoutEffect,
@@ -32,6 +33,11 @@ const MSG_ASYNC_ERROR =
 
 /** Frozen Select plan: viewport → bottom sheet shell instead of anchored dropdown. */
 const SELECT_MOBILE_SHEET_MEDIA = "(max-width: 768px)";
+
+/** Keep in sync with `FormControls.module.scss` (`--cp-select-mobile-sheet-ms`). */
+const SELECT_MOBILE_SHEET_MS = 300;
+/** Desktop dropdown fade; sync `--cp-select-desktop-panel-ms` in SCSS. */
+const SELECT_DESKTOP_DROPDOWN_MS = 200;
 
 const SELECT_MOBILE_SHEET_SURFACE_STYLE: React.CSSProperties = {
   position: "fixed",
@@ -258,7 +264,17 @@ const Select: React.FC<SelectProps> = ({
   /** When opened via Arrow keys on trigger, anchor highlight to first/last row once options mount. */
   const pendingKeyboardOpenRef = useRef<"first" | "last" | null>(null);
   const isMobileSheetViewport = useMediaQuery(SELECT_MOBILE_SHEET_MEDIA);
-  const [mobileSheetEntered, setMobileSheetEntered] = useState(false);
+  const isMobileSheetViewportRef = useRef(isMobileSheetViewport);
+  isMobileSheetViewportRef.current = isMobileSheetViewport;
+
+  /** Post-mount “open” visuals (backdrop fade + sheet slide / desktop fade). */
+  const [selectPanelEntered, setSelectPanelEntered] = useState(false);
+  /** Keeps portal mounted until close transition finishes (mobile + desktop). */
+  const [selectPanelExitAnimating, setSelectPanelExitAnimating] =
+    useState(false);
+  const selectPanelExitAnimatingRef = useRef(false);
+  selectPanelExitAnimatingRef.current = selectPanelExitAnimating;
+
   const [selectedOption, setSelectedOption] = useState<
     Option | Option[] | null | undefined
   >(value);
@@ -291,11 +307,38 @@ const Select: React.FC<SelectProps> = ({
     middleware: floatingMiddleware,
     whileElementsMounted: isMobileSheetViewport ? undefined : autoUpdate,
     onOpenChange(nextOpen) {
-      if (!isDisabled) {
-        setIsOpen(nextOpen);
+      if (isDisabled) {
+        return;
       }
+      if (nextOpen) {
+        setSelectPanelExitAnimating(false);
+        setIsOpen(true);
+        return;
+      }
+      if (isOpen) {
+        setSelectPanelExitAnimating(true);
+        setSelectPanelEntered(false);
+        setIsOpen(false);
+        return;
+      }
+      setSelectPanelExitAnimating(false);
+      setIsOpen(false);
     },
   });
+
+  const selectPanelMounted = isOpen || selectPanelExitAnimating;
+
+  const handleSelectPanelTransitionEnd = useCallback(
+    (event: React.TransitionEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+      if (!selectPanelExitAnimatingRef.current) return;
+      const mobile = isMobileSheetViewportRef.current;
+      if (mobile && event.propertyName !== "transform") return;
+      if (!mobile && event.propertyName !== "opacity") return;
+      setSelectPanelExitAnimating(false);
+    },
+    [],
+  );
 
   const click = useClick(context, {
     enabled: !isDisabled,
@@ -310,16 +353,30 @@ const Select: React.FC<SelectProps> = ({
     dismiss,
   ]);
 
+  /** Programmatic closes mirror dismiss exit timing (slide / fade). */
+  const closeFloatingPanel = useCallback(() => {
+    if (isOpen) {
+      setSelectPanelExitAnimating(true);
+      setSelectPanelEntered(false);
+      setIsOpen(false);
+      return;
+    }
+    setSelectPanelExitAnimating(false);
+    setIsOpen(false);
+  }, [isOpen]);
+
   useLayoutEffect(() => {
-    if (!isOpen || !isMobileSheetViewport) {
-      setMobileSheetEntered(false);
+    if (!isOpen) {
+      if (!selectPanelExitAnimating) {
+        setSelectPanelEntered(false);
+      }
       return undefined;
     }
     const id = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => setMobileSheetEntered(true));
+      window.requestAnimationFrame(() => setSelectPanelEntered(true));
     });
     return () => window.cancelAnimationFrame(id);
-  }, [isOpen, isMobileSheetViewport]);
+  }, [isOpen, selectPanelExitAnimating]);
 
   const filteredSyncOptions = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -336,24 +393,24 @@ const Select: React.FC<SelectProps> = ({
   const displayedOptions = isAsyncMode ? asyncOptions : filteredSyncOptions;
 
   const syncEmptyPanel =
-    !isAsyncMode && isOpen && filteredSyncOptions.length === 0;
+    !isAsyncMode && selectPanelMounted && filteredSyncOptions.length === 0;
 
   const asyncLoadingPanel =
     isAsyncMode &&
-    isOpen &&
+    selectPanelMounted &&
     (asyncStatus === "loading" || asyncStatus === "idle");
 
   const asyncErrorPanel =
-    isAsyncMode && isOpen && asyncStatus === "error";
+    isAsyncMode && selectPanelMounted && asyncStatus === "error";
 
   const asyncEmptyPanel =
     isAsyncMode &&
-    isOpen &&
+    selectPanelMounted &&
     asyncStatus === "success" &&
     asyncOptions.length === 0;
 
   const showOptionRows =
-    isOpen &&
+    selectPanelMounted &&
     !syncEmptyPanel &&
     !asyncLoadingPanel &&
     !asyncErrorPanel &&
@@ -374,7 +431,7 @@ const Select: React.FC<SelectProps> = ({
     );
 
   const panelHasNoSelectableRows =
-    isOpen &&
+    selectPanelMounted &&
     !asyncLoadingPanel &&
     !asyncErrorPanel &&
     displayedOptions.length === 0 &&
@@ -534,7 +591,7 @@ const Select: React.FC<SelectProps> = ({
       setSelectedOption(null);
       onChange?.(null);
     }
-    setIsOpen(false);
+    closeFloatingPanel();
   };
 
   const handleChipRemove =
@@ -573,7 +630,7 @@ const Select: React.FC<SelectProps> = ({
       setSelectedOption(optionValue);
       onChange?.(optionValue);
     }
-    setIsOpen(false);
+    closeFloatingPanel();
   };
 
   const handleBulkSelectAllChange = (
@@ -636,7 +693,7 @@ const Select: React.FC<SelectProps> = ({
 
     if (event.key === "Tab") {
       event.preventDefault();
-      setIsOpen(false);
+      closeFloatingPanel();
       queueMicrotask(focusTrigger);
       return;
     }
@@ -706,7 +763,7 @@ const Select: React.FC<SelectProps> = ({
     onAddOption?.(next);
     setSearchQuery("");
     if (closeOnAddOption) {
-      setIsOpen(false);
+      closeFloatingPanel();
     } else {
       searchInputRef.current?.focus();
     }
@@ -774,10 +831,40 @@ const Select: React.FC<SelectProps> = ({
   }, [activeNavIndex, navigableFlat, navigableSourceRowIndexes, showOptionRows, fieldId]);
 
   useEffect(() => {
-    if (isDisabled) {
-      setIsOpen(false);
+    if (!isDisabled) return;
+    closeFloatingPanel();
+  }, [isDisabled, closeFloatingPanel]);
+
+  /** Mobile sheet: stop background page scroll/bounce while the dialog is open (iOS chaining). */
+  useEffect(() => {
+    const lock =
+      isMobileSheetViewport && (isOpen || selectPanelExitAnimating);
+    if (!lock) {
+      return undefined;
     }
-  }, [isDisabled]);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMobileSheetViewport, isOpen, selectPanelExitAnimating]);
+
+  useEffect(() => {
+    if (!isMobileSheetViewport) {
+      setSelectPanelExitAnimating(false);
+    }
+  }, [isMobileSheetViewport]);
+
+  useEffect(() => {
+    if (!selectPanelExitAnimating) return undefined;
+    const fallbackMs =
+      (isMobileSheetViewport ? SELECT_MOBILE_SHEET_MS : SELECT_DESKTOP_DROPDOWN_MS) +
+      80;
+    const id = window.setTimeout(() => {
+      setSelectPanelExitAnimating(false);
+    }, fallbackMs);
+    return () => window.clearTimeout(id);
+  }, [selectPanelExitAnimating, isMobileSheetViewport]);
 
   useEffect(() => {
     setSelectedOption(value);
@@ -790,18 +877,25 @@ const Select: React.FC<SelectProps> = ({
   }, [someEligibleVisibleSelected]);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!selectPanelMounted) {
       asyncRequestSeqRef.current += 1;
       setSearchQuery("");
       setAsyncOptions([]);
       setAsyncStatus("idle");
       return undefined;
     }
+    if (!isOpen) {
+      return undefined;
+    }
+    /* Mobile sheet: avoid autofocus so the OS keyboard doesn’t jump in immediately. */
+    if (isMobileSheetViewport) {
+      return undefined;
+    }
     const rid = window.requestAnimationFrame(() => {
       searchInputRef.current?.focus();
     });
     return () => window.cancelAnimationFrame(rid);
-  }, [isOpen]);
+  }, [selectPanelMounted, isOpen, isMobileSheetViewport]);
 
   useEffect(() => {
     if (!isOpen || !isAsyncMode || !onSearch) return;
@@ -966,12 +1060,16 @@ const Select: React.FC<SelectProps> = ({
             />
           </div>
         </div>
-        {isOpen && (
+        {selectPanelMounted && (
           <FloatingPortal>
             {isMobileSheetViewport ? (
               <div
                 className={styles["cp-select-mobile-backdrop"]}
-                data-visible={mobileSheetEntered ? "true" : undefined}
+                data-visible={
+                  isMobileSheetViewport && selectPanelEntered
+                    ? "true"
+                    : undefined
+                }
                 aria-hidden
               />
             ) : null}
@@ -985,11 +1083,16 @@ const Select: React.FC<SelectProps> = ({
                   styles["cp-select-field-options"],
                   isMobileSheetViewport && styles["cp-select-mobile-sheet"],
                   isMobileSheetViewport &&
-                    mobileSheetEntered &&
+                    selectPanelEntered &&
                     styles["cp-select-mobile-sheet-entered"],
+                  !isMobileSheetViewport && styles["cp-select-dropdown-panel"],
+                  !isMobileSheetViewport &&
+                    selectPanelEntered &&
+                    styles["cp-select-dropdown-panel-entered"],
                   contentsClassName
                 ),
                 onKeyDownCapture: handleFloatingKeyDownCapture,
+                onTransitionEnd: handleSelectPanelTransitionEnd,
                 ...(isMobileSheetViewport
                   ? {
                       id: `${fieldId}-select-panel`,
@@ -1003,7 +1106,15 @@ const Select: React.FC<SelectProps> = ({
               <div
                 className={styles["cp-select-panel-search"]}
                 role="presentation"
-                onMouseDown={(e) => {
+                onPointerDown={(e) => {
+                  /*
+                   * Unconditional preventDefault broke mobile touch: activation/focus never
+                   * reached the search input. Skip for interactive descendants.
+                   */
+                  const t = e.target as HTMLElement | null;
+                  if (t?.closest("input, button, textarea, label")) {
+                    return;
+                  }
                   e.preventDefault();
                 }}
               >
@@ -1055,7 +1166,11 @@ const Select: React.FC<SelectProps> = ({
                 <div
                   className={styles["cp-select-panel-bulk"]}
                   role="presentation"
-                  onMouseDown={(e) => {
+                  onPointerDown={(e) => {
+                    const t = e.target as HTMLElement | null;
+                    if (t?.closest("input, button, textarea, label")) {
+                      return;
+                    }
                     e.preventDefault();
                   }}
                 >
@@ -1233,6 +1348,8 @@ const Select: React.FC<SelectProps> = ({
                               styles["cp-select-field-option-disabled"],
                             blockedByCap &&
                               styles["cp-select-field-option-capped"],
+                            isSelected &&
+                              styles["cp-select-field-option-selected-row"],
                             isKeyboardActive &&
                               styles["cp-select-field-option-keyboard-active"]
                           )}
