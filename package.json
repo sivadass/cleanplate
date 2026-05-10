@@ -6,7 +6,8 @@
     "dist",
     "docs",
     "llms.txt",
-    "AGENTS.md"
+    "AGENTS.md",
+    "CHANGELOG.md"
   ],
   "main": "dist/index.js",
   "module": "dist/index.es.js",

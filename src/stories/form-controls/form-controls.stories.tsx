@@ -740,26 +740,35 @@ export const Date = {
   argTypes: {
     ...commonControlArgTypes,
     defaultValue: {
-      control: "text",
-      description: "Initial date in `dd-mm-yyyy` format (e.g. `31-05-1992`)",
+      control: false,
+      description: "Uncontrolled initial calendar date (`Date`; remount Storybook canvas to retry)",
     },
+    value: { control: false, description: "Controlled `Date | null`; use code if needed" },
     onChange: { action: "onChange" },
+    minDate: { control: "date", description: "Inclusive minimum selectable date" },
+    maxDate: { control: "date", description: "Inclusive maximum selectable date" },
   },
   args: {
     label: "Date of birth",
-    defaultValue: "31-05-1992",
+    defaultValue: new Date(1992, 4, 31),
     isRequired: false,
     isDisabled: false,
+    readOnly: false,
     isFluid: false,
     error: "",
     dataTestId: "dob",
-  } as Partial<DateArgs>,
-  render: (args: DateArgs) => (
-    <Container padding="4" style={{ minWidth: 360 }}>
-      {/* `key` forces a remount when `defaultValue` changes so the new initial value is picked up */}
-      <FormControls.Date key={String(args.defaultValue ?? "")} {...args} />
-    </Container>
-  ),
+  } satisfies Partial<DateArgs>,
+  render: (args: DateArgs) => {
+    const dk =
+      args.defaultValue instanceof Date
+        ? String(args.defaultValue.getTime())
+        : "unset";
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.Date key={dk} {...args} />
+      </Container>
+    );
+  },
 };
 
 /* -------------------------------------------------------------------------- */
@@ -1448,7 +1457,7 @@ export const AllControls = {
           <FormControls.Input label="Email" placeholder="user@acme.com" isRequired />
           <FormControls.TextArea label="Message" placeholder="Hello world!" />
           <FormControls.Select label="Fruit" options={selectOptions} placeholder="Select a fruit" />
-          <FormControls.Date label="Date of birth" defaultValue="31-05-1992" />
+          <FormControls.Date label="Date of birth" defaultValue={new Date(1992, 4, 31)} />
           <FormControls.Checkbox
             label="Terms and conditions"
             name="accept"

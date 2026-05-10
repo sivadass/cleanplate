@@ -13,7 +13,7 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbo
 - **Input:** Text input with label, placeholder, required indicator, error message, isFluid. `type="number"` is mapped to `<input type="text" inputmode="numeric" pattern="[0-9]*">` for predictable behavior on desktop and a numeric keypad on mobile (avoids the UX issues of native `type="number"`). `type="search"` adds a leading `search` icon, hides the browser's native clear button, and renders a custom `close` clear control that appears only when the field has content. Pass `prefix` / `suffix` (≤ 4 chars) for inline affixes like currency (`$`), country code (`+91`), unit (`kg`, `%`), or TLD (`.com`).
 - **TextArea:** Multi-line text with same options as Input
 - **Select:** Single or multi select with options `{ label, value }`; dropdown with placeholder
-- **Date:** Day/month/year picker built from three Selects (DD-MMM-YYYY); `defaultValue` format `"dd-mm-yyyy"`, `onChange(dateValue)`
+- **Date:** Calendar date picker (`Date | null`), **Cancel / OK**, `date-fns` + Floating UI (**≤768px** sheet); constraints, `locale`, `weekStartsOn`, optional **`name`** (hidden **yyyy-MM-dd**)
 - **Checkbox:** Group-first API — pass an `options` array (single item is fine for one checkbox). Renders `<fieldset>` + `<legend>` with `value: CheckboxValue[]` + `onChange(values, e)`. Each option supports `description` and an optional `icon`. Set `variant="card"` for tile-style options.
 - **Radio:** Each row is a native `radio` (visually hidden) with a custom ring/dot aligned like Checkbox/Toggle; unique `id` is derived from `name` + `value` so groups never get duplicate ids. Use `fieldset`/`legend` for the group label.
 - **File:** File picker with `button` (default) and `card` variants. Both render a removable file list below the trigger; the card variant adds a dashed drop zone with drag-and-drop. Use `multiple`, `accept`, `buttonLabel`, `dropZoneText` to tailor the UX.
@@ -80,8 +80,8 @@ const options = [
 
 ```jsx
 <FormControls.Date label="Date of birth" />
-<FormControls.Date label="DOB" defaultValue="31-05-1992" />
-<FormControls.Date label="DOB" onChange={(dateValue) => console.log(dateValue)} />
+<FormControls.Date label="DOB" defaultValue={new Date(1992, 4, 31)} />
+<FormControls.Date label="DOB" onChange={(date) => console.log(date)} />
 ```
 
 ### Checkbox group
@@ -192,7 +192,7 @@ const [files, setFiles] = useState([]);
 - **Toggle:** Switch control — use `checked` + `onChange(checked)` when controlled, or `defaultChecked` when uncontrolled. Renders `type="checkbox"` with `role="switch"`.
 - **File:** `variant="button"` (default) renders a primary-brand trigger; `variant="card"` renders a dashed drop zone with click + drag-and-drop. Selection is a `File[]` exposed via `value` (controlled) / `defaultValue` (uncontrolled initial visual list) and emitted from `onChange(files, e)`. With `multiple`, picks/drops append to the list; without, the new selection replaces it. Each selected file renders below the trigger with a type-specific thumbnail icon, name, formatted size, and a remove button.
 - **Select:** Options are `{ label: string, value: string | number }`. Single select passes one option to `onChange`; multi passes an array. Value syncs from prop in useEffect.
-- **Date:** Returns a string `"dd-mm-yyyy"` to `onChange`. Uses DAY_OPTIONS, MONTH_OPTIONS, YEAR_OPTIONS from constants.
+- **Date:** Returns `Date | null` to `onChange`. Calendar grid with **Cancel** / **OK**; **≤768px** uses a bottom sheet (like Select). Optional `name` posts **yyyy-MM-dd** via a hidden input.
 - **Error:** When `error` is set, the field gets an error class and the message is shown below.
 - **isFluid:** Applies full-width styling to the field wrapper.
 
