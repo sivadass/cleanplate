@@ -215,6 +215,7 @@ const Pagination: React.FC<PaginationProps> = ({
             contentsClassName={styles["rows-select-content"]}
             options={rowsPerPageOptions}
             value={defaultRowsPerPage}
+            clearable={false}
             onChange={(v: PaginationRowsPerPageOption) => handleRowsPerPage(v)}
           />
         </Container>

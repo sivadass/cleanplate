@@ -55,15 +55,15 @@ const Date: React.FC<DateProps> = ({
     className
   );
 
-  const handleChangeDay = (val: SelectOption | SelectOption[]) => {
+  const handleChangeDay = (val: SelectOption | SelectOption[] | null) => {
     const option = Array.isArray(val) ? val[0] : val;
     if (option) setDay(String(option.value));
   };
-  const handleChangeMonth = (val: SelectOption | SelectOption[]) => {
+  const handleChangeMonth = (val: SelectOption | SelectOption[] | null) => {
     const option = Array.isArray(val) ? val[0] : val;
     if (option) setMonth(String(option.value));
   };
-  const handleChangeYear = (val: SelectOption | SelectOption[]) => {
+  const handleChangeYear = (val: SelectOption | SelectOption[] | null) => {
     const option = Array.isArray(val) ? val[0] : val;
     if (option) setYear(String(option.value));
   };

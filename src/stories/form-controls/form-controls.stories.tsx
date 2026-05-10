@@ -1,17 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useArgs } from "@storybook/preview-api";
 import { FormControls, Container, Typography, Icon } from "../../index";
-import type { SelectOption } from "../../components/form-controls/Select";
+import type { Option, SelectValue } from "../../components/form-controls/Select";
 
 /* -------------------------------------------------------------------------- */
 /* Shared argTypes / option lists                                             */
 /* -------------------------------------------------------------------------- */
 
-const selectOptions: SelectOption[] = [
+const selectOptions: Option[] = [
   { label: "Apple", value: "apple" },
   { label: "Mango", value: "mango" },
   { label: "Orange", value: "orange" },
   { label: "Grapes", value: "grapes" },
+];
+
+const selectOptionsExtended: Option[] = [
+  ...selectOptions,
+  { label: "Kiwi", value: "kiwi" },
+  { label: "Banana", value: "banana" },
+];
+
+const fiveFruitSelection: SelectValue = [
+  selectOptionsExtended[0],
+  selectOptionsExtended[1],
+  selectOptionsExtended[2],
+  selectOptionsExtended[3],
+  selectOptionsExtended[4],
+];
+
+function filterSelectDemoOptions(query: string): Option[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return selectOptions;
+  return selectOptions.filter((o) =>
+    o.label.toLowerCase().includes(q)
+  );
+}
+
+async function selectDemoOnSearch(query: string): Promise<Option[]> {
+  await new Promise((resolve) => window.setTimeout(resolve, 200));
+  return filterSelectDemoOptions(query);
+}
+
+const selectRichGroupedOptions: Option[] = [
+  {
+    label: "Inbox",
+    value: "inbox",
+    group: "Mailboxes",
+    icon: "inbox",
+    meta: "12 new",
+  },
+  {
+    label: "Sent",
+    value: "sent",
+    group: "Mailboxes",
+    icon: "send",
+  },
+  {
+    label: "Drafts",
+    value: "drafts",
+    group: "Mailboxes",
+    icon: "draft",
+    meta: "Read-only label",
+    disabled: true,
+  },
+  {
+    label: "Team channel",
+    value: "team",
+    group: "Collaboration",
+    avatar: "https://picsum.photos/seed/cleanplate-chat/96/96",
+    meta: "Shared workspace",
+  },
+  {
+    label: "Direct messages",
+    value: "dm",
+    group: "Collaboration",
+    icon: "chat",
+  },
 ];
 
 const commonControlArgTypes = {
@@ -67,7 +131,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select**, **Date**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
+          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
       },
     },
   },
@@ -344,16 +408,45 @@ export const Select = {
   argTypes: {
     ...commonControlArgTypes,
     placeholder: { control: "text" },
-    isMulti: { control: "boolean" },
+    mode: { control: "inline-radio", options: ["single", "multi"] },
+    triggerMaxItems: {
+      control: { type: "number", min: 0, max: 12, step: 1 },
+    },
+    clearable: { control: "boolean" },
+    isMulti: {
+      control: false,
+      table: { disable: true },
+      description:
+        "Deprecated — use mode='multi'. Shown here only when passed through args.",
+    },
     options: { control: "object" },
     onChange: { action: "onChange" },
+    searchPlaceholder: { control: "text" },
+    searchDebounce: {
+      control: { type: "number", min: 0, max: 2000, step: 50 },
+    },
+    onSearch: { table: { disable: true }, control: false },
+    onAddOption: { action: "onAddOption", control: false },
+    closeOnAddOption: { control: "boolean" },
+    groups: { control: "boolean", description: "Show headings from Option.group" },
+    maxSelect: {
+      control: { type: "number", min: 1, max: 20, step: 1 },
+      description:
+        "Multi only — max selections; extras look disabled until you deselect.",
+    },
   },
   args: {
     label: "Fruit",
     name: "fruit",
     placeholder: "Select a fruit",
     options: selectOptions,
-    isMulti: false,
+    searchPlaceholder: "Search",
+    searchDebounce: 300,
+    mode: "single",
+    triggerMaxItems: 2,
+    clearable: true,
+    closeOnAddOption: true,
+    groups: false,
     isRequired: false,
     isDisabled: false,
     isFluid: false,
@@ -369,6 +462,234 @@ export const Select = {
           onChange={(option) => {
             args.onChange?.(option);
             updateArgs({ value: option });
+          }}
+        />
+      </Container>
+    );
+  },
+};
+
+export const SelectBulkAndCap = {
+  name: "Select · bulk actions & max selection",
+  argTypes: {
+    ...Select.argTypes,
+  },
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+    mode: "multi",
+    maxSelect: 3,
+    placeholder: "Pick up to three fruits",
+    triggerMaxItems: 3,
+  } as Partial<SelectArgs>,
+  render: Select.render,
+};
+
+export const SelectMultiChipsOverflow = {
+  name: "Select · multi (chip overflow +N)",
+  argTypes: Select.argTypes,
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+    mode: "multi",
+    triggerMaxItems: 2,
+    options: selectOptionsExtended,
+    value: fiveFruitSelection,
+    placeholder: "Five fruits selected — +N overflow",
+  } as Partial<SelectArgs>,
+  render: Select.render,
+};
+
+export const SelectSingleWithError = {
+  name: "Select · single (validation error)",
+  argTypes: Select.argTypes,
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+    mode: "single",
+    error: "Pick an option from the list.",
+    isRequired: true,
+  } as Partial<SelectArgs>,
+  render: Select.render,
+};
+
+export const SelectSyncEmptyOptions = {
+  name: "Select · sync list empty",
+  argTypes: Select.argTypes,
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+    options: [],
+    placeholder: "No static options available",
+  } as Partial<SelectArgs>,
+  render: Select.render,
+};
+
+export const SelectMobileBottomSheet = {
+  name: "Select · narrow viewport (bottom sheet)",
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    docs: {
+      description: {
+        story:
+          "Canvas uses the **mobile1** preset (320×568 — under the 768px breakpoint). Open the control: the panel should use the bottom sheet + dimmed backdrop.",
+      },
+    },
+  },
+  argTypes: Select.argTypes,
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+  } as Partial<SelectArgs>,
+  render: Select.render,
+};
+
+export const SelectFormMultiSubmit = {
+  name: "Select · form (hidden multi value)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The hidden `<input type=\"hidden\">` joins multi values with commas. Submit to see the posted value rendered below.",
+      },
+    },
+  },
+  render: () => {
+    const [value, setValue] = useState<SelectValue>([
+      selectOptions[0],
+      selectOptions[1],
+    ]);
+    const [posted, setPosted] = useState<string | null>(null);
+    return (
+      <Container padding="4" style={{ minWidth: 280 }}>
+        <Typography variant="small" margin="b-2">
+          Multi selection is submitted as one field: comma-separated `value`
+          tokens (parse on the server accordingly).
+        </Typography>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const fd = new FormData(e.currentTarget);
+            setPosted(String(fd.get("tags") ?? ""));
+          }}
+        >
+          <FormControls.Select
+            label="Tags"
+            name="tags"
+            mode="multi"
+            options={selectOptions}
+            value={value}
+            onChange={(next) => setValue(next)}
+            dataTestId="tags-select-form"
+          />
+          <button type="submit" style={{ marginTop: 12 }}>
+            Submit
+          </button>
+        </form>
+        {posted !== null ? (
+          <Typography variant="small" margin="t-2">
+            Last <code>tags</code> value: <code>{posted}</code>
+          </Typography>
+        ) : null}
+      </Container>
+    );
+  },
+};
+
+type SelectAsyncStoryArgs = Omit<SelectArgs, "options" | "onSearch">;
+
+export const SelectAsync = {
+  name: "Select · async onSearch",
+  argTypes: {
+    ...Select.argTypes,
+    options: { table: { disable: true }, control: false },
+    onSearch: { table: { disable: true }, control: false },
+    value: { control: false },
+  },
+  args: {
+    ...(Select.args as Partial<SelectAsyncStoryArgs>),
+    options: undefined,
+  } as Partial<SelectAsyncStoryArgs>,
+  render: (args: SelectAsyncStoryArgs) => {
+    const [selection, setSelection] = useState<SelectValue>(null);
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <Typography variant="small" margin="b-2">
+          Static list is disabled: `options=null` and results come from
+          `onSearch`, debounced except for an empty query.
+        </Typography>
+        <FormControls.Select
+          {...args}
+          options={null}
+          onSearch={selectDemoOnSearch}
+          value={selection}
+          onChange={(option) => {
+            setSelection(option);
+          }}
+        />
+      </Container>
+    );
+  },
+};
+
+type SelectRichStoryArgs = React.ComponentProps<typeof FormControls.Select>;
+
+export const SelectRichGrouped = {
+  name: "Select · groups, icons & meta",
+  argTypes: {
+    ...Select.argTypes,
+    options: { control: false, table: { disable: true } },
+  },
+  args: {
+    ...(Select.args as Partial<SelectRichStoryArgs>),
+    label: "Destination",
+    placeholder: "Pick a mailbox or channel…",
+    options: selectRichGroupedOptions,
+    groups: true,
+  } as Partial<SelectRichStoryArgs>,
+  render: (args: SelectRichStoryArgs) => {
+    const [, updateArgs] = useArgs();
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.Select
+          {...args}
+          onChange={(option) => {
+            args.onChange?.(option);
+            updateArgs({ value: option });
+          }}
+        />
+      </Container>
+    );
+  },
+};
+
+export const SelectAsyncRetryDemo = {
+  name: "Select · async (error + retry)",
+  argTypes: {
+    ...SelectAsync.argTypes,
+  },
+  args: {
+    ...(SelectAsync.args as Partial<SelectAsyncStoryArgs>),
+  } as Partial<SelectAsyncStoryArgs>,
+  render: (args: SelectAsyncStoryArgs) => {
+    const [selection, setSelection] = useState<SelectValue>(null);
+    const failOnceRef = useRef(true);
+    const onSearch = useCallback(async (query: string) => {
+      await new Promise((resolve) => window.setTimeout(resolve, 220));
+      if (failOnceRef.current) {
+        failOnceRef.current = false;
+        throw new Error("Simulated fetch failure");
+      }
+      return filterSelectDemoOptions(query);
+    }, []);
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <Typography variant="small" margin="b-2">
+          First request fails — use Retry to rerun the latest search. Subsequent
+          calls succeed.
+        </Typography>
+        <FormControls.Select
+          {...args}
+          options={null}
+          onSearch={onSearch}
+          value={selection}
+          onChange={(option) => {
+            setSelection(option);
           }}
         />
       </Container>
