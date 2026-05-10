@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useArgs } from "@storybook/preview-api";
+import { de } from "date-fns/locale/de";
 import { FormControls, Container, Typography, Icon } from "../../index";
 import type { Option, SelectValue } from "../../components/form-controls/Select";
 
@@ -161,7 +162,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
+          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
       },
     },
   },
@@ -735,31 +736,250 @@ export const SelectAsyncRetryDemo = {
 
 type DateArgs = React.ComponentProps<typeof FormControls.Date>;
 
-export const Date = {
+function dateStoryRemountKey(args: Partial<DateArgs>) {
+  if (args.value !== undefined) {
+    return args.value != null ? `v:${String(args.value.getTime())}` : "v:null";
+  }
+  return args.defaultValue instanceof Date
+    ? `d:${String(args.defaultValue.getTime())}`
+    : "d:unset";
+}
+
+function renderDateStory(args: DateArgs) {
+  return (
+    <Container padding="4" style={{ minWidth: 360 }}>
+      <FormControls.Date key={dateStoryRemountKey(args)} {...args} />
+    </Container>
+  );
+}
+
+/** Named `DateStory` — not `Date` — so `new Date()` in `args` does not hit the TDZ of a same-named export. */
+export const DateStory = {
   name: "Date",
+  parameters: {
+    layout: "fullscreen",
+  },
   argTypes: {
     ...commonControlArgTypes,
     defaultValue: {
-      control: "text",
-      description: "Initial date in `dd-mm-yyyy` format (e.g. `31-05-1992`)",
+      control: false,
+      description: "Uncontrolled initial calendar date (`Date`; remount Storybook canvas to retry)",
     },
+    value: { control: false, description: "Controlled `Date | null`; use code if needed" },
     onChange: { action: "onChange" },
+    minDate: { control: "date", description: "Inclusive minimum selectable date" },
+    maxDate: { control: "date", description: "Inclusive maximum selectable date" },
   },
   args: {
     label: "Date of birth",
-    defaultValue: "31-05-1992",
+    defaultValue: new Date(1992, 4, 31),
     isRequired: false,
     isDisabled: false,
+    readOnly: false,
     isFluid: false,
     error: "",
     dataTestId: "dob",
-  } as Partial<DateArgs>,
-  render: (args: DateArgs) => (
-    <Container padding="4" style={{ minWidth: 360 }}>
-      {/* `key` forces a remount when `defaultValue` changes so the new initial value is picked up */}
-      <FormControls.Date key={String(args.defaultValue ?? "")} {...args} />
-    </Container>
-  ),
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
+};
+
+export const DateMinMaxRange = {
+  name: "Date · min / max window",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "`minDate` and `maxDate` constrain navigation and selection. The initial value sits inside the allowed range.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  args: {
+    label: "Delivery date",
+    defaultValue: new Date(2026, 5, 15),
+    minDate: new Date(2026, 5, 1),
+    maxDate: new Date(2026, 5, 30),
+    dataTestId: "date-minmax",
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
+};
+
+export const DateWeekStartsMonday = {
+  name: "Date · week starts Monday",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story: "`weekStartsOn={1}` aligns the calendar grid so weeks begin on Monday.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  args: {
+    label: "Week (Mon start)",
+    defaultValue: new Date(2026, 4, 10),
+    weekStartsOn: 1,
+    dataTestId: "date-mon",
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
+};
+
+export const DateDisabledRules = {
+  name: "Date · disabled weekends + dates",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "`disabledDaysOfWeek` greys out Sat/Sun; `disabledDates` blocks specific calendar days.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  args: {
+    label: "Appointment",
+    defaultValue: new Date(2026, 5, 11),
+    disabledDaysOfWeek: [0, 6],
+    disabledDates: [
+      new Date(2026, 5, 10),
+      new Date(2026, 5, 17),
+      new Date(2026, 5, 24),
+    ],
+    dataTestId: "date-disabled",
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
+};
+
+export const DateLocaleAndFormat = {
+  name: "Date · locale + display format",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "Uses **`date-fns` `de`** for month/weekday labels and **`dateFormat`** for the field (`dd.MM.yyyy`). Locale is wired in render so Storybook controls stay JSON-safe.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  render: () =>
+    renderDateStory({
+      label: "Datum",
+      defaultValue: new Date(2026, 3, 20),
+      locale: de,
+      dateFormat: "dd.MM.yyyy",
+      dataTestId: "date-de",
+    }),
+};
+
+export const DateValidationError = {
+  name: "Date · required + error",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "**`isRequired`** and **`error`**: asterisk on the label, message under the field, and invalid styling on the trigger.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  args: {
+    label: "Start date",
+    defaultValue: null,
+    placeholder: "Choose a date",
+    isRequired: true,
+    error: "Select a start date to continue.",
+    dataTestId: "date-err",
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
+};
+
+export const DateReadOnlyAndNoClear = {
+  name: "Date · read-only & no clear",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "**`readOnly`** locks the value and blocks opening the calendar; **`clearable={false}`** hides the clear (×) control.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  args: {
+    label: "Locked date",
+    value: new Date(2018, 7, 3),
+    readOnly: true,
+    clearable: false,
+    dataTestId: "date-ro",
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
+};
+
+export const DateFormHiddenName = {
+  name: "Date · form (hidden yyyy-MM-dd)",
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "With **`name`**, the component renders a hidden input that submits **`yyyy-MM-dd`**—useful alongside native form posts.",
+      },
+    },
+  },
+  render: () => {
+    const [posted, setPosted] = useState<string | null>(null);
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const fd = new FormData(e.currentTarget);
+            setPosted(String(fd.get("starts_on") ?? ""));
+          }}
+        >
+          <FormControls.Date
+            label="Starts on"
+            name="starts_on"
+            defaultValue={new Date(2026, 8, 9)}
+            dataTestId="date-form-name"
+          />
+          <Typography variant="small" margin="t-2 b-2">
+            Submit posts the hidden field as <code>yyyy-MM-dd</code> (calendar date).
+          </Typography>
+          <button type="submit">Submit</button>
+        </form>
+        {posted ? (
+          <Typography variant="small" margin="t-2">
+            Posted <code>starts_on</code>: <strong>{posted}</strong>
+          </Typography>
+        ) : null}
+      </Container>
+    );
+  },
+};
+
+export const DateMobileBottomSheet = {
+  name: "Date · narrow viewport (bottom sheet)",
+  parameters: {
+    layout: "fullscreen",
+    viewport: { defaultViewport: "mobile1" },
+    docs: {
+      description: {
+        story:
+          "**mobile1** (320×568) is under the 768px breakpoint. Open the picker to see the **bottom sheet**, backdrop, and Cancel / OK flow.",
+      },
+    },
+  },
+  argTypes: DateStory.argTypes,
+  args: {
+    label: "Event date",
+    defaultValue: new Date(2026, 6, 4),
+    dataTestId: "date-mobile",
+  } satisfies Partial<DateArgs>,
+  render: renderDateStory,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -1448,7 +1668,7 @@ export const AllControls = {
           <FormControls.Input label="Email" placeholder="user@acme.com" isRequired />
           <FormControls.TextArea label="Message" placeholder="Hello world!" />
           <FormControls.Select label="Fruit" options={selectOptions} placeholder="Select a fruit" />
-          <FormControls.Date label="Date of birth" defaultValue="31-05-1992" />
+          <FormControls.Date label="Date of birth" defaultValue={new Date(1992, 4, 31)} />
           <FormControls.Checkbox
             label="Terms and conditions"
             name="accept"
