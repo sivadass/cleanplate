@@ -1,31 +1,31 @@
 # MediaObject Component
 
-Purpose: A flexible layout pattern that combines media (icon, image, or avatar) with content (title and description). Perfect for displaying user profiles, product cards, notifications, and any content that needs a media element alongside text.
+Purpose: Combines fixed media (`Avatar`: icon, image, or initials) with a dense text stack (primary title, optional subtitle, optional clipped preview). Supports an optional **trailing rail** for metadata aligned to the title row (e.g. date) and an action anchored to the last text row (e.g. star), matching mobile inbox/list cards. Built-in text colors use semantic tokens (`--text-default`, `--text-subtle`, `--text-muted`).
 
 ## Props / Inputs
 
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| title | string | yes | — | The main title text displayed in the content area. |
-| mediaIcon | string | no | "" | Icon name from Material Symbols to display as the media element. |
-| mediaImage | string | no | "" | Image URL to display as the media element. |
-| mediaAvatar | string | no | "" | Name used to generate an avatar with initials and background color. |
-| description | string | no | — | Secondary text displayed below the title. |
-| margin | string \| string[] | no | "0" | Spacing utility token(s) for outer margin, such as `m-0` or `["m-1", "m-b-2"]`. |
-| padding | string \| string[] | no | "0" | Spacing utility token(s) for inner padding, such as `p-0` or `["p-1", "p-b-2"]`. |
-| className | string | no | "media-object" | Additional class names for the root element. |
-| onClick | function | no | — | Called with the click event when the media object is clicked. |
-| ...rest | React.HTMLAttributes<HTMLDivElement> | no | — | All other standard HTML div attributes are supported and passed through to the rendered element. |
+| title | string | yes | — | Primary line (e.g. name, sender). Rendered emphasized. |
+| mediaIcon | `MaterialIconName` \| string | no | "" | Material Symbol name passed to `Avatar`. |
+| mediaImage | string | no | "" | Image URL for `Avatar`. |
+| mediaAvatar | string | no | "" | Display name used for initials and avatar color generation (when image/icon not shown). |
+| subtitle | `React.ReactNode` | no | — | Optional middle line (e.g. subject). Omit for two-line layouts. |
+| description | `React.ReactNode` | no | — | Optional preview/snippet line(s); muted, multi-line ellipsis via `--cp-media-object-desc-lines`. |
+| descriptionLineClamp | number | no | 2 | Max lines for `description` before truncation. |
+| meta | `React.ReactNode` | no | — | Trailing rail, **first text row**. Strings/numbers get subdued meta typography; pass JSX for custom styling. |
+| action | `React.ReactNode` | no | — | Trailing rail, **last content row** (e.g. `Icon`/button); right-aligned with the snippet row when present. |
+| margin | string \| `SpacingOption[]` | no | "0" | Outer margin spacing tokens (`m-*` utilities). |
+| padding | string \| `SpacingOption[]` | no | "0" | Inner padding spacing tokens (`p-*` utilities). |
+| className | string | no | "media-object" | Extra classes on the root `<div>`. |
+| onClick | function | no | — | Click handler on the root; forwarded to `Avatar` when provided. |
+| ...rest | `React.HTMLAttributes<HTMLDivElement>` | no | — | Standard div props (`id`, `data-*`, `aria-*`, etc.). |
 
 ## Types
 
-### MediaObjectMargin
+### MediaObjectMargin / MediaObjectPadding
 ```typescript
 type MediaObjectMargin = string | SpacingOption[];
-```
-
-### MediaObjectPadding
-```typescript
 type MediaObjectPadding = string | SpacingOption[];
 ```
 
@@ -37,11 +37,15 @@ type SpacingOption = typeof SPACING_OPTIONS[number];
 ### MediaObjectProps
 ```typescript
 interface MediaObjectProps extends React.HTMLAttributes<HTMLDivElement> {
-  mediaIcon?: string;
+  mediaIcon?: MaterialIconName | string;
   mediaImage?: string;
   mediaAvatar?: string;
   title: string;
-  description?: string;
+  subtitle?: React.ReactNode;
+  description?: React.ReactNode;
+  descriptionLineClamp?: number;
+  meta?: React.ReactNode;
+  action?: React.ReactNode;
   margin?: MediaObjectMargin;
   padding?: MediaObjectPadding;
   className?: string;
@@ -51,253 +55,145 @@ interface MediaObjectProps extends React.HTMLAttributes<HTMLDivElement> {
 
 ## Usage Examples
 
-### With icon
+### Title + description (classic two-line row)
 
 ```jsx
 import { MediaObject } from "cleanplate";
 
-export const Example = () => (
-  <MediaObject
-    mediaIcon="person"
-    title="User Profile"
-    description="Manage your account settings and preferences"
-  />
-);
+<MediaObject
+  mediaIcon="person"
+  title="User Profile"
+  description="Manage your account settings and preferences"
+/>
 ```
 
-### With image
+### Inbox-style row (three lines + date + star)
+
+Prefer `subtitle` + `description` plus `meta` / `action` for mail-style listings. Strings in `meta` use muted sizing; arbitrary JSX is allowed for custom summaries.
 
 ```jsx
-import { MediaObject } from "cleanplate";
+import { Button, Icon, MediaObject } from "cleanplate";
 
-export const Example = () => (
-  <MediaObject
-    mediaImage="https://example.com/avatar.jpg"
-    title="John Doe"
-    description="Senior Developer at Tech Corp"
-  />
-);
+<MediaObject
+  mediaAvatar="Ada Lovelace"
+  title="Ada Lovelace"
+  subtitle="» Weekly digest — infra"
+  description="Deployments, deprecation notices, and the FAQ refresh you requested."
+  meta="Thu"
+  descriptionLineClamp={2}
+  action={
+    <Button type="button" variant="icon" aria-label="Star thread" margin="m-0">
+      <Icon name="star_border" />
+    </Button>
+  }
+/>
 ```
 
-### With avatar (initials)
+### Subtitle without snippet
 
 ```jsx
-import { MediaObject } from "cleanplate";
+<MediaObject
+  mediaIcon="payments"
+  title="Invoice #4021"
+  subtitle="Reminder: payable on receipt."
+  meta="Unpaid"
+/>
+```
 
-export const Example = () => (
-  <MediaObject
-    mediaAvatar="John Doe"
-    title="John Doe"
-    description="Senior Developer with 5+ years of experience"
-  />
-);
+### Action only on the trailing rail
+
+```jsx
+<MediaObject
+  mediaIcon="shopping_bag"
+  title="Reorder suggestions"
+  description="Based on your last three carts."
+  action={<Icon name="more_vert" />}
+/>
+```
+
+### Meta as custom JSX
+
+```jsx
+import { MediaObject, Typography } from "cleanplate";
+
+<MediaObject
+  mediaAvatar="Jane"
+  title="Jane Doe"
+  description="Ping when you merge."
+  meta={
+    <Typography variant="small" margin="m-0" isBold align="right">
+      3 new
+    </Typography>
+  }
+/>
+```
+
+### With image or avatar initials
+
+```jsx
+<MediaObject
+  mediaImage="https://example.com/avatar.jpg"
+  title="John Doe"
+  description="Senior Developer at Tech Corp"
+/>
+
+<MediaObject
+  mediaAvatar="John Doe"
+  title="John Doe"
+  description="Shows initials until an image overrides."
+/>
 ```
 
 ### Title only
 
 ```jsx
-import { MediaObject } from "cleanplate";
-
-export const Example = () => (
-  <MediaObject
-    mediaIcon="settings"
-    title="Settings"
-  />
-);
+<MediaObject mediaIcon="settings" title="Settings" />
 ```
 
-### With margin and padding
+### Margin / padding tokens
 
 ```jsx
-import { MediaObject } from "cleanplate";
-
-export const Example = () => (
-  <>
-    <MediaObject
-      mediaIcon="star"
-      title="Featured Item"
-      description="This item has custom spacing"
-      margin="m-3"
-      padding="p-2"
-    />
-    <MediaObject
-      mediaIcon="heart"
-      title="Another Item"
-      description="With multiple margin tokens"
-      margin={["m-1", "m-b-3"]}
-      padding={["p-1", "p-x-2"]}
-    />
-  </>
-);
+<MediaObject
+  mediaIcon="star"
+  title="Featured"
+  description="With spacing utilities"
+  margin="m-b-3"
+  padding="p-2"
+/>
+<MediaObject
+  margin={["m-1", "m-b-3"]}
+  padding={["p-1", "p-x-2"]}
+  title="Row"
+/>
 ```
 
-### Clickable media object
+### Clickable row
 
 ```jsx
-import { MediaObject } from "cleanplate";
-
-export const Example = () => (
-  <MediaObject
-    mediaImage="https://example.com/product.jpg"
-    title="Wireless Headphones"
-    description="High-quality wireless headphones"
-    onClick={() => console.log("Media object clicked")}
-  />
-);
-```
-
-### User profile card
-
-```jsx
-import { MediaObject } from "cleanplate";
-import { Button } from "cleanplate";
-
-export const Example = () => (
-  <div style={{ 
-    border: "1px solid #e0e0e0", 
-    borderRadius: "8px",
-    padding: "16px"
-  }}>
-    <MediaObject
-      mediaImage="https://example.com/avatar.jpg"
-      title="John Doe"
-      description="Senior Developer • john.doe@example.com"
-    />
-    <Button variant="outline" size="small" margin="m-t-3">
-      Edit Profile
-    </Button>
-  </div>
-);
-```
-
-### Product card
-
-```jsx
-import { MediaObject } from "cleanplate";
-import { Typography } from "cleanplate";
-import { Button } from "cleanplate";
-
-export const Example = () => (
-  <div style={{ 
-    border: "1px solid #e0e0e0", 
-    borderRadius: "8px",
-    padding: "16px"
-  }}>
-    <MediaObject
-      mediaImage="https://example.com/product.jpg"
-      title="Wireless Headphones"
-      description="High-quality wireless headphones with noise cancellation"
-    />
-    <div style={{ marginTop: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <Typography variant="h5">$199.99</Typography>
-      <Button size="small" variant="outline">Add to Cart</Button>
-    </div>
-  </div>
-);
-```
-
-### Notification list
-
-```jsx
-import { MediaObject } from "cleanplate";
-
-export const Example = () => (
-  <div>
-    <MediaObject
-      mediaIcon="notifications"
-      title="New Message"
-      description="You have received a new message from Jane Smith"
-      margin="m-b-2"
-    />
-    <MediaObject
-      mediaIcon="schedule"
-      title="Meeting Reminder"
-      description="Team standup in 30 minutes"
-      margin="m-b-2"
-    />
-    <MediaObject
-      mediaIcon="done"
-      title="Task Completed"
-      description="Your project 'Website Redesign' has been updated"
-    />
-  </div>
-);
-```
-
-### Settings items
-
-```jsx
-import { MediaObject } from "cleanplate";
-
-export const Example = () => (
-  <div>
-    <MediaObject
-      mediaIcon="settings"
-      title="Account Settings"
-      description="Manage your account preferences and security settings"
-      margin="m-b-2"
-    />
-    <MediaObject
-      mediaIcon="lock"
-      title="Privacy & Security"
-      description="Control your privacy settings and security options"
-      margin="m-b-2"
-    />
-    <MediaObject
-      mediaIcon="notifications"
-      title="Notifications"
-      description="Configure how and when you receive notifications"
-    />
-  </div>
-);
-```
-
-### List of users
-
-```jsx
-import { MediaObject } from "cleanplate";
-
-export const Example = () => {
-  const users = [
-    { name: "John Doe", role: "Developer", avatar: "https://example.com/avatar1.jpg" },
-    { name: "Jane Smith", role: "Designer", avatar: "https://example.com/avatar2.jpg" },
-    { name: "Mike Johnson", role: "Manager", avatar: "https://example.com/avatar3.jpg" }
-  ];
-
-  return (
-    <div>
-      {users.map((user, index) => (
-        <MediaObject
-          key={index}
-          mediaImage={user.avatar}
-          title={user.name}
-          description={user.role}
-          margin={index < users.length - 1 ? "m-b-2" : "m-0"}
-        />
-      ))}
-    </div>
-  );
-};
+<MediaObject
+  mediaImage="/product.jpg"
+  title="Wireless Headphones"
+  description="Noise cancelling"
+  onClick={() => {}}
+/>
 ```
 
 ## Behavior Notes
 
-- The `title` prop is required and will always be displayed in bold text.
-- The `description` prop is optional. If not provided, only the title will be displayed.
-- You can provide one of `mediaIcon`, `mediaImage`, or `mediaAvatar` to display the media element. If multiple are provided, the component will prioritize in this order: `mediaAvatar` > `mediaImage` > `mediaIcon`.
-- The component uses the `Avatar` component internally to render the media element, which supports icons, images, and generated avatars with initials.
-- The component uses the `Typography` component internally for the title and description text.
-- The title is rendered with `isBold={true}` by default.
-- The description is rendered with `variant="small"`.
-- The component renders as a `<div>` element with a flex layout structure.
-- Margin and padding spacing accept either a single string token (e.g., `"m-2"`) or an array of tokens (e.g., `["m-1", "m-b-3"]`).
-- The `onClick` handler makes the entire media object clickable, useful for interactive lists or cards.
-- All standard HTML div attributes can be passed through, allowing for custom `id`, `data-*`, `aria-*`, and other attributes.
-- The component is designed to be responsive and adapts to different screen sizes.
+- **Layout**: Root uses flex (media column + responsive grid body). Without `meta` or `action`, the body is one column of stacked text with **zero row-gap** between lines for inbox-like density.
+- **Trailing rail**: If `meta` and/or `action` is passed, the body adds a second grid column: `meta` always occupies **column 2, row 1** aligned with `title`; `action` occupies **column 2, last text row**, aligned toward the snippet row. When **only one** logical text row remains and **both** `meta` and `action` exist, both stack in one compact trailing cell (`gap` 2px).
+- **`descriptionLineClamp`** sets the CSS custom property `--cp-media-object-desc-lines` on the snippet wrapper so consumers can clamp 1–N lines preview text.
+- **Media slot**: Implemented with `Avatar` (`name={mediaAvatar}`, `image`, `icon`). Combination rules when multiple props are set match `Avatar` (see `docs/Avatar.md`); typical usage passes one dominant source (photo URL vs icon vs name for initials).
+- **`meta` primitives**: Strings and numbers render with component meta typography (muted `--text-muted`); pass React nodes when you control color/weight entirely.
+- **`title`** is always a string rendered as emphasized primary text (`--text-default`).
+- **`subtitle`** and **`description`** accept `React.ReactNode`; empty string / falsy hides the slot.
+- **Styling**: Text stacks use semantic tokens (`--text-default`, `--text-subtle`, `--text-muted`); rules live in CSS modules—not the `Typography` component—so inbox-style line-heights stay consistent.
+- **Spacing**: Margin and padding use the same spacing token shape as elsewhere (`string` or `SpacingOption[]` arrays).
+- **Interaction**: Whole row is clickable when `onClick` is supplied; avatar receives the same handler for consistency.
 
 ## Related Components / Links
 
-- Avatar (used internally for the media element)
-- Typography (used internally for title and description)
-- Button (often used alongside MediaObject in cards)
-- Container (commonly used to wrap MediaObject components)
+- **Avatar** — media slot (`mediaAvatar`, `mediaImage`, `mediaIcon`).
+- **Icon**, **Button** — common `action` content.
+- **Table** — `mobileColumns` maps rows into `MediaObject` on narrow viewports (`title`, `description`, optional `mediaAvatar`; still compatible without `subtitle` / rail).
+- **Container** — often wraps stacked `MediaObject` rows.

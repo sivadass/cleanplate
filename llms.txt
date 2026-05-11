@@ -65,10 +65,11 @@ All component documentation is located in the `docs/` folder. The following docu
 
 ### MediaObject Component
 - File: `docs/MediaObject.md`
-- Purpose: A flexible layout pattern that combines media (icon, image, or avatar) with content (title and description). Perfect for displaying user profiles, product cards, notifications, and any content that needs a media element alongside text.
-- Key Features: Media types (icon, image, avatar), title and description, margin and padding spacing, clickable support
-- Types: MediaObjectProps, MediaObjectMargin, MediaObjectPadding, SpacingOption
-- Related Components: Uses Avatar and Typography internally
+- Purpose: Avatar + dense text stack (required `title`, optional `subtitle`, optional line-clamped `description`) plus optional trailing **rail**: `meta` (row 1, e.g. date) and/or `action` (last row, e.g. star). Fits profiles, notifications, inbox-style rows, Table mobile cards.
+- Key Features: `mediaIcon`/`mediaImage`/`mediaAvatar` → `Avatar`; `subtitle`; `meta`/`action`; `descriptionLineClamp` → `--cp-media-object-desc-lines`; semantic text tokens (`--text-default`/`--text-subtle`/`--text-muted`); sparse grid row-gap for list density
+- Props (see full table in doc): title, subtitle?, description?, descriptionLineClamp? (default 2), meta?, action?, margin, padding, onClick?, ...div HTMLAttributes
+- Types: MediaObjectProps, MediaObjectMargin, MediaObjectPadding, SpacingOption; `mediaIcon` accepts MaterialIconName
+- Related Components: Avatar (media); Icon/Button often in `action`; Table (mobile view); Typography not wired internally—text styles live in MediaObject.module.scss
 
 ### Avatar Component
 - File: `docs/Avatar.md`
