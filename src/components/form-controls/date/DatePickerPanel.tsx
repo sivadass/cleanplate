@@ -30,6 +30,9 @@ export interface DatePickerPanelProps {
   weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   constraints: Constraints;
   picker: UseDatePickerStateReturn;
+  /** Footer Cancel / OK callbacks (defaults to picker cancel/confirm); use for coordinated close animations. */
+  onRequestCancel?: () => void;
+  onRequestConfirm?: () => void;
 }
 
 const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
@@ -39,6 +42,8 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
   weekStartsOn,
   constraints,
   picker,
+  onRequestCancel,
+  onRequestConfirm,
 }) => {
   const loc = locale;
   const weeks = useMemo(
@@ -185,8 +190,8 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
             onRequestNextMonth={picker.goNextMonth}
           />
           <DatePickerFooter
-            onCancel={picker.cancel}
-            onOk={picker.confirm}
+            onCancel={onRequestCancel ?? picker.cancel}
+            onOk={onRequestConfirm ?? picker.confirm}
           />
         </>
       ) : null}

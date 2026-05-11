@@ -579,10 +579,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
   height: var(--cp-select-mobile-sheet-height) !important;
   max-height: var(--cp-select-mobile-sheet-height) !important;
   /* Comfortable gutters vs edge-to-edge content (rounded shell + cramped feel). */
-  padding-top: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  // padding-top: 16px;
+  // padding-left: 16px;
+  // padding-right: 16px;
+  // padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   border-radius: 20px 20px 0 0 !important;
   box-shadow:
     0 -8px 32px rgb(15 23 42 / 0.12),
@@ -1892,7 +1892,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   flex-shrink: 0;
 }
 

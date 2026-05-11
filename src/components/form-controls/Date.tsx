@@ -1,4 +1,12 @@
-import React, { useEffect, useId, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   autoUpdate,
   flip,
@@ -29,6 +37,11 @@ import { useDatePickerState } from "./date/use-date-picker-state";
 import { useMediaQuery } from "./date/use-media-query";
 
 const DATE_PICKER_SHEET_MEDIA = "(max-width: 768px)";
+
+/** Keep in sync with `FormControls.module.scss` (`--cp-select-mobile-sheet-ms`). */
+const DATE_PANEL_MOBILE_SHEET_MS = 300;
+/** Desktop fade — sync `--cp-select-desktop-panel-ms` (same as Select). */
+const DATE_PANEL_DESKTOP_PANEL_MS = 200;
 
 const DATE_MOBILE_SHEET_SURFACE_STYLE: React.CSSProperties = {
   position: "fixed",
@@ -168,14 +181,22 @@ const DatePicker: React.FC<DateProps> = ({
     prevOpenRef.current = picker.isOpen;
   }, [onOpen, onClose, picker.isOpen]);
 
-  const cancelRef = useRef(picker.cancel);
-  cancelRef.current = picker.cancel;
-  useEffect(() => {
-    if ((!isDisabled && !readOnly) || !picker.isOpen) return;
-    cancelRef.current();
-  }, [isDisabled, readOnly, picker.isOpen]);
 
   const isMobileSheetViewport = useMediaQuery(DATE_PICKER_SHEET_MEDIA);
+  const isMobileSheetViewportRef = useRef(isMobileSheetViewport);
+  isMobileSheetViewportRef.current = isMobileSheetViewport;
+
+  /** Post-mount open visuals + keep portal mounted through close transition (mirror Select). */
+  const [datePanelEntered, setDatePanelEntered] = useState(false);
+  const [datePanelExitAnimating, setDatePanelExitAnimating] = useState(false);
+  const datePanelExitAnimatingRef = useRef(false);
+  datePanelExitAnimatingRef.current = datePanelExitAnimating;
+
+  const beginClosingDatePanel = useCallback((closingAction: () => void) => {
+    setDatePanelExitAnimating(true);
+    setDatePanelEntered(false);
+    closingAction();
+  }, []);
 
   const floatingMiddleware = useMemo(
     () =>
@@ -196,22 +217,71 @@ const DatePicker: React.FC<DateProps> = ({
     onOpenChange(openNext) {
       if (isDisabled || readOnly) return;
       if (openNext) {
+        setDatePanelExitAnimating(false);
         picker.open();
         return;
       }
-      if (picker.isOpen) picker.cancel();
+      if (picker.isOpen) {
+        beginClosingDatePanel(() => picker.cancel());
+        return;
+      }
+      setDatePanelExitAnimating(false);
     },
   });
 
+  const datePanelMounted = picker.isOpen || datePanelExitAnimating;
+
+  const handleDatePanelTransitionEnd = useCallback(
+    (event: React.TransitionEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+      if (!datePanelExitAnimatingRef.current) return;
+      const mobile = isMobileSheetViewportRef.current;
+      if (mobile && event.propertyName !== "transform") return;
+      if (!mobile && event.propertyName !== "opacity") return;
+      setDatePanelExitAnimating(false);
+    },
+    [],
+  );
+
+  useLayoutEffect(() => {
+    if (!picker.isOpen) {
+      if (!datePanelExitAnimating) {
+        setDatePanelEntered(false);
+      }
+      return undefined;
+    }
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setDatePanelEntered(true));
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [picker.isOpen, datePanelExitAnimating]);
+
   useEffect(() => {
     if (!isMobileSheetViewport) return undefined;
-    if (!picker.isOpen) return undefined;
+    if (!(picker.isOpen || datePanelExitAnimating)) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [isMobileSheetViewport, picker.isOpen]);
+  }, [isMobileSheetViewport, picker.isOpen, datePanelExitAnimating]);
+
+  useEffect(() => {
+    if (!isMobileSheetViewport) {
+      setDatePanelExitAnimating(false);
+    }
+  }, [isMobileSheetViewport]);
+
+  useEffect(() => {
+    if (!datePanelExitAnimating) return undefined;
+    const fallbackMs =
+      (isMobileSheetViewport ? DATE_PANEL_MOBILE_SHEET_MS : DATE_PANEL_DESKTOP_PANEL_MS) +
+      80;
+    const id = window.setTimeout(() => {
+      setDatePanelExitAnimating(false);
+    }, fallbackMs);
+    return () => window.clearTimeout(id);
+  }, [datePanelExitAnimating, isMobileSheetViewport]);
 
   const click = useClick(context, { enabled: !isDisabled && !readOnly });
   const dismiss = useDismiss(context, {
@@ -225,6 +295,11 @@ const DatePicker: React.FC<DateProps> = ({
     dismiss,
   ]);
 
+  useEffect(() => {
+    if ((!isDisabled && !readOnly) || !picker.isOpen) return;
+    beginClosingDatePanel(() => picker.cancel());
+  }, [beginClosingDatePanel, isDisabled, readOnly, picker.isOpen, picker.cancel]);
+
   const formattedValue =
     picker.committed != null
       ? format(toCalendarDate(picker.committed), dateFormat, { locale })
@@ -234,6 +309,10 @@ const DatePicker: React.FC<DateProps> = ({
     event.preventDefault();
     event.stopPropagation();
     if (isDisabled) return;
+    if (picker.isOpen) {
+      beginClosingDatePanel(() => picker.clearCommitted());
+      return;
+    }
     picker.clearCommitted();
   };
 
@@ -243,16 +322,17 @@ const DatePicker: React.FC<DateProps> = ({
     event.preventDefault();
   };
 
-  const panelMounted = picker.isOpen;
-
   const floatingSurfaceClass = getClassNames(
     styles["cp-select-field-options"],
     isMobileSheetViewport && styles["cp-select-mobile-sheet"],
     styles["cp-date-picker-floating-shell"],
-    isMobileSheetViewport
-      ? styles["cp-select-mobile-sheet-entered"]
-      : styles["cp-select-dropdown-panel"],
-    !isMobileSheetViewport && styles["cp-select-dropdown-panel-entered"],
+    isMobileSheetViewport &&
+      datePanelEntered &&
+      styles["cp-select-mobile-sheet-entered"],
+    !isMobileSheetViewport && styles["cp-select-dropdown-panel"],
+    !isMobileSheetViewport &&
+      datePanelEntered &&
+      styles["cp-select-dropdown-panel-entered"],
   );
 
   return (
@@ -308,7 +388,7 @@ const DatePicker: React.FC<DateProps> = ({
                   event.key === "Esc")
               ) {
                 event.preventDefault();
-                picker.cancel();
+                beginClosingDatePanel(() => picker.cancel());
               }
             },
           })}
@@ -346,12 +426,16 @@ const DatePicker: React.FC<DateProps> = ({
             />
           </div>
         </div>
-        {panelMounted ? (
+        {datePanelMounted ? (
           <FloatingPortal>
             {isMobileSheetViewport ? (
               <div
                 className={styles["cp-select-mobile-backdrop"]}
-                data-visible="true"
+                data-visible={
+                  isMobileSheetViewport && datePanelEntered
+                    ? "true"
+                    : undefined
+                }
                 aria-hidden
               />
             ) : null}
@@ -367,6 +451,7 @@ const DatePicker: React.FC<DateProps> = ({
                   ? DATE_MOBILE_SHEET_SURFACE_STYLE
                   : floatingStyles,
                 onPointerDown: handlePanelPointerDown,
+                onTransitionEnd: handleDatePanelTransitionEnd,
               })}
             >
               <DatePickerPanel
@@ -376,6 +461,12 @@ const DatePicker: React.FC<DateProps> = ({
                 weekStartsOn={weekStartsOn}
                 constraints={constraints}
                 picker={picker}
+                onRequestCancel={() =>
+                  beginClosingDatePanel(() => picker.cancel())
+                }
+                onRequestConfirm={() =>
+                  beginClosingDatePanel(() => picker.confirm())
+                }
               />
             </div>
           </FloatingPortal>
