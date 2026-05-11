@@ -17,7 +17,7 @@
 .cp-form-label {
   display: block;
   margin-bottom: 8px;
-  color: var(--gray);
+  color: var(--text-subtle);
 }
 
 /* Label text beside a control (checkbox / radio). The option label is treated as primary
@@ -42,7 +42,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 .cp-form-control {
   height: 50px;
   border-radius: var(--cp-form-control-radius);
-  border: 1px solid var(--gray);
+  border: 1px solid var(--gray-500);
   padding: 0 16px;
   width: 100%;
   background: var(--white);
@@ -93,7 +93,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray);
+  color: var(--text-muted);
   pointer-events: none;
   font-size: 20px;
 }
@@ -129,7 +129,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   border: none;
   background: transparent;
   border-radius: var(--radius-small);
-  color: var(--gray);
+  color: var(--text-muted);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -139,7 +139,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     color 0.15s ease;
 
   &:hover {
-    background: var(--gray-light);
+    background: var(--gray-100);
     color: var(--black);
   }
 
@@ -183,7 +183,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 .cp-input-prefix,
 .cp-input-suffix {
   flex-shrink: 0;
-  color: var(--gray);
+  color: var(--text-muted);
   font-size: inherit;
   line-height: 20px;
   white-space: nowrap;
@@ -274,7 +274,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   }
 
   &::placeholder {
-    color: var(--gray);
+    color: var(--text-placeholder);
   }
 }
 
@@ -282,7 +282,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   flex-shrink: 0;
   width: 1px;
   align-self: stretch;
-  background: var(--gray);
+  background: var(--gray-500);
   opacity: 0.55;
 }
 
@@ -295,14 +295,14 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--gray);
+  color: var(--text-muted);
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
 
   &:hover:not(:disabled) {
-    background: var(--gray-light);
+    background: var(--gray-100);
     color: var(--black);
   }
 
@@ -368,7 +368,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-height: 0;
   padding: 3px 2px 3px 8px;
   max-width: 100%;
-  border: 1px solid var(--gray);
+  border: 1px solid var(--gray-500);
   border-radius: 8px;
   background: rgb(246 246 246);
   font-size: 13px;
@@ -412,7 +412,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   align-items: center;
   padding: 4px 8px;
   border-radius: 8px;
-  border: 1px solid var(--gray);
+  border: 1px solid var(--gray-500);
   font-size: 13px;
   line-height: 1.25;
   color: var(--black);
@@ -465,14 +465,14 @@ $cp-select-panel-hairline: rgb(235 236 239);
   margin-right: auto;
   line-height: 20px;
   width: 100%;
-  color: #999;
+  color: var(--text-placeholder);
 }
 
 .cp-select-field-header {
   cursor: pointer;
   padding: 8px 16px;
   background: var(--white);
-  border: 1px solid var(--gray);
+  border: 1px solid var(--gray-500);
   border-radius: var(--cp-form-control-radius);
   display: flex;
   justify-content: space-between;
@@ -501,7 +501,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-select-field-options {
-  border: 1px solid var(--gray);
+  border: 1px solid var(--gray-500);
   background-color: #fff;
   z-index: 1100;
   overflow: hidden;
@@ -740,7 +740,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   transform: translateY(-50%);
   pointer-events: none;
   font-size: 20px !important;
-  color: var(--gray);
+  color: var(--text-muted);
 }
 
 .cp-select-search-input {
@@ -748,13 +748,13 @@ $cp-select-panel-hairline: rgb(235 236 239);
   width: 100%;
   height: 40px;
   padding: 0 12px 0 40px;
-  border: 1px solid var(--gray);
+  border: 1px solid var(--gray-500);
   border-radius: var(--radius-medium);
   font-family: inherit;
   font-size: inherit;
 
   &::placeholder {
-    color: rgb(156 156 156);
+    color: var(--text-placeholder);
   }
 
   &::-webkit-search-decoration,
@@ -820,7 +820,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-panel-status-text {
   font-size: 13px;
-  color: var(--gray);
+  color: var(--text-muted);
 }
 
 .cp-select-panel-status-msg {
@@ -903,7 +903,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   font-weight: 600;
   letter-spacing: 0.045em;
   text-transform: uppercase;
-  color: var(--gray);
+  color: var(--text-muted);
   user-select: none;
 }
 
@@ -936,7 +936,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     color: var(--black);
 
     .cp-select-field-option-meta {
-      color: var(--gray);
+      color: var(--text-muted);
     }
 
     .cp-select-field-option-icon {
@@ -948,7 +948,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       color: var(--black);
 
       .cp-select-field-option-meta {
-        color: var(--gray);
+        color: var(--text-muted);
       }
 
       .cp-select-field-option-icon {
@@ -982,7 +982,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-select-field-option-icon {
-  color: var(--gray);
+  color: var(--text-muted);
 }
 
 .cp-select-field-option-body {
@@ -1000,7 +1000,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 .cp-select-field-option-meta {
   font-size: 12px;
   line-height: 1.35;
-  color: var(--gray);
+  color: var(--text-muted);
 }
 
 .cp-select-field-option-trailing {
@@ -1031,11 +1031,11 @@ $cp-select-panel-hairline: rgb(235 236 239);
   color: var(--black);
 
   .cp-select-field-option-meta {
-    color: var(--gray);
+    color: var(--text-muted);
   }
 
   .cp-select-field-option-icon {
-    color: var(--gray);
+    color: var(--text-muted);
   }
 }
 
@@ -1073,7 +1073,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   .cp-radio-legend {
     display: block;
     margin-bottom: 8px;
-    color: var(--gray);
+    color: var(--text-subtle);
     padding: 0;
   }
 
@@ -1140,12 +1140,12 @@ $cp-select-panel-hairline: rgb(235 236 239);
     font-size: 13px;
     line-height: 1.4;
     font-weight: 400;
-    color: var(--gray);
+    color: var(--text-muted);
     margin: 0;
   }
 
   .cp-radio-native:disabled + .cp-form-label-inline .cp-radio-description {
-    color: var(--gray);
+    color: var(--text-disabled);
   }
 
   .cp-radio-visual {
@@ -1155,7 +1155,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     min-width: 22px;
     min-height: 22px;
     border-radius: var(--radius-round);
-    border: 2px solid var(--gray);
+    border: 2px solid var(--gray-500);
     background: var(--white);
     display: flex;
     align-items: center;
@@ -1235,7 +1235,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       gap: 12px;
       padding: 16px;
       padding-right: 44px; /* room for the top-right ring */
-      border: 1px solid var(--gray-light);
+      border: 1px solid var(--gray-100);
       border-radius: var(--cp-form-control-radius);
       background: var(--white);
       transition:
@@ -1252,7 +1252,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     }
 
     .cp-radio-native:hover:not(:disabled) + .cp-form-label-inline {
-      border-color: var(--gray);
+      border-color: var(--gray-500);
     }
 
     .cp-radio-native:checked + .cp-form-label-inline {
@@ -1292,7 +1292,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   .cp-checkbox-legend {
     display: block;
     margin-bottom: 8px;
-    color: var(--gray);
+    color: var(--text-subtle);
     padding: 0;
   }
 
@@ -1355,7 +1355,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     font-size: 13px;
     line-height: 1.4;
     font-weight: 400;
-    color: var(--gray);
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -1367,7 +1367,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     min-width: 22px;
     min-height: 22px;
     border-radius: var(--radius-small, 4px);
-    border: 2px solid var(--gray);
+    border: 2px solid var(--gray-500);
     background: var(--white);
     display: flex;
     align-items: center;
@@ -1446,7 +1446,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       gap: 12px;
       padding: 16px;
       padding-right: 44px;
-      border: 1px solid var(--gray-light);
+      border: 1px solid var(--gray-100);
       border-radius: var(--cp-form-control-radius);
       background: var(--white);
       transition:
@@ -1463,7 +1463,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     }
 
     .cp-checkbox-native:hover:not(:disabled) + .cp-form-label-inline {
-      border-color: var(--gray);
+      border-color: var(--gray-500);
     }
 
     .cp-checkbox-native:checked + .cp-form-label-inline {
@@ -1506,7 +1506,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     gap: 10px;
     margin: 0;
     cursor: pointer;
-    color: var(--gray);
+    color: var(--text-default);
     font-size: var(--font-size);
     line-height: 24px;
   }
@@ -1517,7 +1517,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     width: 44px;
     height: 24px;
     border-radius: 12px;
-    background: var(--gray);
+    background: var(--gray-500);
     transition: background 0.2s ease;
   }
 
@@ -1615,10 +1615,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
     justify-content: center;
     gap: 6px;
     padding: 32px 16px;
-    border: 2px dashed var(--gray);
+    border: 2px dashed var(--gray-500);
     border-radius: var(--cp-form-control-radius);
     background: var(--white);
-    color: var(--gray);
+    color: var(--text-muted);
     text-align: center;
     width: 100%;
   }
@@ -1630,7 +1630,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 
   .cp-file-trigger-card-or {
-    color: var(--gray);
+    color: var(--text-muted);
     font-size: 13px;
     margin: 2px 0;
   }
@@ -1696,7 +1696,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--gray-100);
     border-radius: var(--cp-form-control-radius);
     background: var(--white);
   }
@@ -1708,9 +1708,9 @@ $cp-select-panel-hairline: rgb(235 236 239);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--gray-light);
+    background: var(--gray-100);
     border-radius: var(--radius-small);
-    color: var(--gray);
+    color: var(--text-muted);
   }
 
   .cp-file-item-text {
@@ -1731,7 +1731,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 
   .cp-file-item-size {
-    color: var(--gray);
+    color: var(--text-muted);
     font-size: 13px;
     line-height: 1.3;
   }
@@ -1743,7 +1743,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     border: none;
     background: transparent;
     border-radius: var(--radius-small);
-    color: var(--gray);
+    color: var(--text-muted);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -1754,7 +1754,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       color 0.15s ease;
 
     &:hover:not(:disabled) {
-      background: var(--gray-light);
+      background: var(--gray-100);
       color: var(--black);
     }
 
@@ -1985,7 +1985,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 .cp-date-picker-weekday {
   font-size: 12px;
   font-weight: 600;
-  color: var(--gray);
+  color: var(--text-muted);
   padding: 4px 0;
 }
 
@@ -2034,7 +2034,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-date-picker-day-outside-month {
-  color: var(--gray);
+  color: var(--text-muted);
   opacity: 0.85;
 }
 

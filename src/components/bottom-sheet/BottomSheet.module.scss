@@ -34,7 +34,7 @@
     .bottom-sheet-handle-bar {
       width: 64px;
       height: 8px;
-      background-color: var(--gray-light);
+      background-color: var(--gray-100);
       border-radius: 9999px;
     }
     .bottom-sheet-handle-icon {
@@ -47,7 +47,7 @@
     }
     &:hover {
       .bottom-sheet-handle-bar {
-        background-color: var(--gray);
+        background-color: var(--gray-500);
       }
     }
   }

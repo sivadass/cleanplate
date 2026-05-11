@@ -61,7 +61,7 @@
 }
 
 .read-only {
-  background-color: var(--gray-light);
+  background-color: var(--gray-100);
   border-width: 0;
   color: var(--white);
   .pill-label {
@@ -92,7 +92,7 @@
 }
 
 .remove {
-  background-color: var(--gray-light);
+  background-color: var(--gray-100);
   border-width: 0;
   .pill-label {
     padding-right: 8px;

@@ -38,13 +38,13 @@
   }
 
   &__label {
-    color: var(--gray, #666);
+    color: var(--text-muted);
   }
 
   &__separator {
     display: inline-flex;
     align-items: center;
-    color: var(--gray, #666);
+    color: var(--text-muted);
     margin: 0 var(--space-1, 0.25rem);
     user-select: none;
   }

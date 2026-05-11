@@ -167,7 +167,7 @@ export const Variants = {
         <div
           style={{
             padding: "var(--space-3)",
-            background: "var(--gray-lightest)",
+            background: "var(--gray-50)",
             borderRadius: "var(--radius-medium)",
             textAlign: "center",
           }}
@@ -180,7 +180,7 @@ export const Variants = {
         <div
           style={{
             padding: "var(--space-3)",
-            background: "var(--gray-dark)",
+            background: "var(--gray-900)",
             borderRadius: "var(--radius-medium)",
             textAlign: "center",
           }}

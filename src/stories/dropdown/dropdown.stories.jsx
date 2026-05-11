@@ -76,8 +76,8 @@ const UserMenuContent = ({ onClose }) => {
 
   return (
     <div style={{ padding: "var(--space-2)" }}>
-      <div style={{ padding: "var(--space-2) var(--space-1)", borderBottom: "1px solid var(--gray-light)" }}>
-        <Typography variant="small" margin="m-0" color="var(--gray)">
+      <div style={{ padding: "var(--space-2) var(--space-1)", borderBottom: "1px solid var(--gray-100)" }}>
+        <Typography variant="small" margin="m-0" color="var(--text-muted)">
           Signed in as
         </Typography>
         <Typography variant="p" margin="m-0" fontWeight="600">
@@ -432,7 +432,7 @@ export const RenderTriggerAdvanced = {
               style={{
                 padding: 'var(--space-2)',
                 border: '2px solid',
-                borderColor: isOpen ? 'var(--primary-brand)' : 'var(--gray-light)',
+                borderColor: isOpen ? 'var(--primary-brand)' : 'var(--gray-100)',
                 borderRadius: 'var(--radius-medium)',
                 cursor: 'pointer',
                 display: 'flex',
@@ -442,7 +442,7 @@ export const RenderTriggerAdvanced = {
               }}
             >
               <span>Custom Trigger</span>
-              <span style={{ fontSize: '12px', color: 'var(--gray)' }}>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                 {placement}
               </span>
             </div>
@@ -467,11 +467,11 @@ export const RenderTriggerUserMenu = {
               alignItems: 'center',
               gap: 'var(--space-2)',
               padding: 'var(--space-2)',
-              border: '1px solid var(--gray-light)',
+              border: '1px solid var(--gray-100)',
               borderRadius: 'var(--radius-medium)',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
-              backgroundColor: isOpen ? 'var(--gray-lightest)' : 'transparent'
+              backgroundColor: isOpen ? 'var(--gray-50)' : 'transparent'
             }}
           >
             <div 
@@ -494,13 +494,13 @@ export const RenderTriggerUserMenu = {
               <Typography variant="small" margin="m-0" color="var(--text-primary)">
                 John Doe
               </Typography>
-              <Typography variant="small" margin="m-0" color="var(--gray)">
+              <Typography variant="small" margin="m-0" color="var(--text-muted)">
                 Administrator
               </Typography>
             </div>
             <span style={{ 
               fontSize: '12px', 
-              color: 'var(--gray)',
+              color: 'var(--text-muted)',
               transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
               transition: 'transform 0.2s ease'
             }}>
@@ -562,7 +562,7 @@ export const RenderTriggerWithActions = {
               <Typography variant="p" margin="m-0" color="var(--primary-brand)">
                 Click to {isOpen ? 'close' : 'open'} dropdown
               </Typography>
-              <Typography variant="small" margin="m-0" color="var(--gray)">
+              <Typography variant="small" margin="m-0" color="var(--text-muted)">
                 Custom trigger with dashed border
               </Typography>
             </div>

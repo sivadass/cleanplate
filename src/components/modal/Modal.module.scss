@@ -75,7 +75,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-4) var(--space-2) var(--space-4);
-  border-bottom: 1px solid var(--gray-light);
+  border-bottom: 1px solid var(--gray-100);
   flex-shrink: 0;
 
   .fullscreen & {
@@ -102,7 +102,7 @@
   padding: var(--space-2) !important;
   
   // Ensure proper color for close button
-  color: var(--gray) !important;
+  color: var(--text-muted) !important;
   
   &:hover {
     color: var(--black) !important;
@@ -126,12 +126,12 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--gray-light);
+    background: var(--gray-100);
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--gray);
+    background: var(--gray-500);
     border-radius: 3px;
 
     &:hover {
@@ -152,7 +152,7 @@
   justify-content: flex-end;
   gap: var(--space-3);
   padding: var(--space-4);
-  border-top: 1px solid var(--gray-light);
+  border-top: 1px solid var(--gray-100);
   flex-shrink: 0;
   background: var(--white);
   border-bottom-left-radius: var(--radius-x-large);

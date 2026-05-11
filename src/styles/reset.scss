@@ -6,18 +6,29 @@
   /* Colors */
   --white: #ffffff;
   --black: #222222;
-  --gray: #8b8d98;
+  /* Gray scale (tokens: gray.50 … gray.900) */
+  --gray-50: #f9fafb; /* App/page background */
+  --gray-100: #f3f4f6; /* Subtle surfaces */
+  --gray-200: #e5e7eb; /* Borders */
+  --gray-300: #d1d5db; /* Disabled states */
+  --gray-400: #9ca3af; /* Placeholder text */
+  --gray-500: #6b7280; /* Muted text */
+  --gray-700: #374151; /* Secondary text */
+  --gray-900: #111827; /* Primary text */
+  /* Legacy aliases (prefer --gray-* scale and --text-* tokens in components) */
+  --gray: var(--gray-500);
   --green: #46a758;
   --blue: #1e90ff;
   --red: #e5484d;
   --yellow: #ffe629;
   --orange: #f76b15;
-  --gray-light: #8b8d9825;
+  --gray-light: var(--gray-100);
   --green-light: #46a75825;
   --blue-light: #1e90ff25;
   --red-light: #e5484d25;
   --yellow-light: #ffe62954;
   --orange-light: #f76c1525;
+  
   /* Border Radius */
   --radius-none: 0;
   --radius-small: 4px;
@@ -62,14 +73,21 @@
   --primary-brand-light: hsl(from var(--primary-brand) h s calc(l + 40));
   --primary-brand-lightest: hsl(from var(--primary-brand) h s calc(l + 50));
   --primary-brand-darkest: hsl(from var(--primary-brand) h s calc(l - 10));
-  --secondary-brand: var(--gray);
-  --secondary-brand-light: var(--gray-light);
+  --secondary-brand: var(--gray-500);
+  --secondary-brand-light: var(--gray-100);
   --secondary-brand-medium: hsl(from var(--secondary-brand) h s calc(l + 10));
-
+  /* Status colors */
   --success: var(--green);
   --error: var(--red);
   --warning: var(--orange);
   --info: var(--blue);
+  /* Text (tokens: text.default … text.disabled → gray scale) */
+  --text-default: var(--gray-900);
+  --text-subtle: var(--gray-700);
+  --text-muted: var(--gray-500);
+  --text-placeholder: var(--gray-400);
+  --text-disabled: var(--gray-300);
+  --text-interactive: var(--primary-brand);
   /* Breakpoints */
   --mobile-breakpoint: 600px;
   --tablet-breakpoint: 1024px;

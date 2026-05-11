@@ -412,7 +412,7 @@ export const InteractiveExample = {
           style={{ 
             cursor: "pointer",
             transition: "all 0.2s ease",
-            backgroundColor: "var(--gray-lightest)"
+            backgroundColor: "var(--gray-50)"
           }}
           onClick={() => setClickCount(prev => prev + 1)}
         >

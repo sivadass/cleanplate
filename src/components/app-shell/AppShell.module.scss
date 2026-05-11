@@ -20,7 +20,7 @@
 .cp-app-shell__sidebar {
   flex-shrink: 0;
   overflow-y: auto;
-  border-right: 1px solid var(--gray-light, #e0e0e0);
+  border-right: 1px solid var(--gray-100);
   background: var(--white, #fff);
 
   @media (max-width: 1024px) {

@@ -34,7 +34,7 @@
 }
 
 .gray {
-  color: var(--gray);
+  color: var(--text-muted);
 }
 
 .blue {
