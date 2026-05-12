@@ -2,6 +2,8 @@
 
 Purpose: Displays a sequence of steps (e.g. for a wizard or checkout). Each step has a label, optional active/completed state, and can be clickable. Use it for multi-step flows and progress indication. Supports horizontal and vertical layout.
 
+**Note:** For a **numeric quantity** field with integrated − / +, use **`FormControls.Stepper`** (see `docs/FormControls.md`). This file documents the **wizard / progress** Stepper only.
+
 ## Props / Inputs
 
 | Prop | Type | Required | Default | Description |

@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../button";
 import styles from "../FormControls.module.scss";
 
 export interface DatePickerFooterProps {
@@ -11,26 +12,30 @@ const DatePickerFooter: React.FC<DatePickerFooterProps> = ({
   onOk,
 }) => (
   <div className={styles["cp-date-picker-footer"]}>
-    <button
+    <Button
       type="button"
-      className={styles["cp-date-picker-footer-btn"]}
+      size="medium"
+      variant="ghost"
+      className={`${styles["cp-date-picker-footer-button"]} ${styles["cancel"]}`}
       onClick={(e) => {
         e.stopPropagation();
         onCancel();
       }}
     >
       Cancel
-    </button>
-    <button
+    </Button>
+    <Button
       type="button"
-      className={`${styles["cp-date-picker-footer-btn"]} ${styles["cp-date-picker-footer-btn-primary"]}`}
+      size="medium"
+      variant="outline"
+      className={styles["cp-date-picker-footer-button"]}
       onClick={(e) => {
         e.stopPropagation();
         onOk();
       }}
     >
-      OK
-    </button>
+      Done
+    </Button>
   </div>
 );
 

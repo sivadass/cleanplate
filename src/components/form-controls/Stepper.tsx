@@ -3,6 +3,17 @@ import styles from "./FormControls.module.scss";
 import getClassNames from "../../utils/get-class-names";
 import Icon from "../icon";
 
+/**
+ * - `default` — value field first, then decrease and increase (current layout).
+ * - `split-controls` — decrease, value, increase (classic numeric stepper).
+ * - `trailing-stacked-chevrons` — value first; increase/decrease as an up/down
+ *   chevron column on the trailing edge (same column).
+ */
+export type FormControlsStepperLayout =
+  | "default"
+  | "split-controls"
+  | "trailing-stacked-chevrons";
+
 export interface FormControlsStepperProps {
   name?: string;
   id?: string;
@@ -13,17 +24,21 @@ export interface FormControlsStepperProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
-  type?: string;
   className?: string;
   placeholder?: string;
   error?: string;
   dataTestId?: string;
-  /** Lower bound (inclusive) for the stepper when `type="number"`. */
+  /** Lower bound (inclusive). */
   min?: number | string;
-  /** Upper bound (inclusive) for the stepper when `type="number"`. */
+  /** Upper bound (inclusive). */
   max?: number | string;
   /** Increment/decrement step. Defaults to `1`. */
   step?: number | string;
+  /**
+   * Arrangement of the value field and step buttons.
+   * @default "default"
+   */
+  layout?: FormControlsStepperLayout;
 }
 
 const SELECTION_SUPPORTED_TYPES = new Set(["text", "search", "url", "tel", "password"]);
@@ -51,7 +66,6 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
-  type = "number",
   className = "",
   placeholder = "",
   error = "",
@@ -59,16 +73,12 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   min,
   max,
   step = 1,
+  layout = "default",
 }) => {
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const isNumeric = type === "number";
-  const resolvedType = isNumeric ? "text" : type;
-  const inputMode = isNumeric ? "numeric" : undefined;
-  const pattern = isNumeric ? "[0-9]*" : undefined;
 
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<string>(() => defaultValue ?? "");
@@ -96,6 +106,9 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   const shellClassName = getClassNames(
     styles["cp-form-control"],
     styles["cp-stepper-shell"],
+    layout === "split-controls" && styles["cp-stepper-shell--split-controls"],
+    layout === "trailing-stacked-chevrons" &&
+      styles["cp-stepper-shell--trailing-stacked-chevrons"],
     fieldErrorClassName,
     isDisabled ? styles["cp-input-affix-wrapper-disabled"] : ""
   );
@@ -114,7 +127,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const el = e.target;
-    if (isNumeric && /\D/.test(el.value)) {
+    if (/\D/.test(el.value)) {
       const cleaned = el.value.replace(/\D/g, "");
       const removed = el.value.length - cleaned.length;
       const caret = (el.selectionStart ?? cleaned.length) - removed;
@@ -129,7 +142,6 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   };
 
   const handleBeforeInput = (e: React.FormEvent<HTMLInputElement>) => {
-    if (!isNumeric) return;
     const data = (e.nativeEvent as InputEvent).data;
     if (data && /\D/.test(data)) {
       e.preventDefault();
@@ -137,7 +149,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   };
 
   const adjust = (delta: number) => {
-    if (!isNumeric || isDisabled) return;
+    if (isDisabled) return;
     const el = inputRef.current;
     if (!el) return;
 
@@ -147,11 +159,9 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
     }
     const next = clamp(base + delta * safeStep);
     if (next === base) {
-      el.focus();
       return;
     }
     dispatchNativeValue(String(next));
-    el.focus();
   };
 
   const currentNum = parseFieldInt(currentValue);
@@ -172,9 +182,9 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
     <input
       ref={inputRef}
       className={inputClassName}
-      type={resolvedType}
-      inputMode={inputMode}
-      pattern={pattern}
+      type="text"
+      inputMode="numeric"
+      pattern="[0-9]*"
       disabled={isDisabled}
       required={isRequired}
       aria-required={isRequired || undefined}
@@ -185,7 +195,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
       placeholder={placeholder}
       value={currentValue}
       onChange={handleChange}
-      onBeforeInput={isNumeric ? handleBeforeInput : undefined}
+      onBeforeInput={handleBeforeInput}
       data-testid={dataTestId}
     />
   );
@@ -198,53 +208,99 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
           {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
-      {isNumeric ? (
-        <div className={shellClassName}>
-          {inputEl}
-          <span className={styles["cp-stepper-divider"]} aria-hidden />
-          <button
-            type="button"
-            className={styles["cp-stepper-btn"]}
-            disabled={isDisabled || atMin}
-            aria-label="Decrease value"
-            onClick={() => adjust(-1)}
-            data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
-          >
-            <Icon name="remove" size="medium" color="gray" aria-hidden />
-          </button>
-          <span className={styles["cp-stepper-divider"]} aria-hidden />
-          <button
-            type="button"
-            className={styles["cp-stepper-btn"]}
-            disabled={isDisabled || atMax}
-            aria-label="Increase value"
-            onClick={() => adjust(1)}
-            data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
-          >
-            <Icon name="add" size="medium" color="gray" aria-hidden />
-          </button>
-        </div>
-      ) : (
-        <input
-          className={getClassNames(styles["cp-form-control"], fieldErrorClassName)}
-          type={type}
-          disabled={isDisabled}
-          required={isRequired}
-          aria-required={isRequired || undefined}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={describedBy}
-          name={name}
-          id={inputId}
-          placeholder={placeholder}
-          {...(value !== undefined
-            ? { value: value ?? "" }
-            : defaultValue !== undefined
-              ? { defaultValue }
-              : {})}
-          onChange={(e) => onChange?.(e)}
-          data-testid={dataTestId}
-        />
-      )}
+      <div className={shellClassName}>
+        {layout === "split-controls" ? (
+          <>
+            <button
+              type="button"
+              className={styles["cp-stepper-btn"]}
+              disabled={isDisabled || atMin}
+              aria-label="Decrease value"
+              onClick={() => adjust(-1)}
+              data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
+            >
+              <Icon name="remove" size="medium" color="gray" aria-hidden />
+            </button>
+            <span className={styles["cp-stepper-divider"]} aria-hidden />
+            {inputEl}
+            <span className={styles["cp-stepper-divider"]} aria-hidden />
+            <button
+              type="button"
+              className={styles["cp-stepper-btn"]}
+              disabled={isDisabled || atMax}
+              aria-label="Increase value"
+              onClick={() => adjust(1)}
+              data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
+            >
+              <Icon name="add" size="medium" color="gray" aria-hidden />
+            </button>
+          </>
+        ) : layout === "trailing-stacked-chevrons" ? (
+          <>
+            {inputEl}
+            <span className={styles["cp-stepper-divider"]} aria-hidden />
+            <div
+              className={styles["cp-stepper-actions-column"]}
+              role="group"
+              aria-label="Adjust value"
+            >
+              <button
+                type="button"
+                className={getClassNames(
+                  styles["cp-stepper-btn"],
+                  styles["cp-stepper-btn--stacked"]
+                )}
+                disabled={isDisabled || atMax}
+                aria-label="Increase value"
+                onClick={() => adjust(1)}
+                data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
+              >
+                <Icon name="expand_less" size="medium" color="gray" aria-hidden />
+              </button>
+              <span className={styles["cp-stepper-stack-divider"]} aria-hidden />
+              <button
+                type="button"
+                className={getClassNames(
+                  styles["cp-stepper-btn"],
+                  styles["cp-stepper-btn--stacked"]
+                )}
+                disabled={isDisabled || atMin}
+                aria-label="Decrease value"
+                onClick={() => adjust(-1)}
+                data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
+              >
+                <Icon name="expand_more" size="medium" color="gray" aria-hidden />
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {inputEl}
+            <span className={styles["cp-stepper-divider"]} aria-hidden />
+            <button
+              type="button"
+              className={styles["cp-stepper-btn"]}
+              disabled={isDisabled || atMin}
+              aria-label="Decrease value"
+              onClick={() => adjust(-1)}
+              data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
+            >
+              <Icon name="remove" size="medium" color="gray" aria-hidden />
+            </button>
+            <span className={styles["cp-stepper-divider"]} aria-hidden />
+            <button
+              type="button"
+              className={styles["cp-stepper-btn"]}
+              disabled={isDisabled || atMax}
+              aria-label="Increase value"
+              onClick={() => adjust(1)}
+              data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
+            >
+              <Icon name="add" size="medium" color="gray" aria-hidden />
+            </button>
+          </>
+        )}
+      </div>
       {error && (
         <p
           id={errorId}

@@ -1600,9 +1600,9 @@ export const Stepper = {
   name: "Stepper (form control)",
   argTypes: {
     ...commonControlArgTypes,
-    type: {
+    layout: {
       control: { type: "select" },
-      options: ["text", "number"],
+      options: ["default", "split-controls", "trailing-stacked-chevrons"],
     },
     placeholder: { control: "text" },
     value: { control: "text" },
@@ -1615,12 +1615,12 @@ export const Stepper = {
   args: {
     label: "Max Late Arrivals",
     name: "qty",
-    type: "number",
     placeholder: "",
     defaultValue: "2",
     min: "0",
     max: "99",
     step: "1",
+    layout: "default",
     isRequired: false,
     isDisabled: false,
     isFluid: false,
@@ -1696,7 +1696,6 @@ export const AllControls = {
           <FormControls.File label="Upload file" />
           <FormControls.Stepper
             label="Max Late Arrivals"
-            type="number"
             defaultValue="2"
             min="0"
             max="99"

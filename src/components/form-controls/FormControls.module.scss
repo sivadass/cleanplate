@@ -42,7 +42,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 .cp-form-control {
   height: 50px;
   border-radius: var(--cp-form-control-radius);
-  border: 1px solid var(--gray-500);
+  border: 1px solid var(--gray-300);
   padding: 0 16px;
   width: 100%;
   background: var(--white);
@@ -282,8 +282,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   flex-shrink: 0;
   width: 1px;
   align-self: stretch;
-  background: var(--gray-500);
-  opacity: 0.55;
+  background: var(--gray-300);
 }
 
 .cp-stepper-btn {
@@ -302,7 +301,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     color 0.15s ease;
 
   &:hover:not(:disabled) {
-    background: var(--gray-100);
+    background: var(--primary-brand-lightest);
     color: var(--black);
   }
 
@@ -315,6 +314,36 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     outline: 2px solid var(--primary-brand);
     outline-offset: -2px;
   }
+}
+
+.cp-stepper-shell--split-controls .cp-stepper-input {
+  text-align: center;
+  padding-inline: 8px;
+}
+
+.cp-stepper-shell--trailing-stacked-chevrons .cp-stepper-input {
+  padding-inline: 16px 8px;
+}
+
+.cp-stepper-actions-column {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 44px;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.cp-stepper-btn--stacked {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+}
+
+.cp-stepper-stack-divider {
+  flex-shrink: 0;
+  height: 1px;
+  background: var(--gray-300);
 }
 
 /* Keeps native inputs in the a11y tree and discoverable by e2e (unlike `hidden` / visibility: hidden). */
@@ -362,17 +391,18 @@ $cp-select-panel-hairline: rgb(235 236 239);
 .cp-select-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0;
+  gap: 4px;
   box-sizing: border-box;
   /* Compact row aligned to label box, not stretched with the trigger. */
   min-height: 0;
   padding: 3px 2px 3px 8px;
   max-width: 100%;
-  border: 1px solid var(--gray-500);
-  border-radius: 8px;
-  background: rgb(246 246 246);
+  // border: 1px solid var(--gray-500);
+  border-radius: var(--radius-x-large);
+  background: var(--primary-brand);
   font-size: 13px;
   line-height: 1.25;
+  color: var(--white);
 }
 
 .cp-select-chip-label {
@@ -396,14 +426,19 @@ $cp-select-panel-hairline: rgb(235 236 239);
   padding: 0;
   border: none;
   background: transparent;
+  color: var(--white);
   cursor: pointer;
   line-height: 1;
   border-radius: var(--radius-round);
   & > span {
     line-height: 1;
+    color: var(--white);
   }
   &:hover:not(:disabled) {
-    background: rgb(229 229 229);
+    background: var(--white);
+    & > span {
+      color: var(--primary-brand);
+    }
   }
 }
 
@@ -411,12 +446,13 @@ $cp-select-panel-hairline: rgb(235 236 239);
   display: inline-flex;
   align-items: center;
   padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid var(--gray-500);
+  border-radius: var(--radius-x-large);
+  border: 1px solid var(--primary-brand);
   font-size: 13px;
   line-height: 1.25;
-  color: var(--black);
-  background: rgb(246 246 246);
+  font-weight: 600;
+  color: var(--primary-brand);
+  background: var(--primary-brand-lightest);
 }
 
 .cp-select-trigger-actions {
@@ -472,7 +508,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   cursor: pointer;
   padding: 8px 16px;
   background: var(--white);
-  border: 1px solid var(--gray-500);
+  border: 1px solid var(--gray-300);
   border-radius: var(--cp-form-control-radius);
   display: flex;
   justify-content: space-between;
@@ -501,7 +537,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-select-field-options {
-  border: 1px solid var(--gray-500);
+  border: 1px solid var(--gray-200);
   background-color: #fff;
   z-index: 1100;
   overflow: hidden;
@@ -579,11 +615,11 @@ $cp-select-panel-hairline: rgb(235 236 239);
   height: var(--cp-select-mobile-sheet-height) !important;
   max-height: var(--cp-select-mobile-sheet-height) !important;
   /* Comfortable gutters vs edge-to-edge content (rounded shell + cramped feel). */
-  // padding-top: 16px;
-  // padding-left: 16px;
-  // padding-right: 16px;
-  // padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  border-radius: 20px 20px 0 0 !important;
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  border-radius: 24px 24px 0 0 !important;
   box-shadow:
     0 -8px 32px rgb(15 23 42 / 0.12),
     0 -1px 0 rgb(15 23 42 / 0.06);
@@ -640,7 +676,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-panel-search {
   flex-shrink: 0;
-  padding: 8px;
+  padding: 12px 16px;
   border-bottom: 1px solid $cp-select-panel-hairline;
 }
 
@@ -748,10 +784,11 @@ $cp-select-panel-hairline: rgb(235 236 239);
   width: 100%;
   height: 40px;
   padding: 0 12px 0 40px;
-  border: 1px solid var(--gray-500);
+  border: 1px solid var(--gray-300);
   border-radius: var(--radius-medium);
   font-family: inherit;
   font-size: inherit;
+  background: var(--white);
 
   &::placeholder {
     color: var(--text-placeholder);
@@ -1844,7 +1881,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   max-width: min(400px, calc(100vw - 24px));
   /*
    * Match panel-inner max height so the floating root doesn’t grow with long year lists;
-   * scrolling stays on .cp-date-picker-scroll inside the subview.
+   * scrolling stays on .cp-date-picker-scroll (year subview) or .cp-date-picker-month-grid.
    */
   max-height: min(452px, 78dvh);
   box-sizing: border-box;
@@ -1861,6 +1898,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
+  border: 0;
 }
 
 .cp-date-picker-floating-shell.cp-select-mobile-sheet.cp-select-field-options > .cp-date-picker-panel-inner {
@@ -1870,12 +1908,12 @@ $cp-select-panel-hairline: rgb(235 236 239);
   /* Let calendar/grid use natural height up to sheet max; lists scroll inside. */
 }
 
-/* Stable footprint: 6 calendar rows + header + footer; month/year subviews fill same box with internal scroll. */
+/* Stable footprint: 6 calendar rows + header + footer; month grid / year list subviews fill same box with internal scroll where needed. */
 .cp-date-picker-panel-inner {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px;
+  padding: 0;
   box-sizing: border-box;
   background: var(--white);
   border-radius: inherit;
@@ -1894,6 +1932,11 @@ $cp-select-panel-hairline: rgb(235 236 239);
   justify-content: space-between;
   gap: 8px;
   flex-shrink: 0;
+  padding: 12px 16px;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    gap: 4px;
+  }
 }
 
 .cp-date-picker-header-cluster {
@@ -1929,6 +1972,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
     opacity: 0.35;
     cursor: not-allowed;
   }
+  @media screen and (max-width: 360px) {
+    min-width: 32px;
+    min-height: 32px;
+  }
 }
 
 .cp-date-picker-label-hit {
@@ -1954,16 +2001,25 @@ $cp-select-panel-hairline: rgb(235 236 239);
     outline: 2px solid var(--primary-brand);
     outline-offset: 2px;
   }
+  @media screen and (max-width: 360px) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 /* Room for longest short month labels + chevron without shifting panel width when month changes */
 .cp-date-picker-header-cluster:first-child .cp-date-picker-label-hit {
-  min-width: 5.75rem;
+  min-width: 76px;
+  @media screen and (max-width: 360px) {
+    min-width: 64px;
+  }
 }
 
 .cp-date-picker-header-cluster:last-child .cp-date-picker-label-hit {
-  min-width: 4.75rem;
-  font-variant-numeric: tabular-nums;
+  min-width: 76px;
+  @media screen and (max-width: 360px) {
+    min-width: 64px;
+  }
 }
 
 .cp-date-picker-grid {
@@ -1972,7 +2028,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
   padding: 4px 0;
   flex-shrink: 0;
   /* Always reserve 6 weekday rows (~44px hits) so 5-week months do not shorten the sheet */
-  min-height: calc(8px + 4px + 28px + 4px + 6 * 44px);
+  // min-height: calc(8px + 4px + 28px + 4px + 6 * 44px);
+  min-height: 296px;
 }
 
 .cp-date-picker-weekdays {
@@ -2018,7 +2075,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
   color: var(--black);
 
   &:hover:not(:disabled):not(.cp-date-picker-day-selected) {
-    background: rgb(15 23 42 / 0.06);
+    background: var(--primary-brand-light);
+    color: var(--primary-brand);
   }
 
   &:focus-visible {
@@ -2030,6 +2088,13 @@ $cp-select-panel-hairline: rgb(235 236 239);
     opacity: 0.4;
     cursor: not-allowed;
     text-decoration: line-through;
+  }
+  @media screen and (max-width: 360px) {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    margin-bottom: 12px;
   }
 }
 
@@ -2047,33 +2112,82 @@ $cp-select-panel-hairline: rgb(235 236 239);
   color: var(--white);
 }
 
-.cp-date-picker-footer {
+.cp-date-picker-month-grid {
   display: flex;
-  justify-content: flex-end;
-  gap: 16px;
-  padding-top: 4px;
-  flex-shrink: 0;
-  margin-top: auto;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 10px 16px;
+  box-sizing: border-box;
 }
 
-.cp-date-picker-footer-btn {
+.cp-date-picker-month-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.cp-date-picker-month-cell {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  min-width: 0;
+}
+
+.cp-date-picker-month-btn {
+  appearance: none;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 6px;
   border: none;
-  background: none;
+  border-radius: 8px;
+  background: transparent;
   cursor: pointer;
   font-family: inherit;
-  font-weight: 600;
   font-size: 14px;
-  padding: 8px 4px;
-  color: var(--primary-brand);
+  font-weight: 600;
+  color: var(--black);
+
+  &:hover:not(:disabled):not(.cp-date-picker-day-selected) {
+    background: var(--primary-brand-light);
+    color: var(--primary-brand);
+  }
 
   &:focus-visible {
     outline: 2px solid var(--primary-brand);
-    outline-offset: 2px;
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
   }
 }
 
-.cp-date-picker-footer-btn-primary {
-  font-weight: 700;
+.cp-date-picker-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
+.cp-date-picker-footer-button {
+  &.cancel {
+    color: var(--text-muted);
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0 8px;
+  }
 }
 
 .cp-date-picker-scroll {

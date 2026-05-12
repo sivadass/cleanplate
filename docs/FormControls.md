@@ -14,7 +14,7 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 | Radio | Radio group (array-based) | name, label, options, value, defaultValue, onChange(value, e), orientation, variant |
 | File | File picker with `button` / `card` variants, drag-and-drop, and a removable file list | name, label, variant, multiple, accept, value (File[]), onChange(files, e), buttonLabel, dropZoneText |
 | Toggle | On/off switch | checked, defaultChecked, onChange(checked: boolean) |
-| Stepper | Text input for step flows | placeholder, value, onChange(e) |
+| Stepper | Numeric value with integrated − / + (integer text field + `min` / `max` / `step`) | placeholder, value, onChange(e), min, max, step, layout |
 
 ## Types
 
@@ -137,7 +137,7 @@ interface InputProps {
 - **CheckboxProps**: `options` (non-empty `CheckboxOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value` (`CheckboxValue[]`), `defaultValue` (`CheckboxValue[]`), `onChange(values, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`.
 - **CheckboxOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. `CheckboxValue = string | number`.
 - **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`.
-- **FormControlsStepperProps**: label, placeholder, value/defaultValue, onChange(e), type, isDisabled, isRequired, isFluid, className, error, dataTestId.
+- **FormControlsStepperProps**: label, placeholder, value/defaultValue, onChange(e), min, max, step, layout (`"default" | "split-controls" | "trailing-stacked-chevrons"`), isDisabled, isRequired, isFluid, className, error, dataTestId.
 
 ## Usage Examples
 

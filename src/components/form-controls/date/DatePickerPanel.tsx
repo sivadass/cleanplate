@@ -12,6 +12,7 @@ import type { Constraints } from "./date-types";
 import DatePickerFooter from "./DatePickerFooter";
 import DatePickerGrid from "./DatePickerGrid";
 import DatePickerHeader from "./DatePickerHeader";
+import MonthPickerGrid from "./MonthPickerGrid";
 import ScrollPicker from "./ScrollPicker";
 import {
   isDateUnavailable,
@@ -219,16 +220,15 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
               </span>
             </span>
           </div>
-          <ScrollPicker
+          <MonthPickerGrid
             ariaLabelledBy={monthSubviewTitleId}
-            items={monthItems}
-            activePredicate={(mi) =>
-              mi === picker.displayedMonth.getMonth()
-            }
+            months={monthItems}
+            locale={loc}
+            selectedMonthIndex={picker.displayedMonth.getMonth()}
             onPick={(mi) => {
               picker.setDisplayedMonthFromYearMonth(
                 picker.displayedMonth.getFullYear(),
-                mi as number,
+                mi,
               );
               picker.setPanelView("calendar");
             }}

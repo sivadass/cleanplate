@@ -34,4 +34,4 @@ export type { FileProps, FileVariant } from "./File";
 export type { RadioProps, RadioOption, RadioValue } from "./Radio";
 export type { ToggleProps } from "./Toggle";
 export type { DateProps } from "./Date";
-export type { FormControlsStepperProps } from "./Stepper";
+export type { FormControlsStepperLayout, FormControlsStepperProps } from "./Stepper";
