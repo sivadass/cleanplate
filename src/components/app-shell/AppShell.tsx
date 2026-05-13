@@ -1,4 +1,15 @@
-import React from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import {
+  FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
+  useClick,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useRole,
+} from "@floating-ui/react";
+import type { VirtualElement } from "@floating-ui/react-dom";
 import Header from "../header";
 import Footer from "../footer";
 import MenuList from "../menu-list";
@@ -6,8 +17,11 @@ import type { MenuListItem } from "../menu-list";
 import type { MenuListSize, MenuListVariant } from "../menu-list";
 import type { HeaderProps } from "../header";
 import type { FooterProps } from "../footer";
+import Button from "../button";
+import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
 import styles from "./AppShell.module.scss";
+import { APP_SHELL_SIDEBAR_MOBILE_MQ, useMediaQuery } from "./use-media-query";
 
 /** Sidebar configuration: MenuList as vertical nav. Direction is always "vertical". */
 export interface AppShellSidebarConfig {
@@ -34,6 +48,17 @@ export interface AppShellProps {
   sidebar?: AppShellSidebarConfig;
   /** Width of the sidebar (e.g. "240px", "16rem") */
   sidebarWidth?: string;
+  /**
+   * When `sidebar` is set, controls the Floating UI drawer on viewports where the
+   * sidebar column is hidden (≤1024px).
+   * - `true`: show a menu trigger and drawer with the same navigation.
+   * - `false`: no drawer (e.g. you use Header’s mobile menu with the same items).
+   * - `undefined`: `false` when `header` is `HeaderProps` (mobile menu there);
+   *   otherwise `true` when `sidebar` is set.
+   */
+  mobileSidebarDrawer?: boolean;
+  /** Accessible name for the mobile navigation dialog. */
+  mobileSidebarDrawerLabel?: string;
   /** Additional class name for the root element */
   className?: string;
   /** Additional class name for the main content wrapper */
@@ -46,48 +71,140 @@ const isHeaderProps = (header: AppShellProps["header"]): header is HeaderProps =
 const isFooterProps = (footer: AppShellProps["footer"]): footer is FooterProps =>
   typeof footer === "object" && footer !== null && !React.isValidElement(footer);
 
+const leftEdgePositionReference: VirtualElement = {
+  getBoundingClientRect() {
+    const h = typeof window !== "undefined" ? window.innerHeight : 0;
+    return {
+      width: 0,
+      height: h,
+      x: 0,
+      y: 0,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: h,
+    };
+  },
+};
+
 const AppShell: React.FC<AppShellProps> = ({
   children,
   header,
   footer,
   sidebar,
   sidebarWidth = "240px",
+  mobileSidebarDrawer: mobileSidebarDrawerProp,
+  mobileSidebarDrawerLabel = "Main navigation",
   className = "",
   contentClassName = "",
 }) => {
   const rootClassName = getClassNames(styles["cp-app-shell"], className);
 
+  const headerProvidesMobileNav = header !== undefined && isHeaderProps(header);
+  const showMobileSidebarDrawer =
+    mobileSidebarDrawerProp ??
+    Boolean(sidebar && !headerProvidesMobileNav);
+
+  const isMobileSidebarBreakpoint = useMediaQuery(APP_SHELL_SIDEBAR_MOBILE_MQ);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMobileSidebarBreakpoint) {
+      setMobileDrawerOpen(false);
+    }
+  }, [isMobileSidebarBreakpoint]);
+
+  const drawerEnabled =
+    Boolean(sidebar) &&
+    showMobileSidebarDrawer &&
+    isMobileSidebarBreakpoint;
+
+  const { refs, context, floatingStyles } = useFloating({
+    open: drawerEnabled && mobileDrawerOpen,
+    onOpenChange(next) {
+      if (!drawerEnabled) return;
+      setMobileDrawerOpen(next);
+    },
+    placement: "right-start",
+    strategy: "fixed",
+    transform: false,
+  });
+
+  useLayoutEffect(() => {
+    if (!drawerEnabled) return;
+    refs.setPositionReference(leftEdgePositionReference);
+  }, [drawerEnabled, refs]);
+
+  const click = useClick(context, { enabled: drawerEnabled });
+  const dismiss = useDismiss(context, {
+    enabled: drawerEnabled,
+    outsidePressEvent: "pointerdown",
+  });
+  const role = useRole(context, { role: "dialog" });
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    click,
+    dismiss,
+    role,
+  ]);
+
+  const handleMobileMenuClick = useCallback(
+    (item: MenuListItem) => {
+      sidebar?.onMenuClick?.(item);
+      setMobileDrawerOpen(false);
+    },
+    [sidebar],
+  );
+
+  const mobileDrawerMounted = drawerEnabled && mobileDrawerOpen;
+
+  const sidebarMenuList = sidebar !== undefined && (
+    <MenuList
+      items={sidebar.items}
+      activeItem={sidebar.activeItem}
+      onMenuClick={sidebar.onMenuClick}
+      direction="vertical"
+      size={sidebar.size}
+      variant={sidebar.variant}
+      margin="0"
+    />
+  );
+
+  const mobileDrawerMenuList = sidebar !== undefined && (
+    <MenuList
+      items={sidebar.items}
+      activeItem={sidebar.activeItem}
+      onMenuClick={handleMobileMenuClick}
+      direction="vertical"
+      size={sidebar.size}
+      variant={sidebar.variant}
+      margin="0"
+    />
+  );
+
   return (
     <div className={rootClassName}>
       {header !== undefined && (
-        <div className={styles["cp-app-shell__header-slot"]}>
+        <div className={styles["header-slot"]}>
           {isHeaderProps(header) ? <Header {...header} /> : header}
         </div>
       )}
 
-      <div className={styles["cp-app-shell__body"]}>
+      <div className={styles["body"]}>
         {sidebar !== undefined && (
           <aside
-            className={styles["cp-app-shell__sidebar"]}
+            className={styles["sidebar"]}
             style={{ width: sidebarWidth }}
             aria-label="Main navigation"
           >
-            <MenuList
-              items={sidebar.items}
-              activeItem={sidebar.activeItem}
-              onMenuClick={sidebar.onMenuClick}
-              direction="vertical"
-              size={sidebar.size}
-              variant={sidebar.variant}
-              margin="0"
-            />
+            {sidebarMenuList}
           </aside>
         )}
 
         <main
           className={getClassNames(
-            styles["cp-app-shell__main"],
-            contentClassName
+            styles["main"],
+            contentClassName,
           )}
         >
           {children}
@@ -95,9 +212,55 @@ const AppShell: React.FC<AppShellProps> = ({
       </div>
 
       {footer !== undefined && (
-        <div className={styles["cp-app-shell__footer-slot"]}>
+        <div className={styles["footer-slot"]}>
           {isFooterProps(footer) ? <Footer {...footer} /> : footer}
         </div>
+      )}
+
+      {drawerEnabled && (
+        <>
+          <Button
+            ref={refs.setReference}
+            type="button"
+            variant="icon"
+            className={styles["mobile-nav-trigger"]}
+            aria-label="Open navigation menu"
+            {...getReferenceProps()}
+          >
+            <Icon name="menu" />
+          </Button>
+
+          {mobileDrawerMounted && (
+            <FloatingPortal id="cp-app-shell-mobile-nav-root">
+              <FloatingOverlay
+                lockScroll
+                className={styles["cp-mobile-nav-overlay"]}
+              />
+              <FloatingFocusManager context={context} modal returnFocus>
+                <div
+                  ref={refs.setFloating}
+                  className={styles["cp-mobile-nav-drawer"]}
+                  style={{ ...floatingStyles, width: sidebarWidth }}
+                  {...getFloatingProps()}
+                  aria-label={mobileSidebarDrawerLabel}
+                >
+                  <div className={styles["drawer-header"]}>
+                    <Button
+                      type="button"
+                      variant="icon"
+                      className={styles["drawer-close"]}
+                      aria-label="Close navigation menu"
+                      onClick={() => setMobileDrawerOpen(false)}
+                    >
+                      <Icon name="close" />
+                    </Button>
+                  </div>
+                  {mobileDrawerMenuList}
+                </div>
+              </FloatingFocusManager>
+            </FloatingPortal>
+          )}
+        </>
       )}
     </div>
   );

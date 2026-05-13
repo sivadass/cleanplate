@@ -11,6 +11,8 @@ Purpose: Full-page layout that combines an optional Header (top), optional Foote
 | footer | ReactNode \| FooterProps | no | — | Bottom bar: pass Footer props object or custom ReactNode. Omit to hide footer. |
 | sidebar | AppShellSidebarConfig | no | — | Sidebar config (MenuList as vertical nav on the left). Omit to hide sidebar. |
 | sidebarWidth | string | no | "240px" | Width of the sidebar (e.g. "240px", "16rem"). |
+| mobileSidebarDrawer | boolean | no | *see below* | When `sidebar` is set: show a Floating UI drawer + trigger on narrow viewports (≤1024px). Default `false` if `header` is `HeaderProps` (header mobile menu); otherwise default `true`. |
+| mobileSidebarDrawerLabel | string | no | "Main navigation" | Accessible name (`aria-label`) for the mobile navigation dialog. |
 | className | string | no | "" | Additional class name for the root element. |
 | contentClassName | string | no | "" | Additional class name for the main content wrapper. |
 
@@ -35,6 +37,8 @@ interface AppShellProps {
   footer?: React.ReactNode | FooterProps;
   sidebar?: AppShellSidebarConfig;
   sidebarWidth?: string;
+  mobileSidebarDrawer?: boolean;
+  mobileSidebarDrawerLabel?: string;
   className?: string;
   contentClassName?: string;
 }
@@ -133,7 +137,7 @@ const Dashboard = () => {
 - **Layout:** Root is a flex column with `min-height: 100vh`. Header and footer slots are full width; body is a flex row (sidebar + main). Main area is scrollable.
 - **Header / footer:** When `header` or `footer` is a plain object with Header/Footer props (e.g. `menuItems` for header), the component renders `<Header {...header} />` or `<Footer {...footer} />`. Otherwise it renders the ReactNode as-is.
 - **Sidebar:** Rendered in an `<aside aria-label="Main navigation">` with MenuList `direction="vertical"`. Width from `sidebarWidth` (inline style).
-- **Responsive:** At viewport width ≤ 1024px the sidebar is hidden via CSS. Pass the same `menuItems` and `activeMenuItem` / `onMenuItemClick` to `header` so the header’s mobile menu provides navigation.
+- **Responsive:** At viewport width ≤ 1024px the sidebar column is hidden via CSS. When `header` is `HeaderProps`, the default is to rely on the header’s mobile menu for the same items. When there is no header (or `mobileSidebarDrawer` is `true`), AppShell renders a **Floating UI** mobile drawer: fixed menu trigger, `FloatingPortal` + `FloatingOverlay` (scroll lock) + `FloatingFocusManager` (modal focus), dismiss on overlay press and Escape, and the same `MenuList` as the sidebar.
 - **No root spacing props:** AppShell does not expose margin/padding; use `className` or `contentClassName` for layout.
 
 ## Related Components / Links

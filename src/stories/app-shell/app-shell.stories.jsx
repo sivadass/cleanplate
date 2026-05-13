@@ -64,9 +64,14 @@ const meta = {
       control: "text",
       description: "Additional class name for the root element",
     },
-    contentClassName: {
+    mobileSidebarDrawer: {
+      control: "boolean",
+      description:
+        "Floating UI mobile drawer when sidebar is hidden (≤1024px). Default false with HeaderProps header.",
+    },
+    mobileSidebarDrawerLabel: {
       control: "text",
-      description: "Additional class name for the main content wrapper",
+      description: "aria-label for the mobile navigation dialog.",
     },
   },
   args: {
@@ -177,7 +182,9 @@ export const SidebarOnly = {
             No header or footer
           </Typography>
           <Typography variant="p">
-            Only the sidebar and main content. Useful for minimal app chrome.
+            Only the sidebar and main content. On viewports ≤1024px the sidebar
+            column hides; a Floating UI drawer (menu button, bottom-left) opens
+            the same navigation with focus trap and scroll lock.
           </Typography>
         </Container>
       </AppShell>

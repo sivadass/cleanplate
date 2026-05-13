@@ -229,7 +229,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### AppShell Component
 - File: `docs/AppShell.md`
 - Purpose: Full-page layout combining optional Header (top), Footer (bottom), and MenuList as left sidebar with main content. For dashboard-style apps.
-- Key Features: header (Header props or ReactNode), footer (Footer props or ReactNode), sidebar (AppShellSidebarConfig: items, activeItem, onMenuClick, size, variant), sidebarWidth, responsive (sidebar hidden ≤1024px; use header mobile menu)
+- Key Features: header (Header props or ReactNode), footer (Footer props or ReactNode), sidebar (AppShellSidebarConfig: items, activeItem, onMenuClick, size, variant), sidebarWidth, mobileSidebarDrawer / mobileSidebarDrawerLabel, responsive (sidebar column hidden ≤1024px; default Floating UI drawer when no HeaderProps header, else header mobile menu)
 - Types: AppShellProps, AppShellSidebarConfig
 - Related Components: Header, Footer, MenuList (sidebar), Container, Typography, Avatar
 

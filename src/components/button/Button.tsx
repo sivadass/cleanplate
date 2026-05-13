@@ -28,58 +28,64 @@ export interface ButtonProps
   type?: "button" | "submit" | "reset";
 }
 
-const Button: React.FC<ButtonProps> = ({
-  children,
-  isLoading = false,
-  isDisabled = false,
-  isFluid = false,
-  size = "medium",
-  variant = "solid",
-  margin = "m-0",
-  onClick,
-  className = "",
-  type = "button",
-  ...rest
-}) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
-
-  const buttonClasses = getClassNames(
-    styles["button"],
-    styles[size],
-    styles[variant],
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
     {
-      [styles["fluid"]]: isFluid,
-      [styles["disabled"]]: isDisabled,
-      [styles["loading"]]: isLoading,
+      children,
+      isLoading = false,
+      isDisabled = false,
+      isFluid = false,
+      size = "medium",
+      variant = "solid",
+      margin = "m-0",
+      onClick,
+      className = "",
+      type = "button",
+      ...rest
     },
-    marginClass,
-    className
-  );
+    ref,
+  ) {
+    const marginClass = getSpacingClass(margin, utilStyles, "m");
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (isDisabled || isLoading) {
-      e.preventDefault();
-      return;
-    }
-    if (onClick) {
-      onClick(e);
-    }
-  };
+    const buttonClasses = getClassNames(
+      styles["button"],
+      styles[size],
+      styles[variant],
+      {
+        [styles["fluid"]]: isFluid,
+        [styles["disabled"]]: isDisabled,
+        [styles["loading"]]: isLoading,
+      },
+      marginClass,
+      className,
+    );
 
-  return (
-    <button
-      className={buttonClasses}
-      onClick={handleClick}
-      type={type}
-      disabled={isDisabled || isLoading}
-      {...rest}
-    >
-      {isLoading && (
-        <Icon name="progress_activity" className={styles["cp-button-loader"]} />
-      )}
-      {children}
-    </button>
-  );
-};
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (isDisabled || isLoading) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e);
+    };
+
+    return (
+      <button
+        ref={ref}
+        className={buttonClasses}
+        type={type}
+        disabled={isDisabled || isLoading}
+        {...rest}
+        onClick={handleClick}
+      >
+        {isLoading && (
+          <Icon name="progress_activity" className={styles["cp-button-loader"]} />
+        )}
+        {children}
+      </button>
+    );
+  },
+);
+
+Button.displayName = "Button";
 
 export default Button;

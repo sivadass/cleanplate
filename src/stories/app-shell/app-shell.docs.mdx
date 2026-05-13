@@ -14,7 +14,7 @@ The `AppShell` component provides a full-page layout that combines an optional *
 - **Footer slot:** Optional. Pass Footer props (object) or custom ReactNode. Renders full width at the bottom.
 - **Sidebar:** Optional. Config object with `items`, `activeItem`, `onMenuClick`, and optional `size`/`variant`. Renders MenuList in vertical direction on the left.
 - **Sidebar width:** Configurable via `sidebarWidth` (e.g. `"240px"`, `"16rem"`).
-- **Responsive:** Sidebar is hidden below 1024px; pass the same menu items to the header so the header’s mobile menu can be used for navigation.
+- **Responsive:** Sidebar column is hidden below 1024px. With a `HeaderProps` header, the default is to use the header’s mobile menu for the same items (`mobileSidebarDrawer` defaults off). Without that, AppShell uses a **Floating UI** mobile drawer (trigger, portal, overlay with scroll lock, modal focus).
 - **Main content:** `children` render inside a scrollable `<main>`; optional `contentClassName`.
 
 ## Usage
@@ -159,7 +159,7 @@ No header, sidebar, or footer. Useful for login or landing pages.
 - **Layout:** Root is a flex column with `min-height: 100vh`. Header and footer slots are flex-shrink: 0. The body is a flex row (sidebar + main) with flex: 1; main is scrollable.
 - **Header / footer props:** When `header` or `footer` is a plain object (with `menuItems` for header or footer-specific keys), the component renders `<Header {...header} />` or `<Footer {...footer} />`. Otherwise it renders the ReactNode as-is.
 - **Sidebar:** Rendered in an `<aside aria-label="Main navigation">` with a vertical MenuList. Width is set via inline style from `sidebarWidth`.
-- **Responsive:** At viewport width ≤ 1024px the sidebar is hidden (CSS). Pass the same `menuItems` (and `activeMenuItem` / `onMenuItemClick`) to `header` so the header’s built-in mobile menu provides navigation.
+- **Responsive / mobile nav:** At viewport width ≤ 1024px the sidebar column is hidden (CSS). When `header` is a Header props object, `mobileSidebarDrawer` defaults to `false` so you use the header’s mobile menu. Otherwise, with `sidebar` set, a Floating UI drawer (same MenuList) opens from a fixed trigger. Override with `mobileSidebarDrawer` / `mobileSidebarDrawerLabel`.
 - **No spacing props on root:** AppShell does not expose margin/padding; use `className` or `contentClassName` for layout tweaks.
 
 ## Props
