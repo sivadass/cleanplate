@@ -1,10 +1,10 @@
 {
   "name": "cleanplate",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "CleanPlate - A Headless React UI Framework",
   "files": [
     "dist",
-    "docs",
+    "docs/*.md",
     "llms.txt",
     "AGENTS.md",
     "CHANGELOG.md"
