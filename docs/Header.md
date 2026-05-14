@@ -83,18 +83,32 @@ const AppHeader = () => {
 
 ### With AppShell (desktop nav in sidebar only)
 
-Use `showCenterMenu: false` so `menuItems` is only used for the header’s mobile menu while the sidebar shows the same links on desktop.
+Use `showCenterMenu: false` so `menuItems` is only used for the header’s mobile menu while the sidebar shows the same links on desktop. For **`headerRight`**, use the same **Dropdown + Avatar + user meta + vertical MenuList** pattern as in **`docs/Dropdown.md`** (*Recommended: account / user menu content*)—whether **`Header`** is rendered by you or by **`AppShell`** via **`header={{ ... }}`**.
 
 ```jsx
+import { Dropdown, Avatar } from "cleanplate";
+// AccountMenuContent: full structure in docs/Dropdown.md
+
 <Header
   logoUrl="/logo.svg"
   menuItems={MENU_ITEMS}
   showCenterMenu={false}
   activeMenuItem={active}
   onMenuItemClick={onMenuClick}
-  headerRight={<Avatar name="User" />}
+  headerRight={
+    <Dropdown
+      placement="bottom-end"
+      offset={8}
+      trigger={<Avatar name="Jordan Lee" size="medium" margin="0" tabIndex={0} />}
+      content={<AccountMenuContent />}
+    />
+  }
 />
 ```
+
+### User account menu (`headerRight`)
+
+Prefer **`Dropdown`** with **`Avatar`** as **`trigger`** and **`content`** that separates **identity** (caption, name, email with **`Typography`** + meta padding aligned to vertical **`MenuList`** rows) from **actions** (vertical **`MenuList`** calling **`onClose`** after each action). See **`docs/Dropdown.md`** — *Recommended: account / user menu content* — and Storybook **molecules/Header/Playground**.
 
 ### With custom slots
 
@@ -120,6 +134,7 @@ Use `showCenterMenu: false` so `menuItems` is only used for the header’s mobil
 
 - **menuItems:** Required; each item has label, value, optional icon (Material icon name).
 - **headerLeft / headerCenter / headerRight:** When provided, replace the default logo, MenuList, or right slot.
+- **AppShell:** If you pass **`header`** as **`HeaderProps`** to **`AppShell`**, configure **`headerRight`** the same way as a standalone **`Header`** (recommended account dropdown structure does not change).
 - **showCenterMenu:** When `false`, the center column is empty on desktop (unless `headerCenter` is set). `menuItems` is still used for the mobile overlay.
 - **Mobile:** Below 1024px, center nav hides; hamburger shows. Click opens slide-in menu (Animated fade-in-left).
 - **onMenuItemClick:** Called with the clicked item; mobile menu closes on click.
@@ -128,6 +143,7 @@ Use `showCenterMenu: false` so `menuItems` is only used for the header’s mobil
 ## Related Components / Links
 
 - MenuList (used in center and mobile menu)
-- Avatar (commonly in headerRight)
+- Dropdown, Avatar (account menu in **headerRight**; see `docs/Dropdown.md`)
+- AppShell (passes **`header`** as Header props; same **headerRight** recommendations apply)
 - Button, Icon (mobile menu trigger and close)
 - Animated (mobile menu slide-in)

@@ -160,6 +160,82 @@ export const Example = () => (
 />
 ```
 
+### Recommended: account / user menu content (Header & AppShell)
+
+When **`headerRight`** is a user menu, use **`Dropdown`** with an **`Avatar`** trigger (`placement="bottom-end"` and `offset={8}` are typical) and **`content`** built in **two parts**:
+
+1. **User meta** — Optional caption (“Signed in as”), **display name**, **email**. Use **`Typography`** with clear hierarchy: `variant="small"` + `var(--text-muted)` for the caption; `variant="p"` + `isBold` + `var(--text-default)` for the name; `variant="small"` + `wordBreak="wrap"` + `var(--text-subtle)` for the email. Space lines with the **`margin`** suffix API (e.g. `"0"`, `"t-2"`).
+2. **Actions** — A vertical **`MenuList`** (`direction="vertical"`, `size="small"`). In `onMenuClick`, run your handler then call **`onClose?.()`** so the panel closes (Dropdown injects **`onClose`** into `content` when cloning).
+
+**Whitespace:** Vertical **`MenuList`** items use **`padding: 8px 16px`** on each link (`--space-2` × `--space-4`). Wrap the meta block in a container using the same horizontal inset and similar vertical rhythm so copy lines up with menu rows:
+
+```jsx
+const accountMetaStyle = {
+  padding: "var(--space-2) var(--space-4) var(--space-3) var(--space-4)",
+  marginBottom: "var(--space-2)",
+  borderBottom: "1px solid var(--gray-100)",
+};
+```
+
+Use the same structure whether **`Header`** is used standalone or passed as **`header`** on **`AppShell`** (`HeaderProps`); only data and handlers change.
+
+```jsx
+import { Dropdown, Avatar, MenuList, Typography } from "cleanplate";
+
+const ACCOUNT_MENU_ITEMS = [
+  { label: "Profile", value: "/profile", icon: "account_circle" },
+  { label: "Settings", value: "/settings", icon: "settings" },
+  { label: "Sign out", value: "/logout", icon: "logout" },
+];
+
+function AccountMenuContent({ onClose, onItemSelect }) {
+  const handleMenuClick = (item) => {
+    onItemSelect?.(item);
+    onClose?.();
+  };
+  return (
+    <>
+      <div
+        style={{
+          padding: "var(--space-2) var(--space-4) var(--space-3) var(--space-4)",
+          marginBottom: "var(--space-2)",
+          borderBottom: "1px solid var(--gray-100)",
+        }}
+      >
+        <Typography variant="small" margin="0" style={{ color: "var(--text-muted)" }}>
+          Signed in as
+        </Typography>
+        <Typography variant="p" margin="t-2" isBold style={{ color: "var(--text-default)" }}>
+          Jordan Lee
+        </Typography>
+        <Typography variant="small" margin="t-2" wordBreak="wrap" style={{ color: "var(--text-subtle)" }}>
+          jordan@example.com
+        </Typography>
+      </div>
+      <MenuList
+        items={ACCOUNT_MENU_ITEMS}
+        direction="vertical"
+        variant="light"
+        size="small"
+        margin="0"
+        onMenuClick={handleMenuClick}
+      />
+    </>
+  );
+}
+
+<Dropdown
+  placement="bottom-end"
+  offset={8}
+  trigger={
+    <Avatar name="Jordan Lee" image="/avatar.jpg" size="medium" margin="0" tabIndex={0} />
+  }
+  content={<AccountMenuContent />}
+/>
+```
+
+Live reference: **molecules/Header/Playground** in Storybook uses this pattern for **`headerRight`**.
+
 ## Behavior Notes
 
 - **Trigger modes:** Exactly one of `trigger`, `renderTrigger`, or `triggerLabel` must be used; the component throws if none are provided.
@@ -171,5 +247,7 @@ export const Example = () => (
 ## Related Components / Links
 
 - Button (commonly used as trigger or inside renderTrigger)
+- Avatar (common trigger for account menus; see **Recommended: account / user menu content** above)
 - MenuList (often used inside dropdown content for menu items)
+- Header, AppShell (pass the same `headerRight` / account menu structure for standalone header or shell layout)
 - Icon (used in the default trigger when `triggerLabel` is set for arrow icons)

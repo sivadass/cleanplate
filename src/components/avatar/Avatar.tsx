@@ -27,16 +27,19 @@ export interface AvatarProps
   className?: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({
-  size = "medium",
-  margin = "0",
-  onClick,
-  name = "",
-  image = "",
-  icon,
-  className = "",
-  ...rest
-}) => {
+const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
+  {
+    size = "medium",
+    margin = "0",
+    onClick,
+    name = "",
+    image = "",
+    icon,
+    className = "",
+    ...rest
+  },
+  ref,
+) {
   const initials = getInitials(name);
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const avatarClasses = getClassNames(
@@ -61,12 +64,15 @@ const Avatar: React.FC<AvatarProps> = ({
       onClick={handleClick}
       title={name}
       {...rest}
+      ref={ref}
     >
       {!icon && image && <img src={image} alt={name} />}
       {!image && icon && <Icon size="medium" name={icon} />}
       {!image && !icon && initials}
     </div>
   );
-};
+});
+
+Avatar.displayName = "Avatar";
 
 export default Avatar;

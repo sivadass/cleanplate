@@ -10,10 +10,10 @@ Purpose: Displays user initials, an image, or a Material icon in a consistent ci
 | image | string | no | "" | Image URL; when set, shows image instead of initials or icon. |
 | icon | MaterialIconName | no | — | Material icon name; when set (and no image), shows icon instead of initials. |
 | size | "small" \| "medium" | no | "medium" | Size of the avatar. |
-| margin | string \| string[] | no | "m-0" | Spacing **suffix** for outer margin. The component adds the `m-` prefix (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array: `"0"`, `["2", "b-3"]`. |
+| margin | string \| string[] | no | "0" | Spacing **suffix** for outer margin. The component adds the `m-` prefix (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array: `"0"`, `["2", "b-3"]`. |
 | onClick | function | no | — | Click handler for the root div. |
 | className | string | no | "" | Additional class names for the root element; use to override backgrounds or other visuals (no inline `style` on Avatar). |
-| ...rest | `Omit<HTMLAttributes<HTMLDivElement>, "style">` | no | — | Other div attributes (`id`, `data-*`, `aria-*`, `ref`, etc.). The **`style`** prop is not supported; use **`className`** and CSS instead. |
+| ...rest | `Omit<HTMLAttributes<HTMLDivElement>, "style">` | no | — | Other div attributes (`id`, `data-*`, `aria-*`, etc.). The **`style`** prop is not supported; use **`className`** and CSS instead. Use the **`ref`** from `React.forwardRef` for imperative access or parent-managed refs (e.g. **Dropdown** `trigger`). |
 
 ## Types
 
@@ -108,6 +108,24 @@ export const Example = () => (
   />
 );
 ```
+
+### As Dropdown trigger (e.g. header user menu)
+
+[`Dropdown`](./Dropdown.md) clones the `trigger` element and injects **`ref`**, **`onClick`** (toggle), **`role="button"`**, **`aria-expanded`**, **`aria-haspopup`**, and a merged **`className`**. **`Avatar`** uses **`forwardRef`**, so pass it as the trigger and set identity props as usual. For account menus in **`Header`** or **`AppShell`** (`HeaderProps.headerRight`), use the **user meta + vertical `MenuList`** pattern in **`docs/Dropdown.md`** (*Recommended: account / user menu content*), not a bare `MenuList` only.
+
+```jsx
+import { Dropdown, Avatar, MenuList } from "cleanplate";
+
+<Dropdown
+  placement="bottom-end"
+  trigger={
+    <Avatar name="Jane Doe" image="/avatar.jpg" size="medium" margin="0" tabIndex={0} />
+  }
+  content={<AccountMenuContent />}
+/>
+```
+
+You do **not** pass `onClick` yourself when using `trigger`—Dropdown supplies it. Optional: add **`tabIndex={0}`** on Avatar (via spread / rest) if you need the trigger in tab order like a native button.
 
 ### With Container
 

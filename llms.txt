@@ -87,9 +87,9 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Dropdown Component
 - File: `docs/Dropdown.md`
 - Purpose: Floating panel that shows content relative to a trigger. Use for menus, option lists, or any content that opens on click.
-- Key Features: 12 placements, flip/shift to stay in viewport, three trigger modes (trigger element, renderTrigger, triggerLabel), close on outside click or Escape
+- Key Features: 12 placements, flip/shift to stay in viewport, three trigger modes (trigger element, renderTrigger, triggerLabel), close on outside click or Escape; **recommended account menu content** (user meta Typography + padding aligned to vertical MenuList + divider + MenuList; same for Header and AppShell `headerRight`)
 - Types: DropdownProps, DropdownPlacement, DropdownTriggerProps, DropdownRenderTriggerParams
-- Related Components: Button (trigger), MenuList (content)
+- Related Components: Button (trigger), Avatar (account trigger), MenuList (content), Header, AppShell
 
 ### Alert Component
 - File: `docs/Alert.md`
@@ -201,9 +201,9 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Header Component
 - File: `docs/Header.md`
 - Purpose: Responsive navigation header with logo, menu items, and customizable left/center/right slots.
-- Key Features: logoUrl, menuItems, activeMenuItem, onMenuItemClick, headerLeft, headerCenter, headerRight, showCenterMenu, sizes (small, medium, large), variants (light, dark), margin (suffix API), responsive mobile menu
+- Key Features: logoUrl, menuItems, activeMenuItem, onMenuItemClick, headerLeft, headerCenter, headerRight, showCenterMenu, sizes (small, medium, large), variants (light, dark), margin (suffix API), responsive mobile menu; **headerRight** account menus: Dropdown + Avatar + user meta + vertical MenuList (see `docs/Dropdown.md`)
 - Types: HeaderProps, HeaderSize, HeaderVariant, HeaderMargin
-- Related Components: MenuList (center and mobile menu), Avatar (headerRight), Button, Icon, Animated (used internally)
+- Related Components: MenuList (center and mobile menu), Dropdown, Avatar (headerRight), AppShell, Button, Icon, Animated (used internally)
 
 ### PageHeader Component
 - File: `docs/PageHeader.md`
@@ -229,9 +229,9 @@ All component documentation is located in the `docs/` folder. The following docu
 ### AppShell Component
 - File: `docs/AppShell.md`
 - Purpose: Full-page layout combining optional Header (top), Footer (bottom), and MenuList as left sidebar with main content. For dashboard-style apps.
-- Key Features: header (Header props or ReactNode), footer (Footer props or ReactNode), sidebar (AppShellSidebarConfig: items, activeItem, onMenuClick, size, variant), sidebarWidth, mobileSidebarDrawer / mobileSidebarDrawerLabel, responsive (sidebar column hidden ≤1024px; default Floating UI drawer when no HeaderProps header, else header mobile menu); with Header + sidebar use Header `showCenterMenu: false` to avoid duplicate desktop nav
+- Key Features: header (Header props or ReactNode), footer (Footer props or ReactNode), sidebar (AppShellSidebarConfig: items, activeItem, onMenuClick, size, variant), sidebarWidth, mobileSidebarDrawer / mobileSidebarDrawerLabel, responsive (sidebar column hidden ≤1024px; default Floating UI drawer when no HeaderProps header, else header mobile menu); with Header + sidebar use Header `showCenterMenu: false` to avoid duplicate desktop nav; **headerRight** uses same account Dropdown pattern as standalone Header (`docs/Dropdown.md`)
 - Types: AppShellProps, AppShellSidebarConfig
-- Related Components: Header, Footer, MenuList (sidebar), Container, Typography, Avatar
+- Related Components: Header, Footer, MenuList (sidebar), Dropdown, Container, Typography, Avatar
 
 ## Documentation Format
 

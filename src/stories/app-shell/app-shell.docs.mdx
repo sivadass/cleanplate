@@ -6,11 +6,11 @@ import { AppShell, Container, Typography, Avatar } from "../../index";
 
 # AppShell
 
-The `AppShell` component provides a full-page layout that combines an optional **Header** (top), optional **Footer** (bottom), and an optional **MenuList** as a left **sidebar**, with the main content in the center. Use it for dashboard-style apps where the sidebar holds primary navigation and the header holds logo and utilities (e.g. user menu).
+The `AppShell` component provides a full-page layout that combines an optional **Header** (top), optional **Footer** (bottom), and an optional **MenuList** as a left **sidebar**, with the main content in the center. Use it for dashboard-style apps where the sidebar holds primary navigation and the header holds logo and utilities (e.g. user account **Dropdown** with **Avatar** trigger—same **`headerRight`** pattern as **`docs/Dropdown.md`** and standalone **Header**).
 
 ## Features
 
-- **Header slot:** Optional. Pass Header props (object) or custom ReactNode. Renders full width at the top.
+- **Header slot:** Optional. Pass Header props (object) or custom ReactNode. Renders full width at the top. When using **`header`**, **`headerRight`** should follow the same account-menu layout as a standalone **`Header`** (**`docs/Dropdown.md`** — *Recommended: account / user menu content*).
 - **Footer slot:** Optional. Pass Footer props (object) or custom ReactNode. Renders full width at the bottom.
 - **Sidebar:** Optional. Config object with `items`, `activeItem`, `onMenuClick`, and optional `size`/`variant`. Renders MenuList in vertical direction on the left.
 - **Sidebar width:** Configurable via `sidebarWidth` (e.g. `"240px"`, `"16rem"`).
@@ -45,6 +45,7 @@ const Dashboard = () => {
         showCenterMenu: false,
         activeMenuItem: active,
         onMenuItemClick: onMenuClick,
+        // Recommended: Dropdown + Avatar + user meta + MenuList — see docs/Dropdown.md
         headerRight: <Avatar name="User" />,
       }}
       footer={{ brandName: "Acme Inc" }}
@@ -159,7 +160,7 @@ No header, sidebar, or footer. Useful for login or landing pages.
 ## Behavior
 
 - **Layout:** Root is a flex column with `min-height: 100vh`. Header and footer slots are flex-shrink: 0. The body is a flex row (sidebar + main) with flex: 1; main is scrollable.
-- **Header / footer props:** When `header` or `footer` is a plain object (with `menuItems` for header or footer-specific keys), the component renders `<Header {...header} />` or `<Footer {...footer} />`. Otherwise it renders the ReactNode as-is.
+- **Header / footer props:** When `header` or `footer` is a plain object (with `menuItems` for header or footer-specific keys), the component renders `<Header {...header} />` or `<Footer {...footer} />`. Otherwise it renders the ReactNode as-is. **`header.headerRight`** should match standalone **`Header`** patterns (**`docs/Dropdown.md`** for account menus).
 - **Sidebar:** Rendered in an `<aside aria-label="Main navigation">` with a vertical MenuList. Width is set via inline style from `sidebarWidth`.
 - **Responsive / mobile nav:** At viewport width ≤ 1024px the sidebar column is hidden (CSS). When `header` is a Header props object, `mobileSidebarDrawer` defaults to `false` so you use the header’s mobile menu. Otherwise, with `sidebar` set, a Floating UI drawer (same MenuList) opens from a fixed trigger. Override with `mobileSidebarDrawer` / `mobileSidebarDrawerLabel`.
 - **No spacing props on root:** AppShell does not expose margin/padding; use `className` or `contentClassName` for layout tweaks.
@@ -170,8 +171,8 @@ No header, sidebar, or footer. Useful for login or landing pages.
 
 ## Related components
 
-- **Header** – Rendered in the header slot when `header` is a Header props object; often used with the same menu items as the sidebar for mobile.
+- **Header** – Rendered in the header slot when `header` is a Header props object; often used with the same menu items as the sidebar for mobile. **`headerRight`** user menus: **`docs/Dropdown.md`**
 - **Footer** – Rendered in the footer slot when `footer` is a Footer props object.
 - **MenuList** – Used inside the sidebar with `direction="vertical"`.
+- **Dropdown**, **Avatar**, **Typography** – Account **`headerRight`** pattern in **`docs/Dropdown.md`**; Avatar and Typography are also common in main content
 - **Container** – Use inside `children` for padding and layout of page content.
-- **Typography**, **Avatar** – Common content inside header and main.
