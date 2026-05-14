@@ -74,7 +74,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Avatar Component
 - File: `docs/Avatar.md`
 - Purpose: Displays user initials, an image, or a Material icon in a consistent circle. Use for user identity in headers, lists, MediaObject, or anywhere you need a compact avatar.
-- Key Features: Display modes (initials, image, icon), sizes (small, medium), margin spacing (suffix API: e.g. "0" → m-0), optional onClick
+- Key Features: Display modes (initials, image, icon), sizes (small, medium), margin spacing (suffix API: e.g. "0" → m-0), optional onClick; backgrounds from CSS (className overrides), no inline style prop
 - Types: AvatarProps, AvatarSize, AvatarMargin, SpacingOption; icon prop uses MaterialIconName from Icon
 - Related Components: Used by MediaObject; often used with Container, Icon
 

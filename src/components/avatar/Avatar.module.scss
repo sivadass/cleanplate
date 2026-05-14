@@ -19,7 +19,7 @@
     font-size: 20px;
   }
   &.image {
-    background: transparent;
+    background-color: var(--white);
     img {
       width: 100%;
       height: 100%;
@@ -28,7 +28,7 @@
     }
   }
   &.icon {
-    background-color: var(--primary-brand-light);
+    background-color: var(--primary-brand);
     display: flex;
     align-items: center;
     justify-content: center;

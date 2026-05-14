@@ -6,15 +6,16 @@ import { Avatar, Container } from "../../index";
 
 # Avatar
 
-The `Avatar` component displays user initials, an image, or a Material icon. It supports sizes, spacing (margin), and click events, and fits into layouts via standard div attributes.
+The `Avatar` component displays user initials, an image, or a Material icon. It supports sizes, spacing (margin), and click events. Backgrounds are applied via CSS modules; use **`className`** to override—**`style`** is not part of the Avatar API.
 
 ## Features
 
 - **Display modes:** Initials (from `name`), image (from `image` URL), or icon (Material icon name)
 - **Priority:** When both are set, image is shown over icon over initials
+- **Backgrounds:** Initials and icon use `var(--primary-brand)`; image mode uses `var(--white)` behind the photo for transparent assets
 - **Sizes:** `small`, `medium`
 - **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0, `"2"` → m-2)
-- **Interactive:** Optional `onClick`; root is a `div` so it accepts standard HTML attributes
+- **Interactive:** Optional `onClick`; root is a `div` with standard attributes except `style`
 
 ## Usage
 
@@ -30,7 +31,7 @@ const App = () => (
 
 ### Name (initials)
 
-When only `name` is provided, the avatar shows initials and uses the name for background color and `title`.
+When only `name` is provided, the avatar shows initials and `title`; fill comes from the default theme token (override with **`className`** + CSS).
 
 ```jsx
 <Avatar name="John Doe" size="medium" />
@@ -93,8 +94,7 @@ Pass `onClick` to make the avatar interactive.
 
 - **Display priority:** If `image` is set, the image is shown. Else if `icon` is set, the icon is shown. Otherwise initials from `name` are shown.
 - **Initials:** Derived from the first letter of each word in `name` (up to 2 characters).
-- **Background color:** When showing initials, background is generated from `name` (deterministic hash).
-- **Root element:** A `div`; all standard div attributes (`className`, `style`, `data-*`, `aria-*`, etc.) are supported via props.
+- **Styling:** No inline **`style`** on the root; use **`className`** and your own CSS to customize appearance.
 
 ## Props
 

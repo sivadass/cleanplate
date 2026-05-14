@@ -6,17 +6,6 @@ export const getInitials = (name = "") => {
   return initials.substring(0, 2);
 };
 
-export const getAvatarBgColor = (name = "") => {
-  // Generate a random solid color contrast enough to be visible with white text
-  // Use the hash of the name to generate the color
-  const hash = name.split("").reduce((acc, char) => {
-    return acc + char.charCodeAt(0);
-  }, 0);
-  // Use the hash to generate a color
-  const color = `#${hash.toString(16).substring(0, 6)}`;
-  return color;
-};  
-
 export const getSpacingClass = (marginConfig, styleObject, prefix) => {
   if (typeof marginConfig === "string") {
     const prefixedClass = `${prefix}-${marginConfig}`;

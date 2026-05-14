@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Avatar.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
-import { getSpacingClass, getInitials, getAvatarBgColor } from "../../utils/common";
+import { getSpacingClass, getInitials } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import Icon from "../icon";
@@ -13,7 +13,8 @@ export type AvatarSize = "small" | "medium";
 
 export type AvatarMargin = string | SpacingOption[];
 
-export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface AvatarProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "style"> {
   /** Display name; used for initials and title when no image/icon */
   name?: string;
   /** Image URL; when set, shows image instead of initials */
@@ -28,7 +29,7 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Avatar: React.FC<AvatarProps> = ({
   size = "medium",
-  margin = "m-0",
+  margin = "0",
   onClick,
   name = "",
   image = "",
@@ -46,20 +47,19 @@ const Avatar: React.FC<AvatarProps> = ({
     {
       [styles["image"]]: !!image,
       [styles["icon"]]: !!icon,
-    }
+    },
   );
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (typeof onClick === "function") {
       onClick(e);
     }
   };
-  const bgColor = getAvatarBgColor(name);
+
   return (
     <div
       className={avatarClasses}
       onClick={handleClick}
       title={name}
-      style={{ backgroundColor: bgColor }}
       {...rest}
     >
       {!icon && image && <img src={image} alt={name} />}

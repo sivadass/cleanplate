@@ -9,7 +9,7 @@ Purpose: Combines fixed media (`Avatar`: icon, image, or initials) with a dense 
 | title | string | yes | — | Primary line (e.g. name, sender). Rendered emphasized. |
 | mediaIcon | `MaterialIconName` \| string | no | "" | Material Symbol name passed to `Avatar`. |
 | mediaImage | string | no | "" | Image URL for `Avatar`. |
-| mediaAvatar | string | no | "" | Display name used for initials and avatar color generation (when image/icon not shown). |
+| mediaAvatar | string | no | "" | Display name used for initials when image/icon are not shown. |
 | subtitle | `React.ReactNode` | no | — | Optional middle line (e.g. subject). Omit for two-line layouts. |
 | description | `React.ReactNode` | no | — | Optional preview/snippet line(s); muted, multi-line ellipsis via `--cp-media-object-desc-lines`. |
 | descriptionLineClamp | number | no | 2 | Max lines for `description` before truncation. |
