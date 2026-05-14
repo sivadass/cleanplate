@@ -13,6 +13,7 @@ Purpose: Responsive navigation header with logo, menu items, and customizable le
 | headerLeft | ReactNode | no | — | Custom content for the left area (replaces logo when provided). |
 | headerRight | ReactNode | no | — | Custom content for the right area. |
 | headerCenter | ReactNode | no | — | Custom content for the center area (replaces MenuList when provided). |
+| showCenterMenu | boolean | no | true | When true, shows `menuItems` in the center on wide viewports. Set false when primary nav is only in a sidebar; `menuItems` is still used for the mobile menu. |
 | menuItems | MenuListItem[] | yes | — | Menu items for center nav and mobile menu; each has label, value, optional icon. |
 | size | "small" \| "medium" \| "large" | no | — | Size of the header. |
 | variant | "light" \| "dark" | no | — | Visual variant. |
@@ -45,6 +46,7 @@ interface HeaderProps {
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
   headerCenter?: React.ReactNode;
+  showCenterMenu?: boolean;
   menuItems: MenuListItem[];
   size?: HeaderSize;
   variant?: HeaderVariant;
@@ -79,6 +81,21 @@ const AppHeader = () => {
 };
 ```
 
+### With AppShell (desktop nav in sidebar only)
+
+Use `showCenterMenu: false` so `menuItems` is only used for the header’s mobile menu while the sidebar shows the same links on desktop.
+
+```jsx
+<Header
+  logoUrl="/logo.svg"
+  menuItems={MENU_ITEMS}
+  showCenterMenu={false}
+  activeMenuItem={active}
+  onMenuItemClick={onMenuClick}
+  headerRight={<Avatar name="User" />}
+/>
+```
+
 ### With custom slots
 
 ```jsx
@@ -103,6 +120,7 @@ const AppHeader = () => {
 
 - **menuItems:** Required; each item has label, value, optional icon (Material icon name).
 - **headerLeft / headerCenter / headerRight:** When provided, replace the default logo, MenuList, or right slot.
+- **showCenterMenu:** When `false`, the center column is empty on desktop (unless `headerCenter` is set). `menuItems` is still used for the mobile overlay.
 - **Mobile:** Below 1024px, center nav hides; hamburger shows. Click opens slide-in menu (Animated fade-in-left).
 - **onMenuItemClick:** Called with the clicked item; mobile menu closes on click.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0).

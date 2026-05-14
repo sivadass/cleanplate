@@ -104,6 +104,7 @@ const Nav = () => {
 - **DOM:** A `div` wrapping a `ul` of `li` elements; each `li` contains an anchor.
 - **Animated:** Each item is wrapped in Animated with `fade-in-left` and staggered delay.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0, `"b-2"` → m-b-2).
+- **Responsive (root):** At viewport width **≤1024px**, the root `.wrapper` gets extra padding, full viewport min-height, and constrained max-width so the list reads well in the header mobile sheet and similar narrow layouts (including AppShell’s mobile drawer).
 
 ## Related Components / Links
 

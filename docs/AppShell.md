@@ -1,6 +1,6 @@
 # AppShell Component
 
-Purpose: Full-page layout that combines an optional Header (top), optional Footer (bottom), and an optional MenuList as a left sidebar, with main content in the center. Use for dashboard-style apps where the sidebar holds primary navigation and the header holds logo and utilities (e.g. user menu). Sidebar is hidden below 1024px; pass the same menu items to the header for the header’s mobile menu.
+Purpose: Full-page layout that combines an optional Header (top), optional Footer (bottom), and an optional MenuList as a left sidebar, with main content in the center. Use for dashboard-style apps where the sidebar holds primary navigation and the header holds logo and utilities (e.g. user menu). Sidebar is hidden below 1024px; pass the same menu items to the header for the header’s mobile menu. To avoid duplicating nav in the header center on desktop, set **`showCenterMenu: false`** on Header props (see `docs/Header.md`).
 
 ## Props / Inputs
 
@@ -69,8 +69,9 @@ const Dashboard = () => {
         variant: "light",
       }}
       header={{
-        logoUrl="/logo.svg",
+        logoUrl: "/logo.svg",
         menuItems: MENU_ITEMS,
+        showCenterMenu: false,
         activeMenuItem: active,
         onMenuItemClick: onMenuClick,
         headerRight: <Avatar name="User" />,
@@ -108,7 +109,7 @@ const Dashboard = () => {
 ```jsx
 <AppShell
   header={{
-    logoUrl="/logo.svg",
+    logoUrl: "/logo.svg",
     menuItems,
     activeMenuItem: active,
     onMenuItemClick: (item) => setActive(item.value),
@@ -137,12 +138,12 @@ const Dashboard = () => {
 - **Layout:** Root is a flex column with `min-height: 100vh`. Header and footer slots are full width; body is a flex row (sidebar + main). Main area is scrollable.
 - **Header / footer:** When `header` or `footer` is a plain object with Header/Footer props (e.g. `menuItems` for header), the component renders `<Header {...header} />` or `<Footer {...footer} />`. Otherwise it renders the ReactNode as-is.
 - **Sidebar:** Rendered in an `<aside aria-label="Main navigation">` with MenuList `direction="vertical"`. Width from `sidebarWidth` (inline style).
-- **Responsive:** At viewport width ≤ 1024px the sidebar column is hidden via CSS. When `header` is `HeaderProps`, the default is to rely on the header’s mobile menu for the same items. When there is no header (or `mobileSidebarDrawer` is `true`), AppShell renders a **Floating UI** mobile drawer: fixed menu trigger, `FloatingPortal` + `FloatingOverlay` (scroll lock) + `FloatingFocusManager` (modal focus), dismiss on overlay press and Escape, and the same `MenuList` as the sidebar.
+- **Responsive:** At viewport width ≤ 1024px the sidebar column is hidden via CSS. When `header` is `HeaderProps`, the default is to rely on the header’s mobile menu for the same items. When there is no header (or `mobileSidebarDrawer` is `true`), AppShell renders a **Floating UI** mobile drawer: fixed menu trigger, `FloatingPortal` + `FloatingOverlay` (scroll lock) + `FloatingFocusManager` (modal focus), dismiss on overlay press and Escape, and the same `MenuList` as the sidebar. On desktop, use Header’s **`showCenterMenu: false`** when the sidebar already shows the same items so the header center stays empty (or use **`headerCenter`** for a title or other content).
 - **No root spacing props:** AppShell does not expose margin/padding; use `className` or `contentClassName` for layout.
 
 ## Related Components / Links
 
-- Header (rendered in header slot when header is Header props; use same menu items for mobile)
+- Header (Header props or custom node; with sidebar + `HeaderProps`, pass **`showCenterMenu: false`** to hide duplicate center nav on desktop while keeping `menuItems` for the mobile menu)
 - Footer (rendered in footer slot when footer is Footer props)
 - MenuList (used in sidebar with direction="vertical")
 - Container (wrap page content inside children)

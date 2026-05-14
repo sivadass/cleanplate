@@ -53,9 +53,8 @@
     height: 50px;
     min-width: 96px;
     &.icon {
-      min-width: 40px;
-      padding-left: 8px;
-      padding-right: 8px;
+      min-width: 50px;
+      padding: 0 8px;
     }
   }
   &.outline {

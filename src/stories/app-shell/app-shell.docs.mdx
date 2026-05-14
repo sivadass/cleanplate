@@ -14,7 +14,7 @@ The `AppShell` component provides a full-page layout that combines an optional *
 - **Footer slot:** Optional. Pass Footer props (object) or custom ReactNode. Renders full width at the bottom.
 - **Sidebar:** Optional. Config object with `items`, `activeItem`, `onMenuClick`, and optional `size`/`variant`. Renders MenuList in vertical direction on the left.
 - **Sidebar width:** Configurable via `sidebarWidth` (e.g. `"240px"`, `"16rem"`).
-- **Responsive:** Sidebar column is hidden below 1024px. With a `HeaderProps` header, the default is to use the header’s mobile menu for the same items (`mobileSidebarDrawer` defaults off). Without that, AppShell uses a **Floating UI** mobile drawer (trigger, portal, overlay with scroll lock, modal focus).
+- **Responsive:** Sidebar column is hidden below 1024px. With a `HeaderProps` header, the default is to use the header’s mobile menu for the same items (`mobileSidebarDrawer` defaults off). Without that, AppShell uses a **Floating UI** mobile drawer (trigger, portal, overlay with scroll lock, modal focus). On desktop, set **`showCenterMenu: false`** on Header when the sidebar shows the same links so the header center is not duplicated (or use **`headerCenter`** for a title).
 - **Main content:** `children` render inside a scrollable `<main>`; optional `contentClassName`.
 
 ## Usage
@@ -40,8 +40,9 @@ const Dashboard = () => {
         variant: "light",
       }}
       header={{
-        logoUrl="/logo.svg",
+        logoUrl: "/logo.svg",
         menuItems: MENU_ITEMS,
+        showCenterMenu: false,
         activeMenuItem: active,
         onMenuItemClick: onMenuClick,
         headerRight: <Avatar name="User" />,
@@ -75,8 +76,9 @@ const onMenuClick = (item) => setActive(item.value);
     variant: "light",
   }}
   header={{
-    logoUrl="/logo.svg",
+    logoUrl: "/logo.svg",
     menuItems,
+    showCenterMenu: false,
     activeMenuItem: active,
     onMenuItemClick: onMenuClick,
     headerRight: <Avatar name="Jane" />,
@@ -117,7 +119,7 @@ Full-width header and footer; no sidebar. Use when navigation lives in the heade
 ```jsx
 <AppShell
   header={{
-    logoUrl="/logo.svg",
+    logoUrl: "/logo.svg",
     menuItems,
     activeMenuItem: active,
     onMenuItemClick: (item) => setActive(item.value),

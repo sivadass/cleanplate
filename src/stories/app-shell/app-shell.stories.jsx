@@ -24,6 +24,7 @@ const defaultSidebar = {
 const defaultHeader = {
   logoUrl: "https://f005.backblazeb2.com/file/sivadass-cloud/cleanplate-logo.svg",
   menuItems: DEFAULT_MENU_ITEMS,
+  showCenterMenu: false,
   activeMenuItem: "/",
   headerRight: <Avatar size="medium" name="John" />,
 };
@@ -58,7 +59,7 @@ const meta = {
     },
     sidebarWidth: {
       control: "text",
-      description: "Width of the sidebar (e.g. 240px, 16rem)",
+      description: "Width of the sidebar (e.g. 252px, 16rem)",
     },
     className: {
       control: "text",
@@ -78,7 +79,7 @@ const meta = {
     sidebar: defaultSidebar,
     header: defaultHeader,
     footer: defaultFooter,
-    sidebarWidth: "240px",
+    sidebarWidth: "252px",
     className: "",
     contentClassName: "",
   },
@@ -111,9 +112,9 @@ export const Default = {
             Dashboard
           </Typography>
           <Typography variant="p">
-            Main content area. Resize the viewport to see the sidebar hide at
-            1024px; use the header hamburger menu for navigation on small
-            screens.
+            Primary navigation is in the sidebar on desktop; the header keeps
+            the same <code>menuItems</code> for the mobile menu only (
+            <code>showCenterMenu: false</code>).
           </Typography>
         </Container>
       </AppShell>
@@ -137,6 +138,7 @@ export const FullDashboard = {
         header={{
           logoUrl: "https://f005.backblazeb2.com/file/sivadass-cloud/cleanplate-logo.svg",
           menuItems: DEFAULT_MENU_ITEMS,
+          showCenterMenu: false,
           activeMenuItem: activeItem,
           onMenuItemClick: handleMenuClick,
           headerRight: <Avatar size="medium" name="Jane" />,
@@ -146,15 +148,16 @@ export const FullDashboard = {
           poweredByLabel: "Powered by CleanPlate",
           poweredByLink: "https://github.com/sivadass/cleanplate",
         }}
-        sidebarWidth="260px"
+        sidebarWidth="252px"
       >
         <Container padding="4">
           <Typography variant="h4" margin="m-0 m-b-2">
             {DEFAULT_MENU_ITEMS.find((i) => i.value === activeItem)?.label ?? "Page"}
           </Typography>
           <Typography variant="p">
-            Page content goes here. The sidebar and header share the same menu
-            items and active state.
+            Page content goes here. The sidebar shows nav on desktop; the header
+            uses <code>showCenterMenu: false</code> so the same items only appear
+            in the mobile menu.
           </Typography>
         </Container>
       </AppShell>
@@ -175,7 +178,7 @@ export const SidebarOnly = {
           onMenuClick: handleMenuClick,
           variant: "light",
         }}
-        sidebarWidth="240px"
+        sidebarWidth="252px"
       >
         <Container padding="4">
           <Typography variant="h5" margin="m-0 m-b-2">

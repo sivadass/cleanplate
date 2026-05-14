@@ -45,12 +45,18 @@ const meta = {
       control: { type: "select" },
       description: "Margin spacing (suffix: e.g. '0' applies m-0)",
     },
+    showCenterMenu: {
+      control: "boolean",
+      description:
+        "When false, hides desktop center MenuList (e.g. with AppShell sidebar); menuItems still used for mobile",
+    },
     onMenuItemClick: { action: "onMenuItemClick" },
   },
   args: {
     logoUrl: "https://f005.backblazeb2.com/file/sivadass-cloud/cleanplate-logo.svg",
     activeMenuItem: "/",
     menuItems: DEFAULT_MENU_ITEMS,
+    showCenterMenu: true,
     headerRight: <Avatar size="medium" name="John" />,
     margin: "0",
   },

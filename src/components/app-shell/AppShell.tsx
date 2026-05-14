@@ -87,12 +87,33 @@ const leftEdgePositionReference: VirtualElement = {
   },
 };
 
+/** Shared vertical `MenuList` for desktop sidebar and mobile drawer. */
+function SidebarVerticalMenu({
+  config,
+  onMenuClick,
+}: {
+  config: AppShellSidebarConfig;
+  onMenuClick?: (item: MenuListItem) => void;
+}) {
+  return (
+    <MenuList
+      items={config.items}
+      activeItem={config.activeItem}
+      onMenuClick={onMenuClick ?? config.onMenuClick}
+      direction="vertical"
+      size={config.size}
+      variant={config.variant}
+      margin="0"
+    />
+  );
+}
+
 const AppShell: React.FC<AppShellProps> = ({
   children,
   header,
   footer,
   sidebar,
-  sidebarWidth = "240px",
+  sidebarWidth = "272px",
   mobileSidebarDrawer: mobileSidebarDrawerProp,
   mobileSidebarDrawerLabel = "Main navigation",
   className = "",
@@ -119,12 +140,17 @@ const AppShell: React.FC<AppShellProps> = ({
     showMobileSidebarDrawer &&
     isMobileSidebarBreakpoint;
 
-  const { refs, context, floatingStyles } = useFloating({
-    open: drawerEnabled && mobileDrawerOpen,
-    onOpenChange(next) {
+  const handleDrawerOpenChange = useCallback(
+    (next: boolean) => {
       if (!drawerEnabled) return;
       setMobileDrawerOpen(next);
     },
+    [drawerEnabled],
+  );
+
+  const { refs, context, floatingStyles } = useFloating({
+    open: drawerEnabled && mobileDrawerOpen,
+    onOpenChange: handleDrawerOpenChange,
     placement: "right-start",
     strategy: "fixed",
     transform: false,
@@ -156,31 +182,11 @@ const AppShell: React.FC<AppShellProps> = ({
     [sidebar],
   );
 
+  const closeMobileDrawer = useCallback(() => {
+    setMobileDrawerOpen(false);
+  }, []);
+
   const mobileDrawerMounted = drawerEnabled && mobileDrawerOpen;
-
-  const sidebarMenuList = sidebar !== undefined && (
-    <MenuList
-      items={sidebar.items}
-      activeItem={sidebar.activeItem}
-      onMenuClick={sidebar.onMenuClick}
-      direction="vertical"
-      size={sidebar.size}
-      variant={sidebar.variant}
-      margin="0"
-    />
-  );
-
-  const mobileDrawerMenuList = sidebar !== undefined && (
-    <MenuList
-      items={sidebar.items}
-      activeItem={sidebar.activeItem}
-      onMenuClick={handleMobileMenuClick}
-      direction="vertical"
-      size={sidebar.size}
-      variant={sidebar.variant}
-      margin="0"
-    />
-  );
 
   return (
     <div className={rootClassName}>
@@ -197,7 +203,7 @@ const AppShell: React.FC<AppShellProps> = ({
             style={{ width: sidebarWidth }}
             aria-label="Main navigation"
           >
-            {sidebarMenuList}
+            <SidebarVerticalMenu config={sidebar} />
           </aside>
         )}
 
@@ -250,12 +256,15 @@ const AppShell: React.FC<AppShellProps> = ({
                       variant="icon"
                       className={styles["drawer-close"]}
                       aria-label="Close navigation menu"
-                      onClick={() => setMobileDrawerOpen(false)}
+                      onClick={closeMobileDrawer}
                     >
                       <Icon name="close" />
                     </Button>
                   </div>
-                  {mobileDrawerMenuList}
+                  <SidebarVerticalMenu
+                    config={sidebar}
+                    onMenuClick={handleMobileMenuClick}
+                  />
                 </div>
               </FloatingFocusManager>
             </FloatingPortal>

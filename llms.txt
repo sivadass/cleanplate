@@ -194,14 +194,14 @@ All component documentation is located in the `docs/` folder. The following docu
 ### MenuList Component
 - File: `docs/MenuList.md`
 - Purpose: Renders a list of navigational items with optional icons, active state highlighting, and customizable layout.
-- Key Features: items (label, value, icon), activeItem, direction (horizontal, vertical), sizes (small, medium, large), variants (light, dark), margin (suffix API), onMenuClick(item), Animated entrance
+- Key Features: items (label, value, icon), activeItem, direction (horizontal, vertical), sizes (small, medium, large), variants (light, dark), margin (suffix API), onMenuClick(item), Animated entrance, responsive root layout at ≤1024px (padding, min-height) for mobile nav contexts
 - Types: MenuListProps, MenuListItem, MenuListSize, MenuListVariant, MenuListDirection, MenuListMargin
 - Related Components: Dropdown (content), Header (navigation), Container, Typography, Icon, Animated (used internally)
 
 ### Header Component
 - File: `docs/Header.md`
 - Purpose: Responsive navigation header with logo, menu items, and customizable left/center/right slots.
-- Key Features: logoUrl, menuItems, activeMenuItem, onMenuItemClick, headerLeft, headerCenter, headerRight, sizes (small, medium, large), variants (light, dark), margin (suffix API), responsive mobile menu
+- Key Features: logoUrl, menuItems, activeMenuItem, onMenuItemClick, headerLeft, headerCenter, headerRight, showCenterMenu, sizes (small, medium, large), variants (light, dark), margin (suffix API), responsive mobile menu
 - Types: HeaderProps, HeaderSize, HeaderVariant, HeaderMargin
 - Related Components: MenuList (center and mobile menu), Avatar (headerRight), Button, Icon, Animated (used internally)
 
@@ -229,7 +229,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### AppShell Component
 - File: `docs/AppShell.md`
 - Purpose: Full-page layout combining optional Header (top), Footer (bottom), and MenuList as left sidebar with main content. For dashboard-style apps.
-- Key Features: header (Header props or ReactNode), footer (Footer props or ReactNode), sidebar (AppShellSidebarConfig: items, activeItem, onMenuClick, size, variant), sidebarWidth, mobileSidebarDrawer / mobileSidebarDrawerLabel, responsive (sidebar column hidden ≤1024px; default Floating UI drawer when no HeaderProps header, else header mobile menu)
+- Key Features: header (Header props or ReactNode), footer (Footer props or ReactNode), sidebar (AppShellSidebarConfig: items, activeItem, onMenuClick, size, variant), sidebarWidth, mobileSidebarDrawer / mobileSidebarDrawerLabel, responsive (sidebar column hidden ≤1024px; default Floating UI drawer when no HeaderProps header, else header mobile menu); with Header + sidebar use Header `showCenterMenu: false` to avoid duplicate desktop nav
 - Types: AppShellProps, AppShellSidebarConfig
 - Related Components: Header, Footer, MenuList (sidebar), Container, Typography, Avatar
 

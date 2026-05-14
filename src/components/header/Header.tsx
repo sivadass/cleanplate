@@ -33,6 +33,12 @@ export interface HeaderProps {
   headerRight?: React.ReactNode;
   /** Custom content for the center area (replaces MenuList when provided) */
   headerCenter?: React.ReactNode;
+  /**
+   * When true (default), renders `menuItems` as the center nav on wide viewports.
+   * Set false when primary nav lives elsewhere (e.g. AppShell sidebar) while
+   * keeping `menuItems` for the mobile hamburger menu.
+   */
+  showCenterMenu?: boolean;
   /** Menu items for the center/vertical menu */
   menuItems: MenuListItem[];
   /** Size of the header */
@@ -51,6 +57,7 @@ const Header: React.FC<HeaderProps> = ({
   headerLeft,
   headerRight,
   headerCenter,
+  showCenterMenu = true,
   size,
   variant,
   margin,
@@ -88,9 +95,9 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className={headerClassNames}>
       <div className={styles.wrapper}>
-        <div className={styles.headerLeft}>
+        <div className={styles["header-left"]}>
           <Button
-            className={styles.mobileMenuTrigger}
+            className={styles["mobile-menu-trigger"]}
             variant="icon"
             onClick={handleOpenMobileMenu}
           >
@@ -102,21 +109,25 @@ const Header: React.FC<HeaderProps> = ({
             <img className={styles.logo} src={logoUrl} alt="" />
           ) : null}
         </div>
-        <div className={styles.headerCenter}>
-          {headerCenter ?? (
-            <MenuList
-              items={menuItems}
-              activeItem={activeMenuItem}
-              onMenuClick={handleMenuItem}
-            />
-          )}
+        <div className={styles["header-center"]}>
+          {headerCenter ??
+            (showCenterMenu ? (
+              <MenuList
+                items={menuItems}
+                activeItem={activeMenuItem}
+                onMenuClick={handleMenuItem}
+              />
+            ) : null)}
         </div>
-        <div className={styles.headerRight}>{headerRight}</div>
+        <div className={styles["header-right"]}>{headerRight}</div>
       </div>
       {isMobileMenuOpen && (
-        <Animated animationType={animationType} className={styles.mobileMenu}>
+        <Animated animationType={animationType} className={styles["mobile-menu"]}>
           <Button
-            className={getClassNames(styles.mobileMenuTrigger, styles.mobileMenuClose)}
+            className={getClassNames(
+              styles["mobile-menu-trigger"],
+              styles["mobile-menu-close"],
+            )}
             variant="icon"
             onClick={handleCloseMobileMenu}
           >
