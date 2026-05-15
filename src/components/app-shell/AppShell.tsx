@@ -261,10 +261,12 @@ const AppShell: React.FC<AppShellProps> = ({
                       <Icon name="close" />
                     </Button>
                   </div>
-                  <SidebarVerticalMenu
-                    config={sidebar}
-                    onMenuClick={handleMobileMenuClick}
-                  />
+                  <div className={styles["mobile-drawer-nav"]}>
+                    <SidebarVerticalMenu
+                      config={sidebar}
+                      onMenuClick={handleMobileMenuClick}
+                    />
+                  </div>
                 </div>
               </FloatingFocusManager>
             </FloatingPortal>

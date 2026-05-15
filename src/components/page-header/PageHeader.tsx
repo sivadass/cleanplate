@@ -67,10 +67,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const rootClassName = getClassNames(styles["cp-page-header"], className);
 
   const renderMoreTrigger = ({ triggerProps }: DropdownRenderTriggerParams) => (
-    <span
-      ref={triggerProps.ref as React.RefObject<HTMLSpanElement>}
-      style={{ display: "inline-flex" }}
-    >
+    <span ref={triggerProps.ref} style={{ display: "inline-flex" }}>
       <Button
         variant="icon"
         size="small"

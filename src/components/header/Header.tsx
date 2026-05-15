@@ -133,12 +133,14 @@ const Header: React.FC<HeaderProps> = ({
           >
             <Icon name="close" />
           </Button>
-          <MenuList
-            direction="vertical"
-            items={menuItems}
-            activeItem={activeMenuItem}
-            onMenuClick={handleMenuItem}
-          />
+          <div className={styles["mobile-menu-nav"]}>
+            <MenuList
+              direction="vertical"
+              items={menuItems}
+              activeItem={activeMenuItem}
+              onMenuClick={handleMenuItem}
+            />
+          </div>
         </Animated>
       )}
     </div>

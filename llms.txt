@@ -194,7 +194,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### MenuList Component
 - File: `docs/MenuList.md`
 - Purpose: Renders a list of navigational items with optional icons, active state highlighting, and customizable layout.
-- Key Features: items (label, value, icon), activeItem, direction (horizontal, vertical), sizes (small, medium, large), variants (light, dark), margin (suffix API), onMenuClick(item), Animated entrance, responsive root layout at ≤1024px (padding, min-height) for mobile nav contexts
+- Key Features: items (label, value, icon), activeItem, direction (horizontal, vertical), sizes (small, medium, large), variants (light, dark), margin (suffix API), onMenuClick(item), Animated entrance
 - Types: MenuListProps, MenuListItem, MenuListSize, MenuListVariant, MenuListDirection, MenuListMargin
 - Related Components: Dropdown (content), Header (navigation), Container, Typography, Icon, Animated (used internally)
 

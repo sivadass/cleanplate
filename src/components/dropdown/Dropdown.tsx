@@ -1,12 +1,20 @@
 import React, {
   useState,
-  useRef,
   cloneElement,
   useEffect,
-  type RefObject,
+  useMemo,
   type MouseEvent as ReactMouseEvent,
   type KeyboardEvent as ReactKeyboardEvent,
+  type Ref,
 } from "react";
+import {
+  autoUpdate,
+  flip,
+  offset,
+  shift,
+  useFloating,
+} from "@floating-ui/react";
+import type { Placement } from "@floating-ui/react";
 import styles from "./Dropdown.module.css";
 import Button from "../button";
 import Icon from "../icon";
@@ -26,7 +34,7 @@ export type DropdownPlacement =
   | "right-end";
 
 export interface DropdownTriggerProps {
-  ref: RefObject<HTMLElement | null>;
+  ref: Ref<HTMLElement>;
   onClick: (e: ReactMouseEvent<HTMLElement>) => void;
   className: string;
   role: string;
@@ -70,35 +78,20 @@ export interface DropdownProps {
   triggerLabel?: string;
 }
 
-const PLACEMENT_MAP: Record<DropdownPlacement, string> = {
-  top: styles["dropdown-top"],
-  "top-start": styles["dropdown-top-start"],
-  "top-end": styles["dropdown-top-end"],
-  bottom: styles["dropdown-bottom"],
-  "bottom-start": styles["dropdown-bottom-start"],
-  "bottom-end": styles["dropdown-bottom-end"],
-  left: styles["dropdown-left"],
-  "left-start": styles["dropdown-left-start"],
-  "left-end": styles["dropdown-left-end"],
-  right: styles["dropdown-right"],
-  "right-start": styles["dropdown-right-start"],
-  "right-end": styles["dropdown-right-end"],
-};
+type RefCallback<T> = (instance: T | null) => void;
 
-const FLIP_PLACEMENTS: Record<DropdownPlacement, DropdownPlacement> = {
-  top: "bottom",
-  "top-start": "bottom-start",
-  "top-end": "bottom-end",
-  bottom: "top",
-  "bottom-start": "top-start",
-  "bottom-end": "top-end",
-  left: "right",
-  "left-start": "right-start",
-  "left-end": "right-end",
-  right: "left",
-  "right-start": "left-start",
-  "right-end": "left-end",
-};
+function composeRefs<T>(...refs: (Ref<T> | undefined | null)[]): RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (ref == null) return;
+      if (typeof ref === "function") {
+        ref(value);
+      } else {
+        (ref as React.MutableRefObject<T | null>).current = value;
+      }
+    });
+  };
+}
 
 const Dropdown: React.FC<DropdownProps> = ({
   trigger,
@@ -116,9 +109,22 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [adjustedPlacement, setAdjustedPlacement] = useState<DropdownPlacement>(placement);
-  const triggerRef = useRef<HTMLElement | null>(null);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const floatingMiddleware = useMemo(
+    () => [
+      offset(offsetValue),
+      ...(flipValue ? [flip({ padding: 8 })] : []),
+      ...(shiftValue ? [shift({ padding: 8 })] : []),
+    ],
+    [offsetValue, flipValue, shiftValue],
+  );
+
+  const { refs, floatingStyles, placement: resolvedPlacement } = useFloating({
+    placement: placement as Placement,
+    strategy: "absolute",
+    middleware: floatingMiddleware,
+    whileElementsMounted: autoUpdate,
+  });
 
   const handleToggle = () => {
     if (isOpen) {
@@ -133,73 +139,19 @@ const Dropdown: React.FC<DropdownProps> = ({
     setIsAnimating(false);
     setTimeout(() => {
       setIsOpen(false);
-      setAdjustedPlacement(placement);
     }, 150);
-  };
-
-  const calculatePlacement = (): DropdownPlacement => {
-    if (!triggerRef.current || !dropdownRef.current) return placement;
-
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const dropdownRect = dropdownRef.current.getBoundingClientRect();
-    const viewport = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-
-    let newPlacement: DropdownPlacement = placement;
-    const margin = 8;
-
-    if (dropdownRef.current) {
-      dropdownRef.current.style.setProperty("--offset", `${offsetValue}px`);
-    }
-
-    if (flipValue) {
-      const isOutsideViewport =
-        dropdownRect.left < margin ||
-        dropdownRect.right > viewport.width - margin ||
-        dropdownRect.top < margin ||
-        dropdownRect.bottom > viewport.height - margin;
-
-      if (isOutsideViewport) {
-        newPlacement = FLIP_PLACEMENTS[placement] ?? placement;
-      }
-    }
-
-    if (shiftValue) {
-      let shiftX = 0;
-      let shiftY = 0;
-
-      if (dropdownRect.left < margin) {
-        shiftX = margin - dropdownRect.left;
-      } else if (dropdownRect.right > viewport.width - margin) {
-        shiftX = viewport.width - margin - dropdownRect.right;
-      }
-
-      if (dropdownRect.top < margin) {
-        shiftY = margin - dropdownRect.top;
-      } else if (dropdownRect.bottom > viewport.height - margin) {
-        shiftY = viewport.height - margin - dropdownRect.bottom;
-      }
-
-      if (dropdownRef.current) {
-        dropdownRef.current.style.setProperty("--shift-x", `${shiftX}px`);
-        dropdownRef.current.style.setProperty("--shift-y", `${shiftY}px`);
-      }
-    }
-
-    return newPlacement;
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
         closeOnClickOutside &&
         isOpen &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(event.target as Node)
+        refs.floating.current &&
+        !refs.floating.current.contains(target) &&
+        refs.domReference.current &&
+        !refs.domReference.current.contains(target)
       ) {
         setIsOpen(false);
       }
@@ -220,20 +172,13 @@ const Dropdown: React.FC<DropdownProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape as EventListener);
     };
-  }, [isOpen, closeOnClickOutside, closeOnEscape]);
+  }, [isOpen, closeOnClickOutside, closeOnEscape, refs]);
 
-  useEffect(() => {
-    if (isOpen && dropdownRef.current) {
-      requestAnimationFrame(() => {
-        const newPlacement = calculatePlacement();
-        setAdjustedPlacement(newPlacement);
-      });
-    }
-  }, [isOpen, placement, flipValue, shiftValue]);
+  const placementForTrigger = (isOpen ? resolvedPlacement : placement) as DropdownPlacement;
 
   const createTriggerElement = (): React.ReactNode => {
     const triggerProps: DropdownTriggerProps = {
-      ref: triggerRef as RefObject<HTMLElement | null>,
+      ref: refs.setReference,
       onClick: handleToggle as (e: ReactMouseEvent<HTMLElement>) => void,
       className: `${styles["dropdown-trigger"]} ${isOpen ? styles["active"] : ""}`.trim(),
       role: "button",
@@ -245,7 +190,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       return renderTrigger({
         isOpen,
         isAnimating,
-        placement: adjustedPlacement,
+        placement: placementForTrigger,
         toggle: handleToggle,
         close: handleClose,
         triggerProps,
@@ -254,7 +199,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
     if (triggerLabel) {
       return (
-        <span ref={triggerRef as RefObject<HTMLSpanElement | null>} style={{ display: "inline-flex" }}>
+        <span ref={refs.setReference} style={{ display: "inline-flex" }}>
           <Button
             variant="outline"
             onClick={handleToggle}
@@ -274,10 +219,12 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
 
     if (trigger) {
+      const userRef = (trigger as React.ReactElement & { ref?: Ref<HTMLElement> }).ref;
       return cloneElement(trigger, {
         ...triggerProps,
+        ref: composeRefs(userRef, refs.setReference),
         className: `${(trigger.props as { className?: string }).className ?? ""} ${triggerProps.className}`.trim(),
-      } as Partial<{ className: string }>);
+      } as Partial<{ className: string; ref: Ref<HTMLElement> }>);
     }
 
     return null;
@@ -285,7 +232,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   if (!trigger && !renderTrigger && !triggerLabel) {
     throw new Error(
-      "Dropdown requires either a 'trigger' element, 'renderTrigger' function, or 'triggerLabel' string"
+      "Dropdown requires either a 'trigger' element, 'renderTrigger' function, or 'triggerLabel' string",
     );
   }
 
@@ -294,18 +241,16 @@ const Dropdown: React.FC<DropdownProps> = ({
   const contentElement = cloneElement(content, {
     onClose: handleClose,
     className: `${(content.props as { className?: string }).className ?? ""} ${styles["dropdown-content"]} ${contentClassName}`.trim(),
-  } as { onClose?: () => void; className?: string });
-
-  const getPlacementClass = () =>
-    PLACEMENT_MAP[adjustedPlacement] ?? styles["dropdown-bottom-end"];
+  } as { onClose?: () => void; className: string });
 
   return (
     <div className={`${styles["dropdown-wrapper"]} ${className}`}>
       {triggerElement}
       {isOpen && (
         <div
-          ref={dropdownRef}
-          className={`${styles["dropdown-floating"]} ${getPlacementClass()} ${
+          ref={refs.setFloating}
+          style={floatingStyles}
+          className={`${styles["dropdown-floating"]} ${
             isAnimating ? styles["dropdown-opening"] : styles["dropdown-closing"]
           }`}
           role="menu"

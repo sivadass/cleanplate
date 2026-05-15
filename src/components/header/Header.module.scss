@@ -63,11 +63,29 @@
   left: 0;
   width: 100%;
   height: 100%;
+  padding-right: 80px;
+  box-sizing: border-box;
   background: rgba(0, 0, 0, 0.5);
   .mobile-menu-close {
     position: absolute;
     top: 8px;
     right: 72px;
     background-color: var(--primary-brand-lightest);
+  }
+}
+
+.mobile-menu-nav {
+  @media (max-width: 1024px) {
+    box-sizing: border-box;
+    min-height: 100dvh;
+    padding: 64px 16px 16px 16px;
+    background: var(--white);
+    width: fit-content;
+    max-width: 100%;
+
+    ul li a {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
   }
 }

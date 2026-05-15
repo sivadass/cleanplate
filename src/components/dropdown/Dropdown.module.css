@@ -23,99 +23,7 @@
   min-width: 200px;
   max-width: 300px;
   padding: var(--space-2);
-  /* Offset and shift support via CSS custom properties */
-  --offset: 4px;
-  --shift-x: 0px;
-  --shift-y: 0px;
   overflow: hidden;
-}
-
-/* Bottom placements */
-.dropdown-bottom {
-  top: 100%;
-  left: 50%;
-  transform: translate(calc(-50% + var(--shift-x)), var(--shift-y));
-  margin-top: var(--offset);
-}
-
-.dropdown-bottom-start {
-  top: 100%;
-  left: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-top: var(--offset);
-}
-
-.dropdown-bottom-end {
-  top: 100%;
-  right: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-top: var(--offset);
-}
-
-/* Top placements */
-.dropdown-top {
-  bottom: 100%;
-  left: 50%;
-  transform: translate(calc(-50% + var(--shift-x)), var(--shift-y));
-  margin-bottom: var(--offset);
-}
-
-.dropdown-top-start {
-  bottom: 100%;
-  left: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-bottom: var(--offset);
-}
-
-.dropdown-top-end {
-  bottom: 100%;
-  right: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-bottom: var(--offset);
-}
-
-/* Left placements */
-.dropdown-left {
-  right: 100%;
-  top: 50%;
-  transform: translate(var(--shift-x), calc(-50% + var(--shift-y)));
-  margin-right: var(--offset);
-}
-
-.dropdown-left-start {
-  right: 100%;
-  top: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-right: var(--offset);
-}
-
-.dropdown-left-end {
-  right: 100%;
-  bottom: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-right: var(--offset);
-}
-
-/* Right placements */
-.dropdown-right {
-  left: 100%;
-  top: 50%;
-  transform: translate(var(--shift-x), calc(-50% + var(--shift-y)));
-  margin-left: var(--offset);
-}
-
-.dropdown-right-start {
-  left: 100%;
-  top: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-left: var(--offset);
-}
-
-.dropdown-right-end {
-  left: 100%;
-  bottom: 0;
-  transform: translate(var(--shift-x), var(--shift-y));
-  margin-left: var(--offset);
 }
 
 .dropdown-content {
@@ -142,26 +50,22 @@
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-4px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 @keyframes dropdownFadeOut {
   from {
     opacity: 1;
-    transform: translateY(0);
   }
   to {
     opacity: 0;
-    transform: translateY(-4px);
   }
 }
 
-/* Animation classes */
+/* Animation classes — opacity only so transforms stay owned by Floating UI */
 .dropdown-opening {
   animation: dropdownFadeIn 0.15s ease-out;
 }
@@ -183,15 +87,15 @@
   .dropdown-content {
     animation: none;
   }
-  
+
   .dropdown-opening {
     animation: none;
   }
-  
+
   .dropdown-closing {
     animation: none;
   }
-  
+
   .dropdown-trigger {
     transition: none;
   }
