@@ -7,7 +7,7 @@ Purpose: Displays a short message with an optional variant icon and dismiss butt
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | message | string | no | — | Main message text shown in the alert. |
-| size | "small" \| "medium" \| "large" | no | "medium" | Size of the alert and its icon/close button. |
+| size | "small" \| "medium" | no | "medium" | Size of the alert and its icon/close button. |
 | variant | "success" \| "error" \| "warning" \| "info" \| "default" | no | "info" | Visual variant; each has a matching icon (e.g. success → check_circle, error → error). |
 | canDismiss | boolean | no | false | When true, shows a close button that calls onDismiss and unmounts the alert. |
 | onDismiss | function | no | — | Called when the user dismisses the alert (clicks the close button). |
@@ -17,7 +17,7 @@ Purpose: Displays a short message with an optional variant icon and dismiss butt
 
 ### AlertSize
 ```typescript
-type AlertSize = "small" | "medium" | "large";
+type AlertSize = "small" | "medium";
 ```
 
 ### AlertVariant
@@ -83,8 +83,7 @@ import { Alert } from "cleanplate";
 export const Example = () => (
   <>
     <Alert message="Small alert" variant="info" size="small" margin="b-2" />
-    <Alert message="Medium alert" variant="info" size="medium" margin="b-2" />
-    <Alert message="Large alert" variant="info" size="large" />
+    <Alert message="Medium alert" variant="info" size="medium" />
   </>
 );
 ```

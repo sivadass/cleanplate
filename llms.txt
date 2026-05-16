@@ -94,7 +94,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Alert Component
 - File: `docs/Alert.md`
 - Purpose: Displays a short message with optional variant icon and dismiss button. Use for inline feedback (success, error, warning, info) or neutral notices.
-- Key Features: Variants (default, info, warning, error, success), sizes (small, medium, large), dismissible with onDismiss, margin spacing (suffix API), unmounts on dismiss
+- Key Features: Variants (default, info, warning, error, success), sizes (small, medium), dismissible with onDismiss, margin spacing (suffix API), unmounts on dismiss
 - Types: AlertProps, AlertSize, AlertVariant, AlertMargin, SpacingOption
 - Related Components: Typography, Container, Button, Icon (used internally)
 

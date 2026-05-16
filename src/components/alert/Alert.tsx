@@ -8,7 +8,7 @@ import { getSpacingClass, getVariantIcon } from "../../utils/common";
 import styles from "./Alert.module.scss";
 import utilsStyles from "../../styles/utils.module.scss";
 
-export type AlertSize = "small" | "medium" | "large";
+export type AlertSize = "small" | "medium";
 
 export type AlertVariant = "success" | "error" | "warning" | "info" | "default";
 

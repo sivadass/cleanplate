@@ -2,7 +2,7 @@ import { Alert, Container, Typography } from "../../index";
 import { SPACING_OPTIONS } from "../../constants/common";
 
 const MARGIN_OPTIONS = SPACING_OPTIONS.slice(0, 10);
-const SIZE_OPTIONS = ["small", "medium", "large"];
+const SIZE_OPTIONS = ["small", "medium"];
 const VARIANT_OPTIONS = ["info", "warning", "success", "error", "default"];
 
 const meta = {
@@ -82,8 +82,7 @@ export const Sizes = {
       </Typography>
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
         <Alert message="Small alert" variant="info" size="small" margin="b-2" />
-        <Alert message="Medium alert" variant="info" size="medium" margin="b-2" />
-        <Alert message="Large alert" variant="info" size="large" />
+        <Alert message="Medium alert" variant="info" size="medium" />
       </div>
     </Container>
   ),

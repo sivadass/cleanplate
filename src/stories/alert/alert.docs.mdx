@@ -11,7 +11,7 @@ The `Alert` component displays a short message with an optional variant icon and
 ## Features
 
 - **Variants:** `default`, `info`, `warning`, `error`, `success` (each with a matching icon)
-- **Sizes:** `small`, `medium`, `large` (affects alert and icon/close button)
+- **Sizes:** `small`, `medium` (affects alert and icon/close button)
 - **Dismissible:** Optional close button; `onDismiss` is called when the user dismisses
 - **Spacing:** Margin uses the suffix API (e.g. `"0"` → m-0, `"b-2"` → m-b-2)
 - **Unmounts on dismiss:** When dismissed, the alert returns `null` (removed from the tree)
@@ -45,7 +45,6 @@ Use `variant` to set the style and icon (info, warning, error, success, default)
 ```jsx
 <Alert message="Small alert" variant="info" size="small" />
 <Alert message="Medium alert" variant="info" size="medium" />
-<Alert message="Large alert" variant="info" size="large" />
 ```
 
 ### Dismissible

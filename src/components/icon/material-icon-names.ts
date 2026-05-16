@@ -1,6 +1,6 @@
 // This file is auto-generated. Do not edit manually.
-// Generated on: 2026-05-15T02:45:24.767Z
-// Total icons: 4244
+// Generated on: 2026-05-16T03:29:11.201Z
+// Total icons: 4250
 
 /**
  * All available Material Symbol names (Material Symbols Outlined variable font).
@@ -31,6 +31,7 @@ export const MATERIAL_ICON_NAMES = [
   '24fps_select',
   '24mp',
   '2d',
+  '2d_2',
   '2k',
   '2k_plus',
   '2mp',
@@ -38,6 +39,7 @@ export const MATERIAL_ICON_NAMES = [
   '30fps_select',
   '360',
   '3d',
+  '3d_2',
   '3d_rotation',
   '3g_mobiledata',
   '3g_mobiledata_badge',
@@ -983,6 +985,8 @@ export const MATERIAL_ICON_NAMES = [
   'crisis_alert',
   'crop',
   'crop_16_9',
+  'crop_21_9',
+  'crop_2_3',
   'crop_3_2',
   'crop_5_4',
   'crop_7_5',
@@ -4034,6 +4038,8 @@ export const MATERIAL_ICON_NAMES = [
   'video_camera_front_off',
   'video_chat',
   'video_file',
+  'video_frame_copy',
+  'video_frame_save',
   'video_label',
   'video_library',
   'video_search',
@@ -4719,6 +4725,7 @@ export const ICON_CATEGORIES = {
     '24fps_select',
     '24mp',
     '2d',
+    '2d_2',
     '2k',
     '2k_plus',
     '2mp',
@@ -4726,6 +4733,7 @@ export const ICON_CATEGORIES = {
     '30fps_select',
     '360',
     '3d',
+    '3d_2',
     '3d_rotation',
     '3g_mobiledata',
     '3g_mobiledata_badge',
@@ -5555,6 +5563,8 @@ export const ICON_CATEGORIES = {
     'crisis_alert',
     'crop',
     'crop_16_9',
+    'crop_21_9',
+    'crop_2_3',
     'crop_3_2',
     'crop_5_4',
     'crop_7_5',
@@ -8326,6 +8336,8 @@ export const ICON_CATEGORIES = {
     'video_camera_front_off',
     'video_chat',
     'video_file',
+    'video_frame_copy',
+    'video_frame_save',
     'video_label',
     'video_library',
     'video_search',
