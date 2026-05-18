@@ -453,6 +453,10 @@ export const Select = {
     options: { control: "object" },
     onChange: { action: "onChange" },
     searchPlaceholder: { control: "text" },
+    searchable: {
+      control: "boolean",
+      description: "Show panel search field; when false, lists all static options.",
+    },
     searchDebounce: {
       control: { type: "number", min: 0, max: 2000, step: 50 },
     },
@@ -464,6 +468,11 @@ export const Select = {
       control: { type: "number", min: 1, max: 20, step: 1 },
       description:
         "Multi only — max selections; extras look disabled until you deselect.",
+    },
+    panelMinWidth: {
+      control: { type: "number", min: 0, step: 8 },
+      description:
+        "Desktop only — minimum width of the options panel (px). Ignored on mobile sheet.",
     },
   },
   args: {
@@ -498,6 +507,75 @@ export const Select = {
       </Container>
     );
   },
+};
+
+const selectLongLabelOptions = [
+  {
+    value: "enterprise",
+    label: "Enterprise — annual contract with dedicated support",
+  },
+  {
+    value: "growth",
+    label: "Growth — monthly billing with priority queue",
+  },
+  {
+    value: "starter",
+    label: "Starter — self-serve plan for small teams",
+  },
+];
+
+export const SelectWithoutSearch = {
+  name: "Select · without search",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`searchable={false}` hides the panel search field — use for short, fixed option lists (e.g. rows-per-page).",
+      },
+    },
+  },
+  args: {
+    label: "Rows per page",
+    placeholder: "Select",
+    searchable: false,
+    options: [
+      { value: 10, label: "10" },
+      { value: 20, label: "20" },
+      { value: 50, label: "50" },
+    ],
+    isFluid: true,
+  } as Partial<SelectArgs>,
+  render: (args: SelectArgs) => (
+    <Container padding="4" style={{ minWidth: 200, maxWidth: 240 }}>
+      <FormControls.Select {...args} />
+    </Container>
+  ),
+};
+
+export const SelectPanelMinWidth = {
+  name: "Select · desktop panel min width",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Narrow trigger in a 160px column; `panelMinWidth={320}` widens the desktop dropdown so long option labels are readable. Mobile sheet stays full width.",
+      },
+    },
+  },
+  args: {
+    label: "Plan",
+    placeholder: "Pick plan",
+    options: selectLongLabelOptions,
+    panelMinWidth: 320,
+    isFluid: true,
+  } as Partial<SelectArgs>,
+  render: (args: SelectArgs) => (
+    <Container padding="4" style={{ minWidth: 360 }}>
+      <div style={{ width: 160 }}>
+        <FormControls.Select {...args} />
+      </div>
+    </Container>
+  ),
 };
 
 export const SelectBulkAndCap = {

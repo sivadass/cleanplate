@@ -216,6 +216,8 @@ const Pagination: React.FC<PaginationProps> = ({
             options={rowsPerPageOptions}
             value={defaultRowsPerPage}
             clearable={false}
+            searchable={false}
+            panelMinWidth={164}
             onChange={(v: PaginationRowsPerPageOption) => handleRowsPerPage(v)}
           />
         </Container>

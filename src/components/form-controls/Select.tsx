@@ -39,6 +39,10 @@ const SELECT_MOBILE_SHEET_MS = 300;
 /** Desktop dropdown fade; sync `--cp-select-desktop-panel-ms` in SCSS. */
 const SELECT_DESKTOP_DROPDOWN_MS = 200;
 
+function toCssLength(value: number | string): string {
+  return typeof value === "number" ? `${value}px` : value;
+}
+
 const SELECT_MOBILE_SHEET_SURFACE_STYLE: React.CSSProperties = {
   position: "fixed",
   left: 0,
@@ -131,6 +135,12 @@ export interface SelectProps {
   triggerActiveClassName?: string;
   contentsClassName?: string;
   /**
+   * Desktop dropdown only: minimum width of the portalled options panel (px number or CSS length).
+   * The panel still matches the trigger width when it is wider; use this when options are longer than the trigger.
+   * Ignored on mobile (≤768px bottom sheet is full viewport width).
+   */
+  panelMinWidth?: number | string;
+  /**
    * Option list when static. Pass `null` with `onSearch` for async/search-backed data.
    * Omit or pass an array — use `undefined`/`[]` for an empty sync list.
    */
@@ -144,6 +154,11 @@ export interface SelectProps {
    * @default 300
    */
   searchDebounce?: number;
+  /**
+   * When false, hides the panel search field and shows the full static list (or async results for `onSearch("")`).
+   * @default true
+   */
+  searchable?: boolean;
   /** Placeholder for the panel search field. @default "Search" */
   searchPlaceholder?: string;
   /**
@@ -200,9 +215,11 @@ const Select: React.FC<SelectProps> = ({
   triggerClassName = "",
   triggerActiveClassName = "",
   contentsClassName = "",
+  panelMinWidth,
   options,
   onSearch,
   searchDebounce = 300,
+  searchable = true,
   searchPlaceholder = "Search",
   onAddOption,
   closeOnAddOption = true,
@@ -241,6 +258,15 @@ const Select: React.FC<SelectProps> = ({
       );
     }
   }, [isAsyncMode, onSearch]);
+
+  useEffect(() => {
+    if (!searchable && onAddOption) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "CleanPlate Select: `onAddOption` requires `searchable` (search field) to enter a new value."
+      );
+    }
+  }, [searchable, onAddOption]);
 
   const generatedId = useId();
   const fieldId = id ?? name ?? generatedId;
@@ -289,14 +315,18 @@ const Select: React.FC<SelectProps> = ({
             shift({ padding: 8 }),
             size({
               apply({ availableHeight, rects, elements }) {
-                Object.assign(elements.floating.style, {
+                const panelStyle: Partial<CSSStyleDeclaration> = {
                   maxHeight: `${Math.max(96, Math.floor(availableHeight) - 12)}px`,
                   width: `${rects.reference.width}px`,
-                });
+                };
+                if (panelMinWidth != null) {
+                  panelStyle.minWidth = toCssLength(panelMinWidth);
+                }
+                Object.assign(elements.floating.style, panelStyle);
               },
             }),
           ],
-    [isMobileSheetViewport]
+    [isMobileSheetViewport, panelMinWidth]
   );
 
   const { refs, floatingStyles, context } = useFloating({
@@ -379,6 +409,9 @@ const Select: React.FC<SelectProps> = ({
   }, [isOpen, selectPanelExitAnimating]);
 
   const filteredSyncOptions = useMemo(() => {
+    if (!searchable) {
+      return syncOptionSource;
+    }
     const q = searchQuery.trim().toLowerCase();
     if (!q) {
       return syncOptionSource;
@@ -388,7 +421,7 @@ const Select: React.FC<SelectProps> = ({
         String(o.label).toLowerCase().includes(q) ||
         String(o.value).toLowerCase().includes(q)
     );
-  }, [syncOptionSource, searchQuery]);
+  }, [syncOptionSource, searchQuery, searchable]);
 
   const displayedOptions = isAsyncMode ? asyncOptions : filteredSyncOptions;
 
@@ -750,9 +783,20 @@ const Select: React.FC<SelectProps> = ({
     }
   };
 
+  const focusPanelListbox = useCallback(() => {
+    const el = document.getElementById(listboxId);
+    if (el instanceof HTMLElement) {
+      el.focus();
+    }
+  }, [listboxId]);
+
   const handleRetrySearch = () => {
     setRetryNonce((n) => n + 1);
-    searchInputRef.current?.focus();
+    if (searchable) {
+      searchInputRef.current?.focus();
+    } else {
+      focusPanelListbox();
+    }
   };
 
   const handleAddOptionConfirm = (event: React.MouseEvent) => {
@@ -764,8 +808,10 @@ const Select: React.FC<SelectProps> = ({
     setSearchQuery("");
     if (closeOnAddOption) {
       closeFloatingPanel();
-    } else {
+    } else if (searchable) {
       searchInputRef.current?.focus();
+    } else {
+      focusPanelListbox();
     }
   };
 
@@ -892,10 +938,20 @@ const Select: React.FC<SelectProps> = ({
       return undefined;
     }
     const rid = window.requestAnimationFrame(() => {
-      searchInputRef.current?.focus();
+      if (searchable) {
+        searchInputRef.current?.focus();
+      } else {
+        focusPanelListbox();
+      }
     });
     return () => window.cancelAnimationFrame(rid);
-  }, [selectPanelMounted, isOpen, isMobileSheetViewport]);
+  }, [
+    selectPanelMounted,
+    isOpen,
+    isMobileSheetViewport,
+    searchable,
+    focusPanelListbox,
+  ]);
 
   useEffect(() => {
     if (!isOpen || !isAsyncMode || !onSearch) return;
@@ -1103,6 +1159,7 @@ const Select: React.FC<SelectProps> = ({
                   : {}),
               })}
             >
+              {searchable ? (
               <div
                 className={styles["cp-select-panel-search"]}
                 role="presentation"
@@ -1162,6 +1219,7 @@ const Select: React.FC<SelectProps> = ({
                   ) : null}
                 </div>
               </div>
+              ) : null}
               {showMultiBulkBar ? (
                 <div
                   className={styles["cp-select-panel-bulk"]}
@@ -1208,6 +1266,7 @@ const Select: React.FC<SelectProps> = ({
               <div
                 id={listboxId}
                 role={showOptionRows ? "listbox" : "group"}
+                tabIndex={!searchable && showOptionRows ? 0 : undefined}
                 aria-label={
                   showOptionRows
                     ? label

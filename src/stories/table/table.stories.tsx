@@ -220,6 +220,64 @@ const rowActionsColumns: TableColumn[] = [
   },
 ];
 
+const paginatedColumns: TableColumn[] = [
+  { id: "name", title: "Name", widthPercentage: "35%" },
+  { id: "email", title: "Email", widthPercentage: "40%" },
+  { id: "department", title: "Department", widthPercentage: "25%" },
+];
+
+const allPaginatedRows: TableRow[] = Array.from({ length: 47 }, (_, index) => ({
+  id: String(index + 1),
+  name: `User ${index + 1}`,
+  email: `user${index + 1}@example.com`,
+  department: ["Engineering", "Design", "Sales", "Support"][index % 4],
+}));
+
+const PaginatedTableDemo = () => {
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const start = (currentPage - 1) * rowsPerPage;
+  const pageData = allPaginatedRows.slice(start, start + rowsPerPage);
+
+  return (
+    <Container width="full">
+      <Table
+        columns={paginatedColumns}
+        data={pageData}
+        totalItems={allPaginatedRows.length}
+        totalLabel="Users"
+        currentPage={currentPage}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[
+          { label: "5", value: 5 },
+          { label: "10", value: 10 },
+          { label: "20", value: 20 },
+        ]}
+        onPageChange={(page) => setCurrentPage(page)}
+        onRowsPerPageChange={(rpp) => {
+          setRowsPerPage(rpp);
+          setCurrentPage(1);
+        }}
+      />
+    </Container>
+  );
+};
+
+export const WithPagination = {
+  name: "With pagination",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Server-style pagination: keep `currentPage` and `rowsPerPage` in state, pass a slice of `data` for the current page, and set `totalItems` to the full dataset count. Built-in Pagination appears when `totalItems` > 0.",
+      },
+    },
+  },
+  render: () => <PaginatedTableDemo />,
+};
+
 export const RowActions = {
   name: "Row actions (dropdown menu)",
   parameters: {
