@@ -2,6 +2,9 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: normal;
+  border-radius: var(--cp-form-control-radius);
+  background: var(--white);
+  padding: var(--space-4);
   .core-table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -23,7 +26,7 @@
         border-left-width: 0;
         border-right-width: 0;
         border-top-width: 0;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--gray-200);
         padding: 8px;
         margin: 0;
         color: inherit;
@@ -37,7 +40,7 @@
       &:hover {
         td {
           cursor: pointer;
-          background: #f7f7f7;
+          background: var(--gray-100);
         }
       }
     }

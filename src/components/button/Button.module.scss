@@ -22,7 +22,7 @@
   border: 1px solid transparent;
   background: var(--primary-brand);
   color: #fff;
-  border-radius: 8px;
+  border-radius: var(--cp-form-control-radius);
   cursor: pointer;
   display: flex;
   align-items: center;
