@@ -12,6 +12,7 @@ import Typography from "../typography";
 import Pagination from "../pagination";
 import Container from "../container";
 import MediaObject from "../media-object";
+import type { MediaObjectProps } from "../media-object";
 import type { PaginationRowsPerPageOption } from "../pagination";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
@@ -35,15 +36,52 @@ export interface TableColumn {
   widthPercentage?: string;
 }
 
-export interface TableMobileColumns {
-  title: string;
-  description?: string;
-  mediaAvatar?: string;
-  mediaIcon?: string;
-  mediaImage?: string;
-  className?: string;
-  margin?: TableMargin;
-  padding?: string | SpacingOption[];
+/** Row key used to read a value from each `TableRow`. */
+export type TableMobileColumnKey = string;
+
+/**
+ * Row key, static value, or per-row resolver.
+ * For `mediaIcon` / `mediaImage` strings: if the string is a key on the row, the row value wins;
+ * otherwise the string is treated as a static icon name or image URL.
+ */
+export type TableMobileColumnField<T = React.ReactNode> =
+  | TableMobileColumnKey
+  | ((row: TableRow) => T | undefined);
+
+/**
+ * Maps table rows to {@link MediaObject} on viewports under 768px.
+ * Inherits static MediaObject options (`margin`, `padding`, `descriptionLineClamp`, etc.).
+ * Text and media slots accept row keys or resolvers; `action` is always a per-row render function.
+ */
+export interface TableMobileColumns
+  extends Omit<
+    MediaObjectProps,
+    | "title"
+    | "subtitle"
+    | "description"
+    | "meta"
+    | "action"
+    | "mediaAvatar"
+    | "mediaIcon"
+    | "mediaImage"
+    | "onClick"
+  > {
+  /** Row key for MediaObject `title` (required) */
+  title: TableMobileColumnKey;
+  /** Row key or per-row resolver for `subtitle` */
+  subtitle?: TableMobileColumnField<React.ReactNode>;
+  /** Row key or per-row resolver for `description` */
+  description?: TableMobileColumnField<React.ReactNode>;
+  /** Row key or per-row resolver for `meta` */
+  meta?: TableMobileColumnField<React.ReactNode>;
+  /** Row key for `mediaAvatar` */
+  mediaAvatar?: TableMobileColumnKey;
+  /** Static icon name, row key, or per-row resolver for `mediaIcon` */
+  mediaIcon?: TableMobileColumnField<MediaObjectProps["mediaIcon"]>;
+  /** Static image URL, row key, or per-row resolver for `mediaImage` */
+  mediaImage?: TableMobileColumnField<string>;
+  /** Per-row `action` slot; use `stopPropagation` on interactive children when the row is clickable */
+  action?: (row: TableRow) => React.ReactNode;
 }
 
 export interface TableProps {
@@ -61,7 +99,95 @@ export interface TableProps {
   onPageChange?: (page: number, rowsPerPage: number) => void;
   onRowsPerPageChange?: (rowsPerPage: number) => void;
   hidePagination?: boolean;
+  /**
+   * When set and viewport width is under 768px, each row renders as a MediaObject.
+   * See {@link TableMobileColumns}.
+   */
   mobileColumns?: TableMobileColumns | null;
+}
+
+function resolveRowKeyField(
+  field: TableMobileColumnField<React.ReactNode> | undefined,
+  row: TableRow,
+): React.ReactNode | undefined {
+  if (field == null) {
+    return undefined;
+  }
+
+  if (typeof field === "function") {
+    return field(row);
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(row, field)) {
+    return undefined;
+  }
+
+  const value = row[field];
+  if (value == null || value === "") {
+    return undefined;
+  }
+
+  if (typeof value === "string" || typeof value === "number") {
+    return String(value);
+  }
+
+  return value as React.ReactNode;
+}
+
+function resolveMediaField(
+  field: TableMobileColumnField<string> | undefined,
+  row: TableRow,
+): string | undefined {
+  if (field == null) {
+    return undefined;
+  }
+
+  if (typeof field === "function") {
+    const value = field(row);
+    return value != null && value !== "" ? String(value) : undefined;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(row, field)) {
+    const value = row[field];
+    return value != null && value !== "" ? String(value) : undefined;
+  }
+
+  return field;
+}
+
+function buildMobileMediaObjectProps(
+  config: TableMobileColumns,
+  row: TableRow,
+): MediaObjectProps {
+  const {
+    title: titleKey,
+    subtitle,
+    description,
+    meta,
+    mediaAvatar,
+    mediaIcon,
+    mediaImage,
+    action,
+    ...rest
+  } = config;
+
+  const titleVal = row[titleKey];
+  const mediaAvatarVal = mediaAvatar ? row[mediaAvatar] : undefined;
+
+  return {
+    ...rest,
+    title: titleVal != null ? String(titleVal) : "",
+    subtitle: resolveRowKeyField(subtitle, row),
+    description: resolveRowKeyField(description, row),
+    meta: resolveRowKeyField(meta, row),
+    mediaAvatar:
+      mediaAvatarVal != null && mediaAvatarVal !== ""
+        ? String(mediaAvatarVal)
+        : undefined,
+    mediaIcon: resolveMediaField(mediaIcon, row),
+    mediaImage: resolveMediaField(mediaImage, row),
+    action: action?.(row),
+  };
 }
 
 const Table: React.FC<TableProps> = ({
@@ -130,28 +256,10 @@ const Table: React.FC<TableProps> = ({
         <div className={styles["mobile-columns"]}>
           {data?.map((row) => {
             const rowId = getUniqueId();
-            const titleVal = row[mobileColumns.title];
-            const descriptionVal = mobileColumns.description
-              ? row[mobileColumns.description]
-              : undefined;
-            const mediaAvatarVal = mobileColumns.mediaAvatar
-              ? row[mobileColumns.mediaAvatar]
-              : undefined;
             return (
               <MediaObject
                 key={rowId}
-                title={titleVal != null ? String(titleVal) : ""}
-                description={
-                  descriptionVal != null ? String(descriptionVal) : undefined
-                }
-                mediaAvatar={
-                  mediaAvatarVal != null ? String(mediaAvatarVal) : undefined
-                }
-                mediaIcon={mobileColumns.mediaIcon}
-                mediaImage={mobileColumns.mediaImage}
-                margin={mobileColumns.margin}
-                padding={mobileColumns.padding}
-                className={mobileColumns.className}
+                {...buildMobileMediaObjectProps(mobileColumns, row)}
                 onClick={() => handleRowClick(row)}
               />
             );

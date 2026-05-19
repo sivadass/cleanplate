@@ -1,6 +1,7 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
 import { Table, Badge, Container } from "../../index";
+import { tableDocsArgTypes } from "./table-arg-types";
 
 <Meta title="atoms/Table/Documentation" />
 
@@ -85,13 +86,42 @@ const BasicTable = () => (
 
 Each column is an object with:
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `id` | string | Key used to read the cell value from each row (`row[id]`) |
-| `title` | string | Header label |
-| `textAlign` | `"left"` \| `"center"` \| `"right"` | Alignment for header and cells; default `"left"` |
-| `widthPercentage` | string | e.g. `"40%"` for column width |
-| `customRender` | (rowData, column) => ReactNode | Custom cell content; receives row object and column config |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td>string</td>
+      <td>Key used to read the cell value from each row (<code>row[id]</code>)</td>
+    </tr>
+    <tr>
+      <td><code>title</code></td>
+      <td>string</td>
+      <td>Header label</td>
+    </tr>
+    <tr>
+      <td><code>textAlign</code></td>
+      <td><code>"left" | "center" | "right"</code></td>
+      <td>Alignment for header and cells; default <code>"left"</code></td>
+    </tr>
+    <tr>
+      <td><code>widthPercentage</code></td>
+      <td>string</td>
+      <td>e.g. <code>"40%"</code> for column width</td>
+    </tr>
+    <tr>
+      <td><code>customRender</code></td>
+      <td><code>(rowData, column) =&gt; ReactNode</code></td>
+      <td>Custom cell content; receives row object and column config</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Custom cell rendering
 
@@ -142,16 +172,69 @@ Tighter spacing for dense data.
 
 ## Mobile view
 
-When the viewport width is under 768px and `mobileColumns` is provided, the table is replaced by a list of MediaObject items. Each row becomes one MediaObject; you map row keys to the MediaObject’s title, description, and optional media.
+When the viewport width is under 768px and `mobileColumns` is provided, the table is replaced by a list of MediaObject items. `TableMobileColumns` exposes the same configuration as [MediaObject](/docs/molecules-mediaobject-documentation--docs): row-driven slots (`title`, `subtitle`, `description`, `meta`, media) plus static options (`descriptionLineClamp`, `margin`, `padding`, `className`, etc.).
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `title` | string | Row key for the main title (e.g. `"name"`) |
-| `description` | string | Row key for the description (e.g. `"email"`) |
-| `mediaAvatar` | string | Row key for avatar URL or value |
-| `mediaIcon` | string | Static Material icon name for all rows |
-| `mediaImage` | string | Static image URL for all rows |
-| `margin`, `padding`, `className` | string / array | Passed to each MediaObject |
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>title</code></td>
+      <td>string</td>
+      <td><strong>Required.</strong> Row key for the main title (e.g. <code>"name"</code>)</td>
+    </tr>
+    <tr>
+      <td><code>subtitle</code></td>
+      <td><code>string or (row) =&gt; ReactNode</code></td>
+      <td>Row key or resolver for subtitle</td>
+    </tr>
+    <tr>
+      <td><code>description</code></td>
+      <td><code>string or (row) =&gt; ReactNode</code></td>
+      <td>Row key or resolver for description</td>
+    </tr>
+    <tr>
+      <td><code>meta</code></td>
+      <td><code>string or (row) =&gt; ReactNode</code></td>
+      <td>Row key or resolver for trailing meta</td>
+    </tr>
+    <tr>
+      <td><code>action</code></td>
+      <td><code>(row) =&gt; ReactNode</code></td>
+      <td>Per-row action slot (e.g. menu button)</td>
+    </tr>
+    <tr>
+      <td><code>mediaAvatar</code></td>
+      <td>string</td>
+      <td>Row key for avatar value</td>
+    </tr>
+    <tr>
+      <td><code>mediaIcon</code></td>
+      <td><code>string or (row) =&gt; string</code></td>
+      <td>Static icon, row key, or resolver</td>
+    </tr>
+    <tr>
+      <td><code>mediaImage</code></td>
+      <td><code>string or (row) =&gt; string</code></td>
+      <td>Static URL, row key, or resolver</td>
+    </tr>
+    <tr>
+      <td><code>descriptionLineClamp</code></td>
+      <td>number</td>
+      <td>Max description lines (MediaObject default: 2)</td>
+    </tr>
+    <tr>
+      <td><code>margin</code>, <code>padding</code>, <code>className</code></td>
+      <td>—</td>
+      <td>Passed to each MediaObject</td>
+    </tr>
+  </tbody>
+</table>
 
 ```jsx
 <Table
@@ -159,8 +242,12 @@ When the viewport width is under 768px and `mobileColumns` is provided, the tabl
   data={data}
   mobileColumns={{
     title: "name",
+    subtitle: "role",
     description: "email",
-    mediaAvatar: "avatarUrl",  // optional: key in row for avatar
+    meta: "status",
+    mediaAvatar: "name",
+    descriptionLineClamp: 2,
+    action: (row) => <Badge label={String(row.status)} variant="success" />,
   }}
 />
 ```
@@ -249,7 +336,7 @@ Apply outer spacing with `margin` (suffix or array of spacing suffixes; componen
 
 ## Props
 
-<ArgsTable of={Table} />
+<ArgsTable of={Table} argTypes={tableDocsArgTypes} />
 
 ## Related components
 

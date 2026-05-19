@@ -12,6 +12,7 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import type { TableProps, TableColumn, TableRow } from "../../components/table";
 import type { MenuListItem } from "../../components/menu-list";
 import type { DropdownRenderTriggerParams } from "../../components/dropdown";
+import { tableDocsArgTypes } from "./table-arg-types";
 
 const meta = {
   title: "atoms/Table/Playground",
@@ -19,6 +20,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
+  argTypes: tableDocsArgTypes,
 };
 
 const defaultColumns: TableColumn[] = [
@@ -95,6 +97,8 @@ export const Mobile = {
       title: "name",
       mediaAvatar: "name",
       description: "email",
+      meta: "age",
+      descriptionLineClamp: 2,
     },
     data: [
       { name: "John Doe", age: 32, email: "john@doe.com" },
@@ -296,6 +300,13 @@ export const RowActions = {
       columns={rowActionsColumns}
       data={rowActionsData}
       onRowClick={args.onRowClick}
+      mobileColumns={{
+        title: "name",
+        description: "email",
+        meta: "role",
+        mediaAvatar: "name",
+        action: (row) => <RowActionsCell row={row} />,
+      }}
     />
   ),
 };

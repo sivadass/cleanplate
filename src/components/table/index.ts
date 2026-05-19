@@ -7,5 +7,7 @@ export type {
   TableMargin,
   TableColumnTextAlign,
   TableMobileColumns,
+  TableMobileColumnKey,
+  TableMobileColumnField,
   SpacingOption,
 } from "./Table";

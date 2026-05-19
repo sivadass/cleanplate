@@ -152,7 +152,7 @@ All component documentation is located in the `docs/` folder. The following docu
 - File: `docs/Table.md`
 - Purpose: Displays structured data in a table with configurable columns, optional built-in pagination, and responsive mobile view (MediaObject cards when viewport < 768px and mobileColumns set).
 - Key Features: columns (id, title, textAlign, widthPercentage, customRender), data (TableRow[]), variants (default, compact), mobileColumns, onRowClick, pagination props (totalItems, currentPage, onPageChange, etc.), hidePagination, margin (suffix API)
-- Types: TableProps, TableColumn, TableRow, TableVariant, TableMargin, TableColumnTextAlign, TableMobileColumns, SpacingOption
+- Types: TableProps, TableColumn, TableRow, TableVariant, TableMargin, TableColumnTextAlign, TableMobileColumns, TableMobileColumnKey, TableMobileColumnField, SpacingOption
 - Related Components: Pagination (built-in), MediaObject (mobile view), Typography, Container, Badge (often in customRender)
 
 ### Badge Component

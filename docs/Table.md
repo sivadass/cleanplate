@@ -61,16 +61,29 @@ interface TableColumn {
 ```
 
 ### TableMobileColumns
+Extends static [MediaObject](./MediaObject.md) options (`margin`, `padding`, `descriptionLineClamp`, `className`, and other div attributes except `onClick`). Row-driven slots accept a **row key** or a **per-row resolver**.
+
 ```typescript
-interface TableMobileColumns {
-  title: string;           // row key for MediaObject title
-  description?: string;    // row key for description
-  mediaAvatar?: string;    // row key for avatar value
-  mediaIcon?: string;      // static icon name for all rows
-  mediaImage?: string;     // static image URL
-  className?: string;
-  margin?: TableMargin;
-  padding?: string | SpacingOption[];
+type TableMobileColumnKey = string;
+
+type TableMobileColumnField<T = React.ReactNode> =
+  | TableMobileColumnKey
+  | ((row: TableRow) => T | undefined);
+
+interface TableMobileColumns
+  extends Omit<
+    MediaObjectProps,
+    | "title" | "subtitle" | "description" | "meta" | "action"
+    | "mediaAvatar" | "mediaIcon" | "mediaImage" | "onClick"
+  > {
+  title: TableMobileColumnKey;              // required row key
+  subtitle?: TableMobileColumnField;
+  description?: TableMobileColumnField;
+  meta?: TableMobileColumnField;
+  mediaAvatar?: TableMobileColumnKey;
+  mediaIcon?: TableMobileColumnField<string>;  // static icon, row key, or resolver
+  mediaImage?: TableMobileColumnField<string>; // static URL, row key, or resolver
+  action?: (row: TableRow) => React.ReactNode;
 }
 ```
 
@@ -163,8 +176,12 @@ const columns = [
   data={data}
   mobileColumns={{
     title: "name",
+    subtitle: "role",
     description: "email",
-    mediaAvatar: "avatarUrl",
+    meta: "status",
+    mediaAvatar: "name",
+    descriptionLineClamp: 2,
+    action: (row) => <Badge label={String(row.status)} variant="success" />,
   }}
 />
 ```
@@ -183,7 +200,7 @@ const columns = [
 
 - **Required:** `columns` and `data` are required. Each column must have `id` and `title`; row keys should match `id` for default cell display.
 - **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state.
-- **Mobile:** When viewport width < 768px and `mobileColumns` is set, the table is replaced by a list of MediaObject items; `title` (and optionally `description`, `mediaAvatar`) are row keys whose values are passed to MediaObject.
+- **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields, or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.
 - **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
 
