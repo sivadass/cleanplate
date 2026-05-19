@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { PageHeader, Button, Container, Typography } from "../../index";
+import { PageHeader, Button, Container, Icon, Typography } from "../../index";
 
 <Meta title="molecules/PageHeader/Documentation" />
 
@@ -96,12 +96,17 @@ Pass custom elements for title or subtitle instead of strings.
 ```jsx
 <PageHeader
   title={
-    <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <span>📋</span>
+    <Container display="flex" align="center" gap="2" padding="0" margin="m-0">
+      <Icon name="assignment" size="medium" />
       Custom title with icon
-    </span>
+    </Container>
   }
-  subtitle="Subtitle can be custom too"
+  subtitle={
+    <Container display="flex" align="center" gap="1" padding="0" margin="m-0">
+      <Icon name="info" size="small" />
+      Subtitle can be custom too
+    </Container>
+  }
   primaryCta={<Button>Action</Button>}
 />
 ```
@@ -139,8 +144,8 @@ Use `moreMenuContent` for full control over the dropdown content (e.g. links, di
 
 ## Behavior
 
-- **Layout:** Root is a `<header>`. Inside, a flex row (`.cp-page-header__row`) has left (title + subtitle) and right (CTA + more trigger). Right column uses `margin-left: auto` so it stays aligned to the right edge.
-- **Title / subtitle:** If string, rendered with Typography (h4 / p). If ReactNode, rendered in a div with the same layout class.
+- **Layout:** Root is a `<header>`. Inside, a flex row (`.cp-page-header-row`) has start (title + subtitle) and actions (CTA + more trigger). The actions column uses `margin-left: auto` so it stays aligned to the right edge.
+- **Title / subtitle:** Always rendered with Typography (`h4` / `p`); strings and custom ReactNode children share the same heading styles and semantics.
 - **More menu:** When `moreMenuItems` is provided, the component renders a Dropdown with an icon Button (more_vert) and a list of buttons; each item’s `onClick` runs and the dropdown closes. When `moreMenuContent` is provided, that content is rendered inside the dropdown panel. Only one of `moreMenuItems` or `moreMenuContent` should be used.
 - **Accessibility:** More trigger has `aria-expanded` and `aria-haspopup`; list uses `role="menu"` and `role="menuitem"`.
 

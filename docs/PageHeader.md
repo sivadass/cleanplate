@@ -90,12 +90,14 @@ import { PageHeader, Button } from "cleanplate";
 ### Custom title (ReactNode)
 
 ```jsx
+import { PageHeader, Button, Container, Icon } from "cleanplate";
+
 <PageHeader
   title={
-    <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <span>📋</span>
-      Custom title
-    </span>
+    <Container display="flex" align="center" gap="2" padding="0" margin="m-0">
+      <Icon name="assignment" size="medium" />
+      Custom title with icon
+    </Container>
   }
   subtitle="Optional subtitle"
   primaryCta={<Button>Action</Button>}
@@ -121,14 +123,15 @@ import { PageHeader, Button } from "cleanplate";
 ## Behavior Notes
 
 - **Layout:** Root is a `<header>`. Flex row: left (title + subtitle), right (CTA + more trigger). Right column uses margin-left: auto for right alignment.
-- **Title / subtitle:** If string, rendered with Typography (h4 / p). If ReactNode, rendered in a div with the same layout class.
-- **More menu:** When moreMenuItems is set, renders a Dropdown with an icon Button (more_vert) and a list; each item onClick runs and the dropdown closes. When moreMenuContent is set, that content is shown in the dropdown. Use one or the other.
-- **Accessibility:** More trigger has aria-expanded and aria-haspopup; list uses role="menu" and role="menuitem".
+- **Title / subtitle:** Always rendered with Typography (`h4` / `p`); strings and custom ReactNode children share the same heading styles and semantics.
+- **More menu:** When moreMenuItems is set, renders a Dropdown with an icon Button (more_vert) and MenuList; each item onClick runs and the dropdown closes. When moreMenuContent is set, that content is shown in the dropdown. Use one or the other.
+- **Accessibility:** More trigger has aria-expanded, aria-haspopup, and aria-label; menu items use MenuList semantics.
 
 ## Related Components / Links
 
 - Button (typically for primaryCta)
 - Typography (used internally for string title and subtitle)
 - Dropdown (used internally for the more menu)
+- MenuList (used internally for moreMenuItems)
 - Icon (more_vert trigger)
 - Container (wrap PageHeader and page content)

@@ -1,5 +1,5 @@
 import React from "react";
-import { PageHeader, Button, Container, Typography } from "../../index";
+import { PageHeader, Button, Container, Icon } from "../../index";
 
 const DEFAULT_MORE_ITEMS = [
   { label: "Export", onClick: () => console.log("Export") },
@@ -131,12 +131,17 @@ export const CustomTitle = {
     <Container padding="4" width="full">
       <PageHeader
         title={
-          <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "1.25rem" }}>📋</span>
+          <Container display="flex" align="center" gap="2" padding="0" margin="m-0">
+            <Icon name="assignment" size="medium" />
             Custom title with icon
-          </span>
+          </Container>
         }
-        subtitle="Subtitle can be custom too"
+        subtitle={
+          <Container display="flex" align="center" gap="1" padding="0" margin="m-0">
+            <Icon name="info" size="small" />
+            Subtitle can be custom too
+          </Container>
+        }
         primaryCta={<Button size="small">Action</Button>}
       />
     </Container>

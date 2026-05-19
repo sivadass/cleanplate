@@ -240,7 +240,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const contentElement = cloneElement(content, {
     onClose: handleClose,
-    className: `${(content.props as { className?: string }).className ?? ""} ${styles["dropdown-content"]} ${contentClassName}`.trim(),
+    className: `${(content.props as { className?: string }).className ?? ""} ${contentClassName}`.trim(),
   } as { onClose?: () => void; className: string });
 
   return (

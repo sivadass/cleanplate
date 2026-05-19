@@ -3,7 +3,9 @@ import Typography from "../typography";
 import Button from "../button";
 import Icon from "../icon";
 import Dropdown from "../dropdown";
+import MenuList from "../menu-list";
 import type { DropdownRenderTriggerParams } from "../dropdown";
+import type { MenuListItem } from "../menu-list";
 import getClassNames from "../../utils/get-class-names";
 import styles from "./PageHeader.module.scss";
 
@@ -29,30 +31,57 @@ export interface PageHeaderProps {
   className?: string;
 }
 
-/** Internal: list used as dropdown content when moreMenuItems is provided; receives onClose from Dropdown clone. */
-const MoreMenuList: React.FC<{
-  items: PageHeaderMoreMenuItem[];
+function toMenuListItems(items: PageHeaderMoreMenuItem[]): MenuListItem[] {
+  return items.map((item, index) => ({
+    label: item.label,
+    value: String(index),
+  }));
+}
+
+/** Dropdown panel: MenuList for items, or a slot for custom content. Receives onClose from Dropdown clone. */
+const MoreMenuPanel: React.FC<{
+  items?: PageHeaderMoreMenuItem[];
+  children?: React.ReactNode;
   onClose?: () => void;
   className?: string;
-}> = ({ items, onClose, className }) => (
-  <ul className={className} role="menu">
-    {items.map((item, index) => (
-      <li key={index} role="none">
-        <button
-          type="button"
-          role="menuitem"
-          className={styles["cp-page-header__more-item"]}
-          onClick={() => {
-            item.onClick?.();
-            onClose?.();
-          }}
-        >
-          {item.label}
-        </button>
-      </li>
-    ))}
-  </ul>
-);
+}> = ({ items, children, onClose, className }) => {
+  if (items != null && items.length > 0) {
+    const menuItems = toMenuListItems(items);
+
+    return (
+      <MenuList
+        className={className}
+        items={menuItems}
+        direction="vertical"
+        variant="light"
+        size="small"
+        onMenuClick={(menuItem) => {
+          const index = Number(menuItem.value);
+          items[index]?.onClick?.();
+          onClose?.();
+        }}
+      />
+    );
+  }
+
+  if (children != null) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return null;
+};
+
+function renderHeadingBlock(
+  content: React.ReactNode,
+  variant: "h4" | "p",
+  className: string,
+): React.ReactNode {
+  return (
+    <Typography variant={variant} className={className}>
+      {content}
+    </Typography>
+  );
+}
 
 const PageHeader: React.FC<PageHeaderProps> = ({
   title,
@@ -62,88 +91,60 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   moreMenuContent,
   className = "",
 }) => {
-  const hasMoreMenu = (moreMenuItems?.length ?? 0) > 0 || moreMenuContent != null;
+  const hasMoreMenuItems = (moreMenuItems?.length ?? 0) > 0;
+  const hasMoreMenu = hasMoreMenuItems || moreMenuContent != null;
+  const hasActions = primaryCta != null || hasMoreMenu;
 
   const rootClassName = getClassNames(styles["cp-page-header"], className);
 
   const renderMoreTrigger = ({ triggerProps }: DropdownRenderTriggerParams) => (
-    <span ref={triggerProps.ref} style={{ display: "inline-flex" }}>
-      <Button
-        variant="icon"
-        size="small"
-        className={getClassNames(
-          styles["cp-page-header__more-trigger"],
-          triggerProps.className
-        )}
-        onClick={triggerProps.onClick as React.MouseEventHandler<HTMLButtonElement>}
-        // aria-expanded={triggerProps["aria-expanded"]}
-        // aria-haspopup={triggerProps["aria-haspopup"]}
-      >
-        <Icon name="more_vert" size="small" />
-      </Button>
-    </span>
+    <Button
+      ref={triggerProps.ref as React.Ref<HTMLButtonElement>}
+      type="button"
+      variant="icon"
+      size="medium"
+      aria-label="More options"
+      className={getClassNames(
+        styles["cp-page-header-more-trigger"],
+        triggerProps.className,
+      )}
+      onClick={triggerProps.onClick as React.MouseEventHandler<HTMLButtonElement>}
+      aria-expanded={triggerProps["aria-expanded"]}
+      aria-haspopup="true"
+    >
+      <Icon name="more_vert" size="medium" />
+    </Button>
+  );
+
+  const moreMenuPanel = (
+    <MoreMenuPanel items={hasMoreMenuItems ? moreMenuItems : undefined}>
+      {moreMenuContent}
+    </MoreMenuPanel>
   );
 
   return (
     <header className={rootClassName}>
-      <div className={styles["cp-page-header__row"]}>
-        <div className={styles["cp-page-header__left"]}>
-          {typeof title === "string" ? (
-            <Typography variant="h4" className={styles["cp-page-header__title"]}>
-              {title}
-            </Typography>
-          ) : (
-            <div className={styles["cp-page-header__title"]}>{title}</div>
-          )}
-          {subtitle != null && (
-            <>
-              {typeof subtitle === "string" ? (
-                <Typography
-                  variant="p"
-                  className={styles["cp-page-header__subtitle"]}
-                >
-                  {subtitle}
-                </Typography>
-              ) : (
-                <div className={styles["cp-page-header__subtitle"]}>
-                  {subtitle}
-                </div>
-              )}
-            </>
-          )}
+      <div className={styles["cp-page-header-row"]}>
+        <div className={styles["cp-page-header-start"]}>
+          {renderHeadingBlock(title, "h4", styles["cp-page-header-title"])}
+          {subtitle != null &&
+            renderHeadingBlock(subtitle, "p", styles["cp-page-header-subtitle"])}
         </div>
 
-        <div className={styles["cp-page-header__right"]}>
-          {primaryCta != null && (
-            <div className={styles["cp-page-header__cta"]}>{primaryCta}</div>
-          )}
-          {hasMoreMenu && (
-            <div className={styles["cp-page-header__more"]}>
-              {moreMenuItems != null && moreMenuItems.length > 0 ? (
-                <Dropdown
-                  placement="bottom-end"
-                  content={
-                    <MoreMenuList
-                      items={moreMenuItems}
-                      className={styles["cp-page-header__more-list"]}
-                    />
-                  }
-                  renderTrigger={renderMoreTrigger}
-                />
-              ) : moreMenuContent != null ? (
-                <Dropdown
-                  placement="bottom-end"
-                  content={
-                    <div className={styles["cp-page-header__more-list"]}>
-                      {moreMenuContent}
-                    </div>
-                  }
-                  renderTrigger={renderMoreTrigger}
-                />
-              ) : null}
-            </div>
-          )}
-        </div>
+        {hasActions && (
+          <div className={styles["cp-page-header-actions"]}>
+            {primaryCta != null && (
+              <div className={styles["cp-page-header-cta"]}>{primaryCta}</div>
+            )}
+            {hasMoreMenu && (
+              <Dropdown
+                placement="bottom-end"
+                content={moreMenuPanel}
+                renderTrigger={renderMoreTrigger}
+              />
+            )}
+          </div>
+        )}
       </div>
     </header>
   );
