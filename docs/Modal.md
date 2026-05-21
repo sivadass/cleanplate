@@ -137,10 +137,10 @@ const App = () => {
 
 ## Behavior Notes
 
-- **Rendering:** When `isOpen` is false, the component returns `null` (nothing in the DOM).
+- **Rendering:** The modal mounts when `isOpen` is true and unmounts shortly after close so the exit transition can finish.
 - **Close:** onClose is called when the user clicks the X button (if showCloseButton), the overlay (if closeOnOverlayClick), or Escape (if closeOnEscape). Footer buttons do not auto-close; call onClose in their handlers if desired.
-- **Body scroll:** When open, `document.body.style.overflow` is set to `"hidden"`; restored on close.
-- **Focus:** On open, focus moves to the modal panel (ref + tabIndex={-1}); on close, focus returns to the previously focused element.
+- **Body scroll:** Body scroll is locked while open and restored when dismissed.
+- **Focus:** Focus is trapped while open and returned to the previously focused element on close.
 - **ARIA:** The overlay has `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` pointing to the title when present.
 - **Spacing:** `margin` accepts a full class string (e.g. "m-0") or an array of spacing suffixes; the component uses `getSpacingClass` with prefix `m-`.
 
