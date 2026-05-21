@@ -1,4 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useId } from "react";
+import {
+  FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useRole,
+  useTransitionStyles,
+} from "@floating-ui/react";
 import Icon from "../icon";
 import Typography from "../typography";
 import Button from "../button";
@@ -67,17 +77,48 @@ const Modal: React.FC<ModalProps> = ({
   secondaryButtonLabel = "",
   onSecondaryButtonClick,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const previousActiveElement = useRef<HTMLElement | null>(null);
+  const titleId = useId();
+  const { refs, context } = useFloating({
+    open: isOpen,
+    onOpenChange: (nextOpen) => {
+      if (!nextOpen && isOpen) {
+        onClose?.();
+      }
+    },
+  });
+
+  const { isMounted, styles: transitionStyles } = useTransitionStyles(context, {
+    duration: {
+      open: 240,
+      close: 180,
+    },
+    initial: {
+      opacity: 0,
+      transform: "translateY(-12px) scale(0.97)",
+    },
+    open: {
+      opacity: 1,
+      transform: "translateY(0) scale(1)",
+    },
+    close: {
+      opacity: 0,
+      transform: "translateY(-8px) scale(0.98)",
+    },
+  });
+
+  const dismiss = useDismiss(context, {
+    outsidePress: closeOnOverlayClick,
+    outsidePressEvent: "pointerdown",
+    escapeKey: closeOnEscape,
+  });
+  const role = useRole(context, { role: "dialog" });
+  const { getFloatingProps } = useInteractions([dismiss, role]);
 
   const marginClass = getSpacingClass(margin, utilStyles, "m");
 
   const modalClasses = getClassNames(
     styles["modal"],
     styles[size],
-    {
-      [styles["open"]]: isOpen,
-    },
     marginClass,
     className
   );
@@ -95,127 +136,88 @@ const Modal: React.FC<ModalProps> = ({
     contentClassName
   );
 
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (closeOnEscape && e.key === "Escape" && isOpen) {
-        onClose?.();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-      // Store the previously focused element
-      previousActiveElement.current = document.activeElement as HTMLElement | null;
-      // Focus the modal
-      modalRef.current?.focus();
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      // Restore focus to the previously focused element
-      if (previousActiveElement.current) {
-        previousActiveElement.current.focus();
-      }
-    };
-  }, [isOpen, closeOnEscape, onClose]);
-
-  // Handle body scroll lock
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (closeOnOverlayClick && e.target === e.currentTarget) {
-      onClose?.();
-    }
-  };
-
   const handleClose = () => {
     onClose?.();
   };
 
-  if (!isOpen) {
+  if (!isMounted) {
     return null;
   }
 
   return (
-    <div
-      className={overlayClasses}
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={title ? "modal-title" : undefined}
-    >
-      <div
-        ref={modalRef}
-        className={modalClasses}
-        tabIndex={-1}
-        onClick={(e) => e.stopPropagation()}
+    <FloatingPortal>
+      <FloatingOverlay
+        lockScroll
+        className={overlayClasses}
+        style={{ opacity: isOpen ? 1 : 0 }}
       >
-        <div className={contentClasses}>
-          {(title || showCloseButton) && (
-            <div className={styles["header"]}>
-              {title && (
-                <Typography
-                  variant="h2"
-                  id="modal-title"
-                  className={styles["title"]}
-                >
-                  {title}
-                </Typography>
+        <FloatingFocusManager context={context} modal returnFocus>
+          <div
+            ref={refs.setFloating}
+            className={modalClasses}
+            style={transitionStyles}
+            {...getFloatingProps({
+              "aria-modal": "true",
+              "aria-labelledby": title ? titleId : undefined,
+            })}
+          >
+            <div className={contentClasses}>
+              {(title || showCloseButton) && (
+                <div className={styles["header"]}>
+                  {title && (
+                    <Typography
+                      variant="h2"
+                      id={titleId}
+                      className={styles["title"]}
+                    >
+                      {title}
+                    </Typography>
+                  )}
+                  {showCloseButton && (
+                    <Button
+                      variant="icon"
+                      size="small"
+                      onClick={handleClose}
+                      className={styles["close-button"]}
+                      aria-label="Close modal"
+                    >
+                      <Icon name="close" size="small" />
+                    </Button>
+                  )}
+                </div>
               )}
-              {showCloseButton && (
-                <Button
-                  variant="icon"
-                  size="small"
-                  onClick={handleClose}
-                  className={styles["close-button"]}
-                  aria-label="Close modal"
-                >
-                  <Icon name="close" size="small" />
-                </Button>
+              <div className={styles["body"]}>
+                {children}
+              </div>
+              {(primaryButtonLabel || secondaryButtonLabel) && (
+                <div className={styles["footer"]}>
+                  {secondaryButtonLabel && (
+                    <Button
+                      variant="outline"
+                      size="medium"
+                      onClick={onSecondaryButtonClick}
+                      className={styles["footer-button"]}
+                    >
+                      {secondaryButtonLabel}
+                    </Button>
+                  )}
+                  {primaryButtonLabel && (
+                    <Button
+                      variant="solid"
+                      size="medium"
+                      onClick={onPrimaryButtonClick}
+                      className={styles["footer-button"]}
+                    >
+                      {primaryButtonLabel}
+                    </Button>
+                  )}
+                </div>
               )}
             </div>
-          )}
-          <div className={styles["body"]}>
-            {children}
           </div>
-          {(primaryButtonLabel || secondaryButtonLabel) && (
-            <div className={styles["footer"]}>
-              {secondaryButtonLabel && (
-                <Button
-                  variant="outline"
-                  size="medium"
-                  onClick={onSecondaryButtonClick}
-                  className={styles["footer-button"]}
-                >
-                  {secondaryButtonLabel}
-                </Button>
-              )}
-              {primaryButtonLabel && (
-                <Button
-                  variant="solid"
-                  size="medium"
-                  onClick={onPrimaryButtonClick}
-                  className={styles["footer-button"]}
-                >
-                  {primaryButtonLabel}
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+        </FloatingFocusManager>
+      </FloatingOverlay>
+    </FloatingPortal>
   );
 };
 
