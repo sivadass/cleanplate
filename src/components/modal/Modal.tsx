@@ -24,6 +24,47 @@ export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 
 export type ModalMargin = string | SpacingOption[];
 
+const MODAL_TRANSITION_CONFIG = {
+  duration: {
+    open: 320,
+    close: 320,
+  },
+  initial: {
+    opacity: 0,
+    transform: "translateY(28px) scale(0.94)",
+  },
+  open: {
+    opacity: 1,
+    transform: "translateY(0) scale(1)",
+  },
+  close: {
+    opacity: 0,
+    transform: "translateY(44px) scale(0.9)",
+  },
+  common: {
+    transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+  },
+};
+
+const OVERLAY_TRANSITION_CONFIG = {
+  duration: {
+    open: 280,
+    close: 260,
+  },
+  initial: {
+    opacity: 0,
+  },
+  open: {
+    opacity: 1,
+  },
+  close: {
+    opacity: 0,
+  },
+  common: {
+    transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+  },
+};
+
 export interface ModalProps {
   /** Modal content */
   children: React.ReactNode;
@@ -87,47 +128,15 @@ const Modal: React.FC<ModalProps> = ({
     },
   });
 
-  const { isMounted, styles: modalTransitionStyles } = useTransitionStyles(context, {
-    duration: {
-      open: 320,
-      close: 320,
-    },
-    initial: {
-      opacity: 0,
-      transform: "translateY(28px) scale(0.94)",
-    },
-    open: {
-      opacity: 1,
-      transform: "translateY(0) scale(1)",
-    },
-    close: {
-      opacity: 0,
-      transform: "translateY(44px) scale(0.9)",
-      filter: "blur(2px)",
-    },
-    common: {
-      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-    },
-  });
+  const { isMounted, styles: modalTransitionStyles } = useTransitionStyles(
+    context,
+    MODAL_TRANSITION_CONFIG
+  );
 
-  const { styles: overlayTransitionStyles } = useTransitionStyles(context, {
-    duration: {
-      open: 280,
-      close: 260,
-    },
-    initial: {
-      opacity: 0,
-    },
-    open: {
-      opacity: 1,
-    },
-    close: {
-      opacity: 0,
-    },
-    common: {
-      transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-    },
-  });
+  const { styles: overlayTransitionStyles } = useTransitionStyles(
+    context,
+    OVERLAY_TRANSITION_CONFIG
+  );
 
   const dismiss = useDismiss(context, {
     outsidePress: closeOnOverlayClick,
