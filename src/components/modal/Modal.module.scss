@@ -29,13 +29,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  transform: scale(0.9) translateY(-20px);
-  transition: transform 0.3s ease;
   outline: none;
-
-  &.open {
-    transform: scale(1) translateY(0);
-  }
+  will-change: transform, opacity;
 
   &.small {
     max-width: var(--length-small);
@@ -169,29 +164,6 @@
   min-width: 80px;
 }
 
-// Animation keyframes
-@keyframes modal-fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes modal-fade-out {
-  from {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-}
-
 // Responsive design
 @media (max-width: 768px) {
   .overlay {
@@ -268,6 +240,11 @@
   }
 }
 
+// Focus management
+.modal:focus {
+  outline: none;
+}
+
 // High contrast mode support
 @media (prefers-contrast: high) {
   .overlay {
@@ -280,5 +257,13 @@
 
   .header {
     border-bottom-color: var(--black);
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .close-button {
+    transition: none;
   }
 }

@@ -46,25 +46,6 @@ const MODAL_TRANSITION_CONFIG = {
   },
 };
 
-const OVERLAY_TRANSITION_CONFIG = {
-  duration: {
-    open: 280,
-    close: 260,
-  },
-  initial: {
-    opacity: 0,
-  },
-  open: {
-    opacity: 1,
-  },
-  close: {
-    opacity: 0,
-  },
-  common: {
-    transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-  },
-};
-
 export interface ModalProps {
   /** Modal content */
   children: React.ReactNode;
@@ -133,11 +114,6 @@ const Modal: React.FC<ModalProps> = ({
     MODAL_TRANSITION_CONFIG
   );
 
-  const { styles: overlayTransitionStyles } = useTransitionStyles(
-    context,
-    OVERLAY_TRANSITION_CONFIG
-  );
-
   const dismiss = useDismiss(context, {
     outsidePress: closeOnOverlayClick,
     outsidePressEvent: "pointerdown",
@@ -155,7 +131,13 @@ const Modal: React.FC<ModalProps> = ({
     className
   );
 
-  const overlayClasses = getClassNames(styles["overlay"], overlayClassName);
+  const overlayClasses = getClassNames(
+    styles["overlay"],
+    {
+      [styles["overlay-open"]]: isOpen,
+    },
+    overlayClassName
+  );
 
   const contentClasses = getClassNames(
     styles["content"],
@@ -175,10 +157,6 @@ const Modal: React.FC<ModalProps> = ({
       <FloatingOverlay
         lockScroll
         className={overlayClasses}
-        style={{
-          ...overlayTransitionStyles,
-          pointerEvents: isOpen ? "auto" : "none",
-        }}
       >
         <FloatingFocusManager context={context} modal returnFocus>
           <div
