@@ -87,14 +87,14 @@ const Modal: React.FC<ModalProps> = ({
     },
   });
 
-  const { isMounted, styles: transitionStyles } = useTransitionStyles(context, {
+  const { isMounted, styles: modalTransitionStyles } = useTransitionStyles(context, {
     duration: {
-      open: 240,
-      close: 180,
+      open: 320,
+      close: 200,
     },
     initial: {
       opacity: 0,
-      transform: "translateY(-12px) scale(0.97)",
+      transform: "translateY(28px) scale(0.94)",
     },
     open: {
       opacity: 1,
@@ -102,7 +102,29 @@ const Modal: React.FC<ModalProps> = ({
     },
     close: {
       opacity: 0,
-      transform: "translateY(-8px) scale(0.98)",
+      transform: "translateY(10px) scale(0.97)",
+    },
+    common: {
+      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+    },
+  });
+
+  const { styles: overlayTransitionStyles } = useTransitionStyles(context, {
+    duration: {
+      open: 280,
+      close: 180,
+    },
+    initial: {
+      opacity: 0,
+    },
+    open: {
+      opacity: 1,
+    },
+    close: {
+      opacity: 0,
+    },
+    common: {
+      transitionTimingFunction: "cubic-bezier(0.2, 0.9, 0.2, 1)",
     },
   });
 
@@ -123,13 +145,7 @@ const Modal: React.FC<ModalProps> = ({
     className
   );
 
-  const overlayClasses = getClassNames(
-    styles["overlay"],
-    {
-      [styles["overlay-open"]]: isOpen,
-    },
-    overlayClassName
-  );
+  const overlayClasses = getClassNames(styles["overlay"], overlayClassName);
 
   const contentClasses = getClassNames(
     styles["content"],
@@ -149,13 +165,16 @@ const Modal: React.FC<ModalProps> = ({
       <FloatingOverlay
         lockScroll
         className={overlayClasses}
-        style={{ opacity: isOpen ? 1 : 0 }}
+        style={{
+          ...overlayTransitionStyles,
+          pointerEvents: isOpen ? "auto" : "none",
+        }}
       >
         <FloatingFocusManager context={context} modal returnFocus>
           <div
             ref={refs.setFloating}
             className={modalClasses}
-            style={transitionStyles}
+            style={modalTransitionStyles}
             {...getFloatingProps({
               "aria-modal": "true",
               "aria-labelledby": title ? titleId : undefined,
