@@ -90,7 +90,7 @@ const Modal: React.FC<ModalProps> = ({
   const { isMounted, styles: modalTransitionStyles } = useTransitionStyles(context, {
     duration: {
       open: 320,
-      close: 200,
+      close: 320,
     },
     initial: {
       opacity: 0,
@@ -102,7 +102,8 @@ const Modal: React.FC<ModalProps> = ({
     },
     close: {
       opacity: 0,
-      transform: "translateY(10px) scale(0.97)",
+      transform: "translateY(44px) scale(0.9)",
+      filter: "blur(2px)",
     },
     common: {
       transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -112,7 +113,7 @@ const Modal: React.FC<ModalProps> = ({
   const { styles: overlayTransitionStyles } = useTransitionStyles(context, {
     duration: {
       open: 280,
-      close: 180,
+      close: 260,
     },
     initial: {
       opacity: 0,
@@ -124,7 +125,7 @@ const Modal: React.FC<ModalProps> = ({
       opacity: 0,
     },
     common: {
-      transitionTimingFunction: "cubic-bezier(0.2, 0.9, 0.2, 1)",
+      transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
     },
   });
 
