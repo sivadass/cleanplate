@@ -6,7 +6,7 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 
 | Control | Purpose | Key props |
 | --- | --- | --- |
-| Input | Single-line text | placeholder, value, onChange(e), type |
+| Input | Single-line text | placeholder, value, onChange(e), type, `phoneDigits` (numeric autofill) |
 | TextArea | Multi-line text | placeholder, value, onChange(e) |
 | Select | Floating UI combobox: desktop portalled list; **≤768px** bottom sheet; sync or async options, search, groups, multi chips + cap | `mode` / `isMulti`, `options`, `onSearch`, `searchable`, `groups`, `maxSelect`, `triggerMaxItems`, `panelMinWidth`, `name`, `placeholder`, `error` |
 | Date | Calendar date picker (`date-fns` + Floating UI); **Cancel** / **OK** staging; desktop **popover** (~**400px** max width, viewport-capped); **≤768px** **bottom sheet** + backdrop; **month** / **year** subviews with back + titled headers; trigger **`calendar_month`** icon | `value`/`defaultValue` (`Date \| null`), `onChange`, `minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`, `locale`, `weekStartsOn`, `dateFormat`, `clearable`, `readOnly`, `name` (hidden **yyyy-MM-dd**), `popoverPlacement`, `onOpen`/`onClose` |
@@ -129,6 +129,12 @@ interface InputProps {
   prefixA11yLabel?: string;
   /** Spoken label for screen readers when `suffix` is a symbol/abbreviation. */
   suffixA11yLabel?: string;
+  /**
+   * For `type="number"` only: after non-digits are removed, keep the last N digits
+   * when the value is longer — e.g. browser autofill `+91 98765 43210` → `9876543210`.
+   * Pair with `autoComplete="tel"` and `maxLength` for phone fields.
+   */
+  phoneDigits?: number;
 }
 ```
 
@@ -198,10 +204,27 @@ const [tags, setTags] = useState([{ label: "A", value: "a" }]);
 
 ```jsx
 <FormControls.Input label="Amount"   type="number" prefix="$"   suffix="USD" placeholder="0.00" />
-<FormControls.Input label="Phone"    type="tel"    prefix="+91" placeholder="98765 43210" />
 <FormControls.Input label="Weight"   type="number" suffix="kg"  placeholder="0" />
 <FormControls.Input label="Discount" type="number" suffix="%"   placeholder="0" />
 <FormControls.Input label="Website"  type="url"    suffix=".com" placeholder="acme" />
+```
+
+### Input — phone number (browser autofill)
+
+Use `type="number"` (digit-only numeric input), `autoComplete="tel"` so the browser offers saved numbers, `prefix` for the visible country code, `phoneDigits={10}` to strip non-digits and keep the **last 10 digits** when autofill includes a country code (e.g. `+91 98765 43210` → `9876543210`), and `maxLength={10}` to cap manual entry.
+
+```jsx
+<FormControls.Input
+  label="Mobile number"
+  name="mobile"
+  type="number"
+  autoComplete="tel"
+  prefix="+91"
+  phoneDigits={10}
+  maxLength={10}
+  placeholder="10-digit mobile"
+  isRequired
+/>
 ```
 
 ### TextArea and Date
@@ -370,7 +393,8 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 
 ## Behavior Notes
 
-- **Input (`type="number"`):** Renders as `<input type="text" inputmode="numeric" pattern="[0-9]*">` so the field shows the numeric keypad on mobile, validates digit-only input via HTML5 pattern, and avoids the well-known UX issues of native `type="number"` (scroll-wheel mutates value, spinner buttons, accepts `e`/`+`/`-`). Consumers still pass `type="number"` at the API boundary; for decimals or signed numbers, use `type="text"` and add a custom `inputMode`/validation.
+- **Input (`type="number"`):** Renders as `<input type="text" inputmode="numeric" pattern="[0-9]*">` so the field shows the numeric keypad on mobile, validates digit-only input via HTML5 pattern, and avoids the well-known UX issues of native `type="number"` (scroll-wheel mutates value, spinner buttons, accepts `e`/`+`/`-`). Non-digits are stripped on `change` (covers browser autofill and paste). Consumers still pass `type="number"` at the API boundary; for decimals or signed numbers, use `type="text"` and add a custom `inputMode`/validation.
+- **Input (`phoneDigits`):** Optional on `type="number"`. After non-digits are removed, values longer than `phoneDigits` are trimmed to the **last N digits** — use for phone fields when autofill inserts a country code (`+91 9876543210` → `9876543210` with `phoneDigits={10}`). Normalizes on `change` and `blur`. Pair with `autoComplete="tel"` and `maxLength`; show the country code via `prefix` (not in the value).
 - **Input (`type="search"`):** Keeps `type="search"` semantics (mobile search keyboard, autosuggest history) but hides the browser's native cancel button and renders a leading `search` icon plus a custom `close` clear button from the icon library. The clear button shows only when the input has content, focuses the input on click, and emits a synthetic `onChange` with an empty value so both controlled (`value`/`onChange`) and uncontrolled (`defaultValue`) usage stay in sync.
 - **Input (`prefix` / `suffix`):** Inline leading/trailing text affix for currency (`$`), country code (`+91`), unit (`kg`, `%`), TLD (`.com`), etc. Soft-capped at 4 characters so the layout stays predictable; longer strings are truncated. When set, the field's outer wrapper takes over the visible border / padding / focus ring so the affixes read as part of the same input. Affixes are linked to the input via `aria-describedby`, so screen readers announce e.g. "Amount, dollars, $500" when the visible affix is `$`. For symbols/abbreviations that don't read well, pass `prefixA11yLabel` / `suffixA11yLabel` (e.g. `prefix="$"`, `prefixA11yLabel="dollars"`). Ignored when `type="search"` (search already uses both edges) — for any other `type`, including `number`, affixes work as expected.
 - **Input (validation / constraints):** `maxLength` is passed straight to the native attribute (works for any `type`). `min` / `max` are passed to the native attribute (HTML5 form-validation hints) and, for `type="number"` only, also clamped on `blur` — the user can finish typing freely and the value snaps to the bound when they leave the field.

@@ -273,6 +273,64 @@ export const InputNumber = {
 };
 
 /* -------------------------------------------------------------------------- */
+/* Input (phone / tel autofill)                                                */
+/* -------------------------------------------------------------------------- */
+
+export const InputPhone = {
+  name: "Input (phone number)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Phone field: `type="number"`, `autoComplete="tel"`, `phoneDigits={10}`, and `maxLength={10}`. When the browser autofills a number with a country code (e.g. `+91 98765 43210`), non-digits are stripped and only the last 10 digits are kept.',
+      },
+    },
+  },
+  argTypes: {
+    ...commonControlArgTypes,
+    ...inputAutoCompleteArgType,
+    phoneDigits: {
+      control: { type: "number", min: 1, max: 15, step: 1 },
+      description: "Trim to last N digits after autofill / paste with country code",
+    },
+    maxLength: { control: { type: "number", min: 1, max: 20, step: 1 } },
+    placeholder: { control: "text" },
+    value: { control: "text" },
+    onChange: { action: "onChange" },
+  },
+  args: {
+    label: "Mobile number",
+    name: "mobile",
+    type: "number",
+    placeholder: "10-digit mobile",
+    autoComplete: "tel",
+    prefix: "+91",
+    phoneDigits: 10,
+    maxLength: 10,
+    value: "",
+    isRequired: true,
+    isDisabled: false,
+    isFluid: false,
+    error: "",
+    dataTestId: "mobile-input",
+  } as Partial<InputArgs>,
+  render: (args: InputArgs) => {
+    const [, updateArgs] = useArgs();
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.Input
+          {...args}
+          onChange={(e) => {
+            args.onChange?.(e);
+            updateArgs({ value: e.target.value });
+          }}
+        />
+      </Container>
+    );
+  },
+};
+
+/* -------------------------------------------------------------------------- */
 /* Input (prefix / suffix affixes)                                             */
 /* -------------------------------------------------------------------------- */
 

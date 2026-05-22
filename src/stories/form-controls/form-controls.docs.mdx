@@ -10,7 +10,7 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbo
 
 ## Features
 
-- **Input:** Text input with label, placeholder, required indicator, error message, isFluid. `type="number"` is mapped to `<input type="text" inputmode="numeric" pattern="[0-9]*">` for predictable behavior on desktop and a numeric keypad on mobile (avoids the UX issues of native `type="number"`). `type="search"` adds a leading `search` icon, hides the browser's native clear button, and renders a custom `close` clear control that appears only when the field has content. Pass `prefix` / `suffix` (≤ 4 chars) for inline affixes like currency (`$`), country code (`+91`), unit (`kg`, `%`), or TLD (`.com`).
+- **Input:** Text input with label, placeholder, required indicator, error message, isFluid. `type="number"` is mapped to `<input type="text" inputmode="numeric" pattern="[0-9]*">` for predictable behavior on desktop and a numeric keypad on mobile (avoids the UX issues of native `type="number"`). For phone fields, use `autoComplete="tel"`, `phoneDigits={10}`, and `maxLength={10}` so browser autofill with a country code (e.g. `+91 98765 43210`) is normalized to the last 10 digits. `type="search"` adds a leading `search` icon, hides the browser's native clear button, and renders a custom `close` clear control that appears only when the field has content. Pass `prefix` / `suffix` (≤ 4 chars) for inline affixes like currency (`$`), country code (`+91`), unit (`kg`, `%`), or TLD (`.com`).
 - **TextArea:** Multi-line text with same options as Input
 - **Select:** Single or multi select with options `{ label, value }`; dropdown with placeholder
 - **Date:** Calendar **`Date | null`**, **Cancel / OK** staging, `date-fns` + **Floating UI** (desktop **popover** ~400px max width, **≤768px** bottom sheet + backdrop). **Month/year pickers** as subviews with back + **“Select a month of \{yyyy\}”** / **“Select a year for \{MMMM\}”**. Trigger **`calendar_month`** icon; **`minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`**, **`locale`**, **`dateFormat`**, **`weekStartsOn`**, **`clearable`**, **`readOnly`**, **`popoverPlacement`**, **`onOpen`/`onClose`**, optional **`name`** (hidden **yyyy-MM-dd**).
@@ -54,6 +54,22 @@ const App = () => (
 <FormControls.Input label="Email" placeholder="user@acme.com" isRequired />
 <FormControls.Input label="Email" error="Email is required" />
 <FormControls.Input label="Email" isFluid />
+```
+
+Phone field with browser autofill normalization (`phoneDigits` keeps the last 10 digits after country code is stripped):
+
+```jsx
+<FormControls.Input
+  label="Mobile number"
+  name="mobile"
+  type="number"
+  autoComplete="tel"
+  prefix="+91"
+  phoneDigits={10}
+  maxLength={10}
+  placeholder="10-digit mobile"
+  isRequired
+/>
 ```
 
 ### TextArea
@@ -212,13 +228,47 @@ const [files, setFiles] = useState([]);
 
 ## Storybook playground
 
-In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). **Date** also has focused stories: **min / max**, **week starts Monday**, **disabled weekends + dates**, **locale + display format**, **required + error**, **read-only & no clear**, **form (hidden yyyy-MM-dd)**, and **narrow viewport (bottom sheet)**. For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
+In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). **Input** stories include **Input (number)**, **Input (phone number)** (autofill + `phoneDigits`), **Input (prefix / suffix)**, and **Input (search)**. **Date** also has focused stories: **min / max**, **week starts Monday**, **disabled weekends + dates**, **locale + display format**, **required + error**, **read-only & no clear**, **form (hidden yyyy-MM-dd)**, and **narrow viewport (bottom sheet)**. For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
 
 ## Props
 
 FormControls is a namespace. Each control has its own props:
 
 ### Input
+
+Key props beyond the generated table:
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>type</code></td>
+      <td>string</td>
+      <td><code>"number"</code> maps to numeric text input; <code>"search"</code> adds icon + clear button</td>
+    </tr>
+    <tr>
+      <td><code>phoneDigits</code></td>
+      <td>number</td>
+      <td>For <code>type="number"</code>: strip non-digits, then keep last N digits (browser autofill with country code). Use with <code>autoComplete="tel"</code></td>
+    </tr>
+    <tr>
+      <td><code>prefix</code> / <code>suffix</code></td>
+      <td>string</td>
+      <td>Inline affix (max 4 chars). Ignored for <code>type="search"</code></td>
+    </tr>
+    <tr>
+      <td><code>min</code> / <code>max</code></td>
+      <td>number | string</td>
+      <td>Clamped on blur for <code>type="number"</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <ArgsTable of={FormControls.Input} />
 

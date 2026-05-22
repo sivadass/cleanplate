@@ -54,6 +54,12 @@ export interface InputProps {
   prefixA11yLabel?: string;
   /** See `prefixA11yLabel`. */
   suffixA11yLabel?: string;
+  /**
+   * For `type="number"`: after non-digits are removed, keep only the last N digits
+   * when the value is longer (e.g. browser autofill `+91 98765 43210` → `9876543210`).
+   * Pair with `autoComplete="tel"` and `maxLength={10}` for phone fields.
+   */
+  phoneDigits?: number;
 }
 
 /* Soft cap for prefix/suffix text — keeps the inline layout predictable. */
@@ -86,6 +92,22 @@ const safeSetSelectionRange = (
   }
 };
 
+/** Strip non-digits; optionally keep the last `phoneDigits` (autofill / country code). */
+const sanitizeNumericInputValue = (
+  raw: string,
+  phoneDigits?: number
+): string => {
+  let digits = raw.replace(/\D/g, "");
+  if (
+    phoneDigits != null &&
+    phoneDigits > 0 &&
+    digits.length > phoneDigits
+  ) {
+    digits = digits.slice(-phoneDigits);
+  }
+  return digits;
+};
+
 const Input: React.FC<InputProps> = ({
   name,
   id,
@@ -111,6 +133,7 @@ const Input: React.FC<InputProps> = ({
   suffix,
   prefixA11yLabel,
   suffixA11yLabel,
+  phoneDigits,
 }) => {
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
@@ -149,18 +172,24 @@ const Input: React.FC<InputProps> = ({
   const currentValue = isControlled ? value ?? "" : internalValue;
   const showClear = isSearch && !isDisabled && currentValue.length > 0;
 
+  const applyNumericSanitize = (el: HTMLInputElement) => {
+    const cleaned = sanitizeNumericInputValue(el.value, phoneDigits);
+    if (cleaned === el.value) return;
+    const removed = el.value.length - cleaned.length;
+    const caret = (el.selectionStart ?? cleaned.length) - removed;
+    el.value = cleaned;
+    const safe = Math.max(0, Math.min(caret, cleaned.length));
+    safeSetSelectionRange(el, safe, safe);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const el = e.target;
     /* Safety net for numeric inputs — `onBeforeInput` covers typing/paste/IME
      * on every modern browser, but if any non-digit slips through (drag-drop
-     * text, programmatic .value mutation, older Safari), strip it here. */
-    if (isNumeric && /\D/.test(el.value)) {
-      const cleaned = el.value.replace(/\D/g, "");
-      const removed = el.value.length - cleaned.length;
-      const caret = (el.selectionStart ?? cleaned.length) - removed;
-      el.value = cleaned;
-      const safe = Math.max(0, Math.min(caret, cleaned.length));
-      safeSetSelectionRange(el, safe, safe);
+     * text, browser autofill with `+country`, programmatic .value mutation,
+     * older Safari), strip (and optionally trim to last `phoneDigits`) here. */
+    if (isNumeric) {
+      applyNumericSanitize(el);
     }
     if (isControlled && supportsSelection) {
       pendingSelectionRef.current = {
@@ -230,6 +259,9 @@ const Input: React.FC<InputProps> = ({
    * field snaps to the bound when they leave it.
    */
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (isNumeric && phoneDigits != null && phoneDigits > 0) {
+      applyNumericSanitize(e.target);
+    }
     if (isNumeric && e.target.value !== "" && (min !== undefined || max !== undefined)) {
       const num = Number(e.target.value);
       if (!Number.isNaN(num)) {
