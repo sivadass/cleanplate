@@ -26,7 +26,11 @@ export interface MenuListItem {
 }
 
 export interface MenuListProps {
-  /** List of menu items; each has label, value, and optional icon */
+  /**
+   * List of menu items; each has label, value, and optional icon.
+   * Also used as a **tab bar** (tabs): set `direction="horizontal"`, control `activeItem`,
+   * and render panel content in the parent. CleanPlate has no separate `Tabs` component.
+   */
   items: MenuListItem[];
   /** Value of the currently active item (matches item.value) */
   activeItem?: string;

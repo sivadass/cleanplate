@@ -147,7 +147,7 @@ import { Icon } from "cleanplate";
 | Header         | App header with nav |
 | Icon           | Material Symbols icons |
 | MediaObject    | Media + title + description |
-| MenuList       | Navigation lists |
+| MenuList       | Navigation lists; **tabs / tab bar** (no separate Tabs component) |
 | Modal          | Dialogs, overlays |
 | PageHeader     | Page title + CTA + more menu |
 | Pagination     | Page navigation |

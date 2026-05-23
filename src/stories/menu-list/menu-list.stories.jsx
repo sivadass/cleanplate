@@ -16,6 +16,18 @@ const DEFAULT_ITEMS = [
   { label: "Support", value: "/support", icon: "call" },
 ];
 
+const TAB_ITEMS = [
+  { label: "Overview", value: "overview", icon: "dashboard" },
+  { label: "Activity", value: "activity", icon: "history" },
+  { label: "Settings", value: "settings", icon: "settings" },
+];
+
+const TAB_PANELS = {
+  overview: "Overview content — summary metrics and recent updates.",
+  activity: "Activity content — timeline of events and changes.",
+  settings: "Settings content — preferences and account options.",
+};
+
 const meta = {
   title: "molecules/MenuList/Playground",
   component: MenuList,
@@ -124,6 +136,46 @@ export const Directions = {
             <MenuList items={items} activeItem={activeItem} onMenuClick={onMenuClick} direction="vertical" />
           </div>
         </div>
+      </Container>
+    );
+  },
+};
+
+export const Tabs = {
+  name: "Tabs",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Recommended tab bar pattern: horizontal MenuList + panel content keyed off activeItem. There is no separate Tabs component — see molecules/Tabs in the docs.",
+      },
+    },
+  },
+  render: () => {
+    const [activeItem, setActiveItem] = React.useState("overview");
+    const onMenuClick = (menuItem) => setActiveItem(menuItem.value);
+    return (
+      <Container padding="4" width="full">
+        <Typography variant="h5" margin="m-0 m-b-2">
+          Tabs (use MenuList)
+        </Typography>
+        <Typography variant="p" margin="m-0 m-b-2">
+          Horizontal MenuList acts as the tab control; panel copy below follows{" "}
+          <code>activeItem</code>.
+        </Typography>
+        <MenuList
+          items={TAB_ITEMS}
+          direction="horizontal"
+          variant="light"
+          activeItem={activeItem}
+          onMenuClick={onMenuClick}
+          margin="b-2"
+        />
+        <Container padding="4" display="block">
+          <Typography variant="p" margin="0">
+            {TAB_PANELS[activeItem]}
+          </Typography>
+        </Container>
       </Container>
     );
   },

@@ -30,6 +30,9 @@ When generating code that uses CleanPlate components, **use component props inst
 - **Container:** Use `padding`, `margin`, `gap`, `align`, `justify`, `display`, `width` props (spacing uses suffix rule above).
 - **Button, Alert, Badge, etc.:** Each has documented props (e.g. variant, size, margin). Prefer these over inline style. Any `margin` or `padding` prop follows the suffix rule. See `docs/<ComponentName>.md` for the full prop list.
 
+### Tabs (no separate component)
+- CleanPlate does **not** export `Tabs`. For tab bars / in-page tab UIs, use **`MenuList`** (`docs/MenuList.md`): `direction="horizontal"`, `activeItem`, `onMenuClick`, then render panel content from the same `activeItem` state in the parent. Do not add a `Tabs` import or expect a `docs/Tabs.md` file.
+
 ### Example (correct)
 ```jsx
 <Typography variant="h4" align="center" margin="b-2">Login</Typography>
@@ -193,10 +196,11 @@ All component documentation is located in the `docs/` folder. The following docu
 
 ### MenuList Component
 - File: `docs/MenuList.md`
-- Purpose: Renders a list of navigational items with optional icons, active state highlighting, and customizable layout.
+- **Aliases (LLM / search):** **Tabs**, **tab bar**, **tab list** — there is no separate Tabs component; use MenuList + parent-rendered panels (see “Tabs (in-page panels)” in `docs/MenuList.md`).
+- Purpose: Renders a list of navigational items with optional icons, active state highlighting, and customizable layout. Use for nav menus, sidebars, dropdown actions, **and horizontal tab bars** with conditional panel content below.
 - Key Features: items (label, value, icon), activeItem, direction (horizontal, vertical), sizes (small, medium, large), variants (light, dark), margin (suffix API), onMenuClick(item), Animated entrance
 - Types: MenuListProps, MenuListItem, MenuListSize, MenuListVariant, MenuListDirection, MenuListMargin
-- Related Components: Dropdown (content), Header (navigation), Container, Typography, Icon, Animated (used internally)
+- Related Components: Dropdown (content), Header (navigation), Container (tab panels + layout), Typography, Icon, Animated (used internally)
 
 ### Header Component
 - File: `docs/Header.md`
@@ -268,7 +272,7 @@ All documentation files follow a consistent format:
 | Animated | `docs/Animated.md` | Scroll-triggered entrance/exit animations |
 | FormControls | `docs/FormControls.md` | Form primitives (Input, Select, TextArea, Date, Checkbox, **numeric Stepper**, etc.) |
 | Toast | `docs/Toast.md` | Transient messages via ref.addMessage |
-| MenuList | `docs/MenuList.md` | Nav menus and link lists with icons |
+| MenuList | `docs/MenuList.md` | Nav menus, link lists, **tabs / tab bar** (no separate Tabs) |
 | Header | `docs/Header.md` | Responsive navigation header with logo and menu |
 | PageHeader | `docs/PageHeader.md` | Page title, subtitle, primary CTA, and more menu |
 | BottomSheet | `docs/BottomSheet.md` | Slide-up panel for forms and actions |

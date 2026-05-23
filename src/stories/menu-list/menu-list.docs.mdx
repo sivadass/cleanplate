@@ -4,12 +4,17 @@ import { MenuList, Container, Typography } from "../../index";
 
 <Meta title="molecules/MenuList/Documentation" />
 
-# MenuList
+# MenuList (tabs / tab bar)
 
-The `MenuList` component renders a list of navigational items with optional icons, active state highlighting, and customizable layout. Use it for nav menus, sidebars, or any list of links. Supports horizontal and vertical directions, sizes, and variants with fade-in animations.
+The `MenuList` component renders a list of navigational items with optional icons, active state highlighting, and customizable layout. Use it for nav menus, sidebars, link lists, **and in-page tabs**.
+
+> **Tabs:** CleanPlate does **not** include a separate `Tabs` component. For tab bars, use **MenuList** with `direction="horizontal"`, `activeItem`, and `onMenuClick`, then render the active panel in the parent from the same state. Searching Storybook for **“tabs”** opens **molecules → Tabs** (this guide) and **MenuList → Playground → Tabs**.
+
+Supports horizontal and vertical directions, sizes, and variants with fade-in animations.
 
 ## Features
 
+- **Tabs alias:** Same component as a tab bar — no `Tabs` export in `cleanplate`
 - **Items:** Each item has `label`, `value`, and optional `icon` (Material icon name)
 - **Active state:** Use `activeItem` (matches `item.value`) to highlight the current item
 - **Directions:** `horizontal` or `vertical` layout
@@ -76,6 +81,39 @@ Use `variant` for light or dark styling.
 </Container>
 ```
 
+### Tabs (in-page panels)
+
+```jsx
+import { useState } from "react";
+import { MenuList, Container, Typography } from "cleanplate";
+
+const TAB_ITEMS = [
+  { label: "General", value: "general" },
+  { label: "Security", value: "security" },
+];
+
+const SettingsTabs = () => {
+  const [activeItem, setActiveItem] = useState("general");
+  return (
+    <>
+      <MenuList
+        items={TAB_ITEMS}
+        direction="horizontal"
+        activeItem={activeItem}
+        onMenuClick={(item) => setActiveItem(item.value)}
+        margin="b-2"
+      />
+      {activeItem === "general" && (
+        <Typography variant="p">General settings.</Typography>
+      )}
+      {activeItem === "security" && (
+        <Typography variant="p">Security settings.</Typography>
+      )}
+    </>
+  );
+};
+```
+
 ## Spacing (margin)
 
 `margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2). Use a single string or array of suffixes.
@@ -87,6 +125,7 @@ Use `variant` for light or dark styling.
 
 ## Behavior
 
+- **Tabs:** Do not import `Tabs` from `cleanplate` — use MenuList as the tab control and own the panel markup.
 - **Items:** Each item must have `label` and `value`. `icon` is optional (Material icon name).
 - **onMenuClick:** Called with the clicked item. Use it to update `activeItem` or navigate.
 - **DOM:** A `div` wrapping a `ul` of `li` elements; each `li` contains an anchor.

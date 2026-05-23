@@ -1,0 +1,54 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="molecules/Tabs" />
+
+# Tabs
+
+CleanPlate does **not** export a `Tabs` component. For tab bars, settings sections, and in-page panel switching, use **MenuList** (`molecules → MenuList → Documentation`).
+
+## Use MenuList as your tab bar
+
+- Set `direction="horizontal"` for a tab-style control row.
+- Control selection with `activeItem` and `onMenuClick` (same pattern as navigation menus).
+- Render the active panel in the parent from the same `activeItem` state.
+
+```jsx
+import { useState } from "react";
+import { MenuList, Typography } from "cleanplate";
+
+const TAB_ITEMS = [
+  { label: "General", value: "general" },
+  { label: "Security", value: "security" },
+];
+
+const SettingsTabs = () => {
+  const [activeItem, setActiveItem] = useState("general");
+  return (
+    <>
+      <MenuList
+        items={TAB_ITEMS}
+        direction="horizontal"
+        activeItem={activeItem}
+        onMenuClick={(item) => setActiveItem(item.value)}
+        margin="b-2"
+      />
+      {activeItem === "general" && (
+        <Typography variant="p">General settings.</Typography>
+      )}
+      {activeItem === "security" && (
+        <Typography variant="p">Security settings.</Typography>
+      )}
+    </>
+  );
+};
+```
+
+## Where to go next
+
+| In Storybook | What you get |
+| --- | --- |
+| **molecules → MenuList → Documentation** | Full props, behavior, and more examples |
+| **molecules → MenuList → Playground → Tabs** | Live tab bar + panel demo |
+| **molecules → MenuList → Playground** | All MenuList controls (variants, sizes, directions) |
+
+Do not import `Tabs` from `cleanplate` — it is not part of the library.

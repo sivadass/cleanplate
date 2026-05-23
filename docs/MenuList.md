@@ -1,6 +1,8 @@
 # MenuList Component
 
-Purpose: Renders a list of navigational items with optional icons, active state highlighting, and customizable layout. Use for nav menus, sidebars, or link lists. Supports horizontal and vertical directions, sizes (small, medium, large), variants (light, dark), and margin spacing. Items use Animated with fade-in-left on mount.
+**Also known as:** **Tabs**, **tab bar**, **tab list** — CleanPlate does **not** ship a separate `Tabs` component. Use **MenuList** for in-page tab UIs (settings sections, filters, dashboard views). Pair a horizontal MenuList with your own panel content keyed off `activeItem`.
+
+Purpose: Renders a list of navigational items with optional icons, active state highlighting, and customizable layout. Use for nav menus, sidebars, link lists, **and tab bars**. Supports horizontal and vertical directions, sizes (small, medium, large), variants (light, dark), and margin spacing. Items use Animated with fade-in-left on mount.
 
 ## Props / Inputs
 
@@ -97,8 +99,49 @@ const Nav = () => {
 <MenuList items={items} size="large" activeItem={activeItem} onMenuClick={handleClick} />
 ```
 
+### Tabs (in-page panels)
+
+Use `direction="horizontal"`, controlled `activeItem`, and `onMenuClick` as the tab control. Render the active panel below (or beside) based on the same `activeItem` state. Do **not** import or invent a `Tabs` export — it does not exist in CleanPlate.
+
+```jsx
+import { useState } from "react";
+import { MenuList, Container, Typography } from "cleanplate";
+
+const TAB_ITEMS = [
+  { label: "General", value: "general", icon: "settings" },
+  { label: "Security", value: "security", icon: "lock" },
+  { label: "Notifications", value: "notifications", icon: "notifications" },
+];
+
+const PANELS = {
+  general: <Typography variant="p">General settings content.</Typography>,
+  security: <Typography variant="p">Security settings content.</Typography>,
+  notifications: <Typography variant="p">Notification preferences.</Typography>,
+};
+
+const SettingsTabs = () => {
+  const [activeItem, setActiveItem] = useState("general");
+  return (
+    <>
+      <MenuList
+        items={TAB_ITEMS}
+        direction="horizontal"
+        variant="light"
+        activeItem={activeItem}
+        onMenuClick={(item) => setActiveItem(item.value)}
+        margin="b-2"
+      />
+      <Container padding="4">{PANELS[activeItem]}</Container>
+    </>
+  );
+};
+```
+
+For URL-driven tabs, keep `activeItem` in sync with the route (e.g. search param or path segment) in the parent; MenuList stays presentational.
+
 ## Behavior Notes
 
+- **No separate Tabs component:** Search terms like “tabs”, “tab bar”, or “TabList” map to **MenuList** + conditional panel content in the app.
 - **Items:** Each item must have `label` and `value`. `icon` is optional (Material icon name).
 - **onMenuClick:** Called with the clicked item. Use it to update `activeItem` or navigate.
 - **DOM:** A `div` wrapping a `ul` of `li` elements; each `li` contains an anchor.
