@@ -16,17 +16,12 @@ describe("Date (calendar picker)", () => {
         dataTestId="dp"
       />,
     );
-    const trigger = screen.getByRole("combobox", { name: /pick/i });
-    await user.click(trigger);
+    await user.click(screen.getByTestId("dp-trigger"));
     await waitFor(() => {
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(screen.getByTestId("dp-panel")).toBeInTheDocument();
     });
-    const grid = screen.getByRole("grid");
-    const dayBtns = within(grid).getAllByRole("button");
-    const day18Btn = dayBtns.find((b) => b.textContent === "18");
-    expect(day18Btn).toBeDefined();
-    await user.click(day18Btn!);
-    await user.click(screen.getByRole("button", { name: /^done$/i }));
+    await user.click(screen.getByTestId("dp-day-2026-05-18"));
+    await user.click(screen.getByTestId("dp-done"));
     await waitFor(() => {
       expect(onChange).toHaveBeenCalledTimes(1);
     });

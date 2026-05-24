@@ -5,11 +5,13 @@ import styles from "../FormControls.module.scss";
 export interface DatePickerFooterProps {
   onCancel: () => void;
   onOk: () => void;
+  dataTestId?: string;
 }
 
 const DatePickerFooter: React.FC<DatePickerFooterProps> = ({
   onCancel,
   onOk,
+  dataTestId,
 }) => (
   <div className={styles["cp-date-picker-footer"]}>
     <Button
@@ -17,6 +19,7 @@ const DatePickerFooter: React.FC<DatePickerFooterProps> = ({
       size="medium"
       variant="ghost"
       className={`${styles["cp-date-picker-footer-button"]} ${styles["cancel"]}`}
+      data-testid={dataTestId ? `${dataTestId}-cancel` : undefined}
       onClick={(e) => {
         e.stopPropagation();
         onCancel();
@@ -29,6 +32,7 @@ const DatePickerFooter: React.FC<DatePickerFooterProps> = ({
       size="medium"
       variant="outline"
       className={styles["cp-date-picker-footer-button"]}
+      data-testid={dataTestId ? `${dataTestId}-done` : undefined}
       onClick={(e) => {
         e.stopPropagation();
         onOk();

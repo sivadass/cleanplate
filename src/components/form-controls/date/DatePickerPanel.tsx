@@ -27,6 +27,8 @@ import styles from "../FormControls.module.scss";
 export interface DatePickerPanelProps {
   panelId: string;
   gridLabelId: string;
+  /** Base id; grid/footer use `{dataTestId}-grid`, `-cancel`, `-done`, `-day-YYYY-MM-DD`. */
+  dataTestId?: string;
   locale?: Locale;
   weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   constraints: Constraints;
@@ -39,6 +41,7 @@ export interface DatePickerPanelProps {
 const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
   panelId,
   gridLabelId,
+  dataTestId,
   locale = enUS,
   weekStartsOn,
   constraints,
@@ -187,10 +190,12 @@ const DatePickerPanel: React.FC<DatePickerPanelProps> = ({
             isDayUnavailable={isDayUnavailable}
             onSelectDay={(d) => picker.selectDay(d)}
             gridLabelId={gridLabelId}
+            dataTestId={dataTestId}
             onRequestPrevMonth={picker.goPrevMonth}
             onRequestNextMonth={picker.goNextMonth}
           />
           <DatePickerFooter
+            dataTestId={dataTestId}
             onCancel={onRequestCancel ?? picker.cancel}
             onOk={onRequestConfirm ?? picker.confirm}
           />

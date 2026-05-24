@@ -43,6 +43,14 @@ const DATE_PANEL_MOBILE_SHEET_MS = 300;
 /** Desktop fade — sync `--cp-select-desktop-panel-ms` (same as Select). */
 const DATE_PANEL_DESKTOP_PANEL_MS = 200;
 
+/** Root `dataTestId` plus `{base}-{suffix}` on trigger, panel, grid, days, footer, etc. */
+function dateFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
+
 const DATE_MOBILE_SHEET_SURFACE_STYLE: React.CSSProperties = {
   position: "fixed",
   left: 0,
@@ -78,6 +86,11 @@ export interface DateProps {
   label?: string;
   error?: string;
   isFluid?: boolean;
+  /**
+   * Root `data-testid` on the field wrapper. When set, interactive parts also get
+   * suffixed ids: `-trigger`, `-clear`, `-panel`, `-input` (hidden `name` field),
+   * `-grid`, `-day-YYYY-MM-DD`, `-cancel`, `-done`.
+   */
   dataTestId?: string;
   isRequired?: boolean;
   popoverPlacement?: Placement;
@@ -389,6 +402,7 @@ const DatePicker: React.FC<DateProps> = ({
       >
         <div
           ref={refs.setReference}
+          data-testid={dateFieldTestId(dataTestId, "trigger")}
           {...getReferenceProps({
             id: triggerId,
             className: getClassNames(
@@ -439,6 +453,7 @@ const DatePicker: React.FC<DateProps> = ({
                 tabIndex={-1}
                 className={styles["cp-select-trigger-clear"]}
                 aria-label="Clear selection"
+                data-testid={dateFieldTestId(dataTestId, "clear")}
                 onMouseDown={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -471,6 +486,7 @@ const DatePicker: React.FC<DateProps> = ({
             ) : null}
             <div
               ref={refs.setFloating}
+              data-testid={dateFieldTestId(dataTestId, "panel")}
               {...getFloatingProps({
                 id: panelDomId,
                 role: "dialog",
@@ -487,6 +503,7 @@ const DatePicker: React.FC<DateProps> = ({
               <DatePickerPanel
                 panelId={panelDomId}
                 gridLabelId={gridLabelId}
+                dataTestId={dataTestId}
                 locale={locale}
                 weekStartsOn={weekStartsOn}
                 constraints={constraints}
@@ -506,6 +523,7 @@ const DatePicker: React.FC<DateProps> = ({
         <input
           type="hidden"
           name={name}
+          data-testid={dateFieldTestId(dataTestId, "input")}
           value={
             picker.committed ? formatISODate(picker.committed) : ""
           }

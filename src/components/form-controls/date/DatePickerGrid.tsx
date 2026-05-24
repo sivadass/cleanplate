@@ -4,7 +4,11 @@ import { format } from "date-fns/format";
 import getClassNames from "../../../utils/get-class-names";
 import styles from "../FormControls.module.scss";
 import type { CalendarCell } from "./calendar-matrix";
-import { calendarDatesEqual, toCalendarDate } from "./normalize-date";
+import {
+  calendarDatesEqual,
+  formatISODate,
+  toCalendarDate,
+} from "./normalize-date";
 
 export interface DatePickerGridProps {
   weeks: CalendarCell[][];
@@ -17,6 +21,8 @@ export interface DatePickerGridProps {
   onRequestPrevMonth?: () => void;
   onRequestNextMonth?: () => void;
   gridLabelId?: string;
+  /** Day buttons get `{dataTestId}-day-YYYY-MM-DD`; grid uses `{dataTestId}-grid`. */
+  dataTestId?: string;
 }
 
 function flatWeeks(weeks: CalendarCell[][]): CalendarCell[] {
@@ -34,6 +40,7 @@ const DatePickerGrid: React.FC<DatePickerGridProps> = ({
   onRequestPrevMonth,
   onRequestNextMonth,
   gridLabelId,
+  dataTestId,
 }) => {
   const flat = useMemo(() => flatWeeks(weeks), [weeks]);
 
@@ -184,6 +191,7 @@ const DatePickerGrid: React.FC<DatePickerGridProps> = ({
       role="grid"
       aria-labelledby={gridLabelId}
       className={styles["cp-date-picker-grid"]}
+      data-testid={dataTestId ? `${dataTestId}-grid` : undefined}
       tabIndex={-1}
       onKeyDown={handleGridKeyDown}
     >
@@ -219,6 +227,11 @@ const DatePickerGrid: React.FC<DatePickerGridProps> = ({
                   aria-label={format(cell.date, "PPP", { locale })}
                   aria-selected={Boolean(sel)}
                   aria-disabled={disabled || undefined}
+                  data-testid={
+                    dataTestId
+                      ? `${dataTestId}-day-${formatISODate(cell.date)}`
+                      : undefined
+                  }
                   tabIndex={focused && !disabled ? 0 : -1}
                   disabled={disabled}
                   className={getClassNames(
