@@ -128,19 +128,49 @@ const DatePicker: React.FC<DateProps> = ({
     [disabledDates],
   );
 
-  /** Storybook Controls may pass timestamps for `value` / `defaultValue`. */
-  const resolvedValue =
+  /**
+   * Storybook Controls may pass timestamps for `value` / `defaultValue`.
+   * Memoize by timestamp to keep a stable reference — otherwise
+   * `coerceToCalendarDate` returns a new Date every render, causing
+   * an infinite re-render loop in controlled mode (see useDatePickerState).
+   */
+  const valueKey =
     value === undefined
-      ? undefined
+      ? "undefined"
       : value === null
-        ? null
-        : coerceToCalendarDate(value) ?? null;
-  const resolvedDefaultValue =
+        ? "null"
+        : value instanceof Date
+          ? value.getTime()
+          : String(value);
+  const resolvedValue = useMemo(
+    () =>
+      value === undefined
+        ? undefined
+        : value === null
+          ? null
+          : coerceToCalendarDate(value) ?? null,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [valueKey],
+  );
+
+  const defaultValueKey =
     defaultValue === undefined
-      ? undefined
+      ? "undefined"
       : defaultValue === null
-        ? null
-        : coerceToCalendarDate(defaultValue) ?? null;
+        ? "null"
+        : defaultValue instanceof Date
+          ? defaultValue.getTime()
+          : String(defaultValue);
+  const resolvedDefaultValue = useMemo(
+    () =>
+      defaultValue === undefined
+        ? undefined
+        : defaultValue === null
+          ? null
+          : coerceToCalendarDate(defaultValue) ?? null,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [defaultValueKey],
+  );
 
   const isControlled = value !== undefined;
 
