@@ -44,6 +44,11 @@ export interface FileProps {
   isFluid?: boolean;
   className?: string;
   error?: string;
+  /**
+   * Maps to `data-testid` on the underlying `<input type="file">`.
+   * When set, related elements also get suffixed ids:
+   * `-trigger`, `-list`, `-item-{i}`, `-remove-{i}`.
+   */
   dataTestId?: string;
 }
 
@@ -69,6 +74,13 @@ const fileIconName = (file: File): MaterialIconName => {
   if (t.includes("zip") || t.includes("compressed")) return "folder_zip";
   return "description";
 };
+
+function fileFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
 
 const File: React.FC<FileProps> = ({
   name,
@@ -204,6 +216,7 @@ const File: React.FC<FileProps> = ({
         <label
           htmlFor={inputId}
           className={triggerClass}
+          data-testid={fileFieldTestId(dataTestId, "trigger")}
           onDragEnter={handleDragOver}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -219,7 +232,11 @@ const File: React.FC<FileProps> = ({
           <span className={styles["cp-file-trigger-cta"]}>{buttonLabel}</span>
         </label>
       ) : (
-        <label htmlFor={inputId} className={triggerClass}>
+        <label
+          htmlFor={inputId}
+          className={triggerClass}
+          data-testid={fileFieldTestId(dataTestId, "trigger")}
+        >
           <Icon name="upload" size="medium" aria-hidden={true} />
           <span>{buttonLabel}</span>
         </label>
@@ -229,9 +246,14 @@ const File: React.FC<FileProps> = ({
         <ul
           className={styles["cp-file-list"]}
           aria-label={`Selected ${files.length === 1 ? "file" : "files"}`}
+          data-testid={fileFieldTestId(dataTestId, "list")}
         >
           {files.map((f, i) => (
-            <li key={`${f.name}-${i}`} className={styles["cp-file-item"]}>
+            <li
+              key={`${f.name}-${i}`}
+              className={styles["cp-file-item"]}
+              data-testid={dataTestId ? `${dataTestId}-item-${i}` : undefined}
+            >
               <span className={styles["cp-file-item-thumb"]} aria-hidden="true">
                 <Icon name={fileIconName(f)} size="medium" />
               </span>
