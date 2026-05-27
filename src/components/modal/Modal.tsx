@@ -79,6 +79,19 @@ export interface ModalProps {
   secondaryButtonLabel?: string;
   /** Called when the secondary footer button is clicked */
   onSecondaryButtonClick?: () => void;
+  /**
+   * Root `data-testid` on the dialog panel. When set, related elements also get
+   * suffixed ids: `-overlay`, `-header`, `-title`, `-close`, `-body`, `-footer`,
+   * `-primary`, `-secondary`.
+   */
+  dataTestId?: string;
+}
+
+function modalFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -98,6 +111,7 @@ const Modal: React.FC<ModalProps> = ({
   onPrimaryButtonClick,
   secondaryButtonLabel = "",
   onSecondaryButtonClick,
+  dataTestId,
 }) => {
   const titleId = useId();
   const { refs, context } = useFloating({
@@ -157,12 +171,14 @@ const Modal: React.FC<ModalProps> = ({
       <FloatingOverlay
         lockScroll
         className={overlayClasses}
+        data-testid={modalFieldTestId(dataTestId, "overlay")}
       >
         <FloatingFocusManager context={context} modal returnFocus>
           <div
             ref={refs.setFloating}
             className={modalClasses}
             style={modalTransitionStyles}
+            data-testid={dataTestId}
             {...getFloatingProps({
               "aria-modal": "true",
               "aria-labelledby": title ? titleId : undefined,
@@ -170,12 +186,16 @@ const Modal: React.FC<ModalProps> = ({
           >
             <div className={contentClasses}>
               {(title || showCloseButton) && (
-                <div className={styles["header"]}>
+                <div
+                  className={styles["header"]}
+                  data-testid={modalFieldTestId(dataTestId, "header")}
+                >
                   {title && (
                     <Typography
                       variant="h2"
                       id={titleId}
                       className={styles["title"]}
+                      data-testid={modalFieldTestId(dataTestId, "title")}
                     >
                       {title}
                     </Typography>
@@ -187,23 +207,31 @@ const Modal: React.FC<ModalProps> = ({
                       onClick={handleClose}
                       className={styles["close-button"]}
                       aria-label="Close modal"
+                      data-testid={modalFieldTestId(dataTestId, "close")}
                     >
                       <Icon name="close" size="small" />
                     </Button>
                   )}
                 </div>
               )}
-              <div className={styles["body"]}>
+              <div
+                className={styles["body"]}
+                data-testid={modalFieldTestId(dataTestId, "body")}
+              >
                 {children}
               </div>
               {(primaryButtonLabel || secondaryButtonLabel) && (
-                <div className={styles["footer"]}>
+                <div
+                  className={styles["footer"]}
+                  data-testid={modalFieldTestId(dataTestId, "footer")}
+                >
                   {secondaryButtonLabel && (
                     <Button
                       variant="outline"
                       size="medium"
                       onClick={onSecondaryButtonClick}
                       className={styles["footer-button"]}
+                      data-testid={modalFieldTestId(dataTestId, "secondary")}
                     >
                       {secondaryButtonLabel}
                     </Button>
@@ -214,6 +242,7 @@ const Modal: React.FC<ModalProps> = ({
                       size="medium"
                       onClick={onPrimaryButtonClick}
                       className={styles["footer-button"]}
+                      data-testid={modalFieldTestId(dataTestId, "primary")}
                     >
                       {primaryButtonLabel}
                     </Button>

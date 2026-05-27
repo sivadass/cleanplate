@@ -87,4 +87,36 @@ describe("Modal", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
+
+  it("exposes suffixed data-testid hooks when dataTestId is set", () => {
+    render(
+      <Modal
+        isOpen
+        title="Settings"
+        dataTestId="settings-modal"
+        primaryButtonLabel="Save"
+        secondaryButtonLabel="Cancel"
+      >
+        Body content
+      </Modal>,
+    );
+
+    expect(screen.getByTestId("settings-modal")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-modal-overlay")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-modal-header")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-modal-title")).toHaveTextContent(
+      "Settings",
+    );
+    expect(screen.getByTestId("settings-modal-close")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-modal-body")).toHaveTextContent(
+      "Body content",
+    );
+    expect(screen.getByTestId("settings-modal-footer")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-modal-primary")).toHaveTextContent(
+      "Save",
+    );
+    expect(screen.getByTestId("settings-modal-secondary")).toHaveTextContent(
+      "Cancel",
+    );
+  });
 });

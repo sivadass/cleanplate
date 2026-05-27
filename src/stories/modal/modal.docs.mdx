@@ -308,6 +308,43 @@ The Modal component is built with accessibility in mind:
 - **High Contrast**: Supports high contrast mode
 - **Reduced Motion**: Respects user's motion preferences
 
+## E2E / test selectors
+
+Set `dataTestId="settings-modal"` on the modal. The root id is on the dialog panel; related regions use suffixed ids:
+
+| Suffix | Element |
+| --- | --- |
+| *(root)* | Dialog panel |
+| `-overlay` | Backdrop |
+| `-header` | Header row |
+| `-title` | Title |
+| `-close` | Close (X) button |
+| `-body` | Content area |
+| `-footer` | Footer row |
+| `-primary` | Primary footer button |
+| `-secondary` | Secondary footer button |
+
+```jsx
+<Modal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Settings"
+  dataTestId="settings-modal"
+  primaryButtonLabel="Save"
+  onPrimaryButtonClick={handleSave}
+  secondaryButtonLabel="Cancel"
+  onSecondaryButtonClick={() => setIsOpen(false)}
+>
+  <Typography variant="p">Update your preferences.</Typography>
+</Modal>
+```
+
+```ts
+// Playwright
+await page.getByTestId("settings-modal-primary").click();
+await expect(page.getByTestId("settings-modal")).toBeHidden();
+```
+
 ## Best Practices
 
 1. **Always provide a way to close**: Ensure users can close the modal through at least one method

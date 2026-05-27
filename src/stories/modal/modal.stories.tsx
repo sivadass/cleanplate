@@ -51,6 +51,11 @@ export const Default = {
       description: "Label for the secondary action button",
     },
     onSecondaryButtonClick: { action: "onSecondaryButtonClick" },
+    dataTestId: {
+      control: { type: "text" },
+      description:
+        "Root data-testid on the dialog; suffixed ids on overlay, header, title, close, body, footer, primary, secondary",
+    },
   },
   args: {
     size: "medium",

@@ -22,6 +22,7 @@ Purpose: A full-featured modal overlay for forms, long content, or custom dialog
 | onPrimaryButtonClick | () => void | no | — | Called when the primary footer button is clicked. |
 | secondaryButtonLabel | string | no | "" | Label for the secondary footer button; empty hides it. |
 | onSecondaryButtonClick | () => void | no | — | Called when the secondary footer button is clicked. |
+| dataTestId | string | no | — | Root `data-testid` on the dialog panel; suffixed ids on overlay, header, title, close, body, footer, and action buttons (see **E2E / test selectors**). |
 
 ## Types
 
@@ -59,7 +60,37 @@ interface ModalProps {
   onPrimaryButtonClick?: () => void;
   secondaryButtonLabel?: string;
   onSecondaryButtonClick?: () => void;
+  dataTestId?: string;
 }
+```
+
+## E2E / test selectors
+
+Pass `dataTestId="save-modal"` to get stable Playwright / Testing Library hooks:
+
+| Suffix | Element |
+| --- | --- |
+| *(root)* | Dialog panel (`role="dialog"`) |
+| `-overlay` | Backdrop overlay |
+| `-header` | Header row (title + close button) |
+| `-title` | Title text |
+| `-close` | Header close (X) button |
+| `-body` | Main content area |
+| `-footer` | Footer action row |
+| `-primary` | Primary footer button |
+| `-secondary` | Secondary footer button |
+
+Header, title, close, footer, and button suffixes are omitted when those regions are not rendered (e.g. no `title` and `showCloseButton={false}` hides `-header`, `-title`, and `-close`).
+
+### Playwright example
+
+```ts
+await page.getByRole("button", { name: "Open settings" }).click();
+await expect(page.getByTestId("settings-modal")).toBeVisible();
+await expect(page.getByTestId("settings-modal-title")).toHaveText("Settings");
+await page.getByTestId("settings-modal-body").getByLabel("Display name").fill("Ada");
+await page.getByTestId("settings-modal-primary").click();
+await expect(page.getByTestId("settings-modal")).toBeHidden();
 ```
 
 ## Usage Examples
@@ -132,6 +163,23 @@ const App = () => {
     {/* form fields */}
     <Button type="submit">Submit</Button>
   </form>
+</Modal>
+```
+
+### With test selectors
+
+```jsx
+<Modal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Delete item"
+  dataTestId="delete-item-modal"
+  primaryButtonLabel="Delete"
+  onPrimaryButtonClick={handleDelete}
+  secondaryButtonLabel="Cancel"
+  onSecondaryButtonClick={() => setIsOpen(false)}
+>
+  <Typography variant="p">This action cannot be undone.</Typography>
 </Modal>
 ```
 
