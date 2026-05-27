@@ -64,7 +64,11 @@ export interface CheckboxProps {
   /** Error message rendered under the group. */
   error?: string;
   className?: string;
-  /** Maps to `data-testid` on the wrapping `<fieldset>`. */
+  /**
+   * Root `data-testid` on the `<fieldset>`. When set, related elements also get
+   * suffixed ids: `-options`, `-option-{value}`, `-input-{value}`, `-label-{value}`.
+   * Per-option `dataTestId` on `CheckboxOption` overrides the group `-input-{value}` id.
+   */
   dataTestId?: string;
 }
 
@@ -72,6 +76,13 @@ const toKey = (v: CheckboxValue | undefined | null): string => {
   if (v === undefined || v === null) return "option";
   return String(v).replace(/\W/g, "-") || "option";
 };
+
+function checkboxFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
 
 const Checkbox: React.FC<CheckboxProps> = ({
   options,
@@ -164,9 +175,11 @@ const Checkbox: React.FC<CheckboxProps> = ({
         role="group"
         aria-labelledby={legendId}
         aria-required={isRequired || undefined}
+        data-testid={checkboxFieldTestId(dataTestId, "options")}
       >
         {options.map((opt, idx) => {
-          const optionId = opt.id ?? `${fieldId}-${toKey(opt.value)}-${idx}`;
+          const valueKey = toKey(opt.value);
+          const optionId = opt.id ?? `${fieldId}-${valueKey}-${idx}`;
           const optionDescId = opt.description
             ? `${optionId}-desc`
             : undefined;
@@ -176,7 +189,11 @@ const Checkbox: React.FC<CheckboxProps> = ({
           );
 
           return (
-            <div key={optionId} className={styles["cp-checkbox-row"]}>
+            <div
+              key={optionId}
+              className={styles["cp-checkbox-row"]}
+              data-testid={checkboxFieldTestId(dataTestId, `option-${valueKey}`)}
+            >
               <input
                 className={getClassNames(
                   styles["cp-visually-hidden"],
@@ -195,7 +212,10 @@ const Checkbox: React.FC<CheckboxProps> = ({
                     .join(" ") || undefined
                 }
                 aria-label={!opt.label ? String(opt.value) : undefined}
-                data-testid={opt.dataTestId}
+                data-testid={
+                  opt.dataTestId ??
+                  checkboxFieldTestId(dataTestId, `input-${valueKey}`)
+                }
                 onChange={(e) => handleChange(opt.value, e.target.checked, e)}
               />
               <label
@@ -204,6 +224,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
                   styles["cp-form-label"],
                   styles["cp-form-label-inline"]
                 )}
+                data-testid={checkboxFieldTestId(dataTestId, `label-${valueKey}`)}
               >
                 <span
                   className={styles["cp-checkbox-visual"]}

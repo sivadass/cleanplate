@@ -61,7 +61,11 @@ export interface RadioProps {
   /** Error message rendered under the group. */
   error?: string;
   className?: string;
-  /** Maps to `data-testid` on the wrapping `<fieldset>`. */
+  /**
+   * Root `data-testid` on the `<fieldset>`. When set, related elements also get
+   * suffixed ids: `-options`, `-option-{value}`, `-input-{value}`, `-label-{value}`.
+   * Per-option `dataTestId` on `RadioOption` overrides the group `-input-{value}` id.
+   */
   dataTestId?: string;
 }
 
@@ -69,6 +73,13 @@ const toKey = (v: RadioValue | undefined | null): string => {
   if (v === undefined || v === null) return "option";
   return String(v).replace(/\W/g, "-") || "option";
 };
+
+function radioFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
 
 const Radio: React.FC<RadioProps> = ({
   options,
@@ -161,9 +172,11 @@ const Radio: React.FC<RadioProps> = ({
         role="radiogroup"
         aria-labelledby={legendId}
         aria-required={isRequired || undefined}
+        data-testid={radioFieldTestId(dataTestId, "options")}
       >
         {options.map((opt, idx) => {
-          const optionId = opt.id ?? `${fieldId}-${toKey(opt.value)}-${idx}`;
+          const valueKey = toKey(opt.value);
+          const optionId = opt.id ?? `${fieldId}-${valueKey}-${idx}`;
           const optionDescId = opt.description
             ? `${optionId}-desc`
             : undefined;
@@ -174,7 +187,11 @@ const Radio: React.FC<RadioProps> = ({
             String(selectedValue) === String(opt.value);
 
           return (
-            <div key={optionId} className={styles["cp-radio-row"]}>
+            <div
+              key={optionId}
+              className={styles["cp-radio-row"]}
+              data-testid={radioFieldTestId(dataTestId, `option-${valueKey}`)}
+            >
               <input
                 className={getClassNames(
                   styles["cp-visually-hidden"],
@@ -195,7 +212,10 @@ const Radio: React.FC<RadioProps> = ({
                     .join(" ") || undefined
                 }
                 aria-label={!opt.label ? String(opt.value) : undefined}
-                data-testid={opt.dataTestId}
+                data-testid={
+                  opt.dataTestId ??
+                  radioFieldTestId(dataTestId, `input-${valueKey}`)
+                }
                 onChange={(e) => handleChange(opt.value, e)}
               />
               <label
@@ -204,6 +224,7 @@ const Radio: React.FC<RadioProps> = ({
                   styles["cp-form-label"],
                   styles["cp-form-label-inline"]
                 )}
+                data-testid={radioFieldTestId(dataTestId, `label-${valueKey}`)}
               >
                 <span
                   className={styles["cp-radio-visual"]}
