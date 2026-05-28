@@ -6,6 +6,7 @@ const tableMobileColumnsTypeDetail = `interface TableMobileColumns {
   description?: string | (row) => ReactNode;
   meta?: string | (row) => ReactNode;
   mediaAvatar?: string;
+  mediaAvatarCodeText?: string | (row) => string;
   mediaIcon?: string | (row) => string;
   mediaImage?: string | (row) => string;
   action?: (row) => ReactNode;

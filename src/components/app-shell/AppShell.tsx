@@ -126,8 +126,12 @@ const AppShell: React.FC<AppShellProps> = ({
   contentClassName = "",
 }) => {
   const rootClassName = getClassNames(styles["cp-app-shell"], className);
+  const headerProps = isHeaderProps(header) ? header : null;
+  const renderedHeader: React.ReactNode = headerProps
+    ? <Header {...headerProps} />
+    : (header as React.ReactNode);
 
-  const headerProvidesMobileNav = header !== undefined && isHeaderProps(header);
+  const headerProvidesMobileNav = headerProps !== null;
   const showMobileSidebarDrawer =
     mobileSidebarDrawerProp ??
     Boolean(sidebar && !headerProvidesMobileNav);
@@ -160,10 +164,7 @@ const AppShell: React.FC<AppShellProps> = ({
       setMobileDrawerExitAnimating(true);
       setMobileDrawerEntered(false);
       setMobileDrawerOpen(false);
-      return;
     }
-    setMobileDrawerExitAnimating(false);
-    setMobileDrawerOpen(false);
   }, [mobileDrawerOpen]);
 
   const handleDrawerOpenChange = useCallback(
@@ -236,10 +237,6 @@ const AppShell: React.FC<AppShellProps> = ({
     [sidebar, beginCloseMobileDrawer],
   );
 
-  const closeMobileDrawer = useCallback(() => {
-    beginCloseMobileDrawer();
-  }, [beginCloseMobileDrawer]);
-
   const mobileDrawerMounted =
     drawerEnabled && (mobileDrawerOpen || mobileDrawerExitAnimating);
 
@@ -247,7 +244,7 @@ const AppShell: React.FC<AppShellProps> = ({
     <div className={rootClassName}>
       {header !== undefined && (
         <div className={styles["header-slot"]}>
-          {isHeaderProps(header) ? <Header {...header} /> : header}
+          {renderedHeader}
         </div>
       )}
 
@@ -297,7 +294,7 @@ const AppShell: React.FC<AppShellProps> = ({
                 lockScroll
                 className={styles["cp-mobile-nav-overlay"]}
                 data-visible={mobileDrawerEntered ? "true" : undefined}
-                onClick={closeMobileDrawer}
+                onClick={beginCloseMobileDrawer}
               />
               <FloatingFocusManager context={context} modal returnFocus>
                 <div
@@ -319,7 +316,7 @@ const AppShell: React.FC<AppShellProps> = ({
                       variant="icon"
                       className={styles["mobile-drawer-close"]}
                       aria-label="Close navigation menu"
-                      onClick={closeMobileDrawer}
+                      onClick={beginCloseMobileDrawer}
                     >
                       <Icon name="close" />
                     </Button>

@@ -32,6 +32,11 @@ export const Default = {
       control: "text",
       description: "Display name; used for initials and title when no image/icon",
     },
+    codeText: {
+      control: "text",
+      description:
+        "Optional code-like text override; keeps alphanumeric chars and shows last 4",
+    },
     image: {
       control: "text",
       description: "Image URL; when set, shows image instead of initials",
@@ -84,6 +89,33 @@ export const Icon = {
   },
   args: {
     icon: "person",
+    size: "medium",
+    margin: "0",
+  },
+  render: (args) => (
+    <Container>
+      <Avatar {...args} />
+    </Container>
+  ),
+};
+
+export const CodeText = {
+  name: "Code Text",
+  argTypes: {
+    ...sharedArgTypes,
+    codeText: {
+      control: "text",
+      description:
+        "Optional code-like text override; keeps alphanumeric chars and shows last 4",
+    },
+    name: {
+      control: "text",
+      description: "Fallback name when codeText resolves empty",
+    },
+  },
+  args: {
+    codeText: "B101",
+    name: "John Doe",
     size: "medium",
     margin: "0",
   },

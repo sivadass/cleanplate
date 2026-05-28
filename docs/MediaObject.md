@@ -10,6 +10,7 @@ Purpose: Combines fixed media (`Avatar`: icon, image, or initials) with a dense 
 | mediaIcon | `MaterialIconName` \| string | no | "" | Material Symbol name passed to `Avatar`. |
 | mediaImage | string | no | "" | Image URL for `Avatar`. |
 | mediaAvatar | string | no | "" | Display name used for initials when image/icon are not shown. |
+| mediaAvatarCodeText | string | no | "" | Optional avatar code override. Passed to `Avatar.codeText` (alphanumeric only, last 4 chars). |
 | subtitle | `React.ReactNode` | no | — | Optional middle line (e.g. subject). Omit for two-line layouts. |
 | description | `React.ReactNode` | no | — | Optional preview/snippet line(s); muted, multi-line ellipsis via `--cp-media-object-desc-lines`. |
 | descriptionLineClamp | number | no | 2 | Max lines for `description` before truncation. |
@@ -40,6 +41,7 @@ interface MediaObjectProps extends React.HTMLAttributes<HTMLDivElement> {
   mediaIcon?: MaterialIconName | string;
   mediaImage?: string;
   mediaAvatar?: string;
+  mediaAvatarCodeText?: string;
   title: string;
   subtitle?: React.ReactNode;
   description?: React.ReactNode;
@@ -184,6 +186,7 @@ import { MediaObject, Typography } from "cleanplate";
 - **Trailing rail**: If `meta` and/or `action` is passed, the body adds a second grid column: `meta` always occupies **column 2, row 1** aligned with `title`; `action` occupies **column 2, last text row**, aligned toward the snippet row. When **only one** logical text row remains and **both** `meta` and `action` exist, both stack in one compact trailing cell (`gap` 2px).
 - **`descriptionLineClamp`** sets the CSS custom property `--cp-media-object-desc-lines` on the snippet wrapper so consumers can clamp 1–N lines preview text.
 - **Media slot**: Implemented with `Avatar` (`name={mediaAvatar}`, `image`, `icon`). Combination rules when multiple props are set match `Avatar` (see `docs/Avatar.md`); typical usage passes one dominant source (photo URL vs icon vs name for initials).
+- **Code avatars**: Use `mediaAvatarCodeText` for code-like values (e.g. `B101`, `F2`). Avatar sanitizes to alphanumeric and renders the last 4 chars.
 - **`meta` primitives**: Strings and numbers render with component meta typography (muted `--text-muted`); pass React nodes when you control color/weight entirely.
 - **`title`** is always a string rendered as emphasized primary text (`--text-default`).
 - **`subtitle`** and **`description`** accept `React.ReactNode`; empty string / falsy hides the slot.

@@ -62,6 +62,7 @@ export interface TableMobileColumns
     | "meta"
     | "action"
     | "mediaAvatar"
+    | "mediaAvatarCodeText"
     | "mediaIcon"
     | "mediaImage"
     | "onClick"
@@ -76,6 +77,8 @@ export interface TableMobileColumns
   meta?: TableMobileColumnField<React.ReactNode>;
   /** Row key for `mediaAvatar` */
   mediaAvatar?: TableMobileColumnKey;
+  /** Static value, row key, or per-row resolver for `mediaAvatarCodeText` */
+  mediaAvatarCodeText?: TableMobileColumnField<string>;
   /** Static icon name, row key, or per-row resolver for `mediaIcon` */
   mediaIcon?: TableMobileColumnField<MediaObjectProps["mediaIcon"]>;
   /** Static image URL, row key, or per-row resolver for `mediaImage` */
@@ -165,6 +168,7 @@ function buildMobileMediaObjectProps(
     description,
     meta,
     mediaAvatar,
+    mediaAvatarCodeText,
     mediaIcon,
     mediaImage,
     action,
@@ -184,6 +188,7 @@ function buildMobileMediaObjectProps(
       mediaAvatarVal != null && mediaAvatarVal !== ""
         ? String(mediaAvatarVal)
         : undefined,
+    mediaAvatarCodeText: resolveMediaField(mediaAvatarCodeText, row),
     mediaIcon: resolveMediaField(mediaIcon, row),
     mediaImage: resolveMediaField(mediaImage, row),
     action: action?.(row),

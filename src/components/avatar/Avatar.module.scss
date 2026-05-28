@@ -1,4 +1,7 @@
 .avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-family);
   font-size: var(--font-size);
   border-radius: 50%;
@@ -9,14 +12,36 @@
   &.small {
     width: 24px;
     height: 24px;
-    line-height: 24px;
     font-size: 13px;
   }
   &.medium {
     height: 44px;
     width: 44px;
-    line-height: 44px;
-    font-size: 20px;
+    font-size: 18px;
+  }
+  &.text-length-2 {
+    &.small {
+      font-size: 10px;
+    }
+    &.medium {
+      font-size: 14px;
+    }
+  }
+  &.text-length-3 {
+    &.small {
+      font-size: 10px;
+    }
+    &.medium {
+      font-size: 14px;
+    }
+  }
+  &.text-length-4 {
+    &.small {
+      font-size: 9px;
+    }
+    &.medium {
+      font-size: 12px;
+    }
   }
   &.image {
     background-color: var(--white);

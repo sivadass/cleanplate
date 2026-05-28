@@ -7,6 +7,7 @@ Purpose: Displays user initials, an image, or a Material icon in a consistent ci
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | name | string | no | "" | Display name; used for initials and `title` when no image/icon. Also used for image `alt`. |
+| codeText | string | no | "" | Optional code-like text override for non-image/non-icon mode. Keeps only alphanumeric chars, then renders the last 4 characters (uppercased). |
 | image | string | no | "" | Image URL; when set, shows image instead of initials or icon. |
 | icon | MaterialIconName | no | — | Material icon name; when set (and no image), shows icon instead of initials. |
 | size | "small" \| "medium" | no | "medium" | Size of the avatar. |
@@ -36,6 +37,7 @@ type AvatarMargin = string | SpacingOption[];
 ```typescript
 interface AvatarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "style"> {
   name?: string;
+  codeText?: string;
   image?: string;
   icon?: MaterialIconName;  // from "../icon/material-icon-names"
   size?: AvatarSize;
@@ -56,6 +58,20 @@ export const Example = () => (
   <>
     <Avatar name="John Doe" size="medium" />
     <Avatar name="Jane Smith" size="small" margin="2" />
+  </>
+);
+```
+
+### Code text (up to 4 chars)
+
+```jsx
+import { Avatar } from "cleanplate";
+
+export const Example = () => (
+  <>
+    <Avatar codeText="B101" size="medium" />
+    <Avatar codeText="F2" size="small" />
+    <Avatar codeText="order-AB#12-99" size="medium" />
   </>
 );
 ```
@@ -143,8 +159,10 @@ export const Example = () => (
 
 ## Behavior Notes
 
-- **Display priority:** If `image` is set, the image is shown. Else if `icon` is set, the Material icon is shown. Otherwise initials from `name` are shown.
+- **Display priority:** If `image` is set, the image is shown. Else if `icon` is set, the Material icon is shown. Else if `codeText` resolves to a valid value, that text is shown. Otherwise initials from `name` are shown.
+- **Code text sanitization:** `codeText` removes special characters, keeps only `[a-zA-Z0-9]`, then renders the **last 4** characters in uppercase. Examples: `"B101"` -> `"B101"`, `"F2"` -> `"F2"`, `"AB#12-99"` -> `"1299"`.
 - **Initials:** Derived from the first letter of each word in `name` (up to 2 characters), e.g. "John Doe" → "JD".
+- **Text fitting:** Avatar text auto-scales for 3-4 characters so code labels remain readable in both sizes.
 - **Backgrounds (CSS only):** **Initials** use `var(--primary-brand)` on the root. **Icon** mode uses `var(--primary-brand)` for the circle. **Image** mode uses `var(--white)` behind the photo so transparent PNGs do not show a hole. To change colors, add a **`className`** and target the root in your stylesheet.
 - **Spacing:** `margin` accepts the **spacing suffix**; the component adds the `m-` prefix via `getSpacingClass`. Use suffix form (e.g. `"0"`, `"2"`, `"b-3"`) when passing values explicitly.
 - **Root element:** A `div`; supports `ref` and other attributes except **`style`** (omitted from the public type so layout stays class-based).

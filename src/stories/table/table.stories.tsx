@@ -48,13 +48,14 @@ const defaultColumns: TableColumn[] = [
 ];
 
 const defaultData: TableRow[] = [
-  { name: "John Doe", age: 32, email: "john@doe.com" },
+  { name: "John Doe", age: 32, email: "john@doe.com", userCode: "B101" },
   {
     name: "Jane Doe",
     age: 29,
     email: "jane_is_oldest_member_of_out_group@doe.com",
+    userCode: "F2",
   },
-  { name: "Jimmy Doe", age: 3, email: "jimmy@doe.com" },
+  { name: "Jimmy Doe", age: 3, email: "jimmy@doe.com", userCode: "AB-12#99" },
 ];
 
 export const Default = {
@@ -79,6 +80,7 @@ export const Default = {
     mobileColumns: {
       title: "name",
       mediaAvatar: "name",
+      mediaAvatarCodeText: "userCode",
       description: "email",
     },
     data: defaultData,
@@ -96,12 +98,13 @@ export const Mobile = {
     mobileColumns: {
       title: "name",
       mediaAvatar: "name",
+      mediaAvatarCodeText: "userCode",
       description: "email",
       meta: "age",
       descriptionLineClamp: 2,
     },
     data: [
-      { name: "John Doe", age: 32, email: "john@doe.com" },
+      { name: "John Doe", age: 32, email: "john@doe.com", userCode: "B101" },
     ],
   },
   render: (args: TableProps) => <Table {...args} />,

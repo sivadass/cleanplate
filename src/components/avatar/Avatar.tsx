@@ -17,6 +17,8 @@ export interface AvatarProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "style"> {
   /** Display name; used for initials and title when no image/icon */
   name?: string;
+  /** Optional alphanumeric text override (up to last 4 characters) for code-like labels */
+  codeText?: string;
   /** Image URL; when set, shows image instead of initials */
   image?: string;
   /** Material icon name; when set (and no image), shows icon instead of initials */
@@ -33,6 +35,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
     margin = "0",
     onClick,
     name = "",
+    codeText = "",
     image = "",
     icon,
     className = "",
@@ -40,11 +43,27 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   },
   ref,
 ) {
+  const getCodeText = (value: string) => {
+    if (!value) return "";
+    // Keep only letters and numbers, then display the last 4 chars.
+    return value.replace(/[^a-z0-9]/gi, "").slice(-4).toUpperCase();
+  };
+
+  const displayCode = getCodeText(codeText);
   const initials = getInitials(name);
+  const fallbackText = displayCode || initials;
+  const avatarTitle = name || displayCode;
+  const textLengthClass =
+    fallbackText.length >= 4
+      ? styles["text-length-4"]
+      : fallbackText.length === 3
+        ? styles["text-length-3"]
+        : styles["text-length-2"];
   const marginClass = getSpacingClass(margin, utilStyles, "m");
   const avatarClasses = getClassNames(
     styles["avatar"],
     styles[size],
+    textLengthClass,
     marginClass,
     className,
     {
@@ -62,13 +81,13 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
     <div
       className={avatarClasses}
       onClick={handleClick}
-      title={name}
+      title={avatarTitle}
       {...rest}
       ref={ref}
     >
       {!icon && image && <img src={image} alt={name} />}
       {!image && icon && <Icon size="medium" name={icon} />}
-      {!image && !icon && initials}
+      {!image && !icon && fallbackText}
     </div>
   );
 });

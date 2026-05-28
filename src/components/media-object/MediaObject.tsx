@@ -15,6 +15,7 @@ export interface MediaObjectProps extends React.HTMLAttributes<HTMLDivElement> {
   mediaIcon?: MaterialIconName | string;
   mediaImage?: string;
   mediaAvatar?: string;
+  mediaAvatarCodeText?: string;
   /** Primary line (e.g. sender, name); emphasized */
   title: string;
   /** Optional middle line (e.g. subject) */
@@ -54,6 +55,7 @@ const MediaObject: React.FC<MediaObjectProps> = ({
   mediaIcon = "",
   mediaImage = "",
   mediaAvatar = "",
+  mediaAvatarCodeText = "",
   title,
   subtitle,
   description,
@@ -119,6 +121,7 @@ const MediaObject: React.FC<MediaObjectProps> = ({
       <div className={styles["cp-media-object-media"]}>
         <Avatar
           name={mediaAvatar}
+          codeText={mediaAvatarCodeText}
           image={mediaImage}
           icon={mediaIcon ? (mediaIcon as MaterialIconName) : undefined}
           onClick={onClick ? handleClick : undefined}

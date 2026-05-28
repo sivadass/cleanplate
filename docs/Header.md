@@ -136,7 +136,9 @@ Prefer **`Dropdown`** with **`Avatar`** as **`trigger`** and **`content`** that 
 - **headerLeft / headerCenter / headerRight:** When provided, replace the default logo, MenuList, or right slot.
 - **AppShell:** If you pass **`header`** as **`HeaderProps`** to **`AppShell`**, configure **`headerRight`** the same way as a standalone **`Header`** (recommended account dropdown structure does not change).
 - **showCenterMenu:** When `false`, the center column is empty on desktop (unless `headerCenter` is set). `menuItems` is still used for the mobile overlay.
-- **Mobile:** Below 1024px, center nav hides; hamburger shows. Click opens slide-in menu (Animated fade-in-left).
+- **Mobile:** Below 1024px, center nav hides; hamburger shows. Click opens a Floating UI drawer with backdrop fade and left slide animation.
+- **Backdrop + close:** Clicking the backdrop closes the drawer; close button and menu item clicks also close it.
+- **Scroll lock:** While the mobile drawer is open, background page scroll is locked.
 - **onMenuItemClick:** Called with the clicked item; mobile menu closes on click.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0).
 
@@ -146,4 +148,4 @@ Prefer **`Dropdown`** with **`Avatar`** as **`trigger`** and **`content`** that 
 - Dropdown, Avatar (account menu in **headerRight**; see `docs/Dropdown.md`)
 - AppShell (passes **`header`** as Header props; same **headerRight** recommendations apply)
 - Button, Icon (mobile menu trigger and close)
-- Animated (mobile menu slide-in)
+- Floating UI overlay/dialog primitives (mobile menu drawer)

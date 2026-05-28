@@ -74,13 +74,14 @@ interface TableMobileColumns
   extends Omit<
     MediaObjectProps,
     | "title" | "subtitle" | "description" | "meta" | "action"
-    | "mediaAvatar" | "mediaIcon" | "mediaImage" | "onClick"
+    | "mediaAvatar" | "mediaAvatarCodeText" | "mediaIcon" | "mediaImage" | "onClick"
   > {
   title: TableMobileColumnKey;              // required row key
   subtitle?: TableMobileColumnField;
   description?: TableMobileColumnField;
   meta?: TableMobileColumnField;
   mediaAvatar?: TableMobileColumnKey;
+  mediaAvatarCodeText?: TableMobileColumnField<string>; // static code, row key, or resolver
   mediaIcon?: TableMobileColumnField<string>;  // static icon, row key, or resolver
   mediaImage?: TableMobileColumnField<string>; // static URL, row key, or resolver
   action?: (row: TableRow) => React.ReactNode;
@@ -180,6 +181,7 @@ const columns = [
     description: "email",
     meta: "status",
     mediaAvatar: "name",
+    mediaAvatarCodeText: "employeeCode",
     descriptionLineClamp: 2,
     action: (row) => <Badge label={String(row.status)} variant="success" />,
   }}
@@ -200,7 +202,7 @@ const columns = [
 
 - **Required:** `columns` and `data` are required. Each column must have `id` and `title`; row keys should match `id` for default cell display.
 - **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state.
-- **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields, or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
+- **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields (`mediaAvatar`, `mediaAvatarCodeText`, `mediaIcon`, `mediaImage`), or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.
 - **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
 

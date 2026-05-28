@@ -1,7 +1,16 @@
 import React, { useState } from "react";
+import {
+  FloatingFocusManager,
+  FloatingOverlay,
+  FloatingPortal,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useRole,
+  useTransitionStyles,
+} from "@floating-ui/react";
 import Icon from "../icon";
 import styles from "./Header.module.scss";
-import Animated from "../animated";
 import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
@@ -17,6 +26,44 @@ export type HeaderSize = "small" | "medium" | "large";
 export type HeaderVariant = "light" | "dark";
 
 export type HeaderMargin = string | SpacingOption[];
+
+const BACKDROP_TRANSITION_CONFIG = {
+  duration: {
+    open: 220,
+    close: 180,
+  },
+  initial: {
+    opacity: 0,
+  },
+  open: {
+    opacity: 1,
+  },
+  close: {
+    opacity: 0,
+  },
+};
+
+const DRAWER_TRANSITION_CONFIG = {
+  duration: {
+    open: 260,
+    close: 220,
+  },
+  initial: {
+    opacity: 0,
+    transform: "translateX(-100%)",
+  },
+  open: {
+    opacity: 1,
+    transform: "translateX(0)",
+  },
+  close: {
+    opacity: 0.98,
+    transform: "translateX(-100%)",
+  },
+  common: {
+    transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+  },
+};
 
 export interface HeaderProps {
   /** URL for the logo image (shown when headerLeft is not provided) */
@@ -64,8 +111,24 @@ const Header: React.FC<HeaderProps> = ({
   menuItems,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [animationType, setAnimationType] = useState<"fade-in-left" | "fade-out-left">("fade-in-left");
   const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const { refs, context } = useFloating({
+    open: isMobileMenuOpen,
+    onOpenChange: setIsMobileMenuOpen,
+  });
+  const dismiss = useDismiss(context, {
+    outsidePressEvent: "pointerdown",
+  });
+  const role = useRole(context, { role: "dialog" });
+  const { getFloatingProps } = useInteractions([dismiss, role]);
+  const { isMounted, styles: backdropTransitionStyles } = useTransitionStyles(
+    context,
+    BACKDROP_TRANSITION_CONFIG
+  );
+  const { styles: drawerTransitionStyles } = useTransitionStyles(
+    context,
+    DRAWER_TRANSITION_CONFIG
+  );
 
   const headerClassNames = getClassNames(
     styles["cp-header"],
@@ -76,15 +139,11 @@ const Header: React.FC<HeaderProps> = ({
   );
 
   const handleOpenMobileMenu = () => {
-    setAnimationType("fade-in-left");
     setIsMobileMenuOpen(true);
   };
 
   const handleCloseMobileMenu = () => {
-    setAnimationType("fade-out-left");
-    setTimeout(() => {
-      setIsMobileMenuOpen(false);
-    }, 300);
+    setIsMobileMenuOpen(false);
   };
 
   const handleMenuItem = (menuItem: MenuListItem) => {
@@ -121,27 +180,44 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         <div className={styles["header-right"]}>{headerRight}</div>
       </div>
-      {isMobileMenuOpen && (
-        <Animated animationType={animationType} className={styles["mobile-menu"]}>
-          <Button
-            className={getClassNames(
-              styles["mobile-menu-trigger"],
-              styles["mobile-menu-close"],
-            )}
-            variant="icon"
+      {isMounted && (
+        <FloatingPortal id="cp-header-mobile-menu-root">
+          <FloatingOverlay
+            className={styles["mobile-menu-overlay"]}
+            lockScroll
+            style={backdropTransitionStyles}
             onClick={handleCloseMobileMenu}
-          >
-            <Icon name="close" />
-          </Button>
-          <div className={styles["mobile-menu-nav"]}>
-            <MenuList
-              direction="vertical"
-              items={menuItems}
-              activeItem={activeMenuItem}
-              onMenuClick={handleMenuItem}
-            />
-          </div>
-        </Animated>
+          />
+          <FloatingFocusManager context={context} modal returnFocus>
+            <div
+              ref={refs.setFloating}
+              className={styles["mobile-menu-drawer"]}
+              style={drawerTransitionStyles}
+              {...getFloatingProps({
+                "aria-label": "Main navigation",
+              })}
+            >
+              <Button
+                className={getClassNames(
+                  styles["mobile-menu-trigger"],
+                  styles["mobile-menu-close"],
+                )}
+                variant="icon"
+                onClick={handleCloseMobileMenu}
+              >
+                <Icon name="close" />
+              </Button>
+              <div className={styles["mobile-menu-nav"]}>
+                <MenuList
+                  direction="vertical"
+                  items={menuItems}
+                  activeItem={activeMenuItem}
+                  onMenuClick={handleMenuItem}
+                />
+              </div>
+            </div>
+          </FloatingFocusManager>
+        </FloatingPortal>
       )}
     </div>
   );
