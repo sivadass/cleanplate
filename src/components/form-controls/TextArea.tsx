@@ -15,7 +15,18 @@ export interface TextAreaProps {
   className?: string;
   placeholder?: string;
   error?: string;
+  /**
+   * Maps to `data-testid` on the native `<textarea>` (use for `.fill()`).
+   * When set, `-error` is added on the validation message.
+   */
   dataTestId?: string;
+}
+
+function textAreaFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -77,6 +88,7 @@ const TextArea: React.FC<TextAreaProps> = ({
           id={errorId}
           role="alert"
           className={styles["cp-form-error-message"]}
+          data-testid={textAreaFieldTestId(dataTestId, "error")}
         >
           {error}
         </p>

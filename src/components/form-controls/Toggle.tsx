@@ -14,7 +14,18 @@ export interface ToggleProps {
   className?: string;
   isFluid?: boolean;
   error?: string;
+  /**
+   * Maps to `data-testid` on the native switch `<input>`.
+   * When set, `-label` (clickable track/label) and `-error` are also added.
+   */
   dataTestId?: string;
+}
+
+function toggleFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
 }
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -79,7 +90,11 @@ const Toggle: React.FC<ToggleProps> = ({
           data-testid={dataTestId}
           {...(isControlled ? { checked } : { defaultChecked })}
         />
-        <label htmlFor={inputId} className={styles["cp-toggle-ui"]}>
+        <label
+          htmlFor={inputId}
+          className={styles["cp-toggle-ui"]}
+          data-testid={toggleFieldTestId(dataTestId, "label")}
+        >
           <span className={styles["cp-toggle-track"]} aria-hidden="true">
             <span className={styles["cp-toggle-thumb"]} />
           </span>
@@ -101,6 +116,7 @@ const Toggle: React.FC<ToggleProps> = ({
           id={errorId}
           role="alert"
           className={styles["cp-form-error-message"]}
+          data-testid={toggleFieldTestId(dataTestId, "error")}
         >
           {error}
         </p>

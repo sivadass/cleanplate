@@ -43,6 +43,19 @@ function toCssLength(value: number | string): string {
   return typeof value === "number" ? `${value}px` : value;
 }
 
+function selectOptionTestKey(value: string | number): string {
+  const key = String(value).replace(/\W/g, "-");
+  return key || "option";
+}
+
+/** Root `dataTestId` plus `{base}-{suffix}` on trigger, panel, listbox, options, etc. */
+function selectFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
+
 const SELECT_MOBILE_SHEET_SURFACE_STYLE: React.CSSProperties = {
   position: "fixed",
   left: 0,
@@ -195,6 +208,11 @@ export interface SelectProps {
    * “Select all” adds only until the cap.
    */
   maxSelect?: number;
+  /**
+   * Root `data-testid` on the field wrapper. When set, related elements also get
+   * suffixed ids: `-trigger`, `-clear`, `-panel`, `-search`, `-search-clear`,
+   * `-listbox`, `-option-{value}`, `-input` (hidden `name` field), `-error`.
+   */
   dataTestId?: string;
 }
 
@@ -1022,6 +1040,7 @@ const Select: React.FC<SelectProps> = ({
       >
         <div
           ref={refs.setReference}
+          data-testid={selectFieldTestId(dataTestId, "trigger")}
           {...getReferenceProps({
             id: triggerId,
             role: "combobox",
@@ -1100,6 +1119,7 @@ const Select: React.FC<SelectProps> = ({
                 tabIndex={-1}
                 className={styles["cp-select-trigger-clear"]}
                 aria-label="Clear selection"
+                data-testid={selectFieldTestId(dataTestId, "clear")}
                 onMouseDown={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -1131,6 +1151,7 @@ const Select: React.FC<SelectProps> = ({
             ) : null}
             <div
               ref={refs.setFloating}
+              data-testid={selectFieldTestId(dataTestId, "panel")}
               {...getFloatingProps({
                 style: isMobileSheetViewport
                   ? SELECT_MOBILE_SHEET_SURFACE_STYLE
@@ -1196,6 +1217,7 @@ const Select: React.FC<SelectProps> = ({
                     aria-controls={isOpen ? listboxId : undefined}
                     aria-activedescendant={searchAriaActiveDescendant}
                     aria-invalid={error ? true : undefined}
+                    data-testid={selectFieldTestId(dataTestId, "search")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -1204,6 +1226,7 @@ const Select: React.FC<SelectProps> = ({
                       type="button"
                       className={styles["cp-select-search-clear"]}
                       aria-label="Clear search"
+                      data-testid={selectFieldTestId(dataTestId, "search-clear")}
                       onMouseDown={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -1265,6 +1288,7 @@ const Select: React.FC<SelectProps> = ({
               ) : null}
               <div
                 id={listboxId}
+                data-testid={selectFieldTestId(dataTestId, "listbox")}
                 role={showOptionRows ? "listbox" : "group"}
                 tabIndex={!searchable && showOptionRows ? 0 : undefined}
                 aria-label={
@@ -1394,6 +1418,10 @@ const Select: React.FC<SelectProps> = ({
                         <div
                           key={`${presentationRowDomId}-${row.kind}`}
                           id={presentationRowDomId}
+                          data-testid={selectFieldTestId(
+                            dataTestId,
+                            `option-${selectOptionTestKey(option.value)}`,
+                          )}
                           role="option"
                           aria-selected={Boolean(isSelected)}
                           aria-disabled={
@@ -1499,6 +1527,7 @@ const Select: React.FC<SelectProps> = ({
         <input
           type="hidden"
           name={name}
+          data-testid={selectFieldTestId(dataTestId, "input")}
           value={
             isMultiMode
               ? selectedArray.map((s) => String(s.value)).join(",")
@@ -1513,6 +1542,7 @@ const Select: React.FC<SelectProps> = ({
           id={errorId}
           role="alert"
           className={styles["cp-form-error-message"]}
+          data-testid={selectFieldTestId(dataTestId, "error")}
         >
           {error}
         </p>

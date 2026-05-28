@@ -20,6 +20,7 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbo
 - **Toggle:** Accessible switch (`checkbox` + `role="switch"`) with track/thumb; `checked` / `defaultChecked` and `onChange(checked: boolean)`
 - **Stepper:** Text input for form stepper flows (label, placeholder, error)
 - **Common:** label, isDisabled, isRequired, isFluid, className, error for most controls
+- **E2E:** Pass `dataTestId` on any control for stable Playwright hooks. Suffix patterns are consistent (`-trigger`, `-option-{value}`, `-error`, …). See `docs/FormControls.md` → **E2E / test selectors (overview)**.
 
 ## Usage
 
@@ -70,6 +71,14 @@ Phone field with browser autofill normalization (`phoneDigits` keeps the last 10
   placeholder="10-digit mobile"
   isRequired
 />
+```
+
+**E2E / test selectors:** `dataTestId` is on the native `<input>` (for direct `.fill()`). Optional suffixes: `-clear` (search), `-prefix`, `-suffix` (affix fields), `-error`.
+
+```ts
+await page.getByTestId("email-input").fill("user@example.com");
+await page.getByTestId("search-input-clear").click();
+await expect(page.getByTestId("amount-input-error")).toBeVisible();
 ```
 
 ### TextArea

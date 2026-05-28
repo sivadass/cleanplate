@@ -16,6 +16,26 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 | Toggle | On/off switch | checked, defaultChecked, onChange(checked: boolean) |
 | Stepper | Numeric value with integrated − / + (integer text field + `min` / `max` / `step`) | placeholder, value, onChange(e), min, max, step, layout |
 
+## E2E / test selectors (overview)
+
+Pass **`dataTestId="my-field"`** on any control below. Patterns are consistent across the library so package consumers can write the same Playwright habits everywhere.
+
+| Control | Root id on | Primary interaction id | Common suffixes |
+| --- | --- | --- | --- |
+| **Input** | native `<input>` | same as root (`.fill()`) | `-clear`, `-prefix`, `-suffix`, `-error` |
+| **TextArea** | native `<textarea>` | same as root | `-error` |
+| **Select** | field wrapper | `-trigger` (open), `-option-{value}` (pick) | `-panel`, `-search`, `-search-clear`, `-listbox`, `-clear`, `-input`, `-error` |
+| **Date** | field wrapper | `-trigger`, `-day-YYYY-MM-DD` | `-panel`, `-grid`, `-done`, `-cancel`, `-clear`, `-input`, … |
+| **Checkbox** | `<fieldset>` | `-label-{value}` or `-input-{value}` | `-options`, `-option-{value}` |
+| **Radio** | `<fieldset>` | `-label-{value}` or `-input-{value}` | same as Checkbox |
+| **File** | hidden `<input type="file">` | same as root (`setInputFiles`) | `-trigger`, `-list`, `-item-{i}`, `-remove-{i}` |
+| **Toggle** | native switch `<input>` | `-label` (click) or root (`.check()`) | `-error` |
+| **Stepper** | numeric `<input>` | same as root | `-increment`, `-decrement`, `-error` |
+
+`{value}` keys sanitize option values: non-alphanumeric characters become `-` (e.g. `premium_plus` → `premium-plus`).
+
+Detail sections below expand each control. Component source files also document suffixes in **`dataTestId` JSDoc**.
+
 ## Types
 
 ### Option (and SelectOption)
@@ -112,6 +132,7 @@ interface InputProps {
   isFluid?: boolean;
   className?: string;
   error?: string;
+  /** On the native `<input>`; suffixed `-clear`, `-prefix`, `-suffix`, `-error` — see **Input — E2E / test selectors**. */
   dataTestId?: string;
   /** Native `autocomplete` attribute. */
   autoComplete?: string;
@@ -139,15 +160,16 @@ interface InputProps {
 ```
 
 ### Other control types
-- **TextAreaProps**: label, value/defaultValue, onChange, isDisabled, isRequired, isFluid, className, error, dataTestId.
-- **FileProps**: `name`, `label`, `variant` (`"button" | "card"`, default `"button"`), `multiple`, `accept`, `value: File[]` (controlled), `defaultValue: File[]` (uncontrolled initial visual list), `onChange(files: File[], e?)`, `buttonLabel` (default `"Browse file"`), `dropZoneText` (default `"Drag files to upload"`, card variant only), plus the common `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`. The card variant supports drag-and-drop. **FileVariant** = `"button" | "card"`.
+- **TextAreaProps**: label, value/defaultValue, onChange, isDisabled, isRequired, isFluid, className, error, **`dataTestId`** (on `<textarea>`; `-error` — see overview).
+- **SelectProps**: … **`dataTestId`** (wrapper root; `-trigger`, `-panel`, `-option-{value}`, … — see **Select — E2E / test selectors**).
+- **FileProps**: `name`, `label`, `variant` (`"button" | "card"`, default `"button"`), `multiple`, `accept`, `value: File[]` (controlled), `defaultValue: File[]` (uncontrolled initial visual list), `onChange(files: File[], e?)`, `buttonLabel` (default `"Browse file"`), `dropZoneText` (default `"Drag files to upload"`, card variant only), plus the common `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (on file input; `-trigger`, `-list`, `-item-{i}`, `-remove-{i}` — see **File — E2E / test selectors**). The card variant supports drag-and-drop. **FileVariant** = `"button" | "card"`.
 - **RadioProps**: `options` (non-empty `RadioOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value`, `defaultValue`, `onChange(value, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, and labels — see **Checkbox and Radio — E2E / test selectors**).
 - **RadioOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`.
-- **ToggleProps**: checked, defaultChecked, onChange(checked: boolean), label, isDisabled, isRequired, isFluid, className, error, dataTestId.
 - **CheckboxProps**: `options` (non-empty `CheckboxOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value` (`CheckboxValue[]`), `defaultValue` (`CheckboxValue[]`), `onChange(values, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, and labels — see **Checkbox and Radio — E2E / test selectors**).
 - **CheckboxOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`. `CheckboxValue = string | number`.
-- **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `dataTestId`.
-- **FormControlsStepperProps**: label, placeholder, value/defaultValue, onChange(e), min, max, step, layout (`"default" | "split-controls" | "trailing-stacked-chevrons"`), isDisabled, isRequired, isFluid, className, error, dataTestId.
+- **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (see **Date — E2E / test selectors**).
+- **ToggleProps**: checked, defaultChecked, onChange(checked: boolean), label, isDisabled, isRequired, isFluid, className, error, **`dataTestId`** (on switch input; `-label`, `-error`).
+- **FormControlsStepperProps**: label, placeholder, value/defaultValue, onChange(e), min, max, step, layout (`"default" | "split-controls" | "trailing-stacked-chevrons"`), isDisabled, isRequired, isFluid, className, error, **`dataTestId`** (on input; `-increment`, `-decrement`, `-error`).
 
 ## Usage Examples
 
@@ -200,6 +222,82 @@ const [tags, setTags] = useState([{ label: "A", value: "a" }]);
 
 **Mobile:** At **viewport width ≤768px**, the panel opens as a **bottom sheet** (fixed to the lower viewport) with dialog semantics when a **label** is present, instead of a floating anchored list.
 
+### Input — E2E / test selectors
+
+Unlike grouped controls (Checkbox, Radio), **`dataTestId` is placed on the native `<input>`** so Playwright can target it directly for `.fill()` / `.type()` without an extra `-input` suffix.
+
+Pass **`dataTestId="email"`**:
+
+| Target | `data-testid` |
+| --- | --- |
+| Native `<input>` | `email` |
+| Search clear button | `email-clear` (only when `type="search"` and the field has a value) |
+| Prefix affix | `email-prefix` (when `prefix` is set) |
+| Suffix affix | `email-suffix` (when `suffix` is set) |
+| Error message | `email-error` (when `error` is set) |
+
+Affixes are ignored for `type="search"` (search uses icon + clear instead).
+
+#### Playwright examples
+
+```ts
+// Default / text / number / password
+await page.getByTestId("email").fill("user@example.com");
+
+// Search + clear
+await page.getByTestId("search-input").fill("query");
+await page.getByTestId("search-input-clear").click();
+
+// Amount with affixes
+await page.getByTestId("amount-input").fill("42");
+await expect(page.getByTestId("amount-input-error")).toHaveText("Required");
+```
+
+### TextArea, Toggle, and Stepper — E2E / test selectors
+
+**TextArea:** `dataTestId` on the `<textarea>`; `-error` when `error` is set.
+
+```ts
+await page.getByTestId("message-textarea").fill("Hello");
+```
+
+**Toggle:** `dataTestId` on the switch input; prefer `-label` for clicks.
+
+```ts
+await page.getByTestId("notifications-toggle-label").click();
+await expect(page.getByTestId("notifications-toggle")).toBeChecked();
+```
+
+**Stepper:** `dataTestId` on the numeric input; `-increment` / `-decrement` on step buttons.
+
+```ts
+await page.getByTestId("qty-stepper-increment").click();
+await expect(page.getByTestId("qty-stepper")).toHaveValue("2");
+```
+
+### Select — E2E / test selectors
+
+Pass **`dataTestId="fruit-select"`** on the field. The **root** id is on the field wrapper; open and pick via suffixed ids:
+
+| Suffix | Element |
+| --- | --- |
+| *(root)* | Field wrapper |
+| `-trigger` | Combobox (open panel) |
+| `-clear` | Clear selection (when `clearable`) |
+| `-panel` | Floating panel / mobile sheet |
+| `-search` | Panel search input (`searchable`) |
+| `-search-clear` | Clear panel search |
+| `-listbox` | Options list |
+| `-option-{value}` | Option row |
+| `-input` | Hidden `name` field (form submit) |
+| `-error` | Validation message |
+
+```ts
+await page.getByTestId("fruit-select-trigger").click();
+await page.getByTestId("fruit-select-option-mango").click();
+await expect(page.getByTestId("fruit-select-input")).toHaveValue("mango");
+```
+
 ### Input with prefix / suffix
 
 ```jsx
@@ -247,6 +345,27 @@ import { de } from "date-fns/locale/de";
   dateFormat="dd.MM.yyyy"
   defaultValue={new Date(2026, 3, 20)}
 />
+```
+
+### Date — E2E / test selectors
+
+Pass **`dataTestId="dob"`** on the field:
+
+| Suffix | Element |
+| --- | --- |
+| *(root)* | Field wrapper |
+| `-trigger` | Open picker |
+| `-clear` | Clear committed value (`clearable`) |
+| `-panel` | Calendar dialog |
+| `-grid` | Day grid |
+| `-day-YYYY-MM-DD` | Day button |
+| `-cancel` / `-done` | Footer actions |
+| `-input` | Hidden `name` field (`yyyy-MM-dd`) |
+
+```ts
+await page.getByTestId("dob-trigger").click();
+await page.getByTestId("dob-day-2026-05-18").click();
+await page.getByTestId("dob-done").click();
 ```
 
 ### Checkbox group
@@ -397,6 +516,24 @@ await expect(page.getByTestId("shipping-input-std")).not.toBeChecked();
 await page.getByTestId("shipping-input-std").check();
 ```
 
+### File — E2E / test selectors
+
+Pass **`dataTestId="upload"`**. The **root** id is on the hidden file input (use `setInputFiles`); related UI uses suffixes:
+
+| Suffix | Element |
+| --- | --- |
+| *(root)* | Hidden `<input type="file">` |
+| `-trigger` | Browse / drop-zone label |
+| `-list` | Selected files list |
+| `-item-{i}` | File row |
+| `-remove-{i}` | Remove button |
+
+```ts
+await page.getByTestId("upload").setInputFiles("fixtures/doc.pdf");
+await expect(page.getByTestId("upload-item-0")).toContainText("doc.pdf");
+await page.getByTestId("upload-remove-0").click();
+```
+
 ### File (button variant)
 
 Compact trigger that looks like a primary button. Selected files render below the trigger as small cards with a type-specific thumbnail icon, name, size, and a remove button.
@@ -440,6 +577,11 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **Input (`prefix` / `suffix`):** Inline leading/trailing text affix for currency (`$`), country code (`+91`), unit (`kg`, `%`), TLD (`.com`), etc. Soft-capped at 4 characters so the layout stays predictable; longer strings are truncated. When set, the field's outer wrapper takes over the visible border / padding / focus ring so the affixes read as part of the same input. Affixes are linked to the input via `aria-describedby`, so screen readers announce e.g. "Amount, dollars, $500" when the visible affix is `$`. For symbols/abbreviations that don't read well, pass `prefixA11yLabel` / `suffixA11yLabel` (e.g. `prefix="$"`, `prefixA11yLabel="dollars"`). Ignored when `type="search"` (search already uses both edges) — for any other `type`, including `number`, affixes work as expected.
 - **Input (validation / constraints):** `maxLength` is passed straight to the native attribute (works for any `type`). `min` / `max` are passed to the native attribute (HTML5 form-validation hints) and, for `type="number"` only, also clamped on `blur` — the user can finish typing freely and the value snaps to the bound when they leave the field.
 - **Input (`autoComplete` / `onBlur`):** `autoComplete` maps to the native attribute (`"email"`, `"current-password"`, `"off"`, …). `onBlur` runs after any internal numeric clamp so consumers see the final value.
+- **Input (`dataTestId`):** Applied on the native `<input>` for direct E2E fill/type. Optional suffixed ids: `-clear` (search), `-prefix`, `-suffix` (affix layout), `-error` (validation message). See **Input — E2E / test selectors**.
+- **TextArea / Toggle / Stepper (`dataTestId`):** On the native control; see **TextArea, Toggle, and Stepper — E2E / test selectors**.
+- **Select (`dataTestId`):** Wrapper root plus `-trigger`, `-panel`, `-option-{value}`, etc. See **Select — E2E / test selectors**.
+- **Date (`dataTestId`):** Wrapper root plus calendar suffixes. See **Date — E2E / test selectors**.
+- **File (`dataTestId`):** On file input plus `-trigger`, `-list`, `-item-{i}`, `-remove-{i}`. See **File — E2E / test selectors**.
 - **Select:** Built on **Floating UI** — desktop uses a **portalled** panel with flip/shift to stay in the viewport; panel **width** matches the trigger, with optional **`panelMinWidth`** when options need more horizontal space; **`searchable={false}`** hides the panel search field (full static list, or async `onSearch("")` on open); **≤768px** uses a **bottom sheet** (`role="dialog"`, `aria-modal`, `aria-labelledby` to the field label when the label exists). **Option** shape supports `group`, `icon`, `avatar`, `meta`, `disabled`. **`mode`** (`'single' | 'multi'`) replaces **`isMulti`** (still supported, deprecated). Single mode: **`onChange(Option | null)`** — `null` when cleared. Multi mode: **`onChange(Option[])`** — use **`[]`** for clear. **`name` + hidden `<input>`:** native form submit posts the selected **`value`**(s); **multi** joins with **commas** — avoid comma characters inside `value` if you rely on `FormData`, or parse manually. **`options={null}` + `onSearch`:** async loading; show loading/empty/error states in the panel. **`groups`:** sticky headings for shared `Option.group`. **`maxSelect`:** multi only; **`triggerMaxItems`:** chip overflow **`+N`**. **`aria-controls`** on the combobox trigger and panel search point at the listbox **only while open**. **`aria-invalid`** reflects **`error`** on trigger, search field, and listbox. Validation message uses **`role="alert"`** (via shared field error pattern).
 - **Date:** **`Date | null`** with **`onChange`**. Opens a **`role="dialog"`** calendar: **staging** applies on day tap; **Cancel** reverts to the last committed value; **OK** commits (and clears staging). **Desktop:** portalled Floating UI panel with flip/shift, fixed **max width ~400px** (capped by viewport). **≤768px:** bottom sheet fixed to the lower viewport + dimmed backdrop, `aria-modal`, body scroll lock while open (same breakpoint idea as Select). **Header:** month cluster + year cluster (44px arrow hits); tapping month/year opens **scrollable subviews** with **back (`arrow_back`)** and headings **“Select a month of {yyyy}”** / **“Select a year for {MMMM}”** (locale-aware via `locale`). **Trigger:** **`calendar_month`** trailing icon (not Select chevrons); optional **clear** when `clearable`. **`readOnly`** and **`isDisabled`** block interaction. Constraints: **`minDate`/`maxDate`** (inclusive), **`disabledDates`**, **`disabledDaysOfWeek`**. **`dateFormat`** + **`locale`** control the field string; grid labels follow **`locale`** and **`weekStartsOn`**. **`name`:** hidden input posts **`yyyy-MM-dd`** for the **committed** value only. **`onOpen`/`onClose`** fire when the panel opens/closes. **`popoverPlacement`** adjusts desktop anchor (default `bottom-start`). **`error`** / **`isRequired`** use the shared field error pattern (`aria-invalid`, message under the field).
 - **Radio:** Group-first API — pass `options: RadioOption[]`. Renders `<fieldset>` + `<legend>` with a single `value` and `onChange(value, e)`. `isRequired` puts `*` on the legend and adds `required`/`aria-required` to the first enabled option (HTML5 only requires one input in the group to carry it). Custom ring/dot follows the native `:checked` state so uncontrolled groups stay visually correct. Pass `variant="card"` for tile-style options (ring in top-right, optional `icon` on the left, primary-brand border + tint when selected). **`dataTestId`** on the group maps to the fieldset and emits suffixed ids (`-options`, `-option-{value}`, `-input-{value}`, `-label-{value}`); per-option `dataTestId` overrides the input suffix only.

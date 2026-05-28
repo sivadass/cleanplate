@@ -19,6 +19,11 @@ export interface InputProps {
   className?: string;
   placeholder?: string;
   error?: string;
+  /**
+   * Maps to `data-testid` on the native `<input>` (use for `.fill()` / `.type()`).
+   * When set, optional suffixed ids: `-clear` (`type="search"`), `-prefix`, `-suffix`
+   * (affix fields), `-error` (validation message).
+   */
   dataTestId?: string;
   /** Native `autocomplete` attribute (e.g. `"email"`, `"current-password"`, `"off"`). */
   autoComplete?: string;
@@ -107,6 +112,13 @@ const sanitizeNumericInputValue = (
   }
   return digits;
 };
+
+function inputFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
 
 const Input: React.FC<InputProps> = ({
   name,
@@ -369,7 +381,7 @@ const Input: React.FC<InputProps> = ({
               onClick={handleClear}
               className={styles["cp-input-search-clear"]}
               aria-label="Clear search"
-              data-testid={dataTestId ? `${dataTestId}-clear` : undefined}
+              data-testid={inputFieldTestId(dataTestId, "clear")}
             >
               <Icon name="close" size="small" aria-hidden={true} />
             </button>
@@ -382,7 +394,7 @@ const Input: React.FC<InputProps> = ({
               id={prefixId}
               className={styles["cp-input-prefix"]}
               aria-label={prefixA11yLabel}
-              data-testid={dataTestId ? `${dataTestId}-prefix` : undefined}
+              data-testid={inputFieldTestId(dataTestId, "prefix")}
             >
               {prefixText}
             </span>
@@ -393,7 +405,7 @@ const Input: React.FC<InputProps> = ({
               id={suffixId}
               className={styles["cp-input-suffix"]}
               aria-label={suffixA11yLabel}
-              data-testid={dataTestId ? `${dataTestId}-suffix` : undefined}
+              data-testid={inputFieldTestId(dataTestId, "suffix")}
             >
               {suffixText}
             </span>
@@ -407,6 +419,7 @@ const Input: React.FC<InputProps> = ({
           id={errorId}
           role="alert"
           className={styles["cp-form-error-message"]}
+          data-testid={inputFieldTestId(dataTestId, "error")}
         >
           {error}
         </p>

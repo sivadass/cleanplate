@@ -27,6 +27,10 @@ export interface FormControlsStepperProps {
   className?: string;
   placeholder?: string;
   error?: string;
+  /**
+   * Maps to `data-testid` on the numeric `<input>`.
+   * When set, `-increment`, `-decrement`, and `-error` are also added.
+   */
   dataTestId?: string;
   /** Lower bound (inclusive). */
   min?: number | string;
@@ -55,6 +59,13 @@ const safeSetSelectionRange = (
     /* ignore */
   }
 };
+
+function stepperFieldTestId(
+  base: string | undefined,
+  suffix: string,
+): string | undefined {
+  return base ? `${base}-${suffix}` : undefined;
+}
 
 const Stepper: React.FC<FormControlsStepperProps> = ({
   name,
@@ -217,7 +228,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               disabled={isDisabled || atMin}
               aria-label="Decrease value"
               onClick={() => adjust(-1)}
-              data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
+              data-testid={stepperFieldTestId(dataTestId, "decrement")}
             >
               <Icon name="remove" size="medium" color="gray" aria-hidden />
             </button>
@@ -230,7 +241,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               disabled={isDisabled || atMax}
               aria-label="Increase value"
               onClick={() => adjust(1)}
-              data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
+              data-testid={stepperFieldTestId(dataTestId, "increment")}
             >
               <Icon name="add" size="medium" color="gray" aria-hidden />
             </button>
@@ -253,7 +264,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
                 disabled={isDisabled || atMax}
                 aria-label="Increase value"
                 onClick={() => adjust(1)}
-                data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
+                data-testid={stepperFieldTestId(dataTestId, "increment")}
               >
                 <Icon name="expand_less" size="medium" color="gray" aria-hidden />
               </button>
@@ -267,7 +278,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
                 disabled={isDisabled || atMin}
                 aria-label="Decrease value"
                 onClick={() => adjust(-1)}
-                data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
+                data-testid={stepperFieldTestId(dataTestId, "decrement")}
               >
                 <Icon name="expand_more" size="medium" color="gray" aria-hidden />
               </button>
@@ -283,7 +294,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               disabled={isDisabled || atMin}
               aria-label="Decrease value"
               onClick={() => adjust(-1)}
-              data-testid={dataTestId ? `${dataTestId}-decrement` : undefined}
+              data-testid={stepperFieldTestId(dataTestId, "decrement")}
             >
               <Icon name="remove" size="medium" color="gray" aria-hidden />
             </button>
@@ -294,7 +305,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               disabled={isDisabled || atMax}
               aria-label="Increase value"
               onClick={() => adjust(1)}
-              data-testid={dataTestId ? `${dataTestId}-increment` : undefined}
+              data-testid={stepperFieldTestId(dataTestId, "increment")}
             >
               <Icon name="add" size="medium" color="gray" aria-hidden />
             </button>
@@ -306,6 +317,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
           id={errorId}
           role="alert"
           className={styles["cp-form-error-message"]}
+          data-testid={stepperFieldTestId(dataTestId, "error")}
         >
           {error}
         </p>
