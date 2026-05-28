@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   FloatingFocusManager,
   FloatingOverlay,
@@ -128,10 +134,19 @@ const AppShell: React.FC<AppShellProps> = ({
 
   const isMobileSidebarBreakpoint = useMediaQuery(APP_SHELL_SIDEBAR_MOBILE_MQ);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  /** Post-mount open visuals (backdrop fade + drawer slide). */
+  const [mobileDrawerEntered, setMobileDrawerEntered] = useState(false);
+  /** Keeps the portaled drawer mounted until the close transition finishes. */
+  const [mobileDrawerExitAnimating, setMobileDrawerExitAnimating] =
+    useState(false);
+  const mobileDrawerExitAnimatingRef = useRef(false);
+  mobileDrawerExitAnimatingRef.current = mobileDrawerExitAnimating;
 
   useEffect(() => {
     if (!isMobileSidebarBreakpoint) {
       setMobileDrawerOpen(false);
+      setMobileDrawerExitAnimating(false);
+      setMobileDrawerEntered(false);
     }
   }, [isMobileSidebarBreakpoint]);
 
@@ -140,12 +155,51 @@ const AppShell: React.FC<AppShellProps> = ({
     showMobileSidebarDrawer &&
     isMobileSidebarBreakpoint;
 
+  const beginCloseMobileDrawer = useCallback(() => {
+    if (mobileDrawerOpen) {
+      setMobileDrawerExitAnimating(true);
+      setMobileDrawerEntered(false);
+      setMobileDrawerOpen(false);
+      return;
+    }
+    setMobileDrawerExitAnimating(false);
+    setMobileDrawerOpen(false);
+  }, [mobileDrawerOpen]);
+
   const handleDrawerOpenChange = useCallback(
     (next: boolean) => {
       if (!drawerEnabled) return;
-      setMobileDrawerOpen(next);
+      if (next) {
+        setMobileDrawerExitAnimating(false);
+        setMobileDrawerOpen(true);
+        return;
+      }
+      beginCloseMobileDrawer();
     },
-    [drawerEnabled],
+    [drawerEnabled, beginCloseMobileDrawer],
+  );
+
+  useLayoutEffect(() => {
+    if (!mobileDrawerOpen) {
+      if (!mobileDrawerExitAnimating) {
+        setMobileDrawerEntered(false);
+      }
+      return undefined;
+    }
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setMobileDrawerEntered(true));
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [mobileDrawerOpen, mobileDrawerExitAnimating]);
+
+  const handleMobileDrawerTransitionEnd = useCallback(
+    (event: React.TransitionEvent<HTMLDivElement>) => {
+      if (event.target !== event.currentTarget) return;
+      if (!mobileDrawerExitAnimatingRef.current) return;
+      if (event.propertyName !== "transform") return;
+      setMobileDrawerExitAnimating(false);
+    },
+    [],
   );
 
   const { refs, context, floatingStyles } = useFloating({
@@ -177,16 +231,17 @@ const AppShell: React.FC<AppShellProps> = ({
   const handleMobileMenuClick = useCallback(
     (item: MenuListItem) => {
       sidebar?.onMenuClick?.(item);
-      setMobileDrawerOpen(false);
+      beginCloseMobileDrawer();
     },
-    [sidebar],
+    [sidebar, beginCloseMobileDrawer],
   );
 
   const closeMobileDrawer = useCallback(() => {
-    setMobileDrawerOpen(false);
-  }, []);
+    beginCloseMobileDrawer();
+  }, [beginCloseMobileDrawer]);
 
-  const mobileDrawerMounted = drawerEnabled && mobileDrawerOpen;
+  const mobileDrawerMounted =
+    drawerEnabled && (mobileDrawerOpen || mobileDrawerExitAnimating);
 
   return (
     <div className={rootClassName}>
@@ -241,13 +296,23 @@ const AppShell: React.FC<AppShellProps> = ({
               <FloatingOverlay
                 lockScroll
                 className={styles["cp-mobile-nav-overlay"]}
+                data-visible={mobileDrawerEntered ? "true" : undefined}
+                data-exiting={
+                  mobileDrawerExitAnimating ? "true" : undefined
+                }
               />
               <FloatingFocusManager context={context} modal returnFocus>
                 <div
                   ref={refs.setFloating}
-                  className={styles["cp-mobile-nav-drawer"]}
+                  className={getClassNames(
+                    styles["cp-mobile-nav-drawer"],
+                    mobileDrawerEntered &&
+                      styles["cp-mobile-nav-drawer-entered"],
+                  )}
                   style={{ ...floatingStyles, width: sidebarWidth }}
-                  {...getFloatingProps()}
+                  {...getFloatingProps({
+                    onTransitionEnd: handleMobileDrawerTransitionEnd,
+                  })}
                   aria-label={mobileSidebarDrawerLabel}
                 >
                   <div className={styles["drawer-header"]}>
