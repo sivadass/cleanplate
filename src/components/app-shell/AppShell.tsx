@@ -297,9 +297,7 @@ const AppShell: React.FC<AppShellProps> = ({
                 lockScroll
                 className={styles["cp-mobile-nav-overlay"]}
                 data-visible={mobileDrawerEntered ? "true" : undefined}
-                data-exiting={
-                  mobileDrawerExitAnimating ? "true" : undefined
-                }
+                onClick={closeMobileDrawer}
               />
               <FloatingFocusManager context={context} modal returnFocus>
                 <div
@@ -315,18 +313,16 @@ const AppShell: React.FC<AppShellProps> = ({
                   })}
                   aria-label={mobileSidebarDrawerLabel}
                 >
-                  <div className={styles["drawer-header"]}>
+                  <div className={styles["mobile-drawer-nav"]}>
                     <Button
                       type="button"
                       variant="icon"
-                      className={styles["drawer-close"]}
+                      className={styles["mobile-drawer-close"]}
                       aria-label="Close navigation menu"
                       onClick={closeMobileDrawer}
                     >
                       <Icon name="close" />
                     </Button>
-                  </div>
-                  <div className={styles["mobile-drawer-nav"]}>
                     <SidebarVerticalMenu
                       config={sidebar}
                       onMenuClick={handleMobileMenuClick}
