@@ -48,4 +48,44 @@
   &-more-trigger {
     padding: var(--space-1, 0.25rem);
   }
+
+  @media (max-width: 600px) {
+    &-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-2);
+    }
+
+    &-start {
+      flex: none;
+      width: 100%;
+    }
+
+    &-title {
+      font-size: 1.25rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    &-subtitle {
+      font-size: 0.875rem;
+      overflow-wrap: anywhere;
+    }
+
+    &-actions {
+      width: 100%;
+      margin-left: 0;
+      justify-content: flex-end;
+      gap: var(--space-2);
+    }
+
+    &-cta {
+      flex: 1;
+      min-width: 0;
+
+      > * {
+        width: 100%;
+      }
+    }
+  }
 }

@@ -148,4 +148,26 @@ export const CustomTitle = {
   ),
 };
 
+export const Mobile = {
+  name: "Mobile (narrow viewport)",
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    layout: "fullscreen",
+  },
+  render: () => (
+    <Container padding="4" width="full">
+      <PageHeader
+        title="Projects"
+        subtitle="Manage and track your team projects"
+        primaryCta={<Button>New project</Button>}
+        moreMenuItems={[
+          { label: "Export", onClick: () => {} },
+          { label: "Archive", onClick: () => {} },
+          { label: "Settings", onClick: () => {} },
+        ]}
+      />
+    </Container>
+  ),
+};
+
 export default meta;
