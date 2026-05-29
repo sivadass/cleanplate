@@ -101,6 +101,13 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: AlertProps, AlertSize, AlertVariant, AlertMargin, SpacingOption
 - Related Components: Typography, Container, Button, Icon (used internally)
 
+### FeedbackState Component
+- File: `docs/FeedbackState.md`
+- Purpose: Unified empty and error region for cards, panels, tables, and content areas. Consumer-supplied illustration URL (png/jpg/svg) or Material `icon`; optional primary/secondary actions (`onClick` only).
+- Key Features: variant empty|error, sizes small|medium|large, stacked layout, errorCode/errorDetails, onRetry shorthand, className overrides, dataTestId, margin suffix API
+- Types: FeedbackStateProps, FeedbackStateVariant, FeedbackStateSize, FeedbackStateTitleTag, FeedbackStateRole, ActionConfig, FeedbackStateMargin, SpacingOption
+- Related Components: Typography, Button, Icon (used internally); Alert (inline); Toast (transient)
+
 ### Spinner Component
 - File: `docs/Spinner.md`
 - Purpose: Loading indicator that shows a rotating Material icon. Use for progress or activity states.
@@ -259,6 +266,7 @@ All documentation files follow a consistent format:
 | Container | `docs/Container.md` | Layout, spacing, and flex structure |
 | Dropdown | `docs/Dropdown.md` | Menus and floating panels |
 | Alert | `docs/Alert.md` | Inline feedback and notices |
+| FeedbackState | `docs/FeedbackState.md` | Empty/error content regions |
 | Spinner | `docs/Spinner.md` | Loading and activity indicator |
 | Stepper | `docs/Stepper.md` | Wizard / checkout **step progress** (not numeric +/−; that is **FormControls.Stepper** in FormControls) |
 | BreadCrumb | `docs/BreadCrumb.md` | Navigation trail and page hierarchy |
@@ -296,5 +304,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, Spinner, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
 ```

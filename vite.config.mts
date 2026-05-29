@@ -13,8 +13,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
-    // include: ["src/**/*.test.{ts,tsx}"],
-    include: [], // disabled this for now to avoid running tests on every build
+    include: ["src/**/*.test.{ts,tsx}"],
     setupFiles: ["./vitest.setup.ts"],
     passWithNoTests: true,
   },
