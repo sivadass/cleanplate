@@ -6,7 +6,7 @@ Purpose: Displays structured data in a table with configurable columns, optional
 
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| columns | TableColumn[] | yes | — | Column definitions (id, title, textAlign?, widthPercentage?, customRender?). |
+| columns | TableColumn[] | yes | — | Column definitions (id, title, textAlign?, verticalAlign?, widthPercentage?, customRender?). |
 | data | TableRow[] | yes | — | Array of row objects; keys should match column `id`s. |
 | variant | "default" \| "compact" | no | "default" | Visual variant. |
 | margin | string \| SpacingOption[] | no | "0" | Margin spacing. Suffix or array of spacing suffixes; component adds `m-` prefix. |
@@ -21,6 +21,7 @@ Purpose: Displays structured data in a table with configurable columns, optional
 | onPageChange | (page, rowsPerPage) => void | no | — | Called when page changes; receives (page, rowsPerPage). |
 | onRowsPerPageChange | (rowsPerPage: number) => void | no | — | Called when rows per page changes. |
 | hidePagination | boolean | no | false | If true, hides the built-in pagination bar even when totalItems > 0. |
+| cellVerticalAlign | "top" \| "middle" \| "bottom" | no | "top" | Default vertical alignment for header and body cells. |
 | mobileColumns | TableMobileColumns \| null | no | null | When set and viewport < 768px, rows render as MediaObjects; keys map row keys to title, description, media. |
 
 ## Types
@@ -50,6 +51,11 @@ type TablePadding = string | SpacingOption[];
 type TableColumnTextAlign = "left" | "center" | "right";
 ```
 
+### TableColumnVerticalAlign
+```typescript
+type TableColumnVerticalAlign = "top" | "middle" | "bottom";
+```
+
 ### TableRow
 ```typescript
 type TableRow = Record<string, unknown>;
@@ -61,6 +67,7 @@ interface TableColumn {
   id: string;
   title: string;
   textAlign?: TableColumnTextAlign;
+  verticalAlign?: TableColumnVerticalAlign;
   customRender?: (rowData: TableRow, column: TableColumn) => React.ReactNode;
   widthPercentage?: string;
 }
@@ -112,6 +119,7 @@ interface TableProps {
   onPageChange?: (page: number, rowsPerPage: number) => void;
   onRowsPerPageChange?: (rowsPerPage: number) => void;
   hidePagination?: boolean;
+  cellVerticalAlign?: TableColumnVerticalAlign;
   mobileColumns?: TableMobileColumns | null;
 }
 ```
@@ -210,6 +218,7 @@ const columns = [
 - **Required:** `columns` and `data` are required. Each column must have `id` and `title`; row keys should match `id` for default cell display.
 - **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state.
 - **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields (`mediaAvatar`, `mediaAvatarCodeText`, `mediaIcon`, `mediaImage`), or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
+- **Column alignment:** `textAlign` controls horizontal alignment per column. `cellVerticalAlign` sets the table default for vertical alignment; override per column with `verticalAlign` on `TableColumn`.
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.
 - **Spacing:** `margin` and `padding` use the suffix API; the component adds the `m-` and `p-` prefixes via `getSpacingClass`.
 

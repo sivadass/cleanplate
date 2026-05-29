@@ -11,7 +11,7 @@ The `Table` component displays structured data in a table with configurable colu
 
 ## Features
 
-- **Column config**: Define columns with `id`, `title`, `textAlign`, `widthPercentage`, and optional `customRender` for custom cell content
+- **Column config**: Define columns with `id`, `title`, `textAlign`, `verticalAlign`, `widthPercentage`, and optional `customRender` for custom cell content
 - **Row data**: `data` is an array of row objects; each row’s keys should match column `id`s for default rendering
 - **Variants**: `default` and `compact` for different densities
 - **Mobile view**: When viewport &lt; 768px and `mobileColumns` is set, each row is rendered as a MediaObject (title, description, media from row keys)
@@ -108,7 +108,12 @@ Each column is an object with:
     <tr>
       <td><code>textAlign</code></td>
       <td><code>"left" | "center" | "right"</code></td>
-      <td>Alignment for header and cells; default <code>"left"</code></td>
+      <td>Horizontal alignment for header and cells; default <code>"left"</code></td>
+    </tr>
+    <tr>
+      <td><code>verticalAlign</code></td>
+      <td><code>"top" | "middle" | "bottom"</code></td>
+      <td>Vertical alignment for header and cells; defaults to table <code>cellVerticalAlign</code> (<code>"top"</code>)</td>
     </tr>
     <tr>
       <td><code>widthPercentage</code></td>

@@ -29,7 +29,15 @@
         padding: 8px;
         margin: 0;
         color: inherit;
+      }
+      .cell-align-top {
         vertical-align: top;
+      }
+      .cell-align-middle {
+        vertical-align: middle;
+      }
+      .cell-align-bottom {
+        vertical-align: bottom;
       }
       &:last-child {
         td {

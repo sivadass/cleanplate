@@ -25,12 +25,15 @@ export type TableVariant = "default" | "compact";
 
 export type TableColumnTextAlign = "left" | "center" | "right";
 
+export type TableColumnVerticalAlign = "top" | "middle" | "bottom";
+
 export type TableRow = Record<string, unknown>;
 
 export interface TableColumn {
   id: string;
   title: string;
   textAlign?: TableColumnTextAlign;
+  verticalAlign?: TableColumnVerticalAlign;
   customRender?: (
     rowData: TableRow,
     column: TableColumn
@@ -105,11 +108,36 @@ export interface TableProps {
   onPageChange?: (page: number, rowsPerPage: number) => void;
   onRowsPerPageChange?: (rowsPerPage: number) => void;
   hidePagination?: boolean;
+  /** Default vertical alignment for header and body cells; overridden per column by `verticalAlign`. */
+  cellVerticalAlign?: TableColumnVerticalAlign;
   /**
    * When set and viewport width is under 768px, each row renders as a MediaObject.
    * See {@link TableMobileColumns}.
    */
   mobileColumns?: TableMobileColumns | null;
+}
+
+const CELL_ALIGN_CLASS: Record<TableColumnVerticalAlign, string> = {
+  top: styles["cell-align-top"],
+  middle: styles["cell-align-middle"],
+  bottom: styles["cell-align-bottom"],
+};
+
+function getColumnVerticalAlignClass(
+  column: TableColumn,
+  cellVerticalAlign: TableColumnVerticalAlign,
+): string {
+  return CELL_ALIGN_CLASS[column.verticalAlign ?? cellVerticalAlign];
+}
+
+function getColumnWidthStyle(
+  column: TableColumn,
+): React.CSSProperties | undefined {
+  if (!column.widthPercentage) {
+    return undefined;
+  }
+
+  return { width: column.widthPercentage };
 }
 
 function resolveRowKeyField(
@@ -214,6 +242,7 @@ const Table: React.FC<TableProps> = ({
   onPageChange,
   onRowsPerPageChange,
   hidePagination = false,
+  cellVerticalAlign = "top",
   mobileColumns = null,
 }) => {
   const [viewportWidth, setViewportWidth] = useState(
@@ -281,13 +310,17 @@ const Table: React.FC<TableProps> = ({
           <thead>
             <tr>
               {columns?.map((column) => {
-                const columnStyles: React.CSSProperties = {
-                  ...(column?.widthPercentage && {
-                    width: column.widthPercentage,
-                  }),
-                };
+                const columnClassName = getColumnVerticalAlignClass(
+                  column,
+                  cellVerticalAlign,
+                );
+                const columnWidthStyle = getColumnWidthStyle(column);
                 return (
-                  <th key={column.id} style={columnStyles}>
+                  <th
+                    key={column.id}
+                    className={columnClassName}
+                    style={columnWidthStyle}
+                  >
                     <Typography
                       variant="p"
                       isBold
@@ -308,8 +341,17 @@ const Table: React.FC<TableProps> = ({
                 <tr key={rowId} onClick={() => handleRowClick(d)}>
                   {columns?.map((column) => {
                     const columnId = getUniqueId();
+                    const columnClassName = getColumnVerticalAlignClass(
+                      column,
+                      cellVerticalAlign,
+                    );
+                    const columnWidthStyle = getColumnWidthStyle(column);
                     return (
-                      <td key={columnId}>
+                      <td
+                        key={columnId}
+                        className={columnClassName}
+                        style={columnWidthStyle}
+                      >
                         {column.customRender ? (
                           column.customRender(d, column)
                         ) : (

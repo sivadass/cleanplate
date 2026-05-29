@@ -7,6 +7,8 @@ import {
   Button,
   Icon,
   MenuList,
+  MediaObject,
+  Typography,
 } from "../../index";
 import { SPACING_OPTIONS } from "../../constants/common";
 import type { TableProps, TableColumn, TableRow } from "../../components/table";
@@ -73,6 +75,10 @@ export const Default = {
     padding: {
       options: SPACING_OPTIONS,
       control: { type: "inline-check" },
+    },
+    cellVerticalAlign: {
+      options: ["top", "middle", "bottom"],
+      control: { type: "inline-radio" },
     },
     onRowClick: { action: "onClick" },
     totalItems: { control: { type: "number", min: 0 } },
@@ -315,6 +321,135 @@ export const RowActions = {
         action: (row) => <RowActionsCell row={row} />,
       }}
     />
+  ),
+};
+
+const verticalAlignData: TableRow[] = [
+  {
+    id: "1",
+    name: "John Doe",
+    initials: "JD",
+    role: "Product Manager",
+    department: "Product",
+    bio: "Owns the roadmap for checkout and billing. Previously at a fintech startup.",
+    status: "Active",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    initials: "JS",
+    role: "Staff Engineer",
+    department: "Engineering",
+    bio: "Leads platform reliability and observability. Mentors the backend guild and writes internal tooling docs that are way longer than anyone expects, which makes this row noticeably taller than its neighbors.",
+    status: "Active",
+  },
+  {
+    id: "3",
+    name: "Alex Lee",
+    initials: "AL",
+    role: "Designer",
+    department: "Design",
+    bio: "Brand and design systems.",
+    status: "Invited",
+  },
+  {
+    id: "4",
+    name: "Sam Rivera",
+    initials: "SR",
+    role: "Support Lead",
+    department: "Support",
+    bio: "Runs tier-2 escalations and publishes weekly customer health summaries for the leadership team.",
+    status: "Active",
+  },
+];
+
+const verticalAlignColumns: TableColumn[] = [
+  {
+    id: "member",
+    title: "Member",
+    widthPercentage: "42%",
+    verticalAlign: "top",
+    customRender: (rowData: TableRow) => (
+      <MediaObject
+        margin="0"
+        padding="0"
+        title={String(rowData.name)}
+        subtitle={String(rowData.role)}
+        description={String(rowData.bio)}
+        mediaAvatar={String(rowData.name)}
+        mediaAvatarCodeText={String(rowData.initials)}
+        descriptionLineClamp={3}
+      />
+    ),
+  },
+  {
+    id: "department",
+    title: "Department",
+    widthPercentage: "18%",
+    verticalAlign: "top",
+  },
+  {
+    id: "status",
+    title: "Status",
+    widthPercentage: "16%",
+    textAlign: "center",
+    verticalAlign: "middle",
+    customRender: (rowData: TableRow) => (
+      <Container display="flex" justify="center">
+        <Badge
+          label={String(rowData.status)}
+          variant={rowData.status === "Active" ? "success" : "warning"}
+        />
+      </Container>
+    ),
+  },
+  {
+    id: "actions",
+    title: "",
+    widthPercentage: "10%",
+    textAlign: "right",
+    verticalAlign: "middle",
+    customRender: (rowData: TableRow) => <RowActionsCell row={rowData} />,
+  },
+];
+
+export const CellVerticalAlignment = {
+  name: "Cell vertical alignment",
+  parameters: {
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Rows mix tall MediaObject cells with compact badge and action columns. `cellVerticalAlign` defaults to `\"top\"`; the status and actions columns override with `verticalAlign=\"middle\"` so badges and menu triggers stay centered when a neighbor cell wraps to multiple lines. Resize the canvas or compare row 2 (long bio) with row 3 (short bio) to see the effect.",
+      },
+    },
+  },
+  argTypes: {
+    cellVerticalAlign: {
+      options: ["top", "middle", "bottom"],
+      control: { type: "inline-radio" },
+    },
+    onRowClick: { action: "onRowClick" },
+  },
+  args: {
+    cellVerticalAlign: "top",
+  },
+  render: (args: Pick<TableProps, "cellVerticalAlign" | "onRowClick">) => (
+    <Container width="full" display="flex" gap="4">
+      <Container width="full">
+        <Typography variant="p" margin="b-2" isBold>
+          Mixed cell content — toggle `cellVerticalAlign` or edit per-column
+          `verticalAlign` in the story source
+        </Typography>
+        <Table
+          columns={verticalAlignColumns}
+          data={verticalAlignData}
+          cellVerticalAlign={args.cellVerticalAlign}
+          onRowClick={args.onRowClick}
+          hidePagination
+        />
+      </Container>
+    </Container>
   ),
 };
 

@@ -7,6 +7,7 @@ export type {
   TableMargin,
   TablePadding,
   TableColumnTextAlign,
+  TableColumnVerticalAlign,
   TableMobileColumns,
   TableMobileColumnKey,
   TableMobileColumnField,
