@@ -1,6 +1,6 @@
 // This file is auto-generated. Do not edit manually.
-// Generated on: 2026-05-29T02:29:36.179Z
-// Total icons: 4250
+// Generated on: 2026-05-29T09:57:06.554Z
+// Total icons: 4253
 
 /**
  * All available Material Symbol names (Material Symbols Outlined variable font).
@@ -359,6 +359,7 @@ export const MATERIAL_ICON_NAMES = [
   'attachment',
   'attractions',
   'attribution',
+  'audio_capture',
   'audio_description',
   'audio_file',
   'audio_video_receiver',
@@ -2135,6 +2136,7 @@ export const MATERIAL_ICON_NAMES = [
   'light_group',
   'light_group_2',
   'light_mode',
+  'light_mode_auto',
   'light_off',
   'lightbulb',
   'lightbulb_2',
@@ -4109,6 +4111,7 @@ export const MATERIAL_ICON_NAMES = [
   'vr180_create2d',
   'vr180_create2d_off',
   'vrpano',
+  'walk_bike',
   'wall_art',
   'wall_lamp',
   'wallet',
@@ -4976,6 +4979,7 @@ export const ICON_CATEGORIES = {
     'attachment',
     'attractions',
     'attribution',
+    'audio_capture',
     'audio_description',
     'audio_file',
     'audio_video_receiver',
@@ -6546,6 +6550,7 @@ export const ICON_CATEGORIES = {
     'light_group',
     'light_group_2',
     'light_mode',
+    'light_mode_auto',
     'light_off',
     'lightbulb',
     'lightbulb_2',
@@ -8402,6 +8407,7 @@ export const ICON_CATEGORIES = {
     'vr180_create2d',
     'vr180_create2d_off',
     'vrpano',
+    'walk_bike',
     'wall_art',
     'wall_lamp',
     'wallet',

@@ -57,10 +57,15 @@ export interface CheckboxProps {
   /**
    * Visual style for each option.
    * - `default`: stacked rows with the box inline.
-   * - `card`: tile with the box in the top-right, icon on the left, primary-brand
-   *   border + tint when checked.
+   * - `card`: tile with optional `icon`, primary-brand border + tint when checked.
    */
   variant?: "default" | "card";
+  /**
+   * When `variant="card"`, places the checkbox in the tile corner.
+   * - `end` (default): top-inline-end (right in LTR).
+   * - `start`: top-inline-start (left in LTR).
+   */
+  cardControlAlign?: "start" | "end";
   /** Error message rendered under the group. */
   error?: string;
   className?: string;
@@ -97,6 +102,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   isFluid = false,
   orientation = "vertical",
   variant = "default",
+  cardControlAlign = "end",
   error = "",
   className = "",
   dataTestId,
@@ -152,6 +158,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
       aria-describedby={error ? errorId : undefined}
       data-invalid={error ? "true" : undefined}
       data-variant={variant}
+      data-card-control-align={
+        variant === "card" ? cardControlAlign : undefined
+      }
       data-testid={dataTestId}
     >
       <legend

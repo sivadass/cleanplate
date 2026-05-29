@@ -1238,7 +1238,7 @@ export const CheckboxCard = {
     docs: {
       description: {
         story:
-          "Tile-style options with the checkbox in the top-right corner, an optional `icon` to the left of the label/description, and a primary-brand border + tint when checked. Icons accept any `ReactNode` — Material `<Icon>`, brand logos (`<img>`), custom SVG, etc.",
+          "Tile-style options with the checkbox in a tile corner (`cardControlAlign`: `end` = top-right in LTR, `start` = top-left), an optional `icon` beside the label/description, and a primary-brand border + tint when checked. Icons accept any `ReactNode` — Material `<Icon>`, brand logos (`<img>`), custom SVG, etc.",
       },
     },
   },
@@ -1253,6 +1253,10 @@ export const CheckboxCard = {
       control: { type: "inline-radio" },
       options: ["vertical", "horizontal"],
     },
+    cardControlAlign: {
+      control: { type: "inline-radio" },
+      options: ["end", "start"],
+    },
     isDisabled: { control: "boolean" },
     isRequired: { control: "boolean" },
     isFluid: { control: "boolean" },
@@ -1264,6 +1268,7 @@ export const CheckboxCard = {
     name: "addons",
     value: ["automation"],
     variant: "card",
+    cardControlAlign: "end",
     options: featureCardOptions,
     orientation: "horizontal",
     isDisabled: false,
@@ -1507,7 +1512,7 @@ export const RadioCard = {
     docs: {
       description: {
         story:
-          "Tile-style options with the radio ring in the top-right corner, an optional `icon` to the left of the label/description, and a primary-brand border + tint when selected. Icons accept any `ReactNode` — Material `<Icon>`, brand logos (`<img>`), custom SVG, etc.",
+          "Tile-style options with the radio ring in a tile corner (`cardControlAlign`: `end` = top-right in LTR, `start` = top-left), an optional `icon` beside the label/description, and a primary-brand border + tint when selected. Icons accept any `ReactNode` — Material `<Icon>`, brand logos (`<img>`), custom SVG, etc.",
       },
     },
   },
@@ -1522,6 +1527,10 @@ export const RadioCard = {
       control: { type: "inline-radio" },
       options: ["vertical", "horizontal"],
     },
+    cardControlAlign: {
+      control: { type: "inline-radio" },
+      options: ["end", "start"],
+    },
     isDisabled: { control: "boolean" },
     isRequired: { control: "boolean" },
     isFluid: { control: "boolean" },
@@ -1533,6 +1542,7 @@ export const RadioCard = {
     name: "shipping-card",
     value: "exp",
     variant: "card",
+    cardControlAlign: "end",
     options: shippingCardOptions,
     orientation: "horizontal",
     isDisabled: false,

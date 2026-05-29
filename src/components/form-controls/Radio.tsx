@@ -54,10 +54,15 @@ export interface RadioProps {
   /**
    * Visual style for each option.
    * - `default`: stacked rows with the ring inline.
-   * - `card`: tile with the ring in the top-right, icon on the left, primary-brand
-   *   border + tint when selected.
+   * - `card`: tile with optional `icon`, primary-brand border + tint when selected.
    */
   variant?: "default" | "card";
+  /**
+   * When `variant="card"`, places the radio ring in the tile corner.
+   * - `end` (default): top-inline-end (right in LTR).
+   * - `start`: top-inline-start (left in LTR).
+   */
+  cardControlAlign?: "start" | "end";
   /** Error message rendered under the group. */
   error?: string;
   className?: string;
@@ -94,6 +99,7 @@ const Radio: React.FC<RadioProps> = ({
   isFluid = false,
   orientation = "vertical",
   variant = "default",
+  cardControlAlign = "end",
   error = "",
   className = "",
   dataTestId,
@@ -149,6 +155,9 @@ const Radio: React.FC<RadioProps> = ({
       aria-describedby={error ? errorId : undefined}
       data-invalid={error ? "true" : undefined}
       data-variant={variant}
+      data-card-control-align={
+        variant === "card" ? cardControlAlign : undefined
+      }
       data-testid={dataTestId}
     >
       <legend

@@ -1246,7 +1246,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 
   /* ------------------------------------------------------------------------ */
-  /* Card variant: each option becomes a tile with the ring in the top-right. */
+  /* Card variant: tile; control corner via data-card-control-align.            */
   /* ------------------------------------------------------------------------ */
   &[data-variant="card"] {
     .cp-radio-options-card {
@@ -1258,6 +1258,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
     .cp-radio-options-card.cp-radio-options-vertical {
       flex-direction: column;
       flex-wrap: nowrap;
+
+      .cp-radio-row {
+        flex: 0 0 auto;
+      }
     }
 
     .cp-radio-row {
@@ -1271,7 +1275,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       align-items: flex-start;
       gap: 12px;
       padding: 16px;
-      padding-right: 44px; /* room for the top-right ring */
+      padding-inline-end: 44px; /* room for control on inline-end */
       border: 1px solid var(--gray-100);
       border-radius: var(--cp-form-control-radius);
       background: var(--white);
@@ -1284,8 +1288,21 @@ $cp-select-panel-hairline: rgb(235 236 239);
     .cp-radio-visual {
       position: absolute;
       top: 16px;
-      right: 16px;
+      inset-inline-end: 16px;
+      inset-inline-start: auto;
       margin-top: 0;
+    }
+
+    &[data-card-control-align="start"] {
+      .cp-form-label-inline {
+        padding-inline-end: 16px;
+        padding-inline-start: 44px;
+      }
+
+      .cp-radio-visual {
+        inset-inline-end: auto;
+        inset-inline-start: 16px;
+      }
     }
 
     .cp-radio-native:hover:not(:disabled) + .cp-form-label-inline {
@@ -1457,7 +1474,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 
   /* ------------------------------------------------------------------------ */
-  /* Card variant: each option becomes a tile with the box in the top-right.  */
+  /* Card variant: tile; control corner via data-card-control-align.            */
   /* ------------------------------------------------------------------------ */
   &[data-variant="card"] {
     .cp-checkbox-options-card {
@@ -1469,6 +1486,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
     .cp-checkbox-options-card.cp-checkbox-options-vertical {
       flex-direction: column;
       flex-wrap: nowrap;
+
+      .cp-checkbox-row {
+        flex: 0 0 auto;
+      }
     }
 
     .cp-checkbox-row {
@@ -1482,7 +1503,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       align-items: flex-start;
       gap: 12px;
       padding: 16px;
-      padding-right: 44px;
+      padding-inline-end: 44px; /* room for control on inline-end */
       border: 1px solid var(--gray-100);
       border-radius: var(--cp-form-control-radius);
       background: var(--white);
@@ -1495,8 +1516,21 @@ $cp-select-panel-hairline: rgb(235 236 239);
     .cp-checkbox-visual {
       position: absolute;
       top: 16px;
-      right: 16px;
+      inset-inline-end: 16px;
+      inset-inline-start: auto;
       margin-top: 0;
+    }
+
+    &[data-card-control-align="start"] {
+      .cp-form-label-inline {
+        padding-inline-end: 16px;
+        padding-inline-start: 44px;
+      }
+
+      .cp-checkbox-visual {
+        inset-inline-end: auto;
+        inset-inline-start: 16px;
+      }
     }
 
     .cp-checkbox-native:hover:not(:disabled) + .cp-form-label-inline {
