@@ -5,6 +5,7 @@ export type {
   TableRow,
   TableVariant,
   TableMargin,
+  TablePadding,
   TableColumnTextAlign,
   TableMobileColumns,
   TableMobileColumnKey,

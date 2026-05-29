@@ -70,6 +70,10 @@ export const Default = {
       options: SPACING_OPTIONS,
       control: { type: "inline-check" },
     },
+    padding: {
+      options: SPACING_OPTIONS,
+      control: { type: "inline-check" },
+    },
     onRowClick: { action: "onClick" },
     totalItems: { control: { type: "number", min: 0 } },
     currentPage: { control: { type: "number", min: 1 } },

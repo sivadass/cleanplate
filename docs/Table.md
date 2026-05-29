@@ -10,6 +10,7 @@ Purpose: Displays structured data in a table with configurable columns, optional
 | data | TableRow[] | yes | — | Array of row objects; keys should match column `id`s. |
 | variant | "default" \| "compact" | no | "default" | Visual variant. |
 | margin | string \| SpacingOption[] | no | "0" | Margin spacing. Suffix or array of spacing suffixes; component adds `m-` prefix. |
+| padding | string \| SpacingOption[] | no | "4" | Root padding. Suffix or array of spacing suffixes; component adds `p-` prefix. |
 | className | string | no | "" | Additional class names for the root element. |
 | onRowClick | (rowData: TableRow) => void | no | — | Called when a row is clicked; receives the row object. |
 | totalItems | number | no | 0 | Total item count for built-in Pagination; 0 or omitted hides pagination. |
@@ -37,6 +38,11 @@ type TableVariant = "default" | "compact";
 ### TableMargin
 ```typescript
 type TableMargin = string | SpacingOption[];
+```
+
+### TablePadding
+```typescript
+type TablePadding = string | SpacingOption[];
 ```
 
 ### TableColumnTextAlign
@@ -93,6 +99,7 @@ interface TableMobileColumns
 interface TableProps {
   variant?: TableVariant;
   margin?: TableMargin;
+  padding?: TablePadding;
   className?: string;
   columns: TableColumn[];
   data: TableRow[];
@@ -204,7 +211,7 @@ const columns = [
 - **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state.
 - **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields (`mediaAvatar`, `mediaAvatarCodeText`, `mediaIcon`, `mediaImage`), or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.
-- **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
+- **Spacing:** `margin` and `padding` use the suffix API; the component adds the `m-` and `p-` prefixes via `getSpacingClass`.
 
 ## Related Components / Links
 

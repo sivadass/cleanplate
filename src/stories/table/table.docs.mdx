@@ -292,15 +292,16 @@ Use `onRowClick` to handle clicks on a row (the whole row is clickable):
 />
 ```
 
-## Margin and className
+## Margin, padding, and className
 
-Apply outer spacing with `margin` (suffix or array of spacing suffixes; component adds `m-` prefix) and extra classes with `className`:
+Apply outer spacing with `margin` and root padding with `padding` (suffix or array of spacing suffixes; component adds `m-` / `p-` prefixes) and extra classes with `className`:
 
 ```jsx
 <Table
   columns={columns}
   data={data}
   margin="0"
+  padding="4"
   className="my-table"
 />
 ```
@@ -319,7 +320,7 @@ Apply outer spacing with `margin` (suffix or array of spacing suffixes; componen
 - **mobileColumns**: When set and viewport &lt; 768px, rows render as MediaObjects.
 - **totalItems**, **totalLabel**, **currentPage**, **rowsPerPage**, **rowsPerPageOptions**, **onPageChange**, **onRowsPerPageChange**: Built-in Pagination; if `totalItems` is 0 or not passed, the pagination area is not shown unless you need the bar for other reasons.
 - **hidePagination**: Set to `true` to hide the built-in pagination.
-- **margin**, **className**: Spacing and extra classes.
+- **margin**, **padding**, **className**: Outer spacing and extra classes.
 
 ### Responsive behavior
 

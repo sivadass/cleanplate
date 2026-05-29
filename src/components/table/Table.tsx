@@ -19,6 +19,8 @@ export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 
 export type TableMargin = string | SpacingOption[];
 
+export type TablePadding = string | SpacingOption[];
+
 export type TableVariant = "default" | "compact";
 
 export type TableColumnTextAlign = "left" | "center" | "right";
@@ -90,6 +92,7 @@ export interface TableMobileColumns
 export interface TableProps {
   variant?: TableVariant;
   margin?: TableMargin;
+  padding?: TablePadding;
   className?: string;
   columns: TableColumn[];
   data: TableRow[];
@@ -198,6 +201,7 @@ function buildMobileMediaObjectProps(
 const Table: React.FC<TableProps> = ({
   variant,
   margin = "0",
+  padding = "4",
   className = "",
   columns = [],
   data = [],
@@ -222,12 +226,14 @@ const Table: React.FC<TableProps> = ({
   const canShowMobileColumns = isMobile && isMobileColumnsConfigured;
 
   const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const paddingClass = getSpacingClass(padding, utilStyles, "p");
   const tableClasses = getClassNames(
     styles["table"],
     {
       [styles[variant ?? "default"]]: variant,
     },
     marginClass,
+    paddingClass,
     className
   );
 
