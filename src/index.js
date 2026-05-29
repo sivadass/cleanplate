@@ -17,6 +17,7 @@ import Toast from "./components/toast";
 import Animated from "./components/animated";
 import Header from "./components/header";
 import Footer from "./components/footer";
+import FeedbackState from "./components/feedback-state";
 import PageHeader from "./components/page-header";
 import BreadCrumb from "./components/breadcrumb";
 import MenuList from "./components/menu-list";
@@ -49,6 +50,7 @@ export {
   Header,
   PageHeader,
   Footer,
+  FeedbackState,
   MenuList,
   Spinner,
   ProgressBar,

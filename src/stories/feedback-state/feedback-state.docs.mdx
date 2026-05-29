@@ -1,0 +1,32 @@
+import { Meta } from "@storybook/blocks";
+import { FeedbackState, Container } from "../../index";
+
+<Meta title="atoms/FeedbackState/Documentation" />
+
+# FeedbackState
+
+`FeedbackState` displays a unified empty or error region inside cards, panels, tables, and content areas. Pass your own illustration URL (`png`, `jpg`, `svg`) or a Material `icon` when you do not use an image.
+
+## Features
+
+- **Variants:** `empty`, `error` (default `role`: `status` / `alert`)
+- **Media:** `illustration` URL or `ReactNode`, or `icon` when no image
+- **Sizes:** `small`, `medium`, `large`
+- **Actions:** `primaryAction`, `secondaryAction` (`onClick` only); `onRetry` shorthand
+- **Error:** optional `errorCode`, `errorDetails` (`<details>`)
+- **Overrides:** `className` on root + documented slot classes
+
+## Usage
+
+```jsx
+import { FeedbackState } from "cleanplate";
+
+<FeedbackState
+  variant="empty"
+  title="No projects yet"
+  icon="folder_open"
+  primaryAction={{ label: "New project", onClick: onCreate }}
+/>
+```
+
+See **atoms/FeedbackState/Playground** for interactive examples.
