@@ -26,8 +26,11 @@ import type { FooterProps } from "../footer";
 import Button from "../button";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
+import { useMediaQuery } from "../../utils/use-media-query";
 import styles from "./AppShell.module.scss";
-import { APP_SHELL_SIDEBAR_MOBILE_MQ, useMediaQuery } from "./use-media-query";
+
+/** Match `AppShell.module.scss` sidebar breakpoint (max-width: 1024px). */
+const APP_SHELL_SIDEBAR_MOBILE_MQ = "(max-width: 1024px)";
 
 /** Sidebar configuration: MenuList as vertical nav. Direction is always "vertical". */
 export interface AppShellSidebarConfig {

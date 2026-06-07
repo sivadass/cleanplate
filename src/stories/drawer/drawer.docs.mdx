@@ -1,0 +1,151 @@
+import { Meta } from "@storybook/blocks";
+import { Drawer, Typography, Button } from "../../index";
+
+<Meta title="molecules/Drawer/Documentation" />
+
+# Drawer
+
+The `Drawer` component is a slide-in overlay panel for navigation, filters, settings, or detail views. On desktop it slides from a configurable edge; on mobile (viewport ≤768px) it always behaves as a **bottom sheet** (max height 90dvh).
+
+## Features
+
+- **Four placements:** `left`, `right`, `top`, `bottom` (desktop)
+- **Mobile bottom sheet:** Automatic below 768px regardless of `placement`
+- **Modal-like chrome:** Optional title, close button, footer primary/secondary actions
+- **Smooth transitions:** Subtle fade and slide when opening and closing
+- **Accessibility:** Focus trap, scroll lock, `role="dialog"`, ARIA labels — provide `title` or `ariaLabel`
+- **E2E friendly:** `dataTestId` with suffixed test hooks (same convention as Modal)
+- **Style overrides:** `className`, `overlayClassName`, `contentClassName`, `headerClassName`, `bodyClassName`, `footerClassName`
+
+## Usage
+
+```jsx
+import { Drawer, Button, Typography } from "cleanplate";
+import { useState } from "react";
+
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Open Drawer</Button>
+      <Drawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        placement="right"
+        title="Filters"
+      >
+        <Typography variant="p">Filter options go here.</Typography>
+      </Drawer>
+    </>
+  );
+};
+```
+
+## When to use Drawer vs Modal vs BottomSheet
+
+These three components all show content on top of the page, but they optimize for different layout and interaction patterns. Pick based on **where the panel should sit**, **how much of the screen it should occupy**, and **whether you need gesture-based height control**.
+
+### Quick pick
+
+- **Drawer** — Side or edge panel that keeps page context visible (filters, nav, settings, item details). On viewports **≤768px**, any `placement` automatically becomes a **bottom sheet** (max **90dvh**) with the same header, dismiss, and focus behavior as desktop.
+- **Modal** — Centered, attention-grabbing dialog for tasks that need full focus (forms, confirmations with rich content, multi-step flows). Best when the user should pause the underlying page.
+- **BottomSheet** — Bottom-only panel where the user **drags** to resize or dismiss. Use when snap heights (30% / 60% / 90%) and a drag handle matter more than edge placement or built-in dialog chrome.
+
+### Comparison
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Drawer</th>
+      <th>Modal</th>
+      <th>BottomSheet</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Position</strong></td>
+      <td>Slides from <code>left</code>, <code>right</code>, <code>top</code>, or <code>bottom</code> (desktop)</td>
+      <td>Centered overlay</td>
+      <td>Fixed to bottom only</td>
+    </tr>
+    <tr>
+      <td><strong>Mobile (≤768px)</strong></td>
+      <td>Always bottom sheet (max 90dvh)</td>
+      <td>Stays centered; responsive sizing</td>
+      <td>Same bottom behavior on all viewports</td>
+    </tr>
+    <tr>
+      <td><strong>Typical use</strong></td>
+      <td>Filters, nav menus, settings, detail panels</td>
+      <td>Forms, wizards, long content, stop-and-read dialogs</td>
+      <td>Peekable content, maps/lists with adjustable height</td>
+    </tr>
+    <tr>
+      <td><strong>Built-in chrome</strong></td>
+      <td>Title, close button, optional footer actions</td>
+      <td>Title, close button, optional footer actions</td>
+      <td>Content shell only (you supply layout)</td>
+    </tr>
+    <tr>
+      <td><strong>Dismiss</strong></td>
+      <td>Overlay, Escape, close button (configurable)</td>
+      <td>Overlay, Escape, close button (configurable)</td>
+      <td>Drag past threshold; no overlay/Escape API</td>
+    </tr>
+    <tr>
+      <td><strong>Gestures</strong></td>
+      <td>None</td>
+      <td>None</td>
+      <td>Drag handle, snap points (30% / 60% / 90%)</td>
+    </tr>
+    <tr>
+      <td><strong>Focus and scroll lock</strong></td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Body scroll lock only</td>
+    </tr>
+  </tbody>
+</table>
+
+### Examples
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Recommended</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Filter panel from the right on desktop; sheet on phone</td>
+      <td><strong>Drawer</strong> (<code>placement="right"</code>)</td>
+    </tr>
+    <tr>
+      <td>Delete account form with Save / Cancel footer</td>
+      <td><strong>Modal</strong></td>
+    </tr>
+    <tr>
+      <td>Map with a draggable panel the user can half-expand</td>
+      <td><strong>BottomSheet</strong></td>
+    </tr>
+    <tr>
+      <td>Mobile nav that slides from the left on tablet, sheet on phone</td>
+      <td><strong>Drawer</strong> (mobile sheet is automatic)</td>
+    </tr>
+    <tr>
+      <td>Select / Date picker on mobile</td>
+      <td>FormControls built-in sheet — not Drawer</td>
+    </tr>
+  </tbody>
+</table>
+
+**Note:** Drawer’s mobile bottom sheet is **not** the same as `BottomSheet`. Drawer gives you dialog semantics, dismiss controls, and optional header/footer; `BottomSheet` is for drag-and-snap interactions without that chrome. Use `BottomSheet` when gestures are the primary UX; use `Drawer` when you want a consistent overlay panel across desktop and mobile.
+
+## Test selectors
+
+Pass `dataTestId="filters-drawer"` for stable hooks: `-overlay`, `-header`, `-title`, `-close`, `-body`, `-footer`, `-primary`, `-secondary`.
+
+See [Drawer.md](https://github.com/sivadass/cleanplate/blob/main/docs/Drawer.md) for the full prop reference.

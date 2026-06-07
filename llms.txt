@@ -151,6 +151,13 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: ModalProps, ModalSize, ModalMargin, SpacingOption
 - Related Components: ConfirmDialog (simpler confirm-only), Button, Typography, Icon (used internally)
 
+### Drawer Component
+- File: `docs/Drawer.md`
+- Purpose: Slide-in overlay panel from a configurable edge (left, right, top, bottom) on desktop; below 768px always renders as a bottom sheet (max 90dvh). Optional title, close button, footer actions; fade/slide transitions, focus trap, scroll lock.
+- Key Features: placement (left, right, top, bottom), size (small, medium, large, full), showCloseButton, closeOnOverlayClick, closeOnEscape, margin (suffix API), className/overlayClassName/contentClassName/headerClassName/bodyClassName/footerClassName, dataTestId with suffixed E2E hooks, ariaLabel
+- Types: DrawerProps, DrawerPlacement, DrawerSize, DrawerMargin, SpacingOption
+- Related Components: Modal (centered dialog), BottomSheet (drag/snap from bottom), Button, Typography, Icon (used internally)
+
 ### Pagination Component
 - File: `docs/Pagination.md`
 - Purpose: Navigate large content sets by pages. Shows total count, prev/next and page-number buttons with ellipsis, and optional rows-per-page select. Controlled via currentPage and rowsPerPage.
@@ -273,6 +280,7 @@ All documentation files follow a consistent format:
 | Accordion | `docs/Accordion.md` | Collapsible panels and FAQ sections |
 | ConfirmDialog | `docs/ConfirmDialog.md` | Confirmation modals and destructive actions |
 | Modal | `docs/Modal.md` | Forms, long content, and custom dialogs |
+| Drawer | `docs/Drawer.md` | Edge slide-in panel; bottom sheet on mobile |
 | Pagination | `docs/Pagination.md` | Page navigation for tables and lists |
 | Table | `docs/Table.md` | Structured tabular data with optional pagination and mobile view |
 | Badge | `docs/Badge.md` | Status labels, tags, and counts with colored variants |
@@ -304,5 +312,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Drawer, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
 ```

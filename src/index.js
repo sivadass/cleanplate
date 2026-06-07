@@ -25,6 +25,7 @@ import Spinner from "./components/spinner";
 import ProgressBar from "./components/progress-bar";
 import Accordion from "./components/accordion";
 import BottomSheet from "./components/bottom-sheet";
+import Drawer from "./components/drawer";
 import Table from "./components/table";
 import Pagination from "./components/pagination";
 import Pills from "./components/pills";
@@ -56,6 +57,7 @@ export {
   ProgressBar,
   Accordion,
   BottomSheet,
+  Drawer,
   Table,
   Pagination,
   Pills,

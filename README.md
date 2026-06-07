@@ -137,6 +137,7 @@ import { Icon } from "cleanplate";
 | Avatar         | User initials, image, or icon |
 | Badge          | Status labels, tags |
 | BottomSheet    | Slide-up panel |
+| Drawer         | Edge slide-in panel; bottom sheet on mobile |
 | BreadCrumb     | Navigation trail |
 | Button         | Actions and buttons |
 | ConfirmDialog  | Confirmation modals |

@@ -4,6 +4,7 @@
 
 ### Added
 
+- **`Drawer`**: slide-in overlay panel (`placement`, mobile bottom sheet at ≤768px, optional header/footer, `dataTestId`). See `docs/Drawer.md`.
 - **`FeedbackState`**: unified empty/error region component (`variant`, consumer `illustration` URL or `icon`, `primaryAction` / `secondaryAction`, `onRetry`, `errorDetails`). See `docs/FeedbackState.md`.
 
 ### Breaking
