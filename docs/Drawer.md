@@ -1,6 +1,6 @@
 # Drawer Component
 
-Purpose: A slide-in overlay panel for navigation, filters, settings, or detail views. On desktop (≥768px), slides from a configurable edge (`left`, `right`, `top`, or `bottom`). Below 768px, always renders as a bottom sheet (max height 90dvh). Includes fade/slide transitions, focus management, and Modal-like optional chrome (title, close button, footer actions).
+Purpose: A slide-in overlay panel for navigation, filters, settings, or detail views. On desktop (≥768px), slides from a configurable edge (`left`, `right`, `top`, or `bottom`). Below 768px, always renders as a bottom sheet (max height 90dvh). Includes fade/slide transitions, focus management, and Modal-like optional chrome (title, close button, footer primary / secondary / tertiary actions).
 
 ## Props / Inputs
 
@@ -27,7 +27,20 @@ Purpose: A slide-in overlay panel for navigation, filters, settings, or detail v
 | onPrimaryButtonClick | () => void | no | — | Called when the primary footer button is clicked. |
 | secondaryButtonLabel | string | no | "" | Label for the secondary footer button; empty hides it. |
 | onSecondaryButtonClick | () => void | no | — | Called when the secondary footer button is clicked. |
-| dataTestId | string | no | — | Root `data-testid` on the dialog panel; suffixed ids on overlay, header, title, close, body, footer, and action buttons (see **E2E / test selectors**). |
+| tertiaryButtonLabel | string | no | "" | Label for the tertiary footer button (ghost variant); empty hides it. |
+| onTertiaryButtonClick | () => void | no | — | Called when the tertiary footer button is clicked. |
+| dataTestId | string | no | — | Root `data-testid` on the dialog panel; suffixed ids: `-overlay`, `-header`, `-title`, `-close`, `-body`, `-footer`, `-primary`, `-secondary`, `-tertiary` (see **E2E / test selectors**). |
+
+## Size presets
+
+| Size | Side drawer width (`left` / `right`) | Top / bottom drawer height |
+| --- | --- | --- |
+| `small` | `min(280px, 100vw − 56px)` | `30dvh` |
+| `medium` | `min(360px, 100vw − 56px)` | `50dvh` |
+| `large` | `min(480px, 100vw − 56px)` | `70dvh` |
+| `full` | `100vw` | `100dvh` |
+
+On mobile (≤768px), `size` height/width presets are overridden by the bottom sheet shell (`max-height: 90dvh`, full width).
 
 ## Types
 
@@ -75,6 +88,8 @@ interface DrawerProps {
   onPrimaryButtonClick?: () => void;
   secondaryButtonLabel?: string;
   onSecondaryButtonClick?: () => void;
+  tertiaryButtonLabel?: string;
+  onTertiaryButtonClick?: () => void;
   dataTestId?: string;
 }
 ```
@@ -92,8 +107,9 @@ Pass `dataTestId="filters-drawer"` to get stable Playwright / Testing Library ho
 | `-close` | Header close (X) button |
 | `-body` | Main content area |
 | `-footer` | Footer action row |
-| `-primary` | Primary footer button |
-| `-secondary` | Secondary footer button |
+| `-primary` | Primary footer button (solid) |
+| `-secondary` | Secondary footer button (outline) |
+| `-tertiary` | Tertiary footer button (ghost) |
 
 Header, title, close, footer, and button suffixes are omitted when those regions are not rendered.
 
@@ -144,15 +160,19 @@ const App = () => {
 
 ### With footer buttons
 
+Footer actions render in a row: **tertiary** (ghost, left), **secondary** (outline), **primary** (solid, right). Omit any label to hide that button.
+
 ```jsx
 <Drawer
   isOpen={isOpen}
   onClose={() => setIsOpen(false)}
   title="Apply Filters"
-  primaryButtonLabel="Apply"
-  onPrimaryButtonClick={handleApply}
+  tertiaryButtonLabel="Learn more"
+  onTertiaryButtonClick={handleLearnMore}
   secondaryButtonLabel="Reset"
   onSecondaryButtonClick={handleReset}
+  primaryButtonLabel="Apply"
+  onPrimaryButtonClick={handleApply}
 >
   <Typography variant="p">Choose filter criteria.</Typography>
 </Drawer>
@@ -167,7 +187,10 @@ const App = () => {
   title="Settings"
   className="my-drawer-panel"
   overlayClassName="my-drawer-overlay"
+  contentClassName="my-drawer-content"
+  headerClassName="my-drawer-header"
   bodyClassName="my-drawer-body"
+  footerClassName="my-drawer-footer"
   dataTestId="settings-drawer"
 >
   ...
@@ -180,10 +203,12 @@ const App = () => {
 - **Mobile (<768px):** Always renders as a bottom sheet regardless of `placement`. Max height is **90dvh** with rounded top corners and safe-area padding at the bottom.
 - **Rendering:** Mounts when `isOpen` is true and stays mounted briefly after close so the exit transition can finish.
 - **Close:** `onClose` is called when the user clicks the X button (if `showCloseButton`), the overlay (if `closeOnOverlayClick`), or Escape (if `closeOnEscape`). Footer buttons do not auto-close; call `onClose` in their handlers if desired.
+- **Footer buttons:** `primaryButtonLabel` (solid), `secondaryButtonLabel` (outline), and `tertiaryButtonLabel` (ghost). Tertiary aligns to the start of the footer row; secondary and primary align to the end.
 - **Body scroll:** Locked while open and restored on close.
 - **Focus:** Trapped while open; returned to the previously focused element on close.
 - **ARIA:** `role="dialog"`, `aria-modal="true"`, `aria-labelledby` when `title` is present, or `aria-label` via `ariaLabel`. Provide **`title` or `ariaLabel`** — a dev warning is logged when the drawer opens without either.
 - **Spacing:** `margin` uses the suffix API (e.g. `"0"`, `"b-2"`); component adds `m-` prefix.
+- **Reduced motion:** Respects `prefers-reduced-motion: reduce` (transitions minimized in CSS).
 
 ## Related Components / Links
 

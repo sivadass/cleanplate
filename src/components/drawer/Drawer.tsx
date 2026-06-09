@@ -139,10 +139,14 @@ export interface DrawerProps {
   secondaryButtonLabel?: string;
   /** Called when the secondary footer button is clicked */
   onSecondaryButtonClick?: () => void;
+  /** Label for the tertiary footer button (ghost variant); empty hides it */
+  tertiaryButtonLabel?: string;
+  /** Called when the tertiary footer button is clicked */
+  onTertiaryButtonClick?: () => void;
   /**
    * Root `data-testid` on the dialog panel. When set, related elements also get
    * suffixed ids: `-overlay`, `-header`, `-title`, `-close`, `-body`, `-footer`,
-   * `-primary`, `-secondary`.
+   * `-primary`, `-secondary`, `-tertiary`.
    */
   dataTestId?: string;
 }
@@ -176,6 +180,8 @@ const Drawer: React.FC<DrawerProps> = ({
   onPrimaryButtonClick,
   secondaryButtonLabel = "",
   onSecondaryButtonClick,
+  tertiaryButtonLabel = "",
+  onTertiaryButtonClick,
   dataTestId,
 }) => {
   const titleId = useId();
@@ -323,11 +329,27 @@ const Drawer: React.FC<DrawerProps> = ({
             >
               {children}
             </div>
-            {(primaryButtonLabel || secondaryButtonLabel) && (
+            {(primaryButtonLabel ||
+              secondaryButtonLabel ||
+              tertiaryButtonLabel) && (
               <div
                 className={footerClasses}
                 data-testid={drawerFieldTestId(dataTestId, "footer")}
               >
+                {tertiaryButtonLabel && (
+                  <Button
+                    variant="ghost"
+                    size="medium"
+                    onClick={onTertiaryButtonClick}
+                    className={getClassNames(
+                      styles["footer-button"],
+                      styles["footer-tertiary"],
+                    )}
+                    data-testid={drawerFieldTestId(dataTestId, "tertiary")}
+                  >
+                    {tertiaryButtonLabel}
+                  </Button>
+                )}
                 {secondaryButtonLabel && (
                   <Button
                     variant="outline"

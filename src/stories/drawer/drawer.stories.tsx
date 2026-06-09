@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useArgs } from "@storybook/preview-api";
 import { Drawer, Typography, Button } from "../../index";
 import { SPACING_OPTIONS } from "../../constants/common";
 import type { DrawerProps } from "../../components/drawer";
@@ -14,6 +15,11 @@ const meta = {
 export const Default = {
   name: "Default",
   argTypes: {
+    isOpen: {
+      control: { type: "boolean" },
+      description: "Whether the drawer is visible",
+    },
+    children: { control: false },
     placement: {
       options: ["left", "right", "top", "bottom"],
       control: { type: "inline-radio" },
@@ -56,10 +62,15 @@ export const Default = {
       description: "Label for the secondary action button",
     },
     onSecondaryButtonClick: { action: "onSecondaryButtonClick" },
+    tertiaryButtonLabel: {
+      control: { type: "text" },
+      description: "Label for the tertiary action button (ghost variant)",
+    },
+    onTertiaryButtonClick: { action: "onTertiaryButtonClick" },
     dataTestId: {
       control: { type: "text" },
       description:
-        "Root data-testid on the dialog; suffixed ids on overlay, header, title, close, body, footer, primary, secondary",
+        "Root data-testid on the dialog; suffixed ids on overlay, header, title, close, body, footer, primary, secondary, tertiary",
     },
   },
   args: {
@@ -74,19 +85,22 @@ export const Default = {
     secondaryButtonLabel: "Cancel",
   },
   render: (args: DrawerProps) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [, updateArgs] = useArgs();
 
     const handleClose = () => {
-      setIsOpen(false);
+      updateArgs({ isOpen: false });
       args.onClose?.();
     };
 
     return (
       <div style={{ padding: 24 }}>
-        <Button onClick={() => setIsOpen(true)} margin="b-4">
+        <Button
+          onClick={() => updateArgs({ isOpen: true })}
+          margin="b-4"
+        >
           Open Drawer
         </Button>
-        <Drawer {...args} isOpen={isOpen} onClose={handleClose}>
+        <Drawer {...args} onClose={handleClose}>
           <Typography variant="p" margin="b-3">
             This drawer slides from the configured edge on desktop. Below 768px
             it always behaves as a bottom sheet (max 90dvh).
@@ -248,10 +262,12 @@ export const WithFooterButtons = {
           onClose={() => setIsOpen(false)}
           placement="right"
           title="Apply Filters"
-          primaryButtonLabel="Apply"
-          onPrimaryButtonClick={() => setIsOpen(false)}
+          tertiaryButtonLabel="Learn more"
+          onTertiaryButtonClick={() => {}}
           secondaryButtonLabel="Reset"
           onSecondaryButtonClick={() => setIsOpen(false)}
+          primaryButtonLabel="Apply"
+          onPrimaryButtonClick={() => setIsOpen(false)}
         >
           <Typography variant="p">Filter criteria go here.</Typography>
         </Drawer>

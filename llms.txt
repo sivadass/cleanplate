@@ -153,8 +153,8 @@ All component documentation is located in the `docs/` folder. The following docu
 
 ### Drawer Component
 - File: `docs/Drawer.md`
-- Purpose: Slide-in overlay panel from a configurable edge (left, right, top, bottom) on desktop; below 768px always renders as a bottom sheet (max 90dvh). Optional title, close button, footer actions; fade/slide transitions, focus trap, scroll lock.
-- Key Features: placement (left, right, top, bottom), size (small, medium, large, full), showCloseButton, closeOnOverlayClick, closeOnEscape, margin (suffix API), className/overlayClassName/contentClassName/headerClassName/bodyClassName/footerClassName, dataTestId with suffixed E2E hooks, ariaLabel
+- Purpose: Slide-in overlay panel from a configurable edge (left, right, top, bottom) on desktop; below 768px always renders as a bottom sheet (max 90dvh). Optional title, close button, footer primary/secondary/tertiary actions; fade/slide transitions, focus trap, scroll lock.
+- Key Features: placement (left, right, top, bottom), size (small, medium, large, full), showCloseButton, closeOnOverlayClick, closeOnEscape, margin (suffix API), className/overlayClassName/contentClassName/headerClassName/bodyClassName/footerClassName, footer buttons (primary solid, secondary outline, tertiary ghost), dataTestId with suffixed E2E hooks (`-primary`, `-secondary`, `-tertiary`), ariaLabel (dev warning when title and ariaLabel both omitted), mobile safe-area padding
 - Types: DrawerProps, DrawerPlacement, DrawerSize, DrawerMargin, SpacingOption
 - Related Components: Modal (centered dialog), BottomSheet (drag/snap from bottom), Button, Typography, Icon (used internally)
 

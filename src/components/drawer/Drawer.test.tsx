@@ -126,6 +126,7 @@ describe("Drawer", () => {
         dataTestId="settings-drawer"
         primaryButtonLabel="Save"
         secondaryButtonLabel="Cancel"
+        tertiaryButtonLabel="Help"
       >
         Body content
       </Drawer>,
@@ -148,6 +149,31 @@ describe("Drawer", () => {
     expect(screen.getByTestId("settings-drawer-secondary")).toHaveTextContent(
       "Cancel",
     );
+    expect(screen.getByTestId("settings-drawer-tertiary")).toHaveTextContent(
+      "Help",
+    );
+  });
+
+  it("renders tertiary-only footer with ghost button", () => {
+    render(
+      <Drawer
+        isOpen
+        title="Info"
+        tertiaryButtonLabel="Learn more"
+        dataTestId="info-drawer"
+      >
+        Body
+      </Drawer>,
+    );
+
+    expect(screen.getByTestId("info-drawer-footer")).toBeInTheDocument();
+    expect(screen.getByTestId("info-drawer-tertiary")).toHaveTextContent(
+      "Learn more",
+    );
+    expect(screen.queryByTestId("info-drawer-primary")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("info-drawer-secondary"),
+    ).not.toBeInTheDocument();
   });
 
   it("applies mobile bottom sheet class below 768px", () => {

@@ -11,13 +11,32 @@ The `Drawer` component is a slide-in overlay panel for navigation, filters, sett
 
 - **Four placements:** `left`, `right`, `top`, `bottom` (desktop)
 - **Mobile bottom sheet:** Automatic below 768px regardless of `placement`
-- **Modal-like chrome:** Optional title, close button, footer primary/secondary actions
-- **Smooth transitions:** Subtle fade and slide when opening and closing
-- **Accessibility:** Focus trap, scroll lock, `role="dialog"`, ARIA labels — provide `title` or `ariaLabel`
+- **Modal-like chrome:** Optional title, close button, footer primary (solid) / secondary (outline) / tertiary (ghost) actions
+- **Smooth transitions:** Subtle fade and slide when opening and closing; reduced motion supported
+- **Accessibility:** Focus trap, scroll lock, `role="dialog"`, ARIA labels — provide `title` or `ariaLabel` (dev warning if both omitted)
 - **E2E friendly:** `dataTestId` with suffixed test hooks (same convention as Modal)
 - **Style overrides:** `className`, `overlayClassName`, `contentClassName`, `headerClassName`, `bodyClassName`, `footerClassName`
 
-## Usage
+## Size presets
+
+| Size | Side width | Top / bottom height |
+| --- | --- | --- |
+| `small` | `min(280px, 100vw − 56px)` | `30dvh` |
+| `medium` | `min(360px, 100vw − 56px)` | `50dvh` |
+| `large` | `min(480px, 100vw − 56px)` | `70dvh` |
+| `full` | `100vw` | `100dvh` |
+
+Mobile (≤768px) overrides `size` with a bottom sheet (`max-height: 90dvh`, full width).
+
+## Footer actions
+
+When any of `primaryButtonLabel`, `secondaryButtonLabel`, or `tertiaryButtonLabel` is set, a footer row renders:
+
+- **Tertiary** — `ghost` button, aligned to the start of the row
+- **Secondary** — `outline` button
+- **Primary** — `solid` button, aligned with secondary on the end
+
+Footer buttons do not auto-close the drawer; call `onClose` in their handlers when needed.
 
 ```jsx
 import { Drawer, Button, Typography } from "cleanplate";
@@ -84,7 +103,7 @@ These three components all show content on top of the page, but they optimize fo
     </tr>
     <tr>
       <td><strong>Built-in chrome</strong></td>
-      <td>Title, close button, optional footer actions</td>
+      <td>Title, close button, optional footer (primary, secondary, tertiary)</td>
       <td>Title, close button, optional footer actions</td>
       <td>Content shell only (you supply layout)</td>
     </tr>
@@ -146,6 +165,6 @@ These three components all show content on top of the page, but they optimize fo
 
 ## Test selectors
 
-Pass `dataTestId="filters-drawer"` for stable hooks: `-overlay`, `-header`, `-title`, `-close`, `-body`, `-footer`, `-primary`, `-secondary`.
+Pass `dataTestId="filters-drawer"` for stable hooks: `-overlay`, `-header`, `-title`, `-close`, `-body`, `-footer`, `-primary`, `-secondary`, `-tertiary`.
 
 See [Drawer.md](https://github.com/sivadass/cleanplate/blob/main/docs/Drawer.md) for the full prop reference.

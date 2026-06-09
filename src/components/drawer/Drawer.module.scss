@@ -226,6 +226,10 @@
   min-width: 80px;
 }
 
+.footer-tertiary {
+  margin-right: auto;
+}
+
 @media (max-width: 768px) {
   .header {
     padding: var(--space-3) var(--space-3) var(--space-2) var(--space-3);
