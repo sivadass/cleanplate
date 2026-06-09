@@ -41,7 +41,8 @@ const useToastPortal = () => {
   useEffect(() => {
     const div = document.createElement("div");
     div.id = portalId;
-    div.style.cssText = "position: fixed; top: 16px; right: 16px";
+    div.style.cssText =
+      "position: fixed; top: 16px; right: 16px; z-index: var(--cp-z-toast)";
     const body = document.getElementsByTagName("body")[0];
     if (body) {
       body.prepend(div);

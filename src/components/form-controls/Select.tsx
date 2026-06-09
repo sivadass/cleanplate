@@ -65,7 +65,7 @@ const SELECT_MOBILE_SHEET_SURFACE_STYLE: React.CSSProperties = {
   width: "100%",
   maxWidth: "100vw",
   margin: 0,
-  zIndex: 1100,
+  zIndex: "var(--cp-z-picker-panel)",
 };
 
 function useMediaQuery(matchesQuery: string): boolean {

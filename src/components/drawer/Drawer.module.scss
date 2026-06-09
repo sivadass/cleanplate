@@ -1,5 +1,5 @@
 .cp-drawer-overlay {
-  --cp-drawer-z: 1000;
+  --cp-drawer-z: var(--cp-z-drawer-overlay);
 
   position: fixed;
   inset: 0;
@@ -10,7 +10,7 @@
 }
 
 .cp-drawer {
-  --cp-drawer-panel-z: 1001;
+  --cp-drawer-panel-z: var(--cp-z-drawer-panel);
   --cp-drawer-side-width-small: min(280px, calc(100vw - 56px));
   --cp-drawer-side-width-medium: min(360px, calc(100vw - 56px));
   --cp-drawer-side-width-large: min(480px, calc(100vw - 56px));

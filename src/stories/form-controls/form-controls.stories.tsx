@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useArgs } from "@storybook/preview-api";
 import { de } from "date-fns/locale/de";
-import { FormControls, Container, Typography, Icon } from "../../index";
+import { FormControls, Container, Typography, Icon, Modal } from "../../index";
 import type { Option, SelectValue } from "../../components/form-controls/Select";
 
 /* -------------------------------------------------------------------------- */
@@ -637,25 +637,123 @@ export const SelectPanelMinWidth = {
   ),
 };
 
+function slugifySelectOptionLabel(label: string): string {
+  const slug = label
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_")
+    .replace(/\W/g, "");
+  return slug || `option_${Date.now()}`;
+}
+
 export const SelectAddOption = {
   name: "Select · add option (footer)",
   parameters: {
     docs: {
       description: {
         story:
-          "`onAddOption` pins an add action below the scrollable list (min 120px). Label via `addOptionLabel` (default “Add option”). Disabled only when search text duplicates an existing option.",
+          "`onAddOption` opens a modal form. Submitting appends the new fruit to `options` and selects it. Search text prefills the modal when present.",
       },
     },
+  },
+  argTypes: {
+    ...Select.argTypes,
+    options: { table: { disable: true }, control: false },
+    value: { table: { disable: true }, control: false },
+    onAddOption: { table: { disable: true }, control: false },
   },
   args: {
     ...(Select.args as Partial<SelectArgs>),
     addOptionLabel: "Add fruit",
-    onAddOption: (value: string) => {
-      // eslint-disable-next-line no-console
-      console.log("onAddOption", value);
-    },
+    closeOnAddOption: true,
   } as Partial<SelectArgs>,
-  render: Select.render,
+  render: (args: SelectArgs) => {
+    const [, updateArgs] = useArgs();
+    const [options, setOptions] = useState<Option[]>(selectOptions);
+    const [value, setValue] = useState<SelectValue>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [draftLabel, setDraftLabel] = useState("");
+    const [formError, setFormError] = useState("");
+
+    const closeCreateModal = () => {
+      setModalOpen(false);
+      setDraftLabel("");
+      setFormError("");
+    };
+
+    const handleAddOption = (searchText: string) => {
+      setDraftLabel(searchText.trim());
+      setFormError("");
+      setModalOpen(true);
+    };
+
+    const handleCreateFruit = () => {
+      const label = draftLabel.trim();
+      if (!label) {
+        setFormError("Enter a fruit name.");
+        return;
+      }
+      const optionValue = slugifySelectOptionLabel(label);
+      const duplicate = options.some(
+        (o) =>
+          o.value === optionValue ||
+          o.label.trim().toLowerCase() === label.toLowerCase(),
+      );
+      if (duplicate) {
+        setFormError("That fruit already exists.");
+        return;
+      }
+      const newOption: Option = { label, value: optionValue };
+      const nextOptions = [...options, newOption];
+      setOptions(nextOptions);
+      setValue(newOption);
+      updateArgs({ value: newOption, options: nextOptions });
+      closeCreateModal();
+    };
+
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.Select
+          {...args}
+          options={options}
+          value={value}
+          onChange={(option) => {
+            args.onChange?.(option);
+            setValue(option);
+            updateArgs({ value: option });
+          }}
+          onAddOption={handleAddOption}
+        />
+        <Modal
+          isOpen={modalOpen}
+          onClose={closeCreateModal}
+          title="Add fruit"
+          size="small"
+          primaryButtonLabel="Add"
+          onPrimaryButtonClick={handleCreateFruit}
+          secondaryButtonLabel="Cancel"
+          onSecondaryButtonClick={closeCreateModal}
+          dataTestId="add-fruit-modal"
+        >
+          <FormControls.Input
+            label="Fruit name"
+            name="fruitName"
+            value={draftLabel}
+            onChange={(e) => {
+              setDraftLabel(e.target.value);
+              if (formError) {
+                setFormError("");
+              }
+            }}
+            placeholder="e.g. Papaya"
+            isRequired
+            error={formError}
+            dataTestId="add-fruit-name"
+          />
+        </Modal>
+      </Container>
+    );
+  },
 };
 
 export const SelectAddOptionWithoutSearch = {

@@ -48,7 +48,7 @@
     position: fixed;
     left: 16px;
     bottom: 16px;
-    z-index: 1038;
+    z-index: var(--cp-z-sticky);
     line-height: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   }
@@ -58,7 +58,7 @@
 .cp-mobile-nav-overlay {
   --cp-app-shell-mobile-overlay-ms: 220ms;
 
-  z-index: 1198;
+  z-index: var(--cp-z-drawer-overlay);
   background: rgba(0, 0, 0, 0.45);
   overflow: hidden;
   opacity: 0;
@@ -80,7 +80,7 @@
 .cp-mobile-nav-drawer {
   --cp-app-shell-mobile-drawer-ms: 300ms;
 
-  z-index: 1199;
+  z-index: var(--cp-z-drawer-panel);
   box-sizing: border-box;
   max-width: min(100vw, 100%);
   height: 100vh;

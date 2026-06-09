@@ -91,6 +91,18 @@
   /* Breakpoints */
   --mobile-breakpoint: 600px;
   --tablet-breakpoint: 1024px;
+  /*
+   * Z-index layering (low → high). Overlays use the base token; panels use +1.
+   * dropdown → sticky chrome → drawer → modal → picker → toast
+   */
+  --cp-z-dropdown: 1000;
+  --cp-z-sticky: 1010;
+  --cp-z-drawer-overlay: 1100;
+  --cp-z-drawer-panel: 1101;
+  --cp-z-modal-overlay: 1200;
+  --cp-z-picker-backdrop: 1300;
+  --cp-z-picker-panel: 1301;
+  --cp-z-toast: 1400;
 }
 
 * {
