@@ -83,8 +83,10 @@ interface SelectProps {
   searchable?: boolean;
   /** Panel search field placeholder. @default "Search" */
   searchPlaceholder?: string;
-  /** When search text matches nothing, optional “add” callback receives trimmed string. */
+  /** Persistent footer “add” action; callback receives trimmed search text or `""`. */
   onAddOption?: (value: string) => void;
+  /** Footer button label. @default "Add option" */
+  addOptionLabel?: string;
   /** @default true */
   closeOnAddOption?: boolean;
   placeholder?: string;
@@ -289,6 +291,7 @@ Pass **`dataTestId="fruit-select"`** on the field. The **root** id is on the fie
 | `-search-clear` | Clear panel search |
 | `-listbox` | Options list |
 | `-option-{value}` | Option row |
+| `-add-option` | Footer add action (`onAddOption`) |
 | `-input` | Hidden `name` field (form submit) |
 | `-error` | Validation message |
 

@@ -520,6 +520,7 @@ export const Select = {
     },
     onSearch: { table: { disable: true }, control: false },
     onAddOption: { action: "onAddOption", control: false },
+    addOptionLabel: { control: "text" },
     closeOnAddOption: { control: "boolean" },
     groups: { control: "boolean", description: "Show headings from Option.group" },
     maxSelect: {
@@ -634,6 +635,49 @@ export const SelectPanelMinWidth = {
       </div>
     </Container>
   ),
+};
+
+export const SelectAddOption = {
+  name: "Select · add option (footer)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`onAddOption` pins an add action below the scrollable list (min 120px). Label via `addOptionLabel` (default “Add option”). Disabled only when search text duplicates an existing option.",
+      },
+    },
+  },
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+    addOptionLabel: "Add fruit",
+    onAddOption: (value: string) => {
+      // eslint-disable-next-line no-console
+      console.log("onAddOption", value);
+    },
+  } as Partial<SelectArgs>,
+  render: Select.render,
+};
+
+export const SelectAddOptionWithoutSearch = {
+  name: "Select · add option (no search)",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`searchable={false}` with `onAddOption` — footer stays visible; click calls `onAddOption(\"\")` so the parent can open a create flow.",
+      },
+    },
+  },
+  args: {
+    ...(Select.args as Partial<SelectArgs>),
+    searchable: false,
+    addOptionLabel: "Create new fruit",
+    onAddOption: (value: string) => {
+      // eslint-disable-next-line no-console
+      console.log("onAddOption", value);
+    },
+  } as Partial<SelectArgs>,
+  render: Select.render,
 };
 
 export const SelectBulkAndCap = {

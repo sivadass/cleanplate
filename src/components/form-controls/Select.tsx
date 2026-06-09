@@ -175,10 +175,13 @@ export interface SelectProps {
   /** Placeholder for the panel search field. @default "Search" */
   searchPlaceholder?: string;
   /**
-   * When provided, panel shows an “add” action when search text doesn’t match any option.
-   * The trimmed search string is passed back — callers create the `{ label, value }` if needed.
+   * When provided, panel shows a persistent footer “add” action below the scrollable list.
+   * Works with or without the panel search field. Callback receives trimmed search text when
+   * present, or `""` when search is empty or hidden — callers create the `{ label, value }`.
    */
   onAddOption?: (value: string) => void;
+  /** Footer button label when `onAddOption` is set. @default "Add option" */
+  addOptionLabel?: string;
   /**
    * Close the panel after `onAddOption` runs successfully (sync).
    * @default true
@@ -211,7 +214,8 @@ export interface SelectProps {
   /**
    * Root `data-testid` on the field wrapper. When set, related elements also get
    * suffixed ids: `-trigger`, `-clear`, `-panel`, `-search`, `-search-clear`,
-   * `-listbox`, `-option-{value}`, `-input` (hidden `name` field), `-error`.
+   * `-listbox`, `-option-{value}`, `-add-option` (footer when `onAddOption`),
+   * `-input` (hidden `name` field), `-error`.
    */
   dataTestId?: string;
 }
@@ -240,6 +244,7 @@ const Select: React.FC<SelectProps> = ({
   searchable = true,
   searchPlaceholder = "Search",
   onAddOption,
+  addOptionLabel = "Add option",
   closeOnAddOption = true,
   isRequired = false,
   placeholder = "Select an option",
@@ -276,15 +281,6 @@ const Select: React.FC<SelectProps> = ({
       );
     }
   }, [isAsyncMode, onSearch]);
-
-  useEffect(() => {
-    if (!searchable && onAddOption) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "CleanPlate Select: `onAddOption` requires `searchable` (search field) to enter a new value."
-      );
-    }
-  }, [searchable, onAddOption]);
 
   const generatedId = useId();
   const fieldId = id ?? name ?? generatedId;
@@ -473,27 +469,23 @@ const Select: React.FC<SelectProps> = ({
 
   const addQueryTrimmed = searchQuery.trim();
   const addQueryNormalized = addQueryTrimmed.toLowerCase();
+  const addOptionSourceList = isAsyncMode ? asyncOptions : syncOptionSource;
   const duplicateAddAgainstList =
     addQueryTrimmed.length > 0 &&
-    displayedOptions.some(
+    addOptionSourceList.some(
       (o) =>
         String(o.label).trim().toLowerCase() === addQueryNormalized ||
         String(o.value).toLowerCase() === addQueryNormalized
     );
 
-  const panelHasNoSelectableRows =
-    selectPanelMounted &&
-    !asyncLoadingPanel &&
-    !asyncErrorPanel &&
-    displayedOptions.length === 0 &&
-    ((syncEmptyPanel && addQueryTrimmed.length > 0) ||
-      asyncEmptyPanel);
-
-  const showAddOptionRow =
+  const showAddOptionFooter =
     Boolean(onAddOption) &&
     !isDisabled &&
-    panelHasNoSelectableRows &&
-    !duplicateAddAgainstList;
+    selectPanelMounted &&
+    !asyncLoadingPanel &&
+    !asyncErrorPanel;
+
+  const addOptionFooterDisabled = duplicateAddAgainstList;
 
   const showResultsEmptyRegion = syncEmptyPanel || asyncEmptyPanel;
 
@@ -820,9 +812,8 @@ const Select: React.FC<SelectProps> = ({
   const handleAddOptionConfirm = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    const next = searchQuery.trim();
-    if (!next || isDisabled || duplicateAddAgainstList) return;
-    onAddOption?.(next);
+    if (isDisabled || duplicateAddAgainstList) return;
+    onAddOption?.(searchQuery.trim());
     setSearchQuery("");
     if (closeOnAddOption) {
       closeFloatingPanel();
@@ -1308,7 +1299,11 @@ const Select: React.FC<SelectProps> = ({
                 }
                 aria-busy={asyncLoadingPanel || undefined}
                 aria-invalid={error ? true : undefined}
-                className={styles["cp-select-field-options-list"]}
+                className={getClassNames(
+                  styles["cp-select-field-options-list"],
+                  showAddOptionFooter &&
+                    styles["cp-select-field-options-list-has-add-footer"],
+                )}
               >
                 {asyncLoadingPanel ? (
                   <div
@@ -1345,13 +1340,7 @@ const Select: React.FC<SelectProps> = ({
                   </div>
                 ) : null}
                 {showResultsEmptyRegion ? (
-                  <div
-                    className={getClassNames(
-                      styles["cp-select-empty-region"],
-                      showAddOptionRow &&
-                        styles["cp-select-empty-region-has-add"]
-                    )}
-                  >
+                  <div className={styles["cp-select-empty-region"]}>
                     <div
                       className={styles["cp-select-panel-status"]}
                       aria-live="polite"
@@ -1360,26 +1349,6 @@ const Select: React.FC<SelectProps> = ({
                         {syncEmptyPanel ? syncEmptyMessage : MSG_ASYNC_EMPTY}
                       </span>
                     </div>
-                    {showAddOptionRow ? (
-                      <button
-                        type="button"
-                        className={styles["cp-select-option-add"]}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                        }}
-                        onClick={handleAddOptionConfirm}
-                      >
-                        <Icon
-                          name="add_circle"
-                          size="small"
-                          className={styles["cp-select-option-add-icon"]}
-                          aria-hidden
-                        />
-                        <span>
-                          Add &quot;{addQueryTrimmed}&quot;
-                        </span>
-                      </button>
-                    ) : null}
                   </div>
                 ) : null}
                 {showOptionRows
@@ -1518,6 +1487,32 @@ const Select: React.FC<SelectProps> = ({
                     })
                   : null}
               </div>
+              {showAddOptionFooter ? (
+                <div
+                  className={styles["cp-select-panel-add-footer"]}
+                  role="presentation"
+                >
+                  <button
+                    type="button"
+                    className={styles["cp-select-option-add"]}
+                    disabled={addOptionFooterDisabled}
+                    data-testid={selectFieldTestId(dataTestId, "add-option")}
+                    aria-label={addOptionLabel}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                    }}
+                    onClick={handleAddOptionConfirm}
+                  >
+                    <Icon
+                      name="add_circle"
+                      size="small"
+                      className={styles["cp-select-option-add-icon"]}
+                      aria-hidden
+                    />
+                    <span>{addOptionLabel}</span>
+                  </button>
+                </div>
+              ) : null}
             </div>
           </FloatingPortal>
         )}

@@ -843,6 +843,15 @@ $cp-select-panel-hairline: rgb(235 236 239);
   touch-action: pan-y;
 }
 
+/* Room for empty/loading copy above the persistent `onAddOption` footer. */
+.cp-select-field-options-list-has-add-footer {
+  min-height: 120px;
+}
+
+.cp-select-panel-add-footer {
+  flex-shrink: 0;
+}
+
 .cp-select-panel-status {
   display: flex;
   flex-direction: column;
@@ -870,13 +879,6 @@ $cp-select-panel-hairline: rgb(235 236 239);
 .cp-select-empty-region {
   display: flex;
   flex-direction: column;
-}
-
-/* Tighter stack when empty copy appears with “Add …” */
-.cp-select-empty-region-has-add .cp-select-panel-status {
-  min-height: auto;
-  padding: 16px 16px 8px;
-  gap: 0;
 }
 
 .cp-select-option-add-icon {
@@ -909,6 +911,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
   &:focus-visible {
     outline: 2px solid var(--primary-brand);
     outline-offset: -2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: var(--white);
+
+    &:hover {
+      background: var(--white);
+    }
   }
 }
 
