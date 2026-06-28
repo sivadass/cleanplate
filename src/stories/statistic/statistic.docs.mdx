@@ -30,6 +30,8 @@ const App = () => (
 );
 ```
 
+See **atoms/Statistic/Playground** for interactive controls (value, precision, separators, prefix icon, suffix text, tones, sizes, loading).
+
 ## Examples
 
 ### Basic and precision
@@ -79,14 +81,24 @@ import { Icon } from "cleanplate";
 <Statistic title="Revenue" value="¥1.2M" />
 ```
 
+## Spacing (margin)
+
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2).
+
+```jsx
+<Statistic title="Active Users" value={112893} margin="0" />
+<Statistic title="Active Users" value={112893} margin="b-2" />
+```
+
 ## Formatting rules
 
 - **String `value`:** rendered as-is.
 - **Number `value`:** grouped with `groupSeparator` (default `,`); `precision` adds fixed decimals; non-finite numbers render `—`.
+- **Loading:** title remains visible; value row shows `Spinner`; prefix and suffix are hidden.
 
 ## BEM overrides
 
-Target stable slot classes in consumer CSS, e.g. `.cp-statistic__value`, `cp-statistic__value--positive`. See `docs/Statistic.md` for the full list.
+Target stable slot classes in consumer CSS, e.g. `.cp-statistic-value`, `cp-statistic-value-positive`. See `docs/Statistic.md` for the full list.
 
 ## Props
 

@@ -47,7 +47,7 @@ const Statistic: React.FC<StatisticProps> = ({
 
   const rootClassName = getClassNames(
     styles["cp-statistic"],
-    styles[`cp-statistic--${size}`],
+    styles[`cp-statistic-${size}`],
     marginClass,
     className,
   );
@@ -62,19 +62,19 @@ const Statistic: React.FC<StatisticProps> = ({
       : null;
 
   const valueClassName = getClassNames(
-    styles["cp-statistic__value"],
+    styles["cp-statistic-value"],
     valueTone !== "default"
-      ? styles[`cp-statistic__value--${valueTone}`]
+      ? styles[`cp-statistic-value-${valueTone}`]
       : undefined,
   );
 
   return (
     <div className={rootClassName} data-testid={dataTestId}>
       {title != null && title !== "" ? (
-        <div className={styles["cp-statistic__title"]}>{title}</div>
+        <div className={styles["cp-statistic-title"]}>{title}</div>
       ) : null}
       <div
-        className={styles["cp-statistic__content"]}
+        className={styles["cp-statistic-content"]}
         aria-busy={loading || undefined}
       >
         {loading ? (
@@ -82,13 +82,13 @@ const Statistic: React.FC<StatisticProps> = ({
         ) : (
           <>
             {prefix != null ? (
-              <span className={styles["cp-statistic__prefix"]}>{prefix}</span>
+              <span className={styles["cp-statistic-prefix"]}>{prefix}</span>
             ) : null}
             {formattedValue != null && formattedValue !== "" ? (
               <span className={valueClassName}>{formattedValue}</span>
             ) : null}
             {suffix != null ? (
-              <span className={styles["cp-statistic__suffix"]}>{suffix}</span>
+              <span className={styles["cp-statistic-suffix"]}>{suffix}</span>
             ) : null}
           </>
         )}

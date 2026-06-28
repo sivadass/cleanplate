@@ -2,24 +2,24 @@
   font-family: inherit;
   font-size: inherit;
 
-  &__list {
+  &-list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    list-style: none;
     margin: 0;
     padding: 0;
     gap: 0;
+    list-style: none;
   }
 
-  &__item {
+  &-item {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1, 0.25rem);
+    gap: var(--space-1);
   }
 
-  &__link {
-    color: var(--primary-brand, #1976d2);
+  &-link {
+    color: var(--primary-brand);
     text-decoration: none;
 
     &:hover {
@@ -27,35 +27,35 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--primary-brand, #1976d2);
+      outline: 2px solid var(--primary-brand);
       outline-offset: 2px;
     }
   }
 
-  &__current {
-    color: var(--black, #222);
+  &-current {
     font-weight: 500;
+    color: var(--black);
   }
 
-  &__label {
+  &-label {
     color: var(--text-muted);
   }
 
-  &__separator {
+  &-separator {
     display: inline-flex;
     align-items: center;
+    margin: 0 var(--space-1);
     color: var(--text-muted);
-    margin: 0 var(--space-1, 0.25rem);
     user-select: none;
   }
 
-  &__separator-icon {
+  &-separator-icon {
     font-size: 1em;
   }
 
-  &_separator-slash {
-    .cp-breadcrumb__separator {
-      margin: 0 var(--space-2, 0.5rem);
+  &-separator-slash {
+    .cp-breadcrumb-separator {
+      margin: 0 var(--space-2);
     }
   }
 }

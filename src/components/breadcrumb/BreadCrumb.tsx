@@ -40,14 +40,14 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
   const marginClass = margin ? getSpacingClass(margin, utilStyles, "m") : undefined;
   const rootClassName = getClassNames(
     styles["cp-breadcrumb"],
-    separator === "slash" && styles["cp-breadcrumb_separator-slash"],
+    separator === "slash" && styles["cp-breadcrumb-separator-slash"],
     marginClass,
     className
   );
 
   return (
     <nav className={rootClassName} aria-label={ariaLabel}>
-      <ol className={styles["cp-breadcrumb__list"]} itemScope itemType="https://schema.org/BreadcrumbList">
+      <ol className={styles["cp-breadcrumb-list"]} itemScope itemType="https://schema.org/BreadcrumbList">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           const isCurrentPage = isLast && item.href == null;
@@ -55,18 +55,18 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
           return (
             <li
               key={index}
-              className={styles["cp-breadcrumb__item"]}
+              className={styles["cp-breadcrumb-item"]}
               itemProp="itemListElement"
               itemScope
               itemType="https://schema.org/ListItem"
             >
               {index > 0 && (
                 <span
-                  className={styles["cp-breadcrumb__separator"]}
+                  className={styles["cp-breadcrumb-separator"]}
                   aria-hidden="true"
                 >
                   {separator === "chevron" ? (
-                    <Icon name="chevron_right" size="small" className={styles["cp-breadcrumb__separator-icon"]} />
+                    <Icon name="chevron_right" size="small" className={styles["cp-breadcrumb-separator-icon"]} />
                   ) : (
                     "/"
                   )}
@@ -74,7 +74,7 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
               )}
               {isCurrentPage ? (
                 <span
-                  className={styles["cp-breadcrumb__current"]}
+                  className={styles["cp-breadcrumb-current"]}
                   aria-current="page"
                   itemProp="name"
                 >
@@ -83,13 +83,13 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
               ) : item.href ? (
                 <a
                   href={item.href}
-                  className={styles["cp-breadcrumb__link"]}
+                  className={styles["cp-breadcrumb-link"]}
                   itemProp="item"
                 >
                   <span itemProp="name">{item.label}</span>
                 </a>
               ) : (
-                <span className={styles["cp-breadcrumb__label"]} itemProp="name">
+                <span className={styles["cp-breadcrumb-label"]} itemProp="name">
                   {item.label}
                 </span>
               )}

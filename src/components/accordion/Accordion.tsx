@@ -83,7 +83,7 @@ const Accordion: React.FC<AccordionProps> = ({
 
   const rootClassName = getClassNames(
     styles["cp-accordion"],
-    variant === "spaced" && styles["cp-accordion_spaced"],
+    variant === "spaced" && styles["cp-accordion-spaced"],
     marginClass,
     paddingClass,
     className
@@ -97,7 +97,7 @@ const Accordion: React.FC<AccordionProps> = ({
         const contentId = `accordion-content-${index}`;
 
         const headerProps = {
-          className: styles.accordion__header,
+          className: styles["cp-accordion-header"],
           onClick: () => toggle(index),
           "aria-expanded": isOpen,
           "aria-controls": contentId,
@@ -105,7 +105,7 @@ const Accordion: React.FC<AccordionProps> = ({
         };
 
         const titleContent = useHeading ? (
-          <TitleTag className={styles.accordion__title}>{item.title}</TitleTag>
+          <TitleTag className={styles["cp-accordion-title"]}>{item.title}</TitleTag>
         ) : (
           <Typography variant="span">{item.title}</Typography>
         );
@@ -116,13 +116,13 @@ const Accordion: React.FC<AccordionProps> = ({
             <Icon
               name={getIconName(iconVariant, isOpen)}
               size="small"
-              className={styles.accordion__icon}
+              className={styles["cp-accordion-icon"]}
             />
           </>
         );
 
         return (
-          <div key={index} className={styles.accordion__item}>
+          <div key={index} className={styles["cp-accordion-item"]}>
             {useHeading ? (
               <div
                 {...headerProps}
@@ -141,7 +141,10 @@ const Accordion: React.FC<AccordionProps> = ({
               id={contentId}
               role="region"
               aria-labelledby={headerId}
-              className={`${styles.accordion__content} ${isOpen ? styles.accordion__content_open : ""}`}
+              className={getClassNames(
+                styles["cp-accordion-content"],
+                isOpen && styles["cp-accordion-content-open"],
+              )}
             >
               {typeof item.content === "string" ? (
                 <Typography variant="p">{item.content}</Typography>

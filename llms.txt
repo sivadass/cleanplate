@@ -118,10 +118,10 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Statistic Component
 - File: `docs/Statistic.md`
 - Purpose: Displays a labeled numeric metric (title + formatted value) with optional prefix/suffix, loading state, and semantic value coloring. For dashboard KPIs and summary tiles.
-- Key Features: value string|number with grouping/precision, prefix/suffix ReactNode, valueTone default|positive|negative, sizes small|medium|large, loading (Spinner in value row), margin suffix API, className + documented BEM slots
+- Key Features: `value` string|number (grouping via `groupSeparator`/`decimalSeparator`, `precision`; non-finite numbers → `—`), prefix/suffix ReactNode (hidden when `loading`), `valueTone` default|positive|negative, sizes small|medium|large, `loading` (Spinner in value row; `aria-busy` on content), `margin` suffix API, `className`, `dataTestId`, documented `cp-` slot classes for CSS overrides
 - Types: StatisticProps, StatisticSize, StatisticValueTone, StatisticMargin, SpacingOption
-- Related Components: Spinner (loading), Icon (prefix/suffix), Container (card/grid layout), Table (tabular data vs KPI tiles)
-- **Not** in v1: `Statistic.Timer` (countdown/countup) — planned for a future release
+- Related Components: Spinner (loading), Icon (prefix/suffix), Container (card/grid layout), Badge (status labels — not KPIs), Table (tabular data vs KPI tiles)
+- **Not** in v1: `Statistic.Timer` (countdown/countup), `formatter` prop, per-slot `className`/`style` — planned or use string `value` / slot class overrides instead
 
 ### Stepper Component
 - File: `docs/Stepper.md`

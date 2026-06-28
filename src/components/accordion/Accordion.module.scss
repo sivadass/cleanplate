@@ -1,78 +1,78 @@
 .cp-accordion {
   width: 100%;
+  overflow: hidden;
   border: 1px solid var(--gray-100);
   border-radius: var(--radius-medium);
-  overflow: hidden;
 
-  &_spaced {
-    border: none;
-    overflow: visible;
+  &-spaced {
     display: flex;
     flex-direction: column;
+    overflow: visible;
     gap: var(--space-3);
+    border: none;
 
-    .accordion__item {
+    .cp-accordion-item {
+      overflow: hidden;
       border: 1px solid var(--gray-100);
       border-radius: var(--radius-medium);
-      overflow: hidden;
 
       &:last-child {
         border-bottom: 1px solid var(--gray-100);
       }
     }
   }
-}
 
-.accordion__item {
-  border-bottom: 1px solid var(--gray-100);
+  &-item {
+    border-bottom: 1px solid var(--gray-100);
 
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.accordion__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-3) var(--space-4);
-  background: var(--white);
-  border: none;
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--gray-100);
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: -2px;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: none;
+    font: inherit;
+    text-align: left;
+    background: var(--white);
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--gray-100);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: -2px;
+    }
   }
-}
 
-.accordion__title {
-  margin: 0;
-  font-size: inherit;
-  font-weight: inherit;
-  flex: 1;
-}
+  &-title {
+    flex: 1;
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
 
-.accordion__icon {
-  flex-shrink: 0;
-  margin-left: var(--space-2);
-}
+  &-icon {
+    flex-shrink: 0;
+    margin-left: var(--space-2);
+  }
 
-.accordion__content {
-  display: none;
-  padding: var(--space-3) var(--space-4);
-  background: var(--white);
-  border-top: 1px solid var(--gray-100);
+  &-content {
+    display: none;
+    padding: var(--space-3) var(--space-4);
+    background: var(--white);
+    border-top: 1px solid var(--gray-100);
 
-  &_open {
-    display: block;
+    &-open {
+      display: block;
+    }
   }
 }

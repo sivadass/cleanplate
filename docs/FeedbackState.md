@@ -167,9 +167,9 @@ export const ProjectsEmpty = ({ onCreate }) => (
 ### Stable slot classes (for CSS overrides)
 
 - `cp-feedback-state` — root
-- `cp-feedback-state__media`, `cp-feedback-state__media-img`
-- `cp-feedback-state__content`, `cp-feedback-state__title`, `cp-feedback-state__description`
-- `cp-feedback-state__error-code`, `cp-feedback-state__actions`, `cp-feedback-state__details`
+- `cp-feedback-state-media`, `cp-feedback-state-media-img`
+- `cp-feedback-state-content`, `cp-feedback-state-title`, `cp-feedback-state-description`
+- `cp-feedback-state-error-code`, `cp-feedback-state-actions`, `cp-feedback-state-details`
 
 ## Related Components / Links
 

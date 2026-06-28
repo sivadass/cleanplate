@@ -164,21 +164,21 @@ import { Statistic, Container, Icon } from "cleanplate";
 
 ## Behavior Notes
 
-- **Loading:** Title remains visible. The value row shows a `Spinner` sized to match `size`. `prefix` and `suffix` are not rendered while loading. Content row sets `aria-busy={true}`.
-- **Layout:** Title stacked above a horizontal row (`prefix` + value + `suffix`), baseline-aligned with tabular numerals.
-- **Customization:** Override via root `className` or target documented BEM slot classes in CSS (no per-slot `className` or `style` props in v1).
+- **Loading:** Title remains visible. The value row shows a `Spinner` sized to match `size`. `prefix` and `suffix` are not rendered while loading. The content row sets `aria-busy={true}` (no `--loading` CSS modifier on the root).
+- **Layout:** Title stacked above a horizontal row (`prefix` + value + `suffix`), baseline-aligned with tabular numerals (`font-variant-numeric: tabular-nums` on the content row).
+- **Accessibility:** Title renders in a `div` (not a heading) — parent owns page heading hierarchy. Value formatting is skipped while `loading`.
+- **Customization:** Override via root `className` or target documented `cp-` slot classes in CSS (no per-slot `className` or `style` props in v1).
 
-### Documented BEM slot classes
+### Documented slot classes
 
 - `cp-statistic` — root
-- `cp-statistic--small` | `cp-statistic--medium` | `cp-statistic--large`
-- `cp-statistic--loading`
-- `cp-statistic__title`
-- `cp-statistic__content`
-- `cp-statistic__prefix`
-- `cp-statistic__value`
-- `cp-statistic__value--positive` | `cp-statistic__value--negative`
-- `cp-statistic__suffix`
+- `cp-statistic-small` | `cp-statistic-medium` | `cp-statistic-large`
+- `cp-statistic-title`
+- `cp-statistic-content`
+- `cp-statistic-prefix`
+- `cp-statistic-value`
+- `cp-statistic-value-positive` | `cp-statistic-value-negative`
+- `cp-statistic-suffix`
 
 Example override:
 
