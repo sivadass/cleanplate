@@ -1,10 +1,36 @@
 .cp-statistic {
   display: block;
   font-family: var(--font-family);
+  --cp-statistic-accent: var(--text-muted);
+  --cp-statistic-surface: var(--white);
+  --cp-statistic-border: var(--gray-200);
+  --cp-statistic-value-color: var(--text-default);
+  --cp-statistic-prefix-color: var(--text-default);
+
+  &-card {
+    padding: var(--space-4);
+    background: var(--cp-statistic-surface);
+    border: 1px solid var(--cp-statistic-border);
+    border-radius: var(--radius-medium);
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  &-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    color: var(--cp-statistic-accent);
+  }
 
   &-title {
     margin: 0;
-    line-height: 1.4;
+    font-weight: 500;
+    line-height: 1.3;
     color: var(--text-subtle);
   }
 
@@ -19,25 +45,102 @@
   &-suffix {
     display: inline-flex;
     align-items: baseline;
+    font-weight: 600;
+    color: var(--cp-statistic-prefix-color);
   }
 
   &-value {
-    font-weight: 600;
-    line-height: 1.2;
-    color: var(--text-default);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--cp-statistic-value-color);
+  }
 
-    &-positive {
-      color: var(--green);
-    }
+  &-progress {
+    width: 100%;
+    margin-top: var(--space-2);
+  }
 
-    &-negative {
-      color: var(--red);
-    }
+  &-description {
+    margin-top: var(--space-2);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  &-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  &-footer-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  &-footer-badge {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  &-tone-neutral {
+    --cp-statistic-accent: var(--text-muted);
+    --cp-statistic-surface: var(--white);
+    --cp-statistic-border: var(--gray-200);
+    --cp-statistic-value-color: var(--text-default);
+    --cp-statistic-prefix-color: var(--text-default);
+  }
+
+  &-tone-success {
+    --cp-statistic-accent: var(--success);
+    --cp-statistic-surface: var(--green-light);
+    --cp-statistic-border: var(--green-light);
+    --cp-statistic-value-color: var(--text-default);
+    --cp-statistic-prefix-color: var(--text-default);
+  }
+
+  &-tone-warning {
+    --cp-statistic-accent: var(--warning);
+    --cp-statistic-surface: var(--orange-light);
+    --cp-statistic-border: var(--orange-light);
+    --cp-statistic-value-color: var(--text-default);
+    --cp-statistic-prefix-color: var(--text-default);
+  }
+
+  &-tone-danger {
+    --cp-statistic-accent: var(--error);
+    --cp-statistic-surface: var(--red-light);
+    --cp-statistic-border: var(--red-light);
+    --cp-statistic-value-color: var(--error);
+    --cp-statistic-prefix-color: var(--error);
+  }
+
+  &-tone-muted {
+    --cp-statistic-accent: var(--text-muted);
+    --cp-statistic-surface: var(--gray-100);
+    --cp-statistic-border: var(--gray-200);
+    --cp-statistic-value-color: var(--text-muted);
+    --cp-statistic-prefix-color: var(--text-muted);
   }
 
   &-small {
-    .cp-statistic-title {
+    .cp-statistic-header {
       margin-bottom: var(--space-1);
+    }
+
+    .cp-statistic-title + .cp-statistic-content {
+      margin-top: var(--space-1);
+    }
+
+    .cp-statistic-title {
       font-size: 0.75rem;
     }
 
@@ -47,8 +150,15 @@
   }
 
   &-medium {
-    .cp-statistic-title {
+    .cp-statistic-header {
       margin-bottom: var(--space-2);
+    }
+
+    .cp-statistic-title + .cp-statistic-content {
+      margin-top: var(--space-2);
+    }
+
+    .cp-statistic-title {
       font-size: 0.875rem;
     }
 
@@ -58,13 +168,48 @@
   }
 
   &-large {
-    .cp-statistic-title {
+    .cp-statistic-header {
       margin-bottom: var(--space-2);
+    }
+
+    .cp-statistic-title + .cp-statistic-content {
+      margin-top: var(--space-2);
+    }
+
+    .cp-statistic-title {
       font-size: 0.875rem;
     }
 
     .cp-statistic-value {
       font-size: 2rem;
+    }
+  }
+
+  &-card {
+    .cp-statistic-title {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .cp-statistic-prefix,
+    .cp-statistic-suffix {
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+
+    .cp-statistic-progress {
+      margin-top: var(--space-3);
+    }
+
+    .cp-statistic-description,
+    .cp-statistic-footer {
+      margin-top: var(--space-1);
+    }
+
+    .cp-statistic-progress + .cp-statistic-description,
+    .cp-statistic-progress + .cp-statistic-footer {
+      margin-top: var(--space-2);
     }
   }
 }

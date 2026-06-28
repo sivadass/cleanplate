@@ -4,7 +4,11 @@ export default Statistic;
 export type {
   StatisticProps,
   StatisticSize,
-  StatisticValueTone,
+  StatisticTone,
+  StatisticVariant,
+  StatisticProgress,
+  StatisticProgressVariant,
+  StatisticFooter,
   StatisticMargin,
   SpacingOption,
 } from "./Statistic";
