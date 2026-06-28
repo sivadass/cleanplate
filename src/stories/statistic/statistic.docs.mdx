@@ -1,0 +1,100 @@
+import { Meta } from "@storybook/blocks";
+import { ArgsTable } from "@storybook/addon-docs";
+import { Statistic, Container, Icon } from "../../index";
+
+<Meta title="atoms/Statistic/Documentation" />
+
+# Statistic
+
+The `Statistic` component displays a labeled numeric metric for dashboards and summary tiles. It supports formatted numbers, prefix/suffix nodes, loading state, semantic value coloring, and three sizes.
+
+**`Statistic.Timer` (countdown/countup) is planned for a future release — not in v1.**
+
+## Features
+
+- **Value:** `string` (verbatim) or `number` (grouping + optional `precision`)
+- **Prefix / suffix:** `ReactNode` slots; hidden while `loading`
+- **Value tones:** `default`, `positive`, `negative` (value text color only)
+- **Sizes:** `small`, `medium`, `large`
+- **Loading:** title stays visible; value row shows `Spinner`
+- **Spacing:** margin uses the suffix API (e.g. `"0"` → m-0)
+- **Customization:** root `className` + documented BEM slot classes (no per-slot props)
+
+## Usage
+
+```jsx
+import { Statistic } from "cleanplate";
+
+const App = () => (
+  <Statistic title="Active Users" value={112893} size="medium" />
+);
+```
+
+## Examples
+
+### Basic and precision
+
+```jsx
+<Statistic title="Active Users" value={112893} />
+<Statistic title="Account Balance (CNY)" value={112893} precision={2} />
+```
+
+### Prefix and suffix
+
+```jsx
+import { Icon } from "cleanplate";
+
+<Statistic
+  title="Feedback"
+  value={1128}
+  prefix={<Icon name="thumb_up" size="small" />}
+/>
+<Statistic title="Unmerged" value={93} suffix="/ 100" />
+```
+
+### Loading
+
+```jsx
+<Statistic title="Active Users" value={112893} loading />
+```
+
+### Value tones (card-style layout)
+
+```jsx
+<Container padding="4" display="block">
+  <Statistic
+    title="Active"
+    value={11.28}
+    precision={2}
+    valueTone="positive"
+    prefix={<Icon name="arrow_upward" size="small" />}
+    suffix="%"
+  />
+</Container>
+```
+
+### Pre-formatted string
+
+```jsx
+<Statistic title="Revenue" value="¥1.2M" />
+```
+
+## Formatting rules
+
+- **String `value`:** rendered as-is.
+- **Number `value`:** grouped with `groupSeparator` (default `,`); `precision` adds fixed decimals; non-finite numbers render `—`.
+
+## BEM overrides
+
+Target stable slot classes in consumer CSS, e.g. `.cp-statistic__value`, `cp-statistic__value--positive`. See `docs/Statistic.md` for the full list.
+
+## Props
+
+<ArgsTable of={Statistic} />
+
+## Related components
+
+- **Spinner** – loading indicator in the value row
+- **Icon** – often used in `prefix` / `suffix`
+- **Container** – layout and card-style wrappers
+- **Table** – tabular data (Statistic is for KPI tiles)

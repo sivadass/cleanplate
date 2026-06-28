@@ -115,6 +115,14 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: SpinnerProps, SpinnerSize, SpinnerVariant, SpinnerIcon, SpinnerMargin, SpacingOption
 - Related Components: Container, Icon (used internally)
 
+### Statistic Component
+- File: `docs/Statistic.md`
+- Purpose: Displays a labeled numeric metric (title + formatted value) with optional prefix/suffix, loading state, and semantic value coloring. For dashboard KPIs and summary tiles.
+- Key Features: value string|number with grouping/precision, prefix/suffix ReactNode, valueTone default|positive|negative, sizes small|medium|large, loading (Spinner in value row), margin suffix API, className + documented BEM slots
+- Types: StatisticProps, StatisticSize, StatisticValueTone, StatisticMargin, SpacingOption
+- Related Components: Spinner (loading), Icon (prefix/suffix), Container (card/grid layout), Table (tabular data vs KPI tiles)
+- **Not** in v1: `Statistic.Timer` (countdown/countup) — planned for a future release
+
 ### Stepper Component
 - File: `docs/Stepper.md`
 - Purpose: Displays a sequence of steps for wizards or multi-step flows. Each step has label, key, and optional active/completed state; steps can be clickable.
@@ -275,6 +283,7 @@ All documentation files follow a consistent format:
 | Alert | `docs/Alert.md` | Inline feedback and notices |
 | FeedbackState | `docs/FeedbackState.md` | Empty/error content regions |
 | Spinner | `docs/Spinner.md` | Loading and activity indicator |
+| Statistic | `docs/Statistic.md` | Dashboard KPI metrics with formatting and loading |
 | Stepper | `docs/Stepper.md` | Wizard / checkout **step progress** (not numeric +/−; that is **FormControls.Stepper** in FormControls) |
 | BreadCrumb | `docs/BreadCrumb.md` | Navigation trail and page hierarchy |
 | Accordion | `docs/Accordion.md` | Collapsible panels and FAQ sections |
@@ -312,5 +321,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Drawer, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Statistic, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Drawer, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
 ```

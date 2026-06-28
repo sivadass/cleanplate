@@ -22,6 +22,7 @@ import PageHeader from "./components/page-header";
 import BreadCrumb from "./components/breadcrumb";
 import MenuList from "./components/menu-list";
 import Spinner from "./components/spinner";
+import Statistic from "./components/statistic";
 import ProgressBar from "./components/progress-bar";
 import Accordion from "./components/accordion";
 import BottomSheet from "./components/bottom-sheet";
@@ -54,6 +55,7 @@ export {
   FeedbackState,
   MenuList,
   Spinner,
+  Statistic,
   ProgressBar,
   Accordion,
   BottomSheet,
