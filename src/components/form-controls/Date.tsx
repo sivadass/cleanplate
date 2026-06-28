@@ -25,6 +25,11 @@ import { enUS } from "date-fns/locale/en-US";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import DatePickerPanel from "./date/DatePickerPanel";
 import type { Constraints } from "./date/date-types";
 import {
@@ -86,6 +91,8 @@ export interface DateProps {
   label?: string;
   error?: string;
   isFluid?: boolean;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   /**
    * Root `data-testid` on the field wrapper. When set, interactive parts also get
    * suffixed ids: `-trigger`, `-clear`, `-panel`, `-input` (hidden `name` field),
@@ -119,6 +126,7 @@ const DatePicker: React.FC<DateProps> = ({
   label = "",
   error = "",
   isFluid = false,
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   dataTestId,
   isRequired = false,
   popoverPlacement = "bottom-start",
@@ -386,6 +394,7 @@ const DatePicker: React.FC<DateProps> = ({
           [styles["cp-form-field-fluid"]]: isFluid,
           [styles["cp-form-field-disabled"]]: isDisabled,
         },
+        getFormFieldMarginClass(margin),
         className,
       )}
       data-testid={dataTestId}

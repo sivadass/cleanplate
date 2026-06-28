@@ -1,5 +1,10 @@
 import React, { useId, useState } from "react";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 
 export type CheckboxValue = string | number;
@@ -68,6 +73,8 @@ export interface CheckboxProps {
   cardControlAlign?: "start" | "end";
   /** Error message rendered under the group. */
   error?: string;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   className?: string;
   /**
    * Root `data-testid` on the `<fieldset>`. When set, related elements also get
@@ -104,6 +111,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   variant = "default",
   cardControlAlign = "end",
   error = "",
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   dataTestId,
 }) => {
@@ -124,6 +132,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
     styles["cp-form-field"],
     styles["cp-checkbox-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
+    getFormFieldMarginClass(margin),
     className
   );
 

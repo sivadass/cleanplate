@@ -6,6 +6,7 @@
 
 - **`Drawer`**: slide-in overlay panel (`placement`, mobile bottom sheet at ≤768px, optional header/footer, `dataTestId`). See `docs/Drawer.md`.
 - **`FeedbackState`**: unified empty/error region component (`variant`, consumer `illustration` URL or `icon`, `primaryAction` / `secondaryAction`, `onRetry`, `errorDetails`). See `docs/FeedbackState.md`.
+- **`Statistic`**: labeled numeric KPI display (`title`, `value`, `precision`, `prefix`/`suffix`, `valueTone`, `size`, `loading`). See `docs/Statistic.md`. `Statistic.Timer` is planned for a future release.
 
 ### Breaking
 

@@ -1,5 +1,10 @@
 import React, { useId } from "react";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 
 export interface TextAreaProps {
@@ -12,6 +17,8 @@ export interface TextAreaProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   className?: string;
   placeholder?: string;
   error?: string;
@@ -39,6 +46,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   placeholder = "",
   error = "",
@@ -51,6 +59,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
+    getFormFieldMarginClass(margin),
     className
   );
   const fieldErrorClassName = error ? styles["cp-form-control-error"] : "";

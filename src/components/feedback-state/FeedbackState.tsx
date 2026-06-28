@@ -101,8 +101,8 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
 
   const rootClassName = getClassNames(
     styles["cp-feedback-state"],
-    styles[`cp-feedback-state--${size}`],
-    styles[`cp-feedback-state--${variant}`],
+    styles[`cp-feedback-state-${size}`],
+    styles[`cp-feedback-state-${variant}`],
     marginClass,
     className
   );
@@ -111,14 +111,14 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
 
   const renderMedia = () => {
     if (illustration !== undefined && illustration !== null && illustration !== "") {
-      const mediaClassName = styles["cp-feedback-state__media"];
+      const mediaClassName = styles["cp-feedback-state-media"];
       const mediaAriaHidden = isDecorativeMedia ? true : undefined;
 
       if (typeof illustration === "string") {
         return (
           <div className={mediaClassName} aria-hidden={mediaAriaHidden}>
             <img
-              className={styles["cp-feedback-state__media-img"]}
+              className={styles["cp-feedback-state-media-img"]}
               src={illustration}
               alt={illustrationAlt}
             />
@@ -136,7 +136,7 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
     if (icon) {
       return (
         <div
-          className={styles["cp-feedback-state__media"]}
+          className={styles["cp-feedback-state-media"]}
           aria-hidden={isDecorativeMedia ? true : undefined}
         >
           <Icon
@@ -164,25 +164,25 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
   return (
     <div {...rootProps}>
       {renderMedia()}
-      <div className={styles["cp-feedback-state__content"]}>
-        <TitleTag id={titleId} className={styles["cp-feedback-state__title"]}>
+      <div className={styles["cp-feedback-state-content"]}>
+        <TitleTag id={titleId} className={styles["cp-feedback-state-title"]}>
           {title}
         </TitleTag>
         {description ? (
           <Typography
             variant="p"
             align="center"
-            className={styles["cp-feedback-state__description"]}
+            className={styles["cp-feedback-state-description"]}
           >
             {description}
           </Typography>
         ) : null}
         {errorCode !== undefined && errorCode !== null && errorCode !== "" ? (
-          <span className={styles["cp-feedback-state__error-code"]}>{errorCode}</span>
+          <span className={styles["cp-feedback-state-error-code"]}>{errorCode}</span>
         ) : null}
       </div>
       {resolvedPrimary || secondaryAction ? (
-        <div className={styles["cp-feedback-state__actions"]}>
+        <div className={styles["cp-feedback-state-actions"]}>
           {resolvedPrimary ? (
             <Button
               variant="solid"
@@ -204,7 +204,7 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
         </div>
       ) : null}
       {errorDetails ? (
-        <details className={styles["cp-feedback-state__details"]}>
+        <details className={styles["cp-feedback-state-details"]}>
           <summary>Show details</summary>
           {errorDetails}
         </details>

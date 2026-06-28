@@ -1,5 +1,10 @@
 import React, { useId, useState } from "react";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 
 export interface ToggleProps {
@@ -13,6 +18,8 @@ export interface ToggleProps {
   isRequired?: boolean;
   className?: string;
   isFluid?: boolean;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   error?: string;
   /**
    * Maps to `data-testid` on the native switch `<input>`.
@@ -39,6 +46,7 @@ const Toggle: React.FC<ToggleProps> = ({
   isRequired = false,
   className = "",
   isFluid = false,
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   error = "",
   dataTestId,
 }) => {
@@ -54,6 +62,7 @@ const Toggle: React.FC<ToggleProps> = ({
     styles["cp-form-field"],
     styles["cp-toggle-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
+    getFormFieldMarginClass(margin),
     className
   );
 

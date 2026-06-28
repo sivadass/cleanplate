@@ -1,0 +1,70 @@
+.cp-statistic {
+  display: block;
+  font-family: var(--font-family);
+
+  &-title {
+    margin: 0;
+    line-height: 1.4;
+    color: var(--text-subtle);
+  }
+
+  &-content {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-1);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &-prefix,
+  &-suffix {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  &-value {
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-default);
+
+    &-positive {
+      color: var(--green);
+    }
+
+    &-negative {
+      color: var(--red);
+    }
+  }
+
+  &-small {
+    .cp-statistic-title {
+      margin-bottom: var(--space-1);
+      font-size: 0.75rem;
+    }
+
+    .cp-statistic-value {
+      font-size: 1.125rem;
+    }
+  }
+
+  &-medium {
+    .cp-statistic-title {
+      margin-bottom: var(--space-2);
+      font-size: 0.875rem;
+    }
+
+    .cp-statistic-value {
+      font-size: 1.5rem;
+    }
+  }
+
+  &-large {
+    .cp-statistic-title {
+      margin-bottom: var(--space-2);
+      font-size: 0.875rem;
+    }
+
+    .cp-statistic-value {
+      font-size: 2rem;
+    }
+  }
+}
