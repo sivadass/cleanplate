@@ -61,7 +61,7 @@ const Footer: React.FC<FooterProps> = ({
         <div className={styles.footerCustomContents}>{children}</div>
       )}
       <div className={styles.copyright}>
-        <Typography variant="small">
+        <Typography variant="small" align="center">
           &copy; {`${currentYear} ${brandName}. All rights reserved.`}
           {poweredByLabel && poweredByLink && (
             <>
