@@ -11,16 +11,7 @@ function groupIntegerDigits(digits: string, groupSeparator: string): string {
     return digits;
   }
 
-  const groups: string[] = [];
-  let index = digits.length;
-
-  while (index > 0) {
-    const start = Math.max(0, index - 3);
-    groups.unshift(digits.slice(start, index));
-    index = start;
-  }
-
-  return groups.join(groupSeparator);
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, groupSeparator);
 }
 
 export function formatStatisticValue(

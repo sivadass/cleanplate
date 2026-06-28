@@ -1,6 +1,5 @@
 import React from "react";
 import Spinner from "../spinner";
-import type { SpinnerSize } from "../spinner/Spinner";
 import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
@@ -29,18 +28,12 @@ export interface StatisticProps {
   dataTestId?: string;
 }
 
-const mapStatisticSizeToSpinnerSize = (size: StatisticSize): SpinnerSize => {
-  if (size === "small") return "small";
-  if (size === "large") return "large";
-  return "medium";
-};
-
 const Statistic: React.FC<StatisticProps> = ({
   title,
   value,
   precision,
-  groupSeparator = ",",
-  decimalSeparator = ".",
+  groupSeparator,
+  decimalSeparator,
   prefix,
   suffix,
   valueTone = "default",
@@ -55,13 +48,12 @@ const Statistic: React.FC<StatisticProps> = ({
   const rootClassName = getClassNames(
     styles["cp-statistic"],
     styles[`cp-statistic--${size}`],
-    loading ? styles["cp-statistic--loading"] : undefined,
     marginClass,
     className,
   );
 
   const formattedValue =
-    value !== undefined
+    !loading && value !== undefined
       ? formatStatisticValue(value, {
           precision,
           groupSeparator,
@@ -69,14 +61,11 @@ const Statistic: React.FC<StatisticProps> = ({
         })
       : null;
 
-  const showPrefix = !loading && prefix != null;
-  const showSuffix = !loading && suffix != null;
-  const showValue = !loading && formattedValue != null && formattedValue !== "";
-
   const valueClassName = getClassNames(
     styles["cp-statistic__value"],
-    valueTone === "positive" ? styles["cp-statistic__value--positive"] : undefined,
-    valueTone === "negative" ? styles["cp-statistic__value--negative"] : undefined,
+    valueTone !== "default"
+      ? styles[`cp-statistic__value--${valueTone}`]
+      : undefined,
   );
 
   return (
@@ -89,16 +78,16 @@ const Statistic: React.FC<StatisticProps> = ({
         aria-busy={loading || undefined}
       >
         {loading ? (
-          <Spinner size={mapStatisticSizeToSpinnerSize(size)} margin="0" />
+          <Spinner size={size} margin="0" />
         ) : (
           <>
-            {showPrefix ? (
+            {prefix != null ? (
               <span className={styles["cp-statistic__prefix"]}>{prefix}</span>
             ) : null}
-            {showValue ? (
+            {formattedValue != null && formattedValue !== "" ? (
               <span className={valueClassName}>{formattedValue}</span>
             ) : null}
-            {showSuffix ? (
+            {suffix != null ? (
               <span className={styles["cp-statistic__suffix"]}>{suffix}</span>
             ) : null}
           </>
