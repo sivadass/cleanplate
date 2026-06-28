@@ -1,5 +1,10 @@
 import React, { useId, useRef, useState } from "react";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
@@ -42,6 +47,8 @@ export interface FileProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   className?: string;
   error?: string;
   /**
@@ -97,6 +104,7 @@ const File: React.FC<FileProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   error = "",
   dataTestId,
@@ -118,6 +126,7 @@ const File: React.FC<FileProps> = ({
     styles["cp-form-field"],
     styles["cp-file-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
+    getFormFieldMarginClass(margin),
     className
   );
 

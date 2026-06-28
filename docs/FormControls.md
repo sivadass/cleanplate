@@ -1,6 +1,6 @@
 # FormControls
 
-FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, className, error.
+FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, margin, className, error.
 
 ## Controls overview
 

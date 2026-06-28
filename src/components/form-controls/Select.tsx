@@ -23,6 +23,11 @@ import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
 import Spinner from "../spinner";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 
 const MSG_SYNC_NO_OPTIONS = "No options available";
@@ -191,6 +196,8 @@ export interface SelectProps {
   placeholder?: string;
   error?: string;
   isFluid?: boolean;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   /**
    * Selection behaviour. Defaults to `'single'`.
    * When set, overrides the legacy `isMulti` flag.
@@ -250,6 +257,7 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Select an option",
   error = "",
   isFluid = false,
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   mode,
   isMulti = false,
   triggerMaxItems = 2,
@@ -1011,6 +1019,7 @@ const Select: React.FC<SelectProps> = ({
           [styles["cp-form-field-fluid"]]: isFluid,
           [styles["cp-form-field-disabled"]]: isDisabled,
         },
+        getFormFieldMarginClass(margin),
         className
       )}
       data-testid={dataTestId}

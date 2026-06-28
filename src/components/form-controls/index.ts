@@ -35,3 +35,4 @@ export type { RadioProps, RadioOption, RadioValue } from "./Radio";
 export type { ToggleProps } from "./Toggle";
 export type { DateProps } from "./Date";
 export type { FormControlsStepperLayout, FormControlsStepperProps } from "./Stepper";
+export type { FormFieldMargin } from "./form-field-margin";

@@ -1,5 +1,10 @@
 import React, { useId, useState } from "react";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 
 export type RadioValue = string | number;
@@ -65,6 +70,8 @@ export interface RadioProps {
   cardControlAlign?: "start" | "end";
   /** Error message rendered under the group. */
   error?: string;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   className?: string;
   /**
    * Root `data-testid` on the `<fieldset>`. When set, related elements also get
@@ -101,6 +108,7 @@ const Radio: React.FC<RadioProps> = ({
   variant = "default",
   cardControlAlign = "end",
   error = "",
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   dataTestId,
 }) => {
@@ -122,6 +130,7 @@ const Radio: React.FC<RadioProps> = ({
     styles["cp-form-field"],
     styles["cp-radio-field"],
     { [styles["cp-form-field-fluid"]]: isFluid },
+    getFormFieldMarginClass(margin),
     className
   );
 

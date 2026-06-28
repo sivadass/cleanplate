@@ -1,5 +1,10 @@
 import React, { useId, useLayoutEffect, useRef, useState } from "react";
 import styles from "./FormControls.module.scss";
+import {
+  DEFAULT_FORM_FIELD_MARGIN,
+  getFormFieldMarginClass,
+  type FormFieldMargin,
+} from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
 import Icon from "../icon";
 
@@ -15,6 +20,8 @@ export interface InputProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Spacing suffix for outer margin. @default "b-4" */
+  margin?: FormFieldMargin;
   type?: string;
   className?: string;
   placeholder?: string;
@@ -132,6 +139,7 @@ const Input: React.FC<InputProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  margin = DEFAULT_FORM_FIELD_MARGIN,
   type = "text",
   className = "",
   placeholder = "",
@@ -301,6 +309,7 @@ const Input: React.FC<InputProps> = ({
     {
       [styles["cp-form-field-fluid"]]: isFluid,
     },
+    getFormFieldMarginClass(margin),
     className
   );
   const fieldErrorClassName = error ? styles["cp-form-control-error"] : "";
