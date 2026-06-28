@@ -1,24 +1,59 @@
-import { Meta } from "@storybook/blocks";
+import { Meta, Canvas } from "@storybook/blocks";
 import { ArgsTable } from "@storybook/addon-docs";
-import { Statistic, Container, Icon } from "../../index";
+import { Statistic, Container, Icon, Typography } from "../../index";
+import * as StatisticStories from "./statistic.stories";
 
 <Meta title="atoms/Statistic/Documentation" />
 
 # Statistic
 
-The `Statistic` component displays a labeled numeric metric for dashboards and summary tiles. It supports formatted numbers, prefix/suffix nodes, loading state, semantic value coloring, and three sizes.
+`Statistic` displays a labeled numeric metric for dashboards and summary tiles — from a simple KPI (`title` + `value`) to a full card with icon, progress bar, description, and footer badge.
 
-**`Statistic.Timer` (countdown/countup) is planned for a future release — not in v1.**
+Use it for **KPI highlights**. For inline status labels use `Badge`; for general copy use `Typography`; for tabular data use `Table`.
+
+> **`Statistic.Timer` (countdown/countup) is planned** — not available yet.
+
+## When to use
+
+| Use `Statistic` | Use something else |
+| --- | --- |
+| Dashboard totals, collection rates, overdue amounts | `Table` for row-level data |
+| Card-style metric with icon + subtext | `Typography` alone for prose |
+| Progress + percentage badge under a count | `Badge` alone for a status chip |
+| Loading KPI while fetching | `Spinner` alone (Statistic composes it) |
+
+## Anatomy
+
+**Plain** (`variant="plain"`):
+
+```
+title
+prefix + value + suffix
+```
+
+**Card** (`variant="card"`):
+
+```
+[icon] title          ← header row
+prefix + value + suffix
+[progress bar]        ← optional
+description           ← optional subtext
+label          badge  ← optional footer row
+```
+
+Set `icon` on a plain statistic to get the header row without card chrome.
 
 ## Features
 
-- **Value:** `string` (verbatim) or `number` (grouping + optional `precision`)
-- **Prefix / suffix:** `ReactNode` slots; hidden while `loading`
-- **Value tones:** `default`, `positive`, `negative` (value text color only)
-- **Sizes:** `small`, `medium`, `large`
-- **Loading:** title stays visible; value row shows `Spinner`
-- **Spacing:** margin uses the suffix API (e.g. `"0"` → m-0)
-- **Customization:** root `className` + documented BEM slot classes (no per-slot props)
+- **Value:** `string` (verbatim) or `number` (grouping + optional `precision`; non-finite → `—`)
+- **Prefix / suffix:** `ReactNode` slots before/after the value; hidden while `loading`
+- **Card variant:** `variant="card"` — border, padding, tinted surface when a `tone` is set
+- **Tones:** `neutral`, `success`, `warning`, `danger`, `muted` — icon accent, value color, card surface, and default progress/badge styling
+- **Icon / description / progress / footer:** optional card slots; hidden while `loading`
+- **Sizes:** `small`, `medium`, `large` — typographic scale for title and value
+- **Loading:** title and icon stay visible; value row shows `Spinner`
+- **Spacing:** `margin` uses the suffix API (e.g. `"b-2"` → m-b-2)
+- **Customization:** root `className` + documented `cp-` slot classes (no per-slot props)
 
 ## Usage
 
@@ -30,7 +65,28 @@ const App = () => (
 );
 ```
 
-See **atoms/Statistic/Playground** for interactive controls (value, precision, separators, prefix icon, suffix text, tones, sizes, loading).
+Interactive controls live in **atoms/Statistic/Playground**.
+
+## Tones
+
+`tone` drives icon color, value emphasis, card background (with `variant="card"`), and the default `ProgressBar` / `Badge` variants when you omit `progress.variant` or `footer.badgeVariant`.
+
+| Tone | Use for | Card surface | Value | Default progress | Default badge |
+| --- | --- | --- | --- | --- | --- |
+| `neutral` | Totals, informational | White | Default text | `default` | `default` |
+| `success` | Completed, collected | Green tint | Default text | `success` | `success` |
+| `warning` | Attention needed | Orange tint | Default text | `warning` | `warning` |
+| `danger` | Critical, overdue | Red tint | **Red** | `error` | `error` |
+| `muted` | Zero-state, waived | Gray tint | **Muted** | `info` | `info` |
+
+```jsx
+<Statistic variant="card" tone="neutral" title="Total billed" value={9000} prefix="₹" />
+<Statistic variant="card" tone="success" title="Collected" value={3375} progress={{ value: 38 }} />
+<Statistic variant="card" tone="danger" title="Overdue (>30d)" value={0} prefix="₹" />
+<Statistic variant="card" tone="muted" title="Waived" value={0} progress={{ value: 0 }} />
+```
+
+<Canvas of={StatisticStories.Tones} />
 
 ## Examples
 
@@ -41,10 +97,10 @@ See **atoms/Statistic/Playground** for interactive controls (value, precision, s
 <Statistic title="Account Balance (CNY)" value={112893} precision={2} />
 ```
 
-### Prefix and suffix
+### Prefix, suffix, and string values
 
 ```jsx
-import { Icon } from "cleanplate";
+import { Statistic, Icon } from "cleanplate";
 
 <Statistic
   title="Feedback"
@@ -52,53 +108,149 @@ import { Icon } from "cleanplate";
   prefix={<Icon name="thumb_up" size="small" />}
 />
 <Statistic title="Unmerged" value={93} suffix="/ 100" />
+<Statistic title="Revenue" value="¥1.2M" />
 ```
 
+Pass a **string** `value` to skip numeric formatting (`precision`, separators ignored).
+
+### Card with icon and description
+
+```jsx
+import { Statistic, Icon } from "cleanplate";
+
+<Statistic
+  variant="card"
+  tone="neutral"
+  icon={<Icon name="group" size="small" />}
+  title="Total billed"
+  value={9000}
+  prefix="₹"
+  description="8 active members"
+/>
+```
+
+### Progress and footer badge
+
+`progress.value` is 0–100. Tone picks the bar color unless you set `progress.variant`.
+
+```jsx
+<Statistic
+  variant="card"
+  tone="success"
+  icon={<Icon name="check_circle" size="small" />}
+  title="Paid dues"
+  value={3}
+  progress={{ value: 38, size: "small" }}
+  footer={{ label: "of 8 total", badge: "38%" }}
+/>
+```
+
+String `footer.badge` renders `Badge` with the tone default (or `footer.badgeVariant` override). Pass a `ReactNode` for custom badge content.
+
+### Dashboard layout (composition)
+
+There is no built-in grid — compose with `Container` and `Typography` for section headings:
+
+```jsx
+import { Statistic, Container, Icon, Typography } from "cleanplate";
+
+<Container padding="4" display="block" gap="4">
+  <Container display="flex" gap="4" style={{ flexWrap: "wrap" }}>
+    <Container display="block" style={{ flex: "1 1 200px" }}>
+      <Statistic
+        variant="card"
+        tone="neutral"
+        icon={<Icon name="group" size="small" />}
+        title="Total billed"
+        value={9000}
+        prefix="₹"
+        description="8 active members"
+      />
+    </Container>
+    <Container display="block" style={{ flex: "1 1 200px" }}>
+      <Statistic
+        variant="card"
+        tone="success"
+        icon={<Icon name="check_circle" size="small" />}
+        title="Collected"
+        value={3375}
+        prefix="₹"
+        progress={{ value: 38, size: "small" }}
+        description="38% collection rate"
+      />
+    </Container>
+  </Container>
+
+  <Typography variant="h5" margin="b-2">
+    Due status breakdown
+  </Typography>
+  <Container display="flex" gap="4" style={{ flexWrap: "wrap" }}>
+    <Container display="block" style={{ flex: "1 1 200px" }}>
+      <Statistic
+        variant="card"
+        tone="success"
+        icon={<Icon name="check_circle" size="small" />}
+        title="Paid dues"
+        value={3}
+        progress={{ value: 38 }}
+        footer={{ label: "of 8 total", badge: "38%" }}
+      />
+    </Container>
+  </Container>
+</Container>
+```
+
+<Canvas of={StatisticStories.DashboardCards} />
+<Canvas of={StatisticStories.DashboardBreakdown} />
+
 ### Loading
+
+Title and icon remain visible. The value row shows a `Spinner`; `prefix`, `suffix`, `progress`, `description`, and `footer` are hidden. The content row sets `aria-busy={true}`.
 
 ```jsx
 <Statistic title="Active Users" value={112893} loading />
 ```
 
-### Value tones (card-style layout)
+<Canvas of={StatisticStories.Loading} />
+
+### Sizes
 
 ```jsx
-<Container padding="4" display="block">
-  <Statistic
-    title="Active"
-    value={11.28}
-    precision={2}
-    valueTone="positive"
-    prefix={<Icon name="arrow_upward" size="small" />}
-    suffix="%"
-  />
-</Container>
+<Statistic title="Small" value={112893} size="small" />
+<Statistic title="Medium" value={112893} size="medium" />
+<Statistic title="Large" value={112893} size="large" />
 ```
 
-### Pre-formatted string
+<Canvas of={StatisticStories.Sizes} />
 
-```jsx
-<Statistic title="Revenue" value="¥1.2M" />
-```
+## Value formatting
+
+| `value` type | Behavior |
+| --- | --- |
+| `number` | Grouped with `groupSeparator` (default `,`); `precision` fixes decimals; `NaN` / `±Infinity` → `—` |
+| `string` | Rendered verbatim; separators and `precision` ignored |
+| omitted | No value text; title/layout still render |
 
 ## Spacing (margin)
 
-`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally (e.g. `"0"` → m-0, `"b-2"` → m-b-2).
+`margin` accepts the **spacing suffix**. The component adds the `m-` prefix internally.
 
 ```jsx
 <Statistic title="Active Users" value={112893} margin="0" />
 <Statistic title="Active Users" value={112893} margin="b-2" />
 ```
 
-## Formatting rules
+## BEM slot classes
 
-- **String `value`:** rendered as-is.
-- **Number `value`:** grouped with `groupSeparator` (default `,`); `precision` adds fixed decimals; non-finite numbers render `—`.
-- **Loading:** title remains visible; value row shows `Spinner`; prefix and suffix are hidden.
+Override via root `className` or target documented slots:
 
-## BEM overrides
-
-Target stable slot classes in consumer CSS, e.g. `.cp-statistic-value`, `cp-statistic-value-positive`. See `docs/Statistic.md` for the full list.
+- `cp-statistic` — root
+- `cp-statistic-card` | `cp-statistic-small` | `cp-statistic-medium` | `cp-statistic-large`
+- `cp-statistic-tone-neutral` | `cp-statistic-tone-success` | `cp-statistic-tone-warning` | `cp-statistic-tone-danger` | `cp-statistic-tone-muted`
+- `cp-statistic-header` | `cp-statistic-icon` | `cp-statistic-title`
+- `cp-statistic-content` | `cp-statistic-prefix` | `cp-statistic-value` | `cp-statistic-suffix`
+- `cp-statistic-progress` | `cp-statistic-description`
+- `cp-statistic-footer` | `cp-statistic-footer-label` | `cp-statistic-footer-badge`
 
 ## Props
 
@@ -106,7 +258,10 @@ Target stable slot classes in consumer CSS, e.g. `.cp-statistic-value`, `cp-stat
 
 ## Related components
 
-- **Spinner** – loading indicator in the value row
-- **Icon** – often used in `prefix` / `suffix`
-- **Container** – layout and card-style wrappers
-- **Table** – tabular data (Statistic is for KPI tiles)
+- **Spinner** — loading indicator in the value row
+- **Icon** — header icon or `prefix` / `suffix`
+- **ProgressBar** — composed when `progress` is set
+- **Badge** — composed for string `footer.badge`
+- **Container** — multi-card dashboard layouts
+- **Typography** — section headings above stat groups
+- **Table** — tabular data (Statistic is for KPI tiles)

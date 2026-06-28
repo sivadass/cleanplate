@@ -53,12 +53,42 @@ describe("Statistic", () => {
     expect(content).toBeInTheDocument();
   });
 
-  it("applies valueTone modifier class on value element", () => {
+  it("applies tone modifier class on root", () => {
     render(
-      <Statistic title="Active" value={11.28} precision={2} valueTone="positive" />,
+      <Statistic
+        title="Overdue"
+        value={0}
+        tone="danger"
+        dataTestId="overdue-stat"
+      />,
     );
-    const valueEl = screen.getByText("11.28");
-    expect(valueEl.className).toMatch(/positive/);
+    expect(screen.getByTestId("overdue-stat").className).toMatch(/tone-danger/);
+  });
+
+  it("defaults progress variant from tone", () => {
+    const { container } = render(
+      <Statistic
+        title="Collected"
+        value={3375}
+        tone="success"
+        progress={{ value: 38 }}
+      />,
+    );
+    expect(
+      container.querySelector('[class*="cp-statistic-progress"]'),
+    ).toBeInTheDocument();
+  });
+
+  it("defaults footer badge variant from tone", () => {
+    render(
+      <Statistic
+        title="Paid dues"
+        value={3}
+        tone="success"
+        footer={{ label: "of 8 total", badge: "38%" }}
+      />,
+    );
+    expect(screen.getByText("38%")).toBeInTheDocument();
   });
 
   it("applies dataTestId on root", () => {
@@ -78,5 +108,82 @@ describe("Statistic", () => {
       />,
     );
     expect(screen.getByTestId("stat-root")).toHaveClass("dashboard-stat");
+  });
+
+  it("applies card variant class", () => {
+    render(
+      <Statistic
+        variant="card"
+        title="Total billed"
+        value={9000}
+        dataTestId="stat-card"
+      />,
+    );
+    expect(screen.getByTestId("stat-card").className).toMatch(/card/);
+  });
+
+  it("renders icon in header row", () => {
+    render(
+      <Statistic
+        title="Collected"
+        value={3375}
+        icon={<span data-testid="stat-icon">icon</span>}
+      />,
+    );
+    expect(screen.getByTestId("stat-icon")).toBeInTheDocument();
+  });
+
+  it("renders description below value", () => {
+    render(
+      <Statistic
+        title="Total billed"
+        value={9000}
+        description="8 active members"
+      />,
+    );
+    expect(screen.getByText("8 active members")).toBeInTheDocument();
+  });
+
+  it("renders progress bar when progress is set", () => {
+    const { container } = render(
+      <Statistic
+        title="Collected"
+        value={3375}
+        progress={{ value: 38, variant: "success" }}
+      />,
+    );
+    expect(
+      container.querySelector('[class*="cp-statistic-progress"]'),
+    ).toBeInTheDocument();
+  });
+
+  it("renders footer label and badge", () => {
+    render(
+      <Statistic
+        title="Paid dues"
+        value={3}
+        footer={{ label: "of 8 total", badge: "38%", badgeVariant: "success" }}
+      />,
+    );
+    expect(screen.getByText("of 8 total")).toBeInTheDocument();
+    expect(screen.getByText("38%")).toBeInTheDocument();
+  });
+
+  it("hides progress, description, and footer when loading", () => {
+    const { container } = render(
+      <Statistic
+        title="Collected"
+        value={3375}
+        loading
+        description="38% collection rate"
+        progress={{ value: 38, variant: "success" }}
+        footer={{ label: "of 8 total", badge: "38%" }}
+      />,
+    );
+    expect(
+      container.querySelector('[class*="cp-statistic-progress"]'),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("38% collection rate")).not.toBeInTheDocument();
+    expect(screen.queryByText("of 8 total")).not.toBeInTheDocument();
   });
 });

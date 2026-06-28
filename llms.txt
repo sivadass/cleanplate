@@ -117,10 +117,10 @@ All component documentation is located in the `docs/` folder. The following docu
 
 ### Statistic Component
 - File: `docs/Statistic.md`
-- Purpose: Displays a labeled numeric metric (title + formatted value) with optional prefix/suffix, loading state, and semantic value coloring. For dashboard KPIs and summary tiles.
-- Key Features: `value` string|number (grouping via `groupSeparator`/`decimalSeparator`, `precision`; non-finite numbers → `—`), prefix/suffix ReactNode (hidden when `loading`), `valueTone` default|positive|negative, sizes small|medium|large, `loading` (Spinner in value row; `aria-busy` on content), `margin` suffix API, `className`, `dataTestId`, documented `cp-` slot classes for CSS overrides
-- Types: StatisticProps, StatisticSize, StatisticValueTone, StatisticMargin, SpacingOption
-- Related Components: Spinner (loading), Icon (prefix/suffix), Container (card/grid layout), Badge (status labels — not KPIs), Table (tabular data vs KPI tiles)
+- Purpose: Displays a labeled numeric metric (title + formatted value) with optional prefix/suffix, loading state, semantic value coloring, and card-style dashboard tiles. For dashboard KPIs and summary tiles.
+- Key Features: `value` string|number (grouping via `groupSeparator`/`decimalSeparator`, `precision`; non-finite numbers → `—`), prefix/suffix ReactNode (hidden when `loading`), `variant` plain|card, `tone` neutral|success|warning|danger|muted (icon, value, card surface, default progress/badge), `icon` header slot, `description` subtext, `progress` (composes ProgressBar), `footer` label+badge (composes Badge), sizes small|medium|large, `loading` (Spinner in value row; `aria-busy` on content), `margin` suffix API, `className`, `dataTestId`, documented `cp-` slot classes for CSS overrides
+- Types: StatisticProps, StatisticSize, StatisticTone, StatisticVariant, StatisticProgress, StatisticProgressVariant, StatisticFooter, StatisticMargin, SpacingOption
+- Related Components: Spinner (loading), Icon (header/prefix/suffix), ProgressBar (progress slot), Badge (footer badge), Container (multi-card grid layout), Typography (section headings), Table (tabular data vs KPI tiles)
 - **Not** in v1: `Statistic.Timer` (countdown/countup), `formatter` prop, per-slot `className`/`style` — planned or use string `value` / slot class overrides instead
 
 ### Stepper Component
