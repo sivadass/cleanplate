@@ -1,6 +1,6 @@
 // This file is auto-generated. Do not edit manually.
-// Generated on: 2026-06-28T16:33:28.419Z
-// Total icons: 4262
+// Generated on: 2026-07-07T02:18:23.684Z
+// Total icons: 4264
 
 /**
  * All available Material Symbol names (Material Symbols Outlined variable font).
@@ -3318,6 +3318,7 @@ export const MATERIAL_ICON_NAMES = [
   'settings_photo_camera',
   'settings_power',
   'settings_remote',
+  'settings_screen',
   'settings_seating',
   'settings_slow_motion',
   'settings_suggest',
@@ -3456,6 +3457,7 @@ export const MATERIAL_ICON_NAMES = [
   'smoking_rooms',
   'sms',
   'sms_failed',
+  'snail',
   'snippet_folder',
   'snooze',
   'snowboarding',
@@ -7636,6 +7638,7 @@ export const ICON_CATEGORIES = {
     'settings_photo_camera',
     'settings_power',
     'settings_remote',
+    'settings_screen',
     'settings_seating',
     'settings_slow_motion',
     'settings_suggest',
@@ -7768,6 +7771,7 @@ export const ICON_CATEGORIES = {
     'smoking_rooms',
     'sms',
     'sms_failed',
+    'snail',
     'snippet_folder',
     'snooze',
     'snowboarding',
