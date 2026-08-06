@@ -7,6 +7,7 @@ import Radio from "./Radio";
 import Date from "./Date";
 import Stepper from "./Stepper";
 import Toggle from "./Toggle";
+import ColorPicker from "./ColorPicker";
 
 export default {
   Input,
@@ -18,9 +19,21 @@ export default {
   Date,
   Stepper,
   Toggle,
+  ColorPicker,
 };
 
-export { Input, TextArea, Select, File, Checkbox, Radio, Date, Stepper, Toggle };
+export {
+  Input,
+  TextArea,
+  Select,
+  File,
+  Checkbox,
+  Radio,
+  Date,
+  Stepper,
+  Toggle,
+  ColorPicker,
+};
 export type { InputProps } from "./Input";
 export type {
   SelectProps,
@@ -34,5 +47,6 @@ export type { FileProps, FileVariant } from "./File";
 export type { RadioProps, RadioOption, RadioValue } from "./Radio";
 export type { ToggleProps } from "./Toggle";
 export type { DateProps } from "./Date";
+export type { ColorPickerProps } from "./ColorPicker";
 export type { FormControlsStepperLayout, FormControlsStepperProps } from "./Stepper";
 export type { FormFieldMargin } from "./form-field-margin";
