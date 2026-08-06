@@ -1282,6 +1282,122 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 
+.cp-segmented-control-field {
+  position: relative;
+  border: none;
+  min-width: 0;
+  padding: 0;
+  margin-inline: 0;
+
+  .cp-segmented-control-legend {
+    display: block;
+    margin-bottom: 8px;
+    padding: 0;
+    color: var(--text-subtle);
+  }
+
+  .cp-segmented-control-options {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--cp-form-control-radius);
+    background: var(--white);
+  }
+
+  .cp-segmented-control-option {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .cp-segmented-control-option + .cp-segmented-control-option {
+    border-inline-start: 1px solid var(--gray-300);
+  }
+
+  .cp-segmented-control-segment {
+    display: inline-flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+    padding: 0 10px;
+    color: var(--text-default);
+    text-align: center;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .cp-segmented-control-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cp-segmented-control-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 0;
+
+    img,
+    svg {
+      display: block;
+    }
+  }
+
+  .cp-segmented-control-native:checked + .cp-segmented-control-segment {
+    background: var(--primary-brand);
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .cp-segmented-control-native:not(:checked):not(:disabled) + .cp-segmented-control-segment:hover {
+    background: var(--primary-brand-lightest);
+  }
+
+  .cp-segmented-control-native:focus-visible + .cp-segmented-control-segment {
+    outline: 2px solid var(--primary-brand);
+    outline-offset: -2px;
+  }
+
+  .cp-segmented-control-native:disabled + .cp-segmented-control-segment {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  &[data-invalid="true"] .cp-segmented-control-options {
+    border-color: var(--red);
+    box-shadow: 0 0 0 1px var(--red);
+  }
+
+  &[data-invalid="true"]
+    .cp-segmented-control-native:focus-visible
+    + .cp-segmented-control-segment {
+    outline-color: var(--red);
+  }
+}
+
+.cp-segmented-control--medium {
+  .cp-segmented-control-segment {
+    min-height: 50px;
+    font-size: var(--font-size);
+  }
+}
+
+.cp-segmented-control--small {
+  .cp-segmented-control-segment {
+    min-height: 40px;
+    font-size: 14px;
+  }
+}
+
 .cp-radio-field {
   position: relative;
 
