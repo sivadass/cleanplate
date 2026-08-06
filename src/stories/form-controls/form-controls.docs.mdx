@@ -6,7 +6,7 @@ import { FormControls, Container, Typography } from "../../index";
 
 # FormControls
 
-FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbox, Radio, File, Toggle, and Stepper. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Access via `FormControls.Input`, `FormControls.Select`, etc.
+FormControls is a set of form primitives: Input, TextArea, Select, Date, ColorPicker, Checkbox, Radio, File, Toggle, and Stepper. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Access via `FormControls.Input`, `FormControls.Select`, etc.
 
 ## Features
 
@@ -14,6 +14,7 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, Checkbo
 - **TextArea:** Multi-line text with same options as Input
 - **Select:** Single or multi select with options `{ label, value }`; dropdown with placeholder
 - **Date:** Calendar **`Date | null`**, **Cancel / OK** staging, `date-fns` + **Floating UI** (desktop **popover** ~400px max width, **≤768px** bottom sheet + backdrop). **Month/year pickers** as subviews with back + **“Select a month of \{yyyy\}”** / **“Select a year for \{MMMM\}”**. Trigger **`calendar_month`** icon; **`minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`**, **`locale`**, **`dateFormat`**, **`weekStartsOn`**, **`clearable`**, **`readOnly`**, **`popoverPlacement`**, **`onOpen`/`onClose`**, optional **`name`** (hidden **yyyy-MM-dd**).
+- **ColorPicker:** Hex color picker with **Floating UI** dialog pattern (desktop popover + **≤768px** bottom sheet), saturation/value canvas, hue slider, and synchronized HEX + RGB channels. Trigger shows swatch + normalized **`#RRGGBB`** value, supports `clearable`, `readOnly`, hidden `name` field, and `onOpen`/`onClose`.
 - **Checkbox:** Group-first API — pass an `options` array (single item is fine for one checkbox). Renders `<fieldset>` + `<legend>` with `value: CheckboxValue[]` + `onChange(values, e)`. Each option supports `description` and an optional `icon`. Set `variant="card"` for tile-style options; use `cardControlAlign="start"` | `"end"` for the checkbox corner (left / right in LTR). **`dataTestId`** on the group adds suffixed test ids for E2E (see **E2E / test selectors** below).
 - **Radio:** Each row is a native `radio` (visually hidden) with a custom ring/dot aligned like Checkbox/Toggle; unique `id` is derived from `name` + `value` so groups never get duplicate ids. Use `fieldset`/`legend` for the group label. **`dataTestId`** on the group uses the same suffix scheme as Checkbox.
 - **File:** File picker with `button` (default) and `card` variants. Both render a removable file list below the trigger; the card variant adds a dashed drop zone with drag-and-drop. Use `multiple`, `accept`, `buttonLabel`, `dropZoneText` to tailor the UX.
@@ -121,6 +122,13 @@ import { de } from "date-fns/locale/de";
   defaultValue={new Date(2026, 3, 20)}
 />
 <FormControls.Date label="Starts on" name="starts_on" defaultValue={new Date(2026, 8, 9)} />
+```
+
+### ColorPicker
+
+```jsx
+<FormControls.ColorPicker label="Brand color" defaultValue="#1264A3" />
+<FormControls.ColorPicker label="Accent" value={accent} onChange={setAccent} />
 ```
 
 ### Checkbox group
@@ -269,12 +277,13 @@ await expect(page.getByTestId("shipping-input-express")).toBeChecked();
 - **File:** `variant="button"` (default) renders a primary-brand trigger; `variant="card"` renders a dashed drop zone with click + drag-and-drop. Selection is a `File[]` exposed via `value` (controlled) / `defaultValue` (uncontrolled initial visual list) and emitted from `onChange(files, e)`. With `multiple`, picks/drops append to the list; without, the new selection replaces it. Each selected file renders below the trigger with a type-specific thumbnail icon, name, formatted size, and a remove button.
 - **Select:** Options are `{ label: string, value: string | number }`. Single select passes one option to `onChange`; multi passes an array. Value syncs from prop in useEffect.
 - **Date:** Returns **`Date | null`** to **`onChange`**. **Staging:** pick a day then **OK** to commit; **Cancel** or dismiss restores the last committed value. **Desktop:** portalled popover (flip/shift); **≤768px:** bottom sheet + backdrop (viewport breakpoint matches Select). Tap **month** or **year** in the header for **scrollable lists**; subview titles include the current **year** / **full month name** for context. **`dateFormat`** + **`locale`** shape the field text; **`weekStartsOn`** shifts the grid. **`readOnly`** / **`isDisabled`** block opening. **`name`** adds a hidden **`yyyy-MM-dd`** input for native form posts. See Playground stories **Date · …** for min/max, locale, validation, form submit, and mobile sheet.
+- **ColorPicker:** Emits normalized **`#RRGGBB`** strings from any interaction (saturation canvas, hue slider, HEX field, or RGB channels). Uses the same desktop/mobile floating dialog pattern as Select/Date, supports `clearable`, and renders a hidden `name` input with the committed hex value for native form submit.
 - **Error:** When `error` is set, the field gets an error class and the message is shown below.
 - **isFluid:** Applies full-width styling to the field wrapper.
 
 ## Storybook playground
 
-In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). **Input** stories include **Input (number)**, **Input (phone number)** (autofill + `phoneDigits`), **Input (prefix / suffix)**, and **Input (search)**. **Date** also has focused stories: **min / max**, **week starts Monday**, **disabled weekends + dates**, **locale + display format**, **required + error**, **read-only & no clear**, **form (hidden yyyy-MM-dd)**, and **narrow viewport (bottom sheet)**. For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
+In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). **Input** stories include **Input (number)**, **Input (phone number)** (autofill + `phoneDigits`), **Input (prefix / suffix)**, and **Input (search)**. **Date** also has focused stories: **min / max**, **week starts Monday**, **disabled weekends + dates**, **locale + display format**, **required + error**, **read-only & no clear**, **form (hidden yyyy-MM-dd)**, and **narrow viewport (bottom sheet)**. **ColorPicker** includes default and active-panel stories for swatch/hex/channel workflows. For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
 
 ## Props
 
@@ -325,6 +334,10 @@ Key props beyond the generated table:
 ### Date
 
 <ArgsTable of={FormControls.Date} />
+
+### ColorPicker
+
+<ArgsTable of={FormControls.ColorPicker} />
 
 ## Related components
 

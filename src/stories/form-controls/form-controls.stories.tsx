@@ -162,7 +162,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
+          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **ColorPicker** (hex selection with HSV panel and channel inputs), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
       },
     },
   },
@@ -1261,6 +1261,90 @@ export const DateMobileBottomSheet = {
 };
 
 /* -------------------------------------------------------------------------- */
+/* ColorPicker                                                                 */
+/* -------------------------------------------------------------------------- */
+
+type ColorPickerArgs = React.ComponentProps<typeof FormControls.ColorPicker>;
+
+export const ColorPicker = {
+  name: "ColorPicker",
+  argTypes: {
+    ...commonControlArgTypes,
+    value: { control: "text", description: "Controlled hex value (`#RRGGBB`)" },
+    defaultValue: {
+      control: "text",
+      description: "Uncontrolled initial hex value (`#RRGGBB`)",
+    },
+    placeholder: { control: "text" },
+    clearable: { control: "boolean" },
+    readOnly: { control: "boolean" },
+    onChange: { action: "onChange" },
+  },
+  args: {
+    label: "Brand color",
+    name: "brandColor",
+    value: "#1264A3",
+    placeholder: "Select color",
+    clearable: true,
+    isRequired: false,
+    isDisabled: false,
+    readOnly: false,
+    isFluid: false,
+    error: "",
+    dataTestId: "brand-color-picker",
+  } as Partial<ColorPickerArgs>,
+  render: (args: ColorPickerArgs) => {
+    const [, updateArgs] = useArgs();
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.ColorPicker
+          {...args}
+          onChange={(nextColor) => {
+            args.onChange?.(nextColor);
+            updateArgs({ value: nextColor });
+          }}
+        />
+      </Container>
+    );
+  },
+};
+
+export const ColorPickerActiveState = {
+  name: "ColorPicker · active panel",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Story opens the picker automatically so the floating panel can be inspected and captured.",
+      },
+    },
+  },
+  args: {
+    ...(ColorPicker.args as Partial<ColorPickerArgs>),
+    dataTestId: "brand-color-picker-active",
+  } as Partial<ColorPickerArgs>,
+  render: (args: ColorPickerArgs) => {
+    const [didAutoOpen, setDidAutoOpen] = useState(false);
+
+    useEffect(() => {
+      if (didAutoOpen) return;
+      const trigger = document.querySelector(
+        '[data-testid="brand-color-picker-active-trigger"]',
+      );
+      if (!(trigger instanceof HTMLElement)) return;
+      trigger.click();
+      setDidAutoOpen(true);
+    }, [didAutoOpen]);
+
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.ColorPicker {...args} />
+      </Container>
+    );
+  },
+};
+
+/* -------------------------------------------------------------------------- */
 /* Checkbox (group, array-based API)                                           */
 /* -------------------------------------------------------------------------- */
 
@@ -1957,6 +2041,7 @@ export const AllControls = {
           <FormControls.TextArea label="Message" placeholder="Hello world!" />
           <FormControls.Select label="Fruit" options={selectOptions} placeholder="Select a fruit" />
           <FormControls.Date label="Date of birth" defaultValue={new Date(1992, 4, 31)} />
+          <FormControls.ColorPicker label="Brand color" defaultValue="#1264A3" />
           <FormControls.Checkbox
             label="Terms and conditions"
             name="accept"

@@ -1,6 +1,6 @@
 # FormControls
 
-FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, margin, className, error.
+FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.ColorPicker`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, margin, className, error.
 
 ## Controls overview
 
@@ -10,6 +10,7 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 | TextArea | Multi-line text | placeholder, value, onChange(e) |
 | Select | Floating UI combobox: desktop portalled list; **≤768px** bottom sheet; sync or async options, search, groups, multi chips + cap | `mode` / `isMulti`, `options`, `onSearch`, `searchable`, `groups`, `maxSelect`, `triggerMaxItems`, `panelMinWidth`, `name`, `placeholder`, `error` |
 | Date | Calendar date picker (`date-fns` + Floating UI); **Cancel** / **OK** staging; desktop **popover** (~**400px** max width, viewport-capped); **≤768px** **bottom sheet** + backdrop; **month** / **year** subviews with back + titled headers; trigger **`calendar_month`** icon | `value`/`defaultValue` (`Date \| null`), `onChange`, `minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`, `locale`, `weekStartsOn`, `dateFormat`, `clearable`, `readOnly`, `name` (hidden **yyyy-MM-dd**), `popoverPlacement`, `onOpen`/`onClose` |
+| ColorPicker | Hex color picker (`#RRGGBB`) with Floating UI dialog pattern: desktop popover, **≤768px** bottom sheet, saturation/value canvas, hue slider, and RGB channel inputs | `value`/`defaultValue`, `onChange`, `clearable`, `readOnly`, `name` (hidden hex input), `placeholder`, `popoverPlacement`, `onOpen`/`onClose` |
 | Checkbox | Checkbox group (array-based, multi-select) | name, label, options, value (CheckboxValue[]), defaultValue, onChange(values, e), orientation, variant, cardControlAlign |
 | Radio | Radio group (array-based) | name, label, options, value, defaultValue, onChange(value, e), orientation, variant, cardControlAlign |
 | File | File picker with `button` / `card` variants, drag-and-drop, and a removable file list | name, label, variant, multiple, accept, value (File[]), onChange(files, e), buttonLabel, dropZoneText |
@@ -26,6 +27,7 @@ Pass **`dataTestId="my-field"`** on any control below. Patterns are consistent a
 | **TextArea** | native `<textarea>` | same as root | `-error` |
 | **Select** | field wrapper | `-trigger` (open), `-option-{value}` (pick) | `-panel`, `-search`, `-search-clear`, `-listbox`, `-clear`, `-input`, `-error` |
 | **Date** | field wrapper | `-trigger`, `-day-YYYY-MM-DD` | `-panel`, `-grid`, `-done`, `-cancel`, `-clear`, `-input`, … |
+| **ColorPicker** | field wrapper | `-trigger` | `-panel`, `-swatch`, `-sv-area`, `-hue-slider`, `-hex-input`, `-rgb-r`, `-rgb-g`, `-rgb-b`, `-clear`, `-input` |
 | **Checkbox** | `<fieldset>` | `-label-{value}` or `-input-{value}` | `-options`, `-option-{value}` |
 | **Radio** | `<fieldset>` | `-label-{value}` or `-input-{value}` | same as Checkbox |
 | **File** | hidden `<input type="file">` | same as root (`setInputFiles`) | `-trigger`, `-list`, `-item-{i}`, `-remove-{i}` |
@@ -170,6 +172,7 @@ interface InputProps {
 - **CheckboxProps**: `options` (non-empty `CheckboxOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value` (`CheckboxValue[]`), `defaultValue` (`CheckboxValue[]`), `onChange(values, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `cardControlAlign` (`"start" | "end"`, default `"end"` — card variant only; top-inline-start vs top-inline-end corner), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, and labels — see **Checkbox and Radio — E2E / test selectors**).
 - **CheckboxOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`. `CheckboxValue = string | number`.
 - **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (see **Date — E2E / test selectors**).
+- **ColorPickerProps**: `value` / `defaultValue` (`#RGB` / `#RRGGBB`, normalized to `#RRGGBB`), `onChange(color: string | null)`, `placeholder`, `clearable` (default `true`), `readOnly`, `popoverPlacement` (Floating UI desktop placement), `onOpen` / `onClose`, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `margin`, and **`dataTestId`** (wrapper root with `-trigger`, `-panel`, `-sv-area`, `-hue-slider`, `-hex-input`, `-rgb-r`, `-rgb-g`, `-rgb-b`, `-input` suffixes).
 - **ToggleProps**: checked, defaultChecked, onChange(checked: boolean), label, isDisabled, isRequired, isFluid, className, error, **`dataTestId`** (on switch input; `-label`, `-error`).
 - **FormControlsStepperProps**: label, placeholder, value/defaultValue, onChange(e), min, max, step, layout (`"default" | "split-controls" | "trailing-stacked-chevrons"`), isDisabled, isRequired, isFluid, className, error, **`dataTestId`** (on input; `-increment`, `-decrement`, `-error`).
 
@@ -348,6 +351,11 @@ import { de } from "date-fns/locale/de";
   dateFormat="dd.MM.yyyy"
   defaultValue={new Date(2026, 3, 20)}
 />
+<FormControls.ColorPicker
+  label="Brand color"
+  value={brandColor}
+  onChange={setBrandColor}
+/>
 ```
 
 ### Date — E2E / test selectors
@@ -369,6 +377,29 @@ Pass **`dataTestId="dob"`** on the field:
 await page.getByTestId("dob-trigger").click();
 await page.getByTestId("dob-day-2026-05-18").click();
 await page.getByTestId("dob-done").click();
+```
+
+### ColorPicker — E2E / test selectors
+
+Pass **`dataTestId="brand-color"`** on the field:
+
+| Suffix | Element |
+| --- | --- |
+| *(root)* | Field wrapper |
+| `-trigger` | Open picker |
+| `-clear` | Clear committed color (`clearable`) |
+| `-panel` | Floating dialog / mobile sheet |
+| `-swatch` | Trigger swatch preview |
+| `-sv-area` | Saturation/value canvas |
+| `-hue-slider` | Hue range slider |
+| `-hex-input` | HEX text input |
+| `-rgb-r` / `-rgb-g` / `-rgb-b` | RGB numeric inputs |
+| `-input` | Hidden `name` field (`#RRGGBB`) |
+
+```ts
+await page.getByTestId("brand-color-trigger").click();
+await page.getByTestId("brand-color-hex-input").fill("#E89623");
+await expect(page.getByTestId("brand-color-input")).toHaveValue("#E89623");
 ```
 
 ### Checkbox group
@@ -584,9 +615,11 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **TextArea / Toggle / Stepper (`dataTestId`):** On the native control; see **TextArea, Toggle, and Stepper — E2E / test selectors**.
 - **Select (`dataTestId`):** Wrapper root plus `-trigger`, `-panel`, `-option-{value}`, etc. See **Select — E2E / test selectors**.
 - **Date (`dataTestId`):** Wrapper root plus calendar suffixes. See **Date — E2E / test selectors**.
+- **ColorPicker (`dataTestId`):** Wrapper root plus color-surface/channel suffixes (`-sv-area`, `-hue-slider`, `-hex-input`, `-rgb-*`, etc.). See **ColorPicker — E2E / test selectors**.
 - **File (`dataTestId`):** On file input plus `-trigger`, `-list`, `-item-{i}`, `-remove-{i}`. See **File — E2E / test selectors**.
 - **Select:** Built on **Floating UI** — desktop uses a **portalled** panel with flip/shift to stay in the viewport; panel **width** matches the trigger, with optional **`panelMinWidth`** when options need more horizontal space; **`searchable={false}`** hides the panel search field (full static list, or async `onSearch("")` on open); **≤768px** uses a **bottom sheet** (`role="dialog"`, `aria-modal`, `aria-labelledby` to the field label when the label exists). **Option** shape supports `group`, `icon`, `avatar`, `meta`, `disabled`. **`mode`** (`'single' | 'multi'`) replaces **`isMulti`** (still supported, deprecated). Single mode: **`onChange(Option | null)`** — `null` when cleared. Multi mode: **`onChange(Option[])`** — use **`[]`** for clear. **`name` + hidden `<input>`:** native form submit posts the selected **`value`**(s); **multi** joins with **commas** — avoid comma characters inside `value` if you rely on `FormData`, or parse manually. **`options={null}` + `onSearch`:** async loading; show loading/empty/error states in the panel. **`groups`:** sticky headings for shared `Option.group`. **`maxSelect`:** multi only; **`triggerMaxItems`:** chip overflow **`+N`**. **`aria-controls`** on the combobox trigger and panel search point at the listbox **only while open**. **`aria-invalid`** reflects **`error`** on trigger, search field, and listbox. Validation message uses **`role="alert"`** (via shared field error pattern).
 - **Date:** **`Date | null`** with **`onChange`**. Opens a **`role="dialog"`** calendar: **staging** applies on day tap; **Cancel** reverts to the last committed value; **OK** commits (and clears staging). **Desktop:** portalled Floating UI panel with flip/shift, fixed **max width ~400px** (capped by viewport). **≤768px:** bottom sheet fixed to the lower viewport + dimmed backdrop, `aria-modal`, body scroll lock while open (same breakpoint idea as Select). **Header:** month cluster + year cluster (44px arrow hits); tapping month/year opens **scrollable subviews** with **back (`arrow_back`)** and headings **“Select a month of {yyyy}”** / **“Select a year for {MMMM}”** (locale-aware via `locale`). **Trigger:** **`calendar_month`** trailing icon (not Select chevrons); optional **clear** when `clearable`. **`readOnly`** and **`isDisabled`** block interaction. Constraints: **`minDate`/`maxDate`** (inclusive), **`disabledDates`**, **`disabledDaysOfWeek`**. **`dateFormat`** + **`locale`** control the field string; grid labels follow **`locale`** and **`weekStartsOn`**. **`name`:** hidden input posts **`yyyy-MM-dd`** for the **committed** value only. **`onOpen`/`onClose`** fire when the panel opens/closes. **`popoverPlacement`** adjusts desktop anchor (default `bottom-start`). **`error`** / **`isRequired`** use the shared field error pattern (`aria-invalid`, message under the field).
+- **ColorPicker:** Emits normalized **`#RRGGBB`** values (`null` when cleared). Uses the same Floating UI surface pattern as Select/Date: desktop anchored popover with flip/shift, and **≤768px** bottom sheet + backdrop + body scroll lock. Trigger shows a swatch and the committed hex value. Inside the panel, saturation/value canvas + hue slider + HEX/RGB channels stay synchronized. `readOnly` / `isDisabled` block opening and edits. `name` renders a hidden input so native form submit includes the current hex value.
 - **Radio:** Group-first API — pass `options: RadioOption[]`. Renders `<fieldset>` + `<legend>` with a single `value` and `onChange(value, e)`. `isRequired` puts `*` on the legend and adds `required`/`aria-required` to the first enabled option (HTML5 only requires one input in the group to carry it). Custom ring/dot follows the native `:checked` state so uncontrolled groups stay visually correct. Pass `variant="card"` for tile-style options; `cardControlAlign` (`start` | `end`, default `end`) places the ring in the top-inline-start or top-inline-end corner (left / right in LTR). Optional `icon` beside label/description; primary-brand border + tint when selected. **`dataTestId`** on the group maps to the fieldset and emits suffixed ids (`-options`, `-option-{value}`, `-input-{value}`, `-label-{value}`); per-option `dataTestId` overrides the input suffix only.
 - **Checkbox:** Group-first API — pass `options: CheckboxOption[]`. Renders `<fieldset>` + `<legend>` with a `value: CheckboxValue[]` and `onChange(values, e)`. `isRequired` puts `*` on the legend and sets `aria-required` on the group; native HTML5 doesn't enforce "at least one" for checkbox groups, so add custom validation at the form layer. Custom box/tick follows the native `:checked` state. Pass `variant="card"` for tile-style options; `cardControlAlign` (`start` | `end`, default `end`) places the box in the top-inline-start or top-inline-end corner (left / right in LTR). For a single checkbox, pass a one-element `options` array — `value=[]` is unchecked, `value=[opt.value]` is checked. **`dataTestId`** uses the same suffix scheme as Radio.
 - **File:** Native `<input type="file">` is visually hidden but stays in the a11y tree. Manages a `File[]` selection internally; `onChange(files, e)` fires for picker selections, drops, and removals (the underlying event is `undefined` for non-picker triggers). With `multiple`, subsequent picks/drops append; without, the new selection replaces the old. The card variant supports drag-and-drop and tints primary-brand on hover. Removing a file resets the native input so re-selecting the same file still emits a change. `defaultValue` seeds the visual list only — browsers don't allow programmatic pre-population of file inputs.

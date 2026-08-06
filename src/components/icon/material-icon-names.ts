@@ -1,6 +1,6 @@
 // This file is auto-generated. Do not edit manually.
-// Generated on: 2026-07-07T02:18:23.684Z
-// Total icons: 4264
+// Generated on: 2026-08-06T01:55:53.539Z
+// Total icons: 4268
 
 /**
  * All available Material Symbol names (Material Symbols Outlined variable font).
@@ -1865,6 +1865,7 @@ export const MATERIAL_ICON_NAMES = [
   'high_chair',
   'high_density',
   'high_quality',
+  'high_quality_off',
   'high_res',
   'highlight',
   'highlight_alt',
@@ -2022,6 +2023,7 @@ export const MATERIAL_ICON_NAMES = [
   'japanese_curry',
   'japanese_flag',
   'javascript',
+  'jewelry',
   'join',
   'join_full',
   'join_inner',
@@ -3242,6 +3244,7 @@ export const MATERIAL_ICON_NAMES = [
   'seat_cool_right',
   'seat_heat_left',
   'seat_heat_right',
+  'seat_read',
   'seat_vent_left',
   'seat_vent_right',
   'seat_window',
@@ -3421,6 +3424,7 @@ export const MATERIAL_ICON_NAMES = [
   'sim_card_alert',
   'sim_card_download',
   'simulation',
+  'single_arrow',
   'single_bed',
   'sip',
   'siren',
@@ -6339,6 +6343,7 @@ export const ICON_CATEGORIES = {
     'high_chair',
     'high_density',
     'high_quality',
+    'high_quality_off',
     'high_res',
     'highlight',
     'highlight_alt',
@@ -6476,6 +6481,7 @@ export const ICON_CATEGORIES = {
     'japanese_curry',
     'japanese_flag',
     'javascript',
+    'jewelry',
     'join',
     'join_full',
     'join_inner',
@@ -7563,6 +7569,7 @@ export const ICON_CATEGORIES = {
     'seat_cool_right',
     'seat_heat_left',
     'seat_heat_right',
+    'seat_read',
     'seat_vent_left',
     'seat_vent_right',
     'seat_window',
@@ -7735,6 +7742,7 @@ export const ICON_CATEGORIES = {
     'sim_card_alert',
     'sim_card_download',
     'simulation',
+    'single_arrow',
     'single_bed',
     'sip',
     'siren',
