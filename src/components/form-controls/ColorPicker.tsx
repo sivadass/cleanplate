@@ -28,6 +28,7 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import { useMediaQuery } from "./date/use-media-query";
+import Input from "./Input";
 
 const COLOR_PICKER_SHEET_MEDIA = "(max-width: 768px)";
 
@@ -602,7 +603,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             },
           })}
         >
-          <div className={styles["cp-select-trigger-main"]}>
+          <div
+            className={getClassNames(
+              styles["cp-select-trigger-main"],
+              styles["cp-color-picker-trigger-main"],
+            )}
+          >
             <span
               className={styles["cp-color-picker-trigger-swatch"]}
               data-testid={colorFieldTestId(dataTestId, "swatch")}
@@ -703,65 +709,63 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 </div>
 
                 <div className={styles["cp-color-picker-channel-grid"]}>
-                  <label className={styles["cp-color-picker-channel"]}>
-                    <span className={styles["cp-color-picker-channel-label"]}>
-                      HEX
-                    </span>
-                    <input
-                      type="text"
-                      className={styles["cp-color-picker-channel-input"]}
-                      value={hexInputValue}
-                      maxLength={7}
-                      spellCheck={false}
-                      autoCapitalize="characters"
-                      aria-label="HEX color value"
-                      data-testid={colorFieldTestId(dataTestId, "hex-input")}
-                      onChange={handleHexInputChange}
-                      onBlur={handleHexInputBlur}
-                    />
-                  </label>
+                  <Input
+                    label="HEX"
+                    value={hexInputValue}
+                    maxLength={7}
+                    margin="0"
+                    isFluid
+                    isDisabled={isDisabled || readOnly}
+                    className={styles["cp-color-picker-channel-field"]}
+                    dataTestId={colorFieldTestId(dataTestId, "hex-input")}
+                    onChange={handleHexInputChange}
+                    onBlur={handleHexInputBlur}
+                  />
 
-                  <label className={styles["cp-color-picker-channel"]}>
-                    <span className={styles["cp-color-picker-channel-label"]}>R</span>
-                    <input
-                      type="number"
-                      min={0}
-                      max={255}
-                      value={rgb.r}
-                      className={styles["cp-color-picker-channel-input"]}
-                      aria-label="Red channel"
-                      data-testid={colorFieldTestId(dataTestId, "rgb-r")}
-                      onChange={handleRgbChange("r")}
-                    />
-                  </label>
+                  <Input
+                    label="R"
+                    type="number"
+                    value={String(rgb.r)}
+                    min={0}
+                    max={255}
+                    maxLength={3}
+                    margin="0"
+                    isFluid
+                    isDisabled={isDisabled || readOnly}
+                    className={styles["cp-color-picker-channel-field"]}
+                    dataTestId={colorFieldTestId(dataTestId, "rgb-r")}
+                    onChange={handleRgbChange("r")}
+                  />
 
-                  <label className={styles["cp-color-picker-channel"]}>
-                    <span className={styles["cp-color-picker-channel-label"]}>G</span>
-                    <input
-                      type="number"
-                      min={0}
-                      max={255}
-                      value={rgb.g}
-                      className={styles["cp-color-picker-channel-input"]}
-                      aria-label="Green channel"
-                      data-testid={colorFieldTestId(dataTestId, "rgb-g")}
-                      onChange={handleRgbChange("g")}
-                    />
-                  </label>
+                  <Input
+                    label="G"
+                    type="number"
+                    value={String(rgb.g)}
+                    min={0}
+                    max={255}
+                    maxLength={3}
+                    margin="0"
+                    isFluid
+                    isDisabled={isDisabled || readOnly}
+                    className={styles["cp-color-picker-channel-field"]}
+                    dataTestId={colorFieldTestId(dataTestId, "rgb-g")}
+                    onChange={handleRgbChange("g")}
+                  />
 
-                  <label className={styles["cp-color-picker-channel"]}>
-                    <span className={styles["cp-color-picker-channel-label"]}>B</span>
-                    <input
-                      type="number"
-                      min={0}
-                      max={255}
-                      value={rgb.b}
-                      className={styles["cp-color-picker-channel-input"]}
-                      aria-label="Blue channel"
-                      data-testid={colorFieldTestId(dataTestId, "rgb-b")}
-                      onChange={handleRgbChange("b")}
-                    />
-                  </label>
+                  <Input
+                    label="B"
+                    type="number"
+                    value={String(rgb.b)}
+                    min={0}
+                    max={255}
+                    maxLength={3}
+                    margin="0"
+                    isFluid
+                    isDisabled={isDisabled || readOnly}
+                    className={styles["cp-color-picker-channel-field"]}
+                    dataTestId={colorFieldTestId(dataTestId, "rgb-b")}
+                    onChange={handleRgbChange("b")}
+                  />
                 </div>
               </div>
             </div>
