@@ -8,6 +8,7 @@ import Date from "./Date";
 import Stepper from "./Stepper";
 import Toggle from "./Toggle";
 import ColorPicker from "./ColorPicker";
+import SegmentedControl from "./SegmentedControl";
 
 export default {
   Input,
@@ -20,6 +21,7 @@ export default {
   Stepper,
   Toggle,
   ColorPicker,
+  SegmentedControl,
 };
 
 export {
@@ -33,6 +35,7 @@ export {
   Stepper,
   Toggle,
   ColorPicker,
+  SegmentedControl,
 };
 export type { InputProps } from "./Input";
 export type {
@@ -49,4 +52,10 @@ export type { ToggleProps } from "./Toggle";
 export type { DateProps } from "./Date";
 export type { ColorPickerProps } from "./ColorPicker";
 export type { FormControlsStepperLayout, FormControlsStepperProps } from "./Stepper";
+export type {
+  SegmentedControlProps,
+  SegmentedControlOption,
+  SegmentedControlValue,
+  SegmentedControlSize,
+} from "./SegmentedControl";
 export type { FormFieldMargin } from "./form-field-margin";
