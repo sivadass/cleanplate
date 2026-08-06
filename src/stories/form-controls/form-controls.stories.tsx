@@ -162,7 +162,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **ColorPicker** (hex selection with HSV panel and channel inputs), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
+          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **ColorPicker** (hex selection with HSV panel and channel inputs), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **SegmentedControl** (text, icon+label, icon-only), **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
       },
     },
   },
@@ -1646,6 +1646,9 @@ const shippingOptions = [
 ];
 
 type RadioArgs = React.ComponentProps<typeof FormControls.Radio>;
+type SegmentedControlArgs = React.ComponentProps<
+  typeof FormControls.SegmentedControl
+>;
 
 export const Radio = {
   name: "Radio (group)",
@@ -1846,6 +1849,121 @@ export const RadioSingle = {
 };
 
 /* -------------------------------------------------------------------------- */
+/* SegmentedControl                                                            */
+/* -------------------------------------------------------------------------- */
+
+const segmentedViewOptions = [
+  { label: "Day", value: "day" },
+  { label: "Week", value: "week" },
+  { label: "Month", value: "month" },
+];
+
+const segmentedDensityOptions = [
+  { label: "Compact", value: "compact", icon: <Icon name="view_headline" /> },
+  {
+    label: "Comfortable",
+    value: "comfortable",
+    icon: <Icon name="view_agenda" />,
+  },
+];
+
+const segmentedAlignOptions = [
+  {
+    value: "left",
+    icon: <Icon name="format_align_left" />,
+    ariaLabel: "Align left",
+  },
+  {
+    value: "center",
+    icon: <Icon name="format_align_center" />,
+    ariaLabel: "Align center",
+  },
+  {
+    value: "right",
+    icon: <Icon name="format_align_right" />,
+    ariaLabel: "Align right",
+  },
+];
+
+export const SegmentedControl = {
+  name: "SegmentedControl",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Compact, single-select segmented field for 2-5 mutually exclusive options. Use this for mode switches inside forms (not app navigation tabs).",
+      },
+    },
+  },
+  argTypes: {
+    ...commonControlArgTypes,
+    value: {
+      control: { type: "inline-radio" },
+      options: segmentedViewOptions.map((opt) => opt.value),
+    },
+    defaultValue: { control: "text" },
+    options: { control: "object" },
+    size: {
+      control: { type: "inline-radio" },
+      options: ["small", "medium"],
+    },
+    onChange: { action: "onChange" },
+  },
+  args: {
+    label: "Calendar view",
+    name: "calendar-view",
+    value: "week",
+    options: segmentedViewOptions,
+    size: "medium",
+    isRequired: false,
+    isDisabled: false,
+    isFluid: false,
+    error: "",
+    dataTestId: "calendar-view",
+  } as Partial<SegmentedControlArgs>,
+  render: (args: SegmentedControlArgs) => {
+    const [, updateArgs] = useArgs();
+    return (
+      <Container padding="4" style={{ minWidth: 360 }}>
+        <FormControls.SegmentedControl
+          {...args}
+          onChange={(next, e) => {
+            args.onChange?.(next, e);
+            updateArgs({ value: next });
+          }}
+        />
+      </Container>
+    );
+  },
+};
+
+export const SegmentedControlIconAndLabel = {
+  name: "SegmentedControl · icon + label",
+  args: {
+    ...(SegmentedControl.args as Partial<SegmentedControlArgs>),
+    label: "Density",
+    name: "density",
+    value: "comfortable",
+    options: segmentedDensityOptions,
+    dataTestId: "density",
+  } as Partial<SegmentedControlArgs>,
+  render: SegmentedControl.render,
+};
+
+export const SegmentedControlIconOnly = {
+  name: "SegmentedControl · icon only",
+  args: {
+    ...(SegmentedControl.args as Partial<SegmentedControlArgs>),
+    label: "Alignment",
+    name: "alignment",
+    value: "left",
+    options: segmentedAlignOptions,
+    dataTestId: "alignment",
+  } as Partial<SegmentedControlArgs>,
+  render: SegmentedControl.render,
+};
+
+/* -------------------------------------------------------------------------- */
 /* File (button variant)                                                       */
 /* -------------------------------------------------------------------------- */
 
@@ -2026,6 +2144,7 @@ export const AllControls = {
     const [accepted, setAccepted] = useState<(string | number)[]>([]);
     const [toggle, setToggle] = useState(false);
     const [pick, setPick] = useState<string | number>("a");
+    const [view, setView] = useState<string | number>("week");
 
     useEffect(() => {
       // no-op, ensures hook order is stable across re-renders
@@ -2065,6 +2184,13 @@ export const AllControls = {
               { label: "Option C", value: "c" },
             ]}
             onChange={(v) => setPick(v)}
+          />
+          <FormControls.SegmentedControl
+            label="Calendar view"
+            name="showcase-view"
+            value={view}
+            options={segmentedViewOptions}
+            onChange={(next) => setView(next)}
           />
           <FormControls.File label="Upload file" />
           <FormControls.Stepper

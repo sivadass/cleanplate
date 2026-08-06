@@ -1,6 +1,6 @@
 # FormControls
 
-FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.ColorPicker`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, margin, className, error.
+FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.ColorPicker`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.SegmentedControl`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, margin, className, error.
 
 ## Controls overview
 
@@ -13,6 +13,7 @@ FormControls is a set of form primitives exported as a namespace: `FormControls.
 | ColorPicker | Hex color picker (`#RRGGBB`) with Floating UI dialog pattern: desktop popover, **≤768px** bottom sheet, saturation/value canvas, hue slider, and RGB channel inputs | `value`/`defaultValue`, `onChange`, `clearable`, `readOnly`, `name` (hidden hex input), `placeholder`, `popoverPlacement`, `onOpen`/`onClose` |
 | Checkbox | Checkbox group (array-based, multi-select) | name, label, options, value (CheckboxValue[]), defaultValue, onChange(values, e), orientation, variant, cardControlAlign |
 | Radio | Radio group (array-based) | name, label, options, value, defaultValue, onChange(value, e), orientation, variant, cardControlAlign |
+| SegmentedControl | Compact single-select segmented field (equal-width options) | name, label, options, value/defaultValue, onChange(value, e), size, isRequired, isDisabled |
 | File | File picker with `button` / `card` variants, drag-and-drop, and a removable file list | name, label, variant, multiple, accept, value (File[]), onChange(files, e), buttonLabel, dropZoneText |
 | Toggle | On/off switch | checked, defaultChecked, onChange(checked: boolean) |
 | Stepper | Numeric value with integrated − / + (integer text field + `min` / `max` / `step`) | placeholder, value, onChange(e), min, max, step, layout |
@@ -30,6 +31,7 @@ Pass **`dataTestId="my-field"`** on any control below. Patterns are consistent a
 | **ColorPicker** | field wrapper | `-trigger` | `-panel`, `-swatch`, `-sv-area`, `-hue-slider`, `-hex-input`, `-rgb-r`, `-rgb-g`, `-rgb-b`, `-clear`, `-input` |
 | **Checkbox** | `<fieldset>` | `-label-{value}` or `-input-{value}` | `-options`, `-option-{value}` |
 | **Radio** | `<fieldset>` | `-label-{value}` or `-input-{value}` | same as Checkbox |
+| **SegmentedControl** | `<fieldset>` | `-label-{value}` or `-input-{value}` | same as Radio + `-error` |
 | **File** | hidden `<input type="file">` | same as root (`setInputFiles`) | `-trigger`, `-list`, `-item-{i}`, `-remove-{i}` |
 | **Toggle** | native switch `<input>` | `-label` (click) or root (`.check()`) | `-error` |
 | **Stepper** | numeric `<input>` | same as root | `-increment`, `-decrement`, `-error` |
@@ -171,6 +173,8 @@ interface InputProps {
 - **RadioOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`.
 - **CheckboxProps**: `options` (non-empty `CheckboxOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value` (`CheckboxValue[]`), `defaultValue` (`CheckboxValue[]`), `onChange(values, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `cardControlAlign` (`"start" | "end"`, default `"end"` — card variant only; top-inline-start vs top-inline-end corner), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, and labels — see **Checkbox and Radio — E2E / test selectors**).
 - **CheckboxOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`. `CheckboxValue = string | number`.
+- **SegmentedControlProps**: `options` (non-empty `SegmentedControlOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value`, `defaultValue`, `onChange(value, e)`, `size` (`"small" | "medium"`), `isDisabled`, `isRequired`, `isFluid`, `margin`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, labels, and `-error` message).
+- **SegmentedControlOption**: `{ label?, value, icon?, ariaLabel?, isDisabled?, dataTestId?, id? }`. Supports text, icon+label, or icon-only. For icon-only segments, set `ariaLabel`. `dataTestId` overrides only that option's input id.
 - **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (see **Date — E2E / test selectors**).
 - **ColorPickerProps**: `value` / `defaultValue` (`#RGB` / `#RRGGBB`, normalized to `#RRGGBB`), `onChange(color: string | null)`, `placeholder`, `clearable` (default `true`), `readOnly`, `popoverPlacement` (Floating UI desktop placement), `onOpen` / `onClose`, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `margin`, and **`dataTestId`** (wrapper root with `-trigger`, `-panel`, `-sv-area`, `-hue-slider`, `-hex-input`, `-rgb-r`, `-rgb-g`, `-rgb-b`, `-input` suffixes).
 - **ToggleProps**: checked, defaultChecked, onChange(checked: boolean), label, isDisabled, isRequired, isFluid, className, error, **`dataTestId`** (on switch input; `-label`, `-error`).
@@ -511,9 +515,42 @@ import { FormControls, Icon } from "cleanplate";
 />
 ```
 
-### Checkbox and Radio — E2E / test selectors
+### SegmentedControl
 
-Both **Checkbox** and **Radio** share the same suffix scheme. Pass **`dataTestId="interests"`** on the group to get stable Playwright / Testing Library hooks:
+Use SegmentedControl for compact, single-select choices in forms (for example: Day/Week/Month or density mode). Keep options to about 2-5 items and avoid using it for top-level app navigation; for navigation tabs, use `MenuList`.
+
+```jsx
+const [view, setView] = useState("week");
+<FormControls.SegmentedControl
+  label="Calendar view"
+  name="calendar-view"
+  value={view}
+  onChange={(v) => setView(String(v))}
+  options={[
+    { label: "Day", value: "day" },
+    { label: "Week", value: "week" },
+    { label: "Month", value: "month" },
+  ]}
+/>
+```
+
+Icon-only options require `ariaLabel`:
+
+```jsx
+<FormControls.SegmentedControl
+  label="Alignment"
+  name="alignment"
+  options={[
+    { value: "left", icon: <Icon name="format_align_left" />, ariaLabel: "Align left" },
+    { value: "center", icon: <Icon name="format_align_center" />, ariaLabel: "Align center" },
+    { value: "right", icon: <Icon name="format_align_right" />, ariaLabel: "Align right" },
+  ]}
+/>
+```
+
+### Checkbox, Radio, and SegmentedControl — E2E / test selectors
+
+**Checkbox**, **Radio**, and **SegmentedControl** share the same suffix scheme. Pass **`dataTestId="interests"`** on the group to get stable Playwright / Testing Library hooks:
 
 | Suffix | Element |
 | --- | --- |
@@ -522,10 +559,11 @@ Both **Checkbox** and **Radio** share the same suffix scheme. Pass **`dataTestId
 | `-option-{value}` | Option row |
 | `-input-{value}` | Native `<input>` (visually hidden) |
 | `-label-{value}` | Clickable label (preferred for Playwright clicks) |
+| `-error` | Error message (SegmentedControl when `error` is set) |
 
 `{value}` is derived from each option's `value` prop: non-alphanumeric characters become `-` (e.g. `premium_plus` → `premium-plus`, `std` → `std`).
 
-**Per-option override:** set **`dataTestId`** on a **`CheckboxOption`** / **`RadioOption`** to replace only that option's `-input-{value}` id. Row and label suffixes still use the group base + value key.
+**Per-option override:** set **`dataTestId`** on a **`CheckboxOption`** / **`RadioOption`** / **`SegmentedControlOption`** to replace only that option's `-input-{value}` id. Row and label suffixes still use the group base + value key.
 
 #### Playwright — Checkbox (multi-select)
 
@@ -542,6 +580,13 @@ await expect(page.getByTestId("interests-input-product")).toBeChecked();
 await page.getByTestId("shipping-label-express").click();
 await expect(page.getByTestId("shipping-input-express")).toBeChecked();
 await expect(page.getByTestId("shipping-input-std")).not.toBeChecked();
+```
+
+#### Playwright — SegmentedControl (single-select)
+
+```ts
+await page.getByTestId("calendar-view-label-month").click();
+await expect(page.getByTestId("calendar-view-input-month")).toBeChecked();
 ```
 
 #### Direct input check (also works)
@@ -622,6 +667,7 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **ColorPicker:** Emits normalized **`#RRGGBB`** values (`null` when cleared). Uses the same Floating UI surface pattern as Select/Date: desktop anchored popover with flip/shift, and **≤768px** bottom sheet + backdrop + body scroll lock. Trigger shows a swatch and the committed hex value. Inside the panel, saturation/value canvas + hue slider + HEX/RGB channels stay synchronized. `readOnly` / `isDisabled` block opening and edits. `name` renders a hidden input so native form submit includes the current hex value.
 - **Radio:** Group-first API — pass `options: RadioOption[]`. Renders `<fieldset>` + `<legend>` with a single `value` and `onChange(value, e)`. `isRequired` puts `*` on the legend and adds `required`/`aria-required` to the first enabled option (HTML5 only requires one input in the group to carry it). Custom ring/dot follows the native `:checked` state so uncontrolled groups stay visually correct. Pass `variant="card"` for tile-style options; `cardControlAlign` (`start` | `end`, default `end`) places the ring in the top-inline-start or top-inline-end corner (left / right in LTR). Optional `icon` beside label/description; primary-brand border + tint when selected. **`dataTestId`** on the group maps to the fieldset and emits suffixed ids (`-options`, `-option-{value}`, `-input-{value}`, `-label-{value}`); per-option `dataTestId` overrides the input suffix only.
 - **Checkbox:** Group-first API — pass `options: CheckboxOption[]`. Renders `<fieldset>` + `<legend>` with a `value: CheckboxValue[]` and `onChange(values, e)`. `isRequired` puts `*` on the legend and sets `aria-required` on the group; native HTML5 doesn't enforce "at least one" for checkbox groups, so add custom validation at the form layer. Custom box/tick follows the native `:checked` state. Pass `variant="card"` for tile-style options; `cardControlAlign` (`start` | `end`, default `end`) places the box in the top-inline-start or top-inline-end corner (left / right in LTR). For a single checkbox, pass a one-element `options` array — `value=[]` is unchecked, `value=[opt.value]` is checked. **`dataTestId`** uses the same suffix scheme as Radio.
+- **SegmentedControl:** Compact single-select field built on native radios (`<fieldset>` + `<legend>` + `role="radiogroup"`). Use for mutually exclusive form options, typically 2-5 entries. Segments are always equal width. Supports `value`/`defaultValue`, `size` (`small`/`medium`), option-level disable, and icon-only options with `ariaLabel`. The control does not support click-to-deselect and is not intended for top-level app navigation; use `MenuList` for tab/navigation layouts.
 - **File:** Native `<input type="file">` is visually hidden but stays in the a11y tree. Manages a `File[]` selection internally; `onChange(files, e)` fires for picker selections, drops, and removals (the underlying event is `undefined` for non-picker triggers). With `multiple`, subsequent picks/drops append; without, the new selection replaces the old. The card variant supports drag-and-drop and tints primary-brand on hover. Removing a file resets the native input so re-selecting the same file still emits a change. `defaultValue` seeds the visual list only — browsers don't allow programmatic pre-population of file inputs.
 - **isFluid:** Full-width field wrapper.
 

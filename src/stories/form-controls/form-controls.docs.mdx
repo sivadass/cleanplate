@@ -6,7 +6,7 @@ import { FormControls, Container, Typography } from "../../index";
 
 # FormControls
 
-FormControls is a set of form primitives: Input, TextArea, Select, Date, ColorPicker, Checkbox, Radio, File, Toggle, and Stepper. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Access via `FormControls.Input`, `FormControls.Select`, etc.
+FormControls is a set of form primitives: Input, TextArea, Select, Date, ColorPicker, Checkbox, Radio, SegmentedControl, File, Toggle, and Stepper. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Access via `FormControls.Input`, `FormControls.Select`, etc.
 
 ## Features
 
@@ -17,6 +17,7 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, ColorPi
 - **ColorPicker:** Hex color picker with **Floating UI** dialog pattern (desktop popover + **≤768px** bottom sheet), saturation/value canvas, hue slider, and synchronized HEX + RGB channels. Trigger shows swatch + normalized **`#RRGGBB`** value, supports `clearable`, `readOnly`, hidden `name` field, and `onOpen`/`onClose`.
 - **Checkbox:** Group-first API — pass an `options` array (single item is fine for one checkbox). Renders `<fieldset>` + `<legend>` with `value: CheckboxValue[]` + `onChange(values, e)`. Each option supports `description` and an optional `icon`. Set `variant="card"` for tile-style options; use `cardControlAlign="start"` | `"end"` for the checkbox corner (left / right in LTR). **`dataTestId`** on the group adds suffixed test ids for E2E (see **E2E / test selectors** below).
 - **Radio:** Each row is a native `radio` (visually hidden) with a custom ring/dot aligned like Checkbox/Toggle; unique `id` is derived from `name` + `value` so groups never get duplicate ids. Use `fieldset`/`legend` for the group label. **`dataTestId`** on the group uses the same suffix scheme as Checkbox.
+- **SegmentedControl:** Compact single-select segmented field (equal-width segments) for 2-5 mutually exclusive options. Supports text, icon+label, and icon-only options (`ariaLabel` required for icon-only). Uses `fieldset`/`legend`, native radios, and the same suffix test-id pattern as Radio/Checkbox plus `-error`.
 - **File:** File picker with `button` (default) and `card` variants. Both render a removable file list below the trigger; the card variant adds a dashed drop zone with drag-and-drop. Use `multiple`, `accept`, `buttonLabel`, `dropZoneText` to tailor the UX.
 - **Toggle:** Accessible switch (`checkbox` + `role="switch"`) with track/thumb; `checked` / `defaultChecked` and `onChange(checked: boolean)`
 - **Stepper:** Text input for form stepper flows (label, placeholder, error)
@@ -189,6 +190,7 @@ import { FormControls, Icon } from "cleanplate";
 ```jsx
 const [on, setOn] = useState(false);
 const [pick, setPick] = useState("a");
+const [view, setView] = useState("week");
 <FormControls.Radio
   label="Pick one"
   name="q"
@@ -203,6 +205,17 @@ const [pick, setPick] = useState("a");
 />
 <FormControls.Toggle label="Notifications" name="t" checked={on} onChange={setOn} />
 <FormControls.Toggle label="Remember me" name="t2" defaultChecked />
+<FormControls.SegmentedControl
+  label="Calendar view"
+  name="calendar-view"
+  value={view}
+  onChange={(v) => setView(String(v))}
+  options={[
+    { label: "Day", value: "day" },
+    { label: "Week", value: "week" },
+    { label: "Month", value: "month" },
+  ]}
+/>
 <FormControls.Stepper label="Step" placeholder="Enter" />
 ```
 
@@ -233,9 +246,9 @@ const [files, setFiles] = useState([]);
 </Container>
 ```
 
-## E2E / test selectors (Checkbox and Radio)
+## E2E / test selectors (Checkbox, Radio, SegmentedControl)
 
-Pass **`dataTestId="interests"`** on the group. Checkbox and Radio share the same suffix scheme:
+Pass **`dataTestId="interests"`** on the group. Checkbox, Radio, and SegmentedControl share this suffix scheme:
 
 | Suffix | Element |
 | --- | --- |
@@ -244,6 +257,7 @@ Pass **`dataTestId="interests"`** on the group. Checkbox and Radio share the sam
 | `-option-{value}` | Option row |
 | `-input-{value}` | Native input |
 | `-label-{value}` | Clickable label |
+| `-error` | Error message when `error` is set |
 
 `{value}` comes from each option's `value` prop (non-alphanumeric characters become `-`). Set **`dataTestId`** on an individual option to override only that option's `-input-{value}` id.
 
