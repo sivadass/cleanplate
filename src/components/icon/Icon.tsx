@@ -22,7 +22,7 @@ const Icon: React.FC<IconProps> = ({
 }) => {
   return (
     <span
-      className={`${styles["cp-icon"]} ${styles[size]} ${styles[color]} ${className}`}
+      className={`${styles["cp-icon"]} ${styles[`cp-icon--${size}`]} ${styles[`cp-icon--${color}`]} ${className}`}
       {...rest}
     >
       {name}

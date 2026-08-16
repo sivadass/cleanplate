@@ -19,8 +19,8 @@ const Badge: React.FC<BadgeProps> = ({
   className = "",
 }) => {
   const badgeClasses = getClassNames(
-    styles["badge"],
-    styles[variant],
+    styles["cp-badge"],
+    styles[`cp-badge--${variant}`],
     className
   );
 

@@ -46,8 +46,8 @@ const Spinner: React.FC<SpinnerProps> = ({
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const iconClasses = getClassNames(
-    styles[size],
-    styles[variant],
+    styles[`cp-spinner--${size}`],
+    variant === "dark" ? styles["cp-spinner--dark"] : "",
     marginClass,
     className
   );

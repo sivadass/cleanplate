@@ -37,14 +37,13 @@ const Typography: React.FC<TypographyProps> = ({
   ...otherProps
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
-  const alignClass = `align-${align}`;
-  const wordBreakClass = `word-break-${wordBreak}`;
+  const alignClass = `cp-typography--align-${align}`;
+  const wordBreakClass = `cp-typography--word-break-${wordBreak}`;
   const typographyClasses = getClassNames(
-    styles["typography"],
+    styles["cp-typography"],
     {
-      [styles[variant || ""]]: variant,
-      [styles["bold"]]: isBold,
-      [styles["align"]]: align,
+      [styles[`cp-typography--${variant}`]]: variant,
+      [styles["cp-typography--bold"]]: isBold,
       [styles[alignClass]]: align,
       [styles[wordBreakClass]]: wordBreak,
     },

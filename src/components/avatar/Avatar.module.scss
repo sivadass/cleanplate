@@ -1,4 +1,4 @@
-.avatar {
+.cp-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,41 +9,47 @@
   background: var(--primary-brand);
   color: var(--white);
   cursor: pointer;
-  &.small {
+
+  &.cp-avatar--small {
     width: 24px;
     height: 24px;
     font-size: 13px;
   }
-  &.medium {
+
+  &.cp-avatar--medium {
     height: 44px;
     width: 44px;
     font-size: 18px;
   }
-  &.text-length-2 {
-    &.small {
+
+  &.cp-avatar--text-length-2 {
+    &.cp-avatar--small {
       font-size: 10px;
     }
-    &.medium {
+    &.cp-avatar--medium {
       font-size: 14px;
     }
   }
-  &.text-length-3 {
-    &.small {
+
+  &.cp-avatar--text-length-3 {
+    &.cp-avatar--small {
       font-size: 10px;
     }
-    &.medium {
+    &.cp-avatar--medium {
       font-size: 14px;
     }
   }
-  &.text-length-4 {
-    &.small {
+
+  &.cp-avatar--text-length-4 {
+    &.cp-avatar--small {
       font-size: 9px;
     }
-    &.medium {
+    &.cp-avatar--medium {
       font-size: 12px;
     }
   }
-  &.image {
+
+  &.cp-avatar--image {
     background-color: var(--white);
     img {
       width: 100%;
@@ -52,7 +58,8 @@
       border-radius: var(--radius-round);
     }
   }
-  &.icon {
+
+  &.cp-avatar--icon {
     background-color: var(--primary-brand);
     display: flex;
     align-items: center;

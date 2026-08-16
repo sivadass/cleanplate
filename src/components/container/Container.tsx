@@ -67,21 +67,21 @@ const Container: React.FC<ContainerProps> = ({
   gap = "4",
   ...rest
 }) => {
-  const displayClass = `display-${display}`;
-  const justifyClass = `justify-${justify}`;
-  const alignClass = `align-${align}`;
-  const widthClass = `width-${width}`;
+  const displayClass = `cp-container--display-${display}`;
+  const justifyClass = `cp-container--justify-${justify}`;
+  const alignClass = `cp-container--align-${align}`;
+  const widthClass = `cp-container--width-${width}`;
 
   const marginStyles = getSpacingClass(margin, utilStyles, "cp-m");
   const paddingStyles = getSpacingClass(padding, utilStyles, "cp-p");
   const gapStyles = getSpacingClass(gap, utilStyles, "cp-g");
 
   const containerClasses = getClassNames(
-    styles["container"],
+    styles["cp-container"],
     paddingStyles,
     marginStyles,
     {
-      [styles["border"]]: showBorder,
+      [styles["cp-container--border"]]: showBorder,
       [styles[widthClass]]: width,
       [styles[displayClass]]: display,
       [styles[justifyClass]]: justify,

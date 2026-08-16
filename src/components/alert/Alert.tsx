@@ -57,14 +57,14 @@ const Alert: React.FC<AlertProps> = ({
 
   return (
     <div
-      className={`${styles["cp-alert"]} ${styles[variant]} ${styles[size]} ${marginClasses}`}
+      className={`${styles["cp-alert"]} ${styles[`cp-alert--${variant}`]} ${styles[`cp-alert--${size}`]} ${marginClasses}`}
     >
-      <div className={styles["contents"]}>
-        <Icon className={styles["alert-icon"]} name={iconName as MaterialIconName} size={size} />
-        <Typography className={styles["alert-message"]}>{message}</Typography>
+      <div className={styles["cp-alert-contents"]}>
+        <Icon className={styles["cp-alert-icon"]} name={iconName as MaterialIconName} size={size} />
+        <Typography className={styles["cp-alert-message"]}>{message}</Typography>
       </div>
       {canDismiss && (
-        <Button className={styles["close"]} onClick={handleClose}>
+        <Button className={styles["cp-alert-close"]} onClick={handleClose}>
           <Icon name="close" size={size} />
         </Button>
       )}
