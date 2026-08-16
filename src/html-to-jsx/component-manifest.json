@@ -1,0 +1,264 @@
+{
+  "components": {
+    "Button": {
+      "exportName": "Button",
+      "tier": 1,
+      "props": {
+        "isLoading": { "type": "boolean", "default": false },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["solid", "outline", "ghost", "icon"],
+          "default": "solid"
+        },
+        "margin": { "type": "string", "default": "0" },
+        "type": {
+          "type": "enum",
+          "values": ["button", "submit", "reset"],
+          "default": "button"
+        }
+      },
+      "slots": ["default"]
+    },
+    "Typography": {
+      "exportName": "Typography",
+      "tier": 1,
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span", "small"]
+        },
+        "margin": { "type": "string", "default": "0" },
+        "isBold": { "type": "boolean", "default": false },
+        "align": {
+          "type": "enum",
+          "values": ["left", "right", "center"],
+          "default": "left"
+        },
+        "wordBreak": {
+          "type": "enum",
+          "values": ["normal", "all", "wrap"],
+          "default": "normal"
+        }
+      },
+      "slots": ["default"]
+    },
+    "Icon": {
+      "exportName": "Icon",
+      "tier": 1,
+      "props": {
+        "name": { "type": "string", "default": "" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "color": {
+          "type": "enum",
+          "values": [
+            "black",
+            "white",
+            "gray",
+            "blue",
+            "green",
+            "red",
+            "yellow",
+            "orange"
+          ],
+          "default": "#222222"
+        }
+      }
+    },
+    "Container": {
+      "exportName": "Container",
+      "tier": 1,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "4" },
+        "display": {
+          "type": "enum",
+          "values": ["inline-block", "block", "flex", ""],
+          "default": ""
+        },
+        "align": {
+          "type": "enum",
+          "values": ["start", "center", "end", ""],
+          "default": ""
+        },
+        "justify": {
+          "type": "enum",
+          "values": [
+            "space-between",
+            "center",
+            "space-around",
+            "space-evenly",
+            "flex-end",
+            "flex-start",
+            ""
+          ],
+          "default": ""
+        },
+        "width": {
+          "type": "enum",
+          "values": [
+            "small",
+            "medium",
+            "large",
+            "extra-large",
+            "quarter",
+            "half",
+            "three-quarters",
+            "full",
+            ""
+          ],
+          "default": ""
+        },
+        "showBorder": { "type": "boolean", "default": false },
+        "gap": { "type": "string", "default": "4" }
+      },
+      "slots": ["default"]
+    },
+    "Alert": {
+      "exportName": "Alert",
+      "tier": 1,
+      "props": {
+        "message": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["success", "error", "warning", "info", "default"],
+          "default": "info"
+        },
+        "canDismiss": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Badge": {
+      "exportName": "Badge",
+      "tier": 1,
+      "props": {
+        "label": { "type": "string" },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "info", "warning", "error", "success"],
+          "default": "default"
+        }
+      }
+    },
+    "Avatar": {
+      "exportName": "Avatar",
+      "tier": 1,
+      "props": {
+        "name": { "type": "string", "default": "" },
+        "codeText": { "type": "string", "default": "" },
+        "image": { "type": "string", "default": "" },
+        "icon": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium"],
+          "default": "medium"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Spinner": {
+      "exportName": "Spinner",
+      "tier": 1,
+      "props": {
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        },
+        "icon": {
+          "type": "enum",
+          "values": [
+            "progress_activity",
+            "autorenew",
+            "sync",
+            "refresh",
+            "cached",
+            "loop"
+          ],
+          "default": "progress_activity"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "FormControls.Input": {
+      "exportName": "FormControls.Input",
+      "tier": 1,
+      "props": {
+        "name": { "type": "string" },
+        "id": { "type": "string" },
+        "defaultValue": { "type": "string" },
+        "value": { "type": "string" },
+        "label": { "type": "string", "default": "" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isRequired": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "type": { "type": "string", "default": "text" },
+        "placeholder": { "type": "string", "default": "" },
+        "error": { "type": "string", "default": "" },
+        "dataTestId": { "type": "string" },
+        "autoComplete": { "type": "string" },
+        "maxLength": { "type": "number" },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "prefix": { "type": "string" },
+        "suffix": { "type": "string" },
+        "prefixA11yLabel": { "type": "string" },
+        "suffixA11yLabel": { "type": "string" },
+        "phoneDigits": { "type": "number" }
+      }
+    },
+    "Dropdown": {
+      "exportName": "Dropdown",
+      "tier": 4,
+      "props": {
+        "placement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-end"
+        },
+        "offset": { "type": "number", "default": 4 },
+        "shift": { "type": "boolean", "default": true },
+        "flip": { "type": "boolean", "default": true },
+        "closeOnClickOutside": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true },
+        "contentClassName": { "type": "string", "default": "" },
+        "triggerLabel": { "type": "string" }
+      },
+      "slots": ["trigger", "content"]
+    }
+  }
+}

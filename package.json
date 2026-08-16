@@ -23,7 +23,12 @@
     "test:watch": "vitest",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "html-to-jsx": "tsx src/html-to-jsx/cli.ts",
+    "generate-component-manifest": "node scripts/generate-component-manifest.mjs"
+  },
+  "bin": {
+    "cleanplate-html-to-jsx": "scripts/cleanplate-html-to-jsx.mjs"
   },
   "repository": {
     "type": "git",
@@ -81,6 +86,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.72.0",
     "storybook": "^7.5.3",
+    "tsx": "^4.23.12",
     "typescript": "^5.9.3",
     "vite": "^5.4.11",
     "vitest": "^3.2.0"
