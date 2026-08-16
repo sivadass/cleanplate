@@ -6,20 +6,27 @@ export const getInitials = (name = "") => {
   return initials.substring(0, 2);
 };
 
+const PREFIXED = /^(m|p|g)-/;
+
 export const getSpacingClass = (marginConfig, styleObject, prefix) => {
-  if (typeof marginConfig === "string") {
-    const prefixedClass = `${prefix}-${marginConfig}`;
-    return styleObject[prefixedClass];
-  }
+  const one = (value) => {
+    if (typeof value !== "string" || value.length === 0) return "";
+    if (PREFIXED.test(value)) {
+      if (process.env.NODE_ENV !== "production") {
+        throw new Error(
+          `Spacing value "${value}" includes the ${prefix}- prefix. Use suffix-only (e.g. "0", "b-2").`,
+        );
+      }
+      return "";
+    }
+    const key = `${prefix}-${value}`;
+    return styleObject[key] ?? "";
+  };
+  if (typeof marginConfig === "string") return one(marginConfig);
   if (Array.isArray(marginConfig)) {
-    return marginConfig
-      .map((mConfig) => {
-        const prefixedClass = `${prefix}-${mConfig}`;
-        return styleObject[prefixedClass];
-      })
-      .join(" ");
+    return marginConfig.map(one).filter(Boolean).join(" ");
   }
-  return "m-0";
+  return "";
 };
 
 export const getUniqueId = () => {

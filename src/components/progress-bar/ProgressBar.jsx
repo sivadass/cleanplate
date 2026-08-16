@@ -10,7 +10,7 @@ import getClassNames from "../../utils/get-class-names";
 const ProgressBar = ({
   size = "medium",
   variant = "default",
-  margin = "m-0",
+  margin = "0",
   className = "progress-bar",
   trackClassName = "progress-bar-track",
   value,

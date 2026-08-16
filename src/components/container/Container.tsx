@@ -54,8 +54,8 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Container: React.FC<ContainerProps> = ({
   children,
-  margin = "m-0",
-  padding = "p-4",
+  margin = "0",
+  padding = "4",
   display = "",
   align = "",
   justify = "",

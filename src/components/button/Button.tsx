@@ -37,7 +37,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isFluid = false,
       size = "medium",
       variant = "solid",
-      margin = "m-0",
+      margin = "0",
       onClick,
       className = "",
       type = "button",

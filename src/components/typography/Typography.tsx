@@ -29,7 +29,7 @@ export interface TypographyProps {
 const Typography: React.FC<TypographyProps> = ({
   children,
   variant,
-  margin = "m-0",
+  margin = "0",
   className = "",
   isBold = false,
   align = "left",
