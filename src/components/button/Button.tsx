@@ -48,13 +48,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
     const buttonClasses = getClassNames(
-      styles["button"],
-      styles[size],
-      styles[variant],
+      styles["cp-button"],
+      styles[`cp-button--${size}`],
+      variant !== "solid" ? styles[`cp-button--${variant}`] : "",
       {
-        [styles["fluid"]]: isFluid,
-        [styles["disabled"]]: isDisabled,
-        [styles["loading"]]: isLoading,
+        [styles["cp-button--fluid"]]: isFluid,
+        [styles["cp-button--disabled"]]: isDisabled,
+        [styles["cp-button--loading"]]: isLoading,
       },
       marginClass,
       className,
