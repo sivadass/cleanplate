@@ -46,15 +46,16 @@ const Animated: React.FC<AnimatedProps> = ({
   const domRef = useRef<HTMLElement>(null);
   const [isVisible, setVisible] = useState(false);
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
-  const delayClass = `delay-${delay}`;
+  const delayClass = `cp-animated--delay-${delay}`;
+  const animationClass = `cp-animated--${animationType}`;
 
   const animatedClasses = getClassNames(
-    styles["animated"],
+    styles["cp-animated"],
     {
-      [styles[animationType]]: isVisible,
-      [styles["is-block"]]: isBlock,
+      [styles[animationClass]]: isVisible,
+      [styles["cp-animated--block"]]: isBlock,
     },
-    styles[delayClass],
+    delay > 0 ? styles[delayClass] : undefined,
     marginClass,
     className
   );

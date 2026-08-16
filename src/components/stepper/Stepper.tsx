@@ -43,22 +43,22 @@ interface StepperItemProps {
 }
 
 const StepperItem: React.FC<StepperItemProps> = ({ step, order, onClick }) => {
-  const stepperItemClasses = getClassNames(styles["stepper-item"], {
-    [styles["active"]]: step.isActive,
-    [styles["completed"]]: step.isCompleted,
+  const stepperItemClasses = getClassNames(styles["cp-stepper-item"], {
+    [styles["cp-stepper-item--active"]]: step.isActive,
+    [styles["cp-stepper-item--completed"]]: step.isCompleted,
   });
   return (
     <div className={stepperItemClasses}>
-      <span className={styles["stepper-count"]} onClick={onClick}>
+      <span className={styles["cp-stepper-count"]} onClick={onClick}>
         {step.isCompleted ? (
-          <Icon name="done" className={styles["stepper-count-icon"]} />
+          <Icon name="done" className={styles["cp-stepper-count-icon"]} />
         ) : (
           order
         )}
       </span>
-      <span className={styles.separator} />
+      <span className={styles["cp-stepper-separator"]} />
       <a
-        className={styles["stepper-link"]}
+        className={styles["cp-stepper-link"]}
         onClick={onClick}
         href={step.key}
       >
@@ -77,10 +77,7 @@ const Stepper: React.FC<StepperProps> = ({
 }) => {
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const stepperClasses = getClassNames(
-    styles["stepper"],
-    {
-      [styles[variant ?? ""]]: !!variant,
-    },
+    styles["cp-stepper"],
     marginClass,
     className
   );

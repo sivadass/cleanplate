@@ -51,9 +51,13 @@ const Pills: React.FC<PillsProps> = ({
 }) => {
   const [labelValue, setLabelValue] = useState(label);
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
-  const pillsClasses = getClassNames(styles["pills"], marginClass, className);
-  const pillsWrapperClasses = getClassNames(styles["pill-wrapper"], {
-    [styles[mode]]: mode,
+  const pillsClasses = getClassNames(
+    styles["cp-pills"],
+    marginClass,
+    className
+  );
+  const pillsWrapperClasses = getClassNames(styles["cp-pills-wrapper"], {
+    [styles[`cp-pills--${mode}`]]: mode,
   });
 
   const handleSubmit = () => {
@@ -89,13 +93,13 @@ const Pills: React.FC<PillsProps> = ({
     <Container className={pillsClasses}>
       <Container className={pillsWrapperClasses}>
         {(mode === "read-only" || mode === "remove") && (
-          <Typography className={styles["pill-label"]}>{label}</Typography>
+          <Typography className={styles["cp-pills-label"]}>{label}</Typography>
         )}
         {mode === "edit" && (
           <FormControls.Input
             name="pill"
             id="pill-input"
-            className={styles["pill-input"]}
+            className={styles["cp-pills-input"]}
             value={labelValue}
             defaultValue=""
             placeholder={placeholder}
@@ -108,13 +112,13 @@ const Pills: React.FC<PillsProps> = ({
         )}
         {(mode === "remove" || mode === "edit") && (
           <Button
-            className={styles["pill-button"]}
+            className={styles["cp-pills-button"]}
             variant="icon"
             onClick={() => handlePillAction()}
             isDisabled={isLoading || isDisabled || labelValue === ""}
           >
             {isLoading ? (
-              <Spinner className={styles["pill-spinner"]} />
+              <Spinner className={styles["cp-pills-spinner"]} />
             ) : (
               <Icon name={mode === "edit" ? "check" : "close"} />
             )}

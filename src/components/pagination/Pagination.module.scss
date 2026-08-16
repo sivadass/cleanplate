@@ -1,36 +1,35 @@
-.pagination {
+.cp-pagination {
+  &.cp-pagination--default {
+  }
+
+  &.cp-pagination--minimal {
+  }
 }
 
-.default {
-}
-
-.minimal {
-}
-
-.pagination-wrapper {
+.cp-pagination-wrapper {
   justify-content: space-between;
-  .total-count,
-  .show-per-page {
+  .cp-pagination-total-count,
+  .cp-pagination-show-per-page {
     min-width: 180px;
   }
   @media (max-width: 768px) {
     justify-content: center;
     flex-wrap: wrap;
-    .button-wrapper {
+    .cp-pagination-buttons-wrapper {
       order: 1;
     }
-    .total-count {
+    .cp-pagination-total-count {
       order: 2;
       min-width: auto;
     }
-    .show-per-page {
+    .cp-pagination-show-per-page {
       order: 3;
       min-width: auto;
     }
   }
 }
 
-.pagination-button {
+.cp-pagination-button {
   min-width: 50px !important;
   padding: 0;
 }

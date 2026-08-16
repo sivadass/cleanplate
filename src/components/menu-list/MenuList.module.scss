@@ -1,5 +1,5 @@
 .cp-menu-list {
-  .wrapper {
+  &-wrapper {
     ul {
       display: flex;
       list-style: none;
@@ -16,34 +16,34 @@
           line-height: 24px;
           text-align: center;
           border-radius: 24px;
-          .menuItemIcon {
+          .cp-menu-list-item-icon {
             color: var(--primary-brand);
             opacity: 0.85;
           }
-          .menuItemLabel {
+          .cp-menu-list-item-label {
             color: var(--primary-brand);
           }
           &:hover {
             background: var(--primary-brand-light);
           }
         }
-        &.active {
+        &.cp-menu-list-item--active {
           a {
             background: var(--primary-brand);
-            .menuItemIcon {
+            .cp-menu-list-item-icon {
               color: var(--white);
               opacity: 0.85;
             }
-            .menuItemLabel {
+            .cp-menu-list-item-label {
               color: var(--white);
             }
           }
         }
       }
-      &.horizontal {
+      &.cp-menu-list--horizontal {
         flex-direction: row;
       }
-      &.vertical {
+      &.cp-menu-list--vertical {
         flex-direction: column;
         li {
           a {

@@ -58,9 +58,9 @@ const Footer: React.FC<FooterProps> = ({
   return (
     <footer className={footerClasses}>
       {children && (
-        <div className={styles.footerCustomContents}>{children}</div>
+        <div className={styles["cp-footer-custom-contents"]}>{children}</div>
       )}
-      <div className={styles.copyright}>
+      <div className={styles["cp-footer-copyright"]}>
         <Typography variant="small" align="center">
           &copy; {`${currentYear} ${brandName}. All rights reserved.`}
           {poweredByLabel && poweredByLink && (

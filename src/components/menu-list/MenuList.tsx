@@ -75,8 +75,8 @@ const MenuList: React.FC<MenuListProps> = ({
 
   return (
     <div className={menuListClassNames}>
-      <div className={styles.wrapper}>
-        <ul className={styles[direction]}>
+      <div className={styles["cp-menu-list-wrapper"]}>
+        <ul className={styles[`cp-menu-list--${direction}`]}>
           {items?.map((item, index) => {
             const isActive = item.value === activeItem;
             const delay = index * 100;
@@ -84,15 +84,23 @@ const MenuList: React.FC<MenuListProps> = ({
               <Animated
                 as="li"
                 key={item.value}
-                className={isActive ? styles.active : undefined}
+                className={
+                  isActive ? styles["cp-menu-list-item--active"] : undefined
+                }
                 delay={delay}
                 animationType="fade-in-left"
               >
                 <a href={item.value} onClick={(e) => handleMenuClick(e, item)}>
                   {item?.icon && (
-                    <Icon className={styles.menuItemIcon} name={item.icon} />
+                    <Icon
+                      className={styles["cp-menu-list-item-icon"]}
+                      name={item.icon}
+                    />
                   )}
-                  <Typography variant="span" className={styles.menuItemLabel}>
+                  <Typography
+                    variant="span"
+                    className={styles["cp-menu-list-item-label"]}
+                  >
                     {item.label}
                   </Typography>
                 </a>

@@ -118,9 +118,9 @@ const Pagination: React.FC<PaginationProps> = ({
   const isNextBtnDisabled = currentPage === totalPages;
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const paginationClasses = getClassNames(
-    styles["pagination"],
+    styles["cp-pagination"],
     {
-      [styles[variant]]: variant,
+      [styles[`cp-pagination--${variant}`]]: variant,
     },
     marginClass,
     className
@@ -156,20 +156,20 @@ const Pagination: React.FC<PaginationProps> = ({
         display="flex"
         align="center"
         justify="center"
-        className={styles["pagination-wrapper"]}
+        className={styles["cp-pagination-wrapper"]}
       >
-        <Container className={styles["total-count"]}>
+        <Container className={styles["cp-pagination-total-count"]}>
           <Typography variant="small">{`Total ${totalLabel}: ${totalItems}`}</Typography>
         </Container>
         <Container
           display="flex"
           align="center"
           justify="center"
-          className={styles["buttons-wrapper"]}
+          className={styles["cp-pagination-buttons-wrapper"]}
         >
           <Button
             variant="outline"
-            className={styles["pagination-button"]}
+            className={styles["cp-pagination-button"]}
             isDisabled={isPrevBtnDisabled}
             onClick={() => handlePrev()}
           >
@@ -182,7 +182,7 @@ const Pagination: React.FC<PaginationProps> = ({
             return (
               <Button
                 variant={isActive ? "solid" : "outline"}
-                className={styles["pagination-button"]}
+                className={styles["cp-pagination-button"]}
                 key={btnId}
                 isDisabled={btn === null}
                 onClick={() => handlePageChange(btn)}
@@ -194,7 +194,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
           <Button
             variant="outline"
-            className={styles["pagination-button"]}
+            className={styles["cp-pagination-button"]}
             isDisabled={isNextBtnDisabled}
             onClick={() => handleNext()}
           >
@@ -205,7 +205,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <Container
           display="flex"
           align="center"
-          className={styles["show-per-page"]}
+          className={styles["cp-pagination-show-per-page"]}
         >
           <Typography variant="small">Show per page</Typography>
           <FormControls.Select
