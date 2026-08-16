@@ -34,7 +34,23 @@ Use the BEM-style modifiers documented in each component's `docs/<Component>.md`
 
 ## Spacing utilities
 
-Spacing props still use **suffix-only** values (`margin="b-2"`, `padding="4"`). The generated utility classes are `cp-m-*`, `cp-p-*`, and `cp-g-*`.
+Spacing props still use **suffix-only** values (`margin="b-2"`, `padding="4"`). The generated utility classes are `cp-m-*`, `cp-p-*`, and `cp-g-*`. Do not pass CSS-class-style prefixes (`m-`, `p-`, `g-`) in prop values.
+
+## Prototype attributes (`data-cp`) are opt-in
+
+`data-cp` / `data-cp-*` are **not** a production API. Published `dist/` components do **not** emit them on consumer markup. They exist only for HTML prototypes and Storybook round-trips.
+
+To emit them in an app (prototype only), wrap the tree in `CleanPlatePrototypeAttributes`. Storybook already does this; production apps should leave the provider off.
+
+## HTML → JSX
+
+Design agents author canonical-frame HTML with `data-cp` + public `cp-*` classes, then convert mechanically — do not invent JSX by hand:
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+See `llms.txt` (HTML prototype section), `skills/cleanplate-html-to-react/SKILL.md`, and each component's `## HTML prototype` recipe in `docs/<Component>.md`. Sticker sheet: `docs/html/kit.html`.
 
 ## Storybook and visual tests
 

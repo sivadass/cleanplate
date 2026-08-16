@@ -50,6 +50,15 @@ describe("convertHtmlToJsx", () => {
     expect(jsx).toContain('placement="bottom-start"');
   });
 
+  it("hard-fails unknown data-cp-* props", () => {
+    expect(() =>
+      convertHtmlToJsx(
+        `<button data-cp="Button" data-cp-href="/x">X</button>`,
+        manifest,
+      ),
+    ).toThrow(/Unknown prop "href".*docs\//);
+  });
+
   it("hard-fails function props", () => {
     expect(() =>
       convertHtmlToJsx(

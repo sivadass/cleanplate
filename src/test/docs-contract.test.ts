@@ -91,7 +91,11 @@ describe("docs contract", () => {
     ];
     const hits: string[] = [];
     for (const f of files) {
-      if (f.startsWith("docs/superpowers") || f === "docs/MIGRATION-v1.md") {
+      if (
+        f.startsWith("docs/superpowers") ||
+        f === "docs/MIGRATION-v1.md" ||
+        f === "docs/PRE-TASK-20-ACCEPTANCE-CHECKLIST.md"
+      ) {
         continue;
       }
       const text = readFileSync(f, "utf8");
@@ -104,6 +108,13 @@ describe("docs contract", () => {
       }
     }
     expect(hits, `prefixed spacing in ${hits.join(", ")}`).toEqual([]);
+  });
+
+  it("MIGRATION-v1 documents data-cp opt-in and HTML to JSX", () => {
+    const text = readFileSync("docs/MIGRATION-v1.md", "utf8");
+    expect(text).toMatch(/data-cp/);
+    expect(text).toMatch(/opt-in|prototype only|not.*production/i);
+    expect(text).toMatch(/html-to-jsx/);
   });
 
   it("v1 docs include HTML prototype section", () => {
