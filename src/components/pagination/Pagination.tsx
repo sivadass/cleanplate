@@ -209,10 +209,10 @@ const Pagination: React.FC<PaginationProps> = ({
         >
           <Typography variant="small">Show per page</Typography>
           <FormControls.Select
-            className={styles["rows-select"]}
+            className={styles["cp-pagination-rows-select"]}
             placeholder="Rows per page"
-            triggerClassName={styles["rows-select-trigger"]}
-            contentsClassName={styles["rows-select-content"]}
+            triggerClassName={styles["cp-pagination-rows-select-trigger"]}
+            contentsClassName={styles["cp-pagination-rows-select-content"]}
             options={rowsPerPageOptions}
             value={defaultRowsPerPage}
             clearable={false}

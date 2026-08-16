@@ -5,14 +5,14 @@ import { expectPublicClass } from "../../test/class-contract";
 
 describe("Pagination public classes", () => {
   it("root uses cp-pagination", () => {
-    render(
+    const { container } = render(
       <Pagination
         totalItems={100}
         currentPage={1}
         onPageChange={vi.fn()}
       />,
     );
-    const root = screen.getByText(/Total Items/i).closest('[class*="cp-pagination"]');
+    const root = container.querySelector(".cp-pagination");
     expect(root).toBeTruthy();
     expectPublicClass(root!, "cp-pagination");
   });

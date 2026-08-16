@@ -34,11 +34,11 @@
   padding: 0;
 }
 
-.rows-select {
+.cp-pagination-rows-select {
   width: auto;
   min-width: 54px;
   margin-bottom: 0;
-  .rows-select-trigger {
+  .cp-pagination-rows-select-trigger {
     margin-bottom: 0;
     height: 36px;
     padding: 0 4px 0 8px;
@@ -48,7 +48,7 @@
       color: var(--primary-brand);
     }
   }
-  .rows-select-content {
+  .cp-pagination-rows-select-content {
     top: 35px;
     width: 86px;
     left: auto;

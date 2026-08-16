@@ -29,7 +29,7 @@ export default {
     commonjs(),
     postcss({
       modules: {
-        generateScopedName: "[local]-[hash:base64:5]",
+        generateScopedName: "[local]",
       },
       plugins: [],
       minimize: true,

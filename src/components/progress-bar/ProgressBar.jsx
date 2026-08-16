@@ -18,8 +18,8 @@ const ProgressBar = ({
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const progressBarClasses = getClassNames(
-    styles[size],
-    styles[variant],
+    styles[`cp-progress-bar--${size}`],
+    styles[`cp-progress-bar--${variant}`],
     marginClass,
     className
   );

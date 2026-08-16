@@ -24,7 +24,9 @@ export interface BottomSheetProps {
 }
 
 const SNAP_POINTS = [0.3, 0.6, 0.9] as const;
-const SNAP_CLASS: Record<(typeof SNAP_POINTS)[number], string> = {
+type SnapPoint = (typeof SNAP_POINTS)[number];
+
+const SNAP_CLASS: Record<SnapPoint, string> = {
   0.3: "cp-bottom-sheet--snap-30",
   0.6: "cp-bottom-sheet--snap-60",
   0.9: "cp-bottom-sheet--snap-90",
@@ -39,7 +41,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [currentSnap, setCurrentSnap] = useState(SNAP_POINTS[0]);
+  const [currentSnap, setCurrentSnap] = useState<SnapPoint>(SNAP_POINTS[0]);
   const [isDragging, setIsDragging] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
   const startY = useRef(0);
@@ -51,7 +53,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const bottomSheetClassNames = getClassNames(
     styles["cp-bottom-sheet"],
-    !isDragging && styles[SNAP_CLASS[currentSnap as keyof typeof SNAP_CLASS]],
+    !isDragging && styles[SNAP_CLASS[currentSnap]],
     marginClass,
     className
   );
@@ -118,7 +120,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       return;
     }
 
-    let closestSnap = SNAP_POINTS[0];
+    let closestSnap: SnapPoint = SNAP_POINTS[0];
     let minDistance = Math.abs(currentPosition - SNAP_POINTS[0]);
 
     SNAP_POINTS.forEach((snap) => {

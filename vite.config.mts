@@ -1,12 +1,11 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
-import { cssModulesScopedName } from "./src/test/css-modules-name";
 
 export default defineConfig({
   plugins: [react()],
   css: {
     modules: {
-      generateScopedName: cssModulesScopedName,
+      generateScopedName: "[local]",
     },
     preprocessorOptions: {
       scss: {
@@ -20,5 +19,10 @@ export default defineConfig({
     include: ["src/**/*.test.{ts,tsx}"],
     setupFiles: ["./vitest.setup.ts"],
     passWithNoTests: true,
+    css: {
+      modules: {
+        classNameStrategy: "non-scoped",
+      },
+    },
   },
 });

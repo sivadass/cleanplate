@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Breaking
+
+- **Public CSS (1.0):** CSS Modules no longer append hash suffixes. All component classes are stable `cp-*` names in `dist/index.css`. See `docs/MIGRATION-v1.md`.
+
 ### Added
 
 - **`Drawer`**: slide-in overlay panel (`placement`, mobile bottom sheet at ≤768px, optional header/footer, `dataTestId`). See `docs/Drawer.md`.

@@ -5,8 +5,8 @@ import { expectPublicClass } from "../../test/class-contract";
 
 describe("Pills public classes", () => {
   it("root uses cp-pills", () => {
-    render(<Pills label="Tag" mode="read-only" />);
-    const root = screen.getByText("Tag").closest('[class*="cp-pills"]');
+    const { container } = render(<Pills label="Tag" mode="read-only" />);
+    const root = container.querySelector(".cp-pills");
     expect(root).toBeTruthy();
     expectPublicClass(root!, "cp-pills");
   });
