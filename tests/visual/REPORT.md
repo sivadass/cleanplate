@@ -6,6 +6,7 @@
 | Task 5 baseline refresh | test:visual:update (Container padding bugfix) | PASS (346 snapshots) |
 | Task 7–8 baseline refresh | test:visual:update (Wave A/B cp-* renames) | PASS (346 snapshots) |
 | Task 12 unhash gate | test:visual (no snapshot update) | PASS (346/346) |
+| Task 14 data-cp gate | test:visual (Storybook provider on) | PASS (346/346) |
 
 ## Task 5 baseline refresh (2026-08-16)
 
