@@ -4,6 +4,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 const GAP_OPTIONS = SPACING_OPTIONS.slice(0, 10);
 
@@ -67,6 +69,22 @@ const Container: React.FC<ContainerProps> = ({
   gap = "4",
   ...rest
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Container",
+    { margin, padding, display, align, justify, width, showBorder, gap },
+    {
+      margin: "0",
+      padding: "4",
+      display: "",
+      align: "",
+      justify: "",
+      width: "",
+      showBorder: false,
+      gap: "4",
+    },
+  );
   const displayClass = `cp-container--display-${display}`;
   const justifyClass = `cp-container--justify-${justify}`;
   const alignClass = `cp-container--align-${align}`;
@@ -99,6 +117,7 @@ const Container: React.FC<ContainerProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={containerClasses}
       onClick={handleClick}
       style={style}

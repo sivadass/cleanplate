@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 
 /**
@@ -94,6 +96,47 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   step = 1,
   layout = "default",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Stepper",
+    {
+      name,
+      id,
+      defaultValue,
+      value,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      margin,
+      placeholder,
+      error,
+      dataTestId,
+      min,
+      max,
+      step,
+      layout,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      placeholder: "",
+      error: "",
+      dataTestId: undefined,
+      step: 1,
+      layout: "default",
+      name: undefined,
+      id: undefined,
+      defaultValue: undefined,
+      value: undefined,
+      min: undefined,
+      max: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -221,7 +264,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   );
 
   return (
-    <div className={fieldWrapperClassName}>
+    <div {...dataCp} className={fieldWrapperClassName}>
       {label && (
         <label className={styles["cp-form-label"]} htmlFor={inputId}>
           {label}{" "}

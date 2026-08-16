@@ -4,6 +4,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass, getInitials } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
 
@@ -43,6 +45,13 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   },
   ref,
 ) {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Avatar",
+    { size, margin, name, codeText, image, icon },
+    { size: "medium", margin: "0", name: "", codeText: "", image: "", icon: undefined },
+  );
   const getCodeText = (value: string) => {
     if (!value) return "";
     // Keep only letters and numbers, then display the last 4 chars.
@@ -79,6 +88,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
 
   return (
     <div
+      {...dataCp}
       className={avatarClasses}
       onClick={handleClick}
       title={avatarTitle}

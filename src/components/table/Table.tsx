@@ -8,6 +8,8 @@ import {
 } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Typography from "../typography";
 import Pagination from "../pagination";
 import Container from "../container";
@@ -245,6 +247,41 @@ const Table: React.FC<TableProps> = ({
   cellVerticalAlign = "top",
   mobileColumns = null,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Table",
+    {
+      variant,
+      margin,
+      padding,
+      columns,
+      data,
+      totalItems,
+      totalLabel,
+      currentPage,
+      rowsPerPage,
+      rowsPerPageOptions,
+      hidePagination,
+      cellVerticalAlign,
+      mobileColumns,
+    },
+    {
+      variant: undefined,
+      margin: "0",
+      padding: "4",
+      columns: [],
+      data: [],
+      totalItems: 0,
+      totalLabel: "Items",
+      currentPage: 1,
+      rowsPerPage: 10,
+      rowsPerPageOptions: undefined,
+      hidePagination: false,
+      cellVerticalAlign: "top",
+      mobileColumns: null,
+    },
+  );
   const [viewportWidth, setViewportWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1024
   );
@@ -291,7 +328,7 @@ const Table: React.FC<TableProps> = ({
   }, []);
 
   return (
-    <div className={tableClasses}>
+    <div {...dataCp} className={tableClasses}>
       {canShowMobileColumns && mobileColumns ? (
         <div className={styles["cp-table-mobile-columns"]}>
           {data?.map((row) => {

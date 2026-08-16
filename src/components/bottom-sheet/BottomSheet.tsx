@@ -4,6 +4,8 @@ import styles from "./BottomSheet.module.scss";
 import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import utilStyles from "../../styles/utils.module.scss";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
@@ -41,6 +43,13 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   isOpen,
   onClose,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "BottomSheet",
+    { isOpen, margin },
+    { margin: undefined },
+  );
   const [currentSnap, setCurrentSnap] = useState<SnapPoint>(SNAP_POINTS[0]);
   const [isDragging, setIsDragging] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -158,6 +167,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   return (
     <div className={styles["cp-bottom-sheet-overlay"]}>
       <div
+        {...dataCp}
         ref={sheetRef}
         style={{
           transform: isDragging ? undefined : `translateY(${(1 - currentSnap) * 100}%)`,

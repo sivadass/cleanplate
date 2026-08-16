@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import Button from "./Button";
+import { CleanPlatePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { expectPublicClass } from "../../test/class-contract";
 
 describe("Button public classes", () => {
@@ -14,6 +15,26 @@ describe("Button public classes", () => {
   it("does not emit data-cp by default", () => {
     render(<Button>Save</Button>);
     expect(screen.getByRole("button").getAttribute("data-cp")).toBeNull();
+  });
+
+  it("does not emit data-cp without provider", () => {
+    render(<Button variant="outline">A</Button>);
+    expect(screen.getByRole("button").getAttribute("data-cp")).toBeNull();
+  });
+
+  it("emits non-default props inside provider", () => {
+    render(
+      <CleanPlatePrototypeAttributes>
+        <Button variant="outline" margin="b-2">
+          A
+        </Button>
+      </CleanPlatePrototypeAttributes>,
+    );
+    const el = screen.getByRole("button");
+    expect(el.getAttribute("data-cp")).toBe("Button");
+    expect(el.getAttribute("data-cp-variant")).toBe("outline");
+    expect(el.getAttribute("data-cp-margin")).toBe("b-2");
+    expect(el.getAttribute("data-cp-size")).toBeNull();
   });
 
   it("ignores click when isDisabled", async () => {

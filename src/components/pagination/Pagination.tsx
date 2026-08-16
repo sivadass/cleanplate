@@ -9,6 +9,8 @@ import Button from "../button";
 import Container from "../container";
 import FormControls from "../form-controls";
 import Typography from "../typography";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 const getPaginationButtons = (
   totalItems: number = 120,
@@ -105,6 +107,28 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
   onRowsPerPageChange,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Pagination",
+    {
+      variant,
+      margin,
+      totalItems,
+      totalLabel,
+      currentPage,
+      rowsPerPage,
+      rowsPerPageOptions,
+    },
+    {
+      variant: "default",
+      margin: "0",
+      totalLabel: "Items",
+      currentPage: 1,
+      rowsPerPage: 10,
+      rowsPerPageOptions: defaultRowsPerPageOptions,
+    },
+  );
   const visibleButtons = getPaginationButtons(
     totalItems,
     rowsPerPage,
@@ -151,7 +175,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className={paginationClasses}>
+    <div {...dataCp} className={paginationClasses}>
       <Container
         display="flex"
         align="center"

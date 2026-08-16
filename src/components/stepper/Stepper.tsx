@@ -4,6 +4,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
@@ -75,6 +77,13 @@ const Stepper: React.FC<StepperProps> = ({
   config,
   onClick,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Stepper",
+    { variant, margin, config },
+    { variant: undefined, margin: "0" },
+  );
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const stepperClasses = getClassNames(
     styles["cp-stepper"],
@@ -90,7 +99,7 @@ const Stepper: React.FC<StepperProps> = ({
   };
 
   return (
-    <div className={stepperClasses}>
+    <div {...dataCp} className={stepperClasses}>
       {config.map((step, index) => (
         <StepperItem
           key={step.key}

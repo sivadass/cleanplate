@@ -15,6 +15,8 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Button from "../button";
 import MenuList from "../menu-list";
 import type { MenuListItem } from "../menu-list";
@@ -110,6 +112,28 @@ const Header: React.FC<HeaderProps> = ({
   margin,
   menuItems,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Header",
+    {
+      logoUrl,
+      activeMenuItem,
+      showCenterMenu,
+      menuItems,
+      size,
+      variant,
+      margin,
+    },
+    {
+      logoUrl: undefined,
+      activeMenuItem: undefined,
+      showCenterMenu: true,
+      size: undefined,
+      variant: undefined,
+      margin: undefined,
+    },
+  );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const { refs, context } = useFloating({
@@ -152,7 +176,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <div className={headerClassNames}>
+    <div {...dataCp} className={headerClassNames}>
       <div className={styles["cp-header-wrapper"]}>
         <div className={styles["cp-header-left"]}>
           <Button

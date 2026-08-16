@@ -24,6 +24,8 @@ import { format } from "date-fns/format";
 import { enUS } from "date-fns/locale/en-US";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import styles from "./FormControls.module.scss";
 import {
   DEFAULT_FORM_FIELD_MARGIN,
@@ -134,6 +136,61 @@ const DatePicker: React.FC<DateProps> = ({
   onClose,
   className = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Date",
+    {
+      value,
+      defaultValue,
+      placeholder,
+      dateFormat,
+      id,
+      name,
+      minDate,
+      maxDate,
+      disabledDates,
+      disabledDaysOfWeek,
+      locale,
+      weekStartsOn,
+      clearable,
+      isDisabled,
+      readOnly,
+      label,
+      error,
+      isFluid,
+      margin,
+      dataTestId,
+      isRequired,
+      popoverPlacement,
+      className,
+    },
+    {
+      defaultValue: null,
+      placeholder: "Select date",
+      dateFormat: "MMM dd, yyyy",
+      locale: enUS,
+      weekStartsOn: 0,
+      clearable: true,
+      isDisabled: false,
+      readOnly: false,
+      label: "",
+      error: "",
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      dataTestId: undefined,
+      isRequired: false,
+      popoverPlacement: "bottom-start",
+      className: "",
+      value: undefined,
+      id: undefined,
+      name: undefined,
+      minDate: undefined,
+      maxDate: undefined,
+      disabledDates: undefined,
+      disabledDaysOfWeek: undefined,
+    },
+  );
   const generatedId = useId();
   const fieldId = id ?? generatedId;
   const labelId = `${fieldId}-label`;
@@ -388,6 +445,7 @@ const DatePicker: React.FC<DateProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
         {

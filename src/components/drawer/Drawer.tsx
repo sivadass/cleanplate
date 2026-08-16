@@ -17,6 +17,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import { useMediaQuery } from "../../utils/use-media-query";
 
 /** Frozen breakpoint: matches Select, Date, Table mobile behavior. */
@@ -184,6 +186,51 @@ const Drawer: React.FC<DrawerProps> = ({
   onTertiaryButtonClick,
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Drawer",
+    {
+      isOpen,
+      placement,
+      size,
+      title,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      margin,
+      overlayClassName,
+      contentClassName,
+      headerClassName,
+      bodyClassName,
+      footerClassName,
+      ariaLabel,
+      primaryButtonLabel,
+      secondaryButtonLabel,
+      tertiaryButtonLabel,
+      dataTestId,
+    },
+    {
+      isOpen: false,
+      placement: "right",
+      size: "medium",
+      title: "",
+      showCloseButton: true,
+      closeOnOverlayClick: true,
+      closeOnEscape: true,
+      margin: "0",
+      overlayClassName: "",
+      contentClassName: "",
+      headerClassName: "",
+      bodyClassName: "",
+      footerClassName: "",
+      ariaLabel: undefined,
+      primaryButtonLabel: "",
+      secondaryButtonLabel: "",
+      tertiaryButtonLabel: "",
+      dataTestId: undefined,
+    },
+  );
   const titleId = useId();
   const isMobileSheet = useMediaQuery(DRAWER_MOBILE_SHEET_MEDIA);
   const effectivePlacement: DrawerPlacement = isMobileSheet
@@ -283,6 +330,7 @@ const Drawer: React.FC<DrawerProps> = ({
       />
       <FloatingFocusManager context={context} modal returnFocus>
         <div
+          {...dataCp}
           ref={refs.setFloating}
           className={drawerClasses}
           style={panelTransitionStyles}

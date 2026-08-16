@@ -5,6 +5,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ButtonSize = "small" | "medium";
 
@@ -45,6 +47,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) {
+    const prototypeEnabled = usePrototypeAttributes();
+    const dataCp = emitDataCp(
+      prototypeEnabled,
+      "Button",
+      { variant, size, isLoading, isDisabled, isFluid, margin, type },
+      {
+        variant: "solid",
+        size: "medium",
+        isLoading: false,
+        isDisabled: false,
+        isFluid: false,
+        margin: "0",
+        type: "button",
+      },
+    );
+
     const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
     const buttonClasses = getClassNames(
@@ -70,6 +88,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
+        {...dataCp}
         ref={ref}
         className={buttonClasses}
         type={type}

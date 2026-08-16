@@ -4,6 +4,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type TypographyVariant = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "small";
 
@@ -36,6 +38,13 @@ const Typography: React.FC<TypographyProps> = ({
   wordBreak = "normal",
   ...otherProps
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Typography",
+    { variant, margin, isBold, align, wordBreak },
+    { margin: "0", isBold: false, align: "left", wordBreak: "normal" },
+  );
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const alignClass = `cp-typography--align-${align}`;
   const wordBreakClass = `cp-typography--word-break-${wordBreak}`;
@@ -54,55 +63,55 @@ const Typography: React.FC<TypographyProps> = ({
   switch (variant) {
     case "h1":
       return (
-        <h1 className={typographyClasses} {...otherProps}>
+        <h1 {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </h1>
       );
     case "h2":
       return (
-        <h2 className={typographyClasses} {...otherProps}>
+        <h2 {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </h2>
       );
     case "h3":
       return (
-        <h3 className={typographyClasses} {...otherProps}>
+        <h3 {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </h3>
       );
     case "h4":
       return (
-        <h4 className={typographyClasses} {...otherProps}>
+        <h4 {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </h4>
       );
     case "h5":
       return (
-        <h5 className={typographyClasses} {...otherProps}>
+        <h5 {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </h5>
       );
     case "h6":
       return (
-        <h6 className={typographyClasses} {...otherProps}>
+        <h6 {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </h6>
       );
     case "span":
       return (
-        <span className={typographyClasses} {...otherProps}>
+        <span {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </span>
       );
     case "small":
       return (
-        <small className={typographyClasses} {...otherProps}>
+        <small {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </small>
       );
     default:
       return (
-        <p className={typographyClasses} {...otherProps}>
+        <p {...dataCp} className={typographyClasses} {...otherProps}>
           {children}
         </p>
       );

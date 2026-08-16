@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./Badge.module.scss";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type BadgeVariant = "default" | "info" | "warning" | "error" | "success";
 
@@ -18,13 +20,20 @@ const Badge: React.FC<BadgeProps> = ({
   variant = "default",
   className = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Badge",
+    { label, variant },
+    { variant: "default", label: undefined },
+  );
   const badgeClasses = getClassNames(
     styles["cp-badge"],
     styles[`cp-badge--${variant}`],
     className
   );
 
-  return <p className={badgeClasses}>{label}</p>;
+  return <p {...dataCp} className={badgeClasses}>{label}</p>;
 };
 
 export default Badge;

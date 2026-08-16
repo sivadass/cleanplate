@@ -9,6 +9,8 @@ import Button from "../button";
 import Container from "../container";
 import FormControls from "../form-controls";
 import Typography from "../typography";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Spinner from "../spinner";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
@@ -49,6 +51,20 @@ const Pills: React.FC<PillsProps> = ({
   isLoading = false,
   mode = "read-only",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Pills",
+    { margin, label, placeholder, isDisabled, isLoading, mode },
+    {
+      margin: "0",
+      label: "",
+      placeholder: "Add tag",
+      isDisabled: false,
+      isLoading: false,
+      mode: "read-only",
+    },
+  );
   const [labelValue, setLabelValue] = useState(label);
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const pillsClasses = getClassNames(
@@ -90,7 +106,7 @@ const Pills: React.FC<PillsProps> = ({
   };
 
   return (
-    <Container className={pillsClasses}>
+    <Container {...dataCp} className={pillsClasses}>
       <Container className={pillsWrapperClasses}>
         {(mode === "read-only" || mode === "remove") && (
           <Typography className={styles["cp-pills-label"]}>{label}</Typography>

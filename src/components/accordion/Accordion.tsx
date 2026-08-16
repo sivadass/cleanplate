@@ -6,6 +6,8 @@ import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import styles from "./Accordion.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export interface AccordionItem {
   title: string;
@@ -52,6 +54,30 @@ const Accordion: React.FC<AccordionProps> = ({
   padding,
   className = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Accordion",
+    {
+      items,
+      allowMultiple,
+      defaultExpandedIndex,
+      iconVariant,
+      variant,
+      titleTag,
+      margin,
+      padding,
+    },
+    {
+      allowMultiple: false,
+      defaultExpandedIndex: 0,
+      iconVariant: "expand",
+      variant: "grouped",
+      titleTag: "span",
+      margin: undefined,
+      padding: undefined,
+    },
+  );
   const [openIndices, setOpenIndices] = useState<Set<number>>(() =>
     getInitialOpenIndices(defaultExpandedIndex, items.length)
   );
@@ -90,7 +116,7 @@ const Accordion: React.FC<AccordionProps> = ({
   );
 
   return (
-    <div className={rootClassName}>
+    <div {...dataCp} className={rootClassName}>
       {items.map((item, index) => {
         const isOpen = openIndices.has(index);
         const headerId = `accordion-header-${index}`;

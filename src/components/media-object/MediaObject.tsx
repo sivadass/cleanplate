@@ -5,6 +5,8 @@ import styles from "./MediaObject.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import type { SpacingOption } from "../typography";
 
 export type MediaObjectMargin = string | SpacingOption[];
@@ -68,6 +70,39 @@ const MediaObject: React.FC<MediaObjectProps> = ({
   onClick,
   ...rest
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "MediaObject",
+    {
+      mediaIcon,
+      mediaImage,
+      mediaAvatar,
+      mediaAvatarCodeText,
+      title,
+      subtitle,
+      description,
+      meta,
+      action,
+      descriptionLineClamp,
+      margin,
+      padding,
+    },
+    {
+      mediaIcon: "",
+      mediaImage: "",
+      mediaAvatar: "",
+      mediaAvatarCodeText: "",
+      subtitle: undefined,
+      description: undefined,
+      meta: undefined,
+      action: undefined,
+      descriptionLineClamp: 2,
+      margin: "0",
+      padding: "0",
+      className: "media-object",
+    },
+  );
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const paddingClass = getSpacingClass(padding, utilStyles, "cp-p");
   const classNames = getClassNames(
@@ -117,7 +152,7 @@ const MediaObject: React.FC<MediaObjectProps> = ({
       : undefined;
 
   return (
-    <div className={classNames} onClick={handleClick} {...rest}>
+    <div {...dataCp} className={classNames} onClick={handleClick} {...rest}>
       <div className={styles["cp-media-object-media"]}>
         <Avatar
           name={mediaAvatar}

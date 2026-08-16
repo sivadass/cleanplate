@@ -11,6 +11,8 @@ import { getUniqueId, getVariantIcon } from "../../utils/common";
 import styles from "./Toast.module.scss";
 import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ToastVariant = "info" | "error" | "warning" | "success";
 
@@ -116,6 +118,13 @@ const ToastItem = ({
  */
 const Toast = forwardRef<ToastRefHandle, ToastProps>(
   ({ autoClose = false, autoCloseTime = 5000 }, ref) => {
+    const prototypeEnabled = usePrototypeAttributes();
+    const dataCp = emitDataCp(
+      prototypeEnabled,
+      "Toast",
+      { autoClose, autoCloseTime },
+      { autoClose: false, autoCloseTime: 5000 },
+    );
     const [toasts, setToasts] = useState<ToastItemWithId[]>([]);
     const toastsRef = useRef(toasts);
     toastsRef.current = toasts;
@@ -153,7 +162,7 @@ const Toast = forwardRef<ToastRefHandle, ToastProps>(
     }
 
     return ReactDOM.createPortal(
-      <div className={styles["cp-toast-container"]}>
+      <div {...dataCp} className={styles["cp-toast-container"]}>
         {toasts.map((t) => (
           <ToastItem
             key={t.id}

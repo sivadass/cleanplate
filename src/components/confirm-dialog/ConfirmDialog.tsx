@@ -4,6 +4,8 @@ import Button from "../button";
 import Icon from "../icon";
 import styles from "./ConfirmDialog.module.scss";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ConfirmDialogSize = "small" | "medium" | "large";
 
@@ -59,6 +61,37 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   className = "",
   overlayClassName = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "ConfirmDialog",
+    {
+      isOpen,
+      title,
+      description,
+      primaryButtonLabel,
+      secondaryButtonLabel,
+      size,
+      variant,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      overlayClassName,
+    },
+    {
+      isOpen: false,
+      title: "Confirm Action",
+      description: "",
+      primaryButtonLabel: "Confirm",
+      secondaryButtonLabel: "Cancel",
+      size: "small",
+      variant: "default",
+      showCloseButton: true,
+      closeOnOverlayClick: true,
+      closeOnEscape: true,
+      overlayClassName: "",
+    },
+  );
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
@@ -146,6 +179,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       aria-labelledby="confirm-dialog-title"
     >
       <div
+        {...dataCp}
         ref={modalRef}
         className={modalClasses}
         tabIndex={-1}

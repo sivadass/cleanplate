@@ -9,6 +9,8 @@ import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import styles from "./FeedbackState.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 
@@ -92,6 +94,47 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
   className = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FeedbackState",
+    {
+      variant,
+      title,
+      titleTag,
+      description,
+      illustration,
+      illustrationAlt,
+      icon,
+      size,
+      primaryAction,
+      secondaryAction,
+      onRetry,
+      retryLabel,
+      errorCode,
+      errorDetails,
+      role,
+      margin,
+      dataTestId,
+    },
+    {
+      titleTag: "h2",
+      description: undefined,
+      illustration: undefined,
+      illustrationAlt: "",
+      icon: undefined,
+      size: "medium",
+      primaryAction: undefined,
+      secondaryAction: undefined,
+      onRetry: undefined,
+      retryLabel: "Try again",
+      errorCode: undefined,
+      errorDetails: undefined,
+      role: undefined,
+      margin: "0",
+      dataTestId: undefined,
+    },
+  );
   const titleId = useId();
   const resolvedRole = role ?? defaultRoleForVariant(variant);
   const resolvedPrimary = resolvePrimaryAction(primaryAction, onRetry, retryLabel);
@@ -152,6 +195,7 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
   };
 
   const rootProps: React.HTMLAttributes<HTMLDivElement> & { "data-testid"?: string } = {
+    ...dataCp,
     className: rootClassName,
     "data-testid": dataTestId,
   };

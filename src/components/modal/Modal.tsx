@@ -17,6 +17,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ModalSize = "small" | "medium" | "large" | "fullscreen";
 
@@ -113,6 +115,39 @@ const Modal: React.FC<ModalProps> = ({
   onSecondaryButtonClick,
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Modal",
+    {
+      isOpen,
+      title,
+      size,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      margin,
+      overlayClassName,
+      contentClassName,
+      primaryButtonLabel,
+      secondaryButtonLabel,
+      dataTestId,
+    },
+    {
+      isOpen: false,
+      title: "",
+      size: "medium",
+      showCloseButton: true,
+      closeOnOverlayClick: true,
+      closeOnEscape: true,
+      margin: "0",
+      overlayClassName: "",
+      contentClassName: "",
+      primaryButtonLabel: "",
+      secondaryButtonLabel: "",
+      dataTestId: undefined,
+    },
+  );
   const titleId = useId();
   const { refs, context } = useFloating({
     open: isOpen,
@@ -175,6 +210,7 @@ const Modal: React.FC<ModalProps> = ({
       >
         <FloatingFocusManager context={context} modal returnFocus>
           <div
+            {...dataCp}
             ref={refs.setFloating}
             className={modalClasses}
             style={modalTransitionStyles}

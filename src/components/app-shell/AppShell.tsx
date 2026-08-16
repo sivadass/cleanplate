@@ -26,6 +26,8 @@ import type { FooterProps } from "../footer";
 import Button from "../button";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import { useMediaQuery } from "../../utils/use-media-query";
 import styles from "./AppShell.module.scss";
 
@@ -128,6 +130,23 @@ const AppShell: React.FC<AppShellProps> = ({
   className = "",
   contentClassName = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "AppShell",
+    {
+      sidebarWidth,
+      mobileSidebarDrawer: mobileSidebarDrawerProp,
+      mobileSidebarDrawerLabel,
+      contentClassName,
+    },
+    {
+      sidebarWidth: "272px",
+      mobileSidebarDrawer: undefined,
+      mobileSidebarDrawerLabel: "Main navigation",
+      contentClassName: "",
+    },
+  );
   const rootClassName = getClassNames(styles["cp-app-shell"], className);
   const headerProps = isHeaderProps(header) ? header : null;
   const renderedHeader: React.ReactNode = headerProps
@@ -244,7 +263,7 @@ const AppShell: React.FC<AppShellProps> = ({
     drawerEnabled && (mobileDrawerOpen || mobileDrawerExitAnimating);
 
   return (
-    <div className={rootClassName}>
+    <div {...dataCp} className={rootClassName}>
       {header !== undefined && (
         <div className={styles["cp-app-shell__header"]}>
           {renderedHeader}

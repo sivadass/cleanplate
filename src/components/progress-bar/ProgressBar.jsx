@@ -6,6 +6,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 const ProgressBar = ({
   size = "medium",
@@ -15,6 +17,20 @@ const ProgressBar = ({
   trackClassName = "progress-bar-track",
   value,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "ProgressBar",
+    { size, variant, margin, trackClassName, value },
+    {
+      size: "medium",
+      variant: "default",
+      margin: "0",
+      className: "progress-bar",
+      trackClassName: "progress-bar-track",
+      value: undefined,
+    },
+  );
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const progressBarClasses = getClassNames(
@@ -29,7 +45,7 @@ const ProgressBar = ({
   };
 
   return (
-    <Container className={[styles["cp-progress-bar"], progressBarClasses]}>
+    <Container {...dataCp} className={[styles["cp-progress-bar"], progressBarClasses]}>
       <Container
         className={[styles["cp-progress-bar-track"], trackClassName]}
       ></Container>

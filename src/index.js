@@ -30,6 +30,7 @@ import Drawer from "./components/drawer";
 import Table from "./components/table";
 import Pagination from "./components/pagination";
 import Pills from "./components/pills";
+export { CleanPlatePrototypeAttributes } from "./prototype/CleanPlatePrototypeAttributes";
 
 export {
   AppShell,
@@ -63,4 +64,5 @@ export {
   Table,
   Pagination,
   Pills,
+  CleanPlatePrototypeAttributes,
 };

@@ -7,6 +7,8 @@ import MenuList from "../menu-list";
 import type { DropdownRenderTriggerParams } from "../dropdown";
 import type { MenuListItem } from "../menu-list";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import styles from "./PageHeader.module.scss";
 
 export interface PageHeaderMoreMenuItem {
@@ -91,6 +93,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   moreMenuContent,
   className = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "PageHeader",
+    { title, subtitle, primaryCta, moreMenuItems, moreMenuContent },
+    {
+      subtitle: undefined,
+      primaryCta: undefined,
+      moreMenuItems: undefined,
+      moreMenuContent: undefined,
+    },
+  );
   const hasMoreMenuItems = (moreMenuItems?.length ?? 0) > 0;
   const hasMoreMenu = hasMoreMenuItems || moreMenuContent != null;
   const hasActions = primaryCta != null || hasMoreMenu;
@@ -123,7 +137,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   );
 
   return (
-    <header className={rootClassName}>
+    <header {...dataCp} className={rootClassName}>
       <div className={styles["cp-page-header-row"]}>
         <div className={styles["cp-page-header-start"]}>
           {renderHeadingBlock(title, "h4", styles["cp-page-header-title"])}
