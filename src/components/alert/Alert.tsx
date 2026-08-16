@@ -42,7 +42,7 @@ const Alert: React.FC<AlertProps> = ({
   const [isVisible, setIsVisible] = useState(true);
 
   const iconName = getVariantIcon(variant);
-  const marginClasses = getSpacingClass(margin, utilsStyles, "m");
+  const marginClasses = getSpacingClass(margin, utilsStyles, "cp-m");
 
   const handleClose = () => {
     setIsVisible(false);

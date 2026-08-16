@@ -72,9 +72,9 @@ const Container: React.FC<ContainerProps> = ({
   const alignClass = `align-${align}`;
   const widthClass = `width-${width}`;
 
-  const marginStyles = getSpacingClass(margin, utilStyles, "m");
-  const paddingStyles = getSpacingClass(padding, utilStyles, "p");
-  const gapStyles = getSpacingClass(gap, utilStyles, "g");
+  const marginStyles = getSpacingClass(margin, utilStyles, "cp-m");
+  const paddingStyles = getSpacingClass(padding, utilStyles, "cp-p");
+  const gapStyles = getSpacingClass(gap, utilStyles, "cp-g");
 
   const containerClasses = getClassNames(
     styles["container"],

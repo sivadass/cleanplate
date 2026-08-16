@@ -111,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({
   menuItems,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const { refs, context } = useFloating({
     open: isMobileMenuOpen,
     onOpenChange: setIsMobileMenuOpen,

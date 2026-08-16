@@ -68,8 +68,8 @@ const MediaObject: React.FC<MediaObjectProps> = ({
   onClick,
   ...rest
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
-  const paddingClass = getSpacingClass(padding, utilStyles, "p");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
+  const paddingClass = getSpacingClass(padding, utilStyles, "cp-p");
   const classNames = getClassNames(
     styles["cp-media-object"],
     marginClass,

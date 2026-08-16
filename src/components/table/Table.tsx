@@ -254,8 +254,8 @@ const Table: React.FC<TableProps> = ({
 
   const canShowMobileColumns = isMobile && isMobileColumnsConfigured;
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
-  const paddingClass = getSpacingClass(padding, utilStyles, "p");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
+  const paddingClass = getSpacingClass(padding, utilStyles, "cp-p");
   const tableClasses = getClassNames(
     styles["table"],
     {

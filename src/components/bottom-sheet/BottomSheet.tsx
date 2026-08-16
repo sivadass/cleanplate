@@ -43,7 +43,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   const isDraggingRef = useRef(false);
   isDraggingRef.current = isDragging;
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const bottomSheetClassNames = getClassNames(
     styles["cp-bottom-sheet"],
     marginClass,

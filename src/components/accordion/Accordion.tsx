@@ -78,8 +78,8 @@ const Accordion: React.FC<AccordionProps> = ({
   const useHeading = titleTag !== "span";
   const TitleTag = titleTag;
 
-  const marginClass = margin ? getSpacingClass(margin, utilStyles, "m") : undefined;
-  const paddingClass = padding ? getSpacingClass(padding, utilStyles, "p") : undefined;
+  const marginClass = margin ? getSpacingClass(margin, utilStyles, "cp-m") : undefined;
+  const paddingClass = padding ? getSpacingClass(padding, utilStyles, "cp-p") : undefined;
 
   const rootClassName = getClassNames(
     styles["cp-accordion"],

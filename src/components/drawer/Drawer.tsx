@@ -222,7 +222,7 @@ const Drawer: React.FC<DrawerProps> = ({
   const role = useRole(context, { role: "dialog" });
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const drawerClasses = getClassNames(
     styles["cp-drawer"],

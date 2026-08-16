@@ -9,4 +9,4 @@ export const DEFAULT_FORM_FIELD_MARGIN = "b-4";
 
 export const getFormFieldMarginClass = (
   margin: FormFieldMargin = DEFAULT_FORM_FIELD_MARGIN,
-): string | undefined => getSpacingClass(margin, utilStyles, "m");
+): string | undefined => getSpacingClass(margin, utilStyles, "cp-m");

@@ -116,7 +116,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const totalPages = Math.ceil(totalItems / rowsPerPage);
   const isPrevBtnDisabled = currentPage === 1;
   const isNextBtnDisabled = currentPage === totalPages;
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const paginationClasses = getClassNames(
     styles["pagination"],
     {

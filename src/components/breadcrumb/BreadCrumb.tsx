@@ -37,7 +37,7 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
   margin,
   className = "",
 }) => {
-  const marginClass = margin ? getSpacingClass(margin, utilStyles, "m") : undefined;
+  const marginClass = margin ? getSpacingClass(margin, utilStyles, "cp-m") : undefined;
   const rootClassName = getClassNames(
     styles["cp-breadcrumb"],
     separator === "slash" && styles["cp-breadcrumb-separator-slash"],

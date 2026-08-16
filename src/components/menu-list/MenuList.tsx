@@ -58,7 +58,7 @@ const MenuList: React.FC<MenuListProps> = ({
   direction = "horizontal",
   onMenuClick,
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const menuListClassNames = getClassNames(
     styles["cp-menu-list"],

@@ -109,7 +109,7 @@ const Statistic: React.FC<StatisticProps> = ({
   className = "",
   dataTestId,
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const showHeaderRow = variant === "card" || icon != null;
   const showTitle = title != null && title !== "";
   const showProgress = !loading && progress != null;

@@ -36,7 +36,7 @@ const Typography: React.FC<TypographyProps> = ({
   wordBreak = "normal",
   ...otherProps
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const alignClass = `align-${align}`;
   const wordBreakClass = `word-break-${wordBreak}`;
   const typographyClasses = getClassNames(

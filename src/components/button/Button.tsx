@@ -45,7 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) {
-    const marginClass = getSpacingClass(margin, utilStyles, "m");
+    const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
     const buttonClasses = getClassNames(
       styles["button"],

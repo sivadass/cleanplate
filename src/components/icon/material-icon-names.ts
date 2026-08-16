@@ -1,6 +1,6 @@
 // This file is auto-generated. Do not edit manually.
-// Generated on: 2026-08-06T05:24:38.382Z
-// Total icons: 4268
+// Generated on: 2026-08-16T02:50:28.420Z
+// Total icons: 4271
 
 /**
  * All available Material Symbol names (Material Symbols Outlined variable font).
@@ -1158,6 +1158,7 @@ export const MATERIAL_ICON_NAMES = [
   'discover_tune',
   'dishwasher',
   'dishwasher_gen',
+  'display_add',
   'display_external_input',
   'display_settings',
   'distance',
@@ -1734,6 +1735,7 @@ export const MATERIAL_ICON_NAMES = [
   'globe_2_question',
   'globe_asia',
   'globe_book',
+  'globe_clock',
   'globe_location_pin',
   'globe_uk',
   'glucose',
@@ -3789,6 +3791,7 @@ export const MATERIAL_ICON_NAMES = [
   'tenancy',
   'terminal',
   'terminal_2',
+  'terminal_add',
   'terrain',
   'text_ad',
   'text_ad_off',
@@ -5738,6 +5741,7 @@ export const ICON_CATEGORIES = {
     'discover_tune',
     'dishwasher',
     'dishwasher_gen',
+    'display_add',
     'display_external_input',
     'display_settings',
     'distance',
@@ -6222,6 +6226,7 @@ export const ICON_CATEGORIES = {
     'globe_2_question',
     'globe_asia',
     'globe_book',
+    'globe_clock',
     'globe_location_pin',
     'globe_uk',
     'glucose',
@@ -8107,6 +8112,7 @@ export const ICON_CATEGORIES = {
     'tenancy',
     'terminal',
     'terminal_2',
+    'terminal_add',
     'terrain',
     'text_ad',
     'text_ad_off',

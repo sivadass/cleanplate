@@ -44,7 +44,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   margin = "0",
   className = "",
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const iconClasses = getClassNames(
     styles[size],
     styles[variant],

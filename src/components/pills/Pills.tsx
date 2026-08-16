@@ -50,7 +50,7 @@ const Pills: React.FC<PillsProps> = ({
   mode = "read-only",
 }) => {
   const [labelValue, setLabelValue] = useState(label);
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const pillsClasses = getClassNames(styles["pills"], marginClass, className);
   const pillsWrapperClasses = getClassNames(styles["pill-wrapper"], {
     [styles[mode]]: mode,

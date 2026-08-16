@@ -43,7 +43,7 @@ const Footer: React.FC<FooterProps> = ({
   children,
   className = "",
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const footerClasses = getClassNames(
     styles["cp-footer"],

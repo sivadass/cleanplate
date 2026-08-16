@@ -45,7 +45,7 @@ const Animated: React.FC<AnimatedProps> = ({
 }) => {
   const domRef = useRef<HTMLElement>(null);
   const [isVisible, setVisible] = useState(false);
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const delayClass = `delay-${delay}`;
 
   const animatedClasses = getClassNames(

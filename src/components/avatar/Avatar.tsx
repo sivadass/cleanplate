@@ -59,7 +59,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
       : fallbackText.length === 3
         ? styles["text-length-3"]
         : styles["text-length-2"];
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const avatarClasses = getClassNames(
     styles["avatar"],
     styles[size],

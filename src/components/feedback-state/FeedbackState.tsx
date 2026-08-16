@@ -95,7 +95,7 @@ const FeedbackState: React.FC<FeedbackStateProps> = ({
   const titleId = useId();
   const resolvedRole = role ?? defaultRoleForVariant(variant);
   const resolvedPrimary = resolvePrimaryAction(primaryAction, onRetry, retryLabel);
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const buttonSize = mapSizeToButtonSize(size);
   const isDecorativeMedia = !illustrationAlt;
 

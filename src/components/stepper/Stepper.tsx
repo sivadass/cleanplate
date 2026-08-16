@@ -75,7 +75,7 @@ const Stepper: React.FC<StepperProps> = ({
   config,
   onClick,
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const stepperClasses = getClassNames(
     styles["stepper"],
     {
