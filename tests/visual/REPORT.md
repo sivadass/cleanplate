@@ -26,3 +26,11 @@ Previous 40 failures were layout correction from Container padding fix, not spac
 **Action:** One-time `--update-snapshots` documenting intentional BEM rename migration. Not token or layout drift.
 
 **Result:** `npm run test:visual` PASS (346/346).
+
+## Task 12 unhash gate (2026-08-16)
+
+**Change:** `generateScopedName: "[local]"` in Rollup, Vite, and Storybook. `dist/index.css` now exposes stable `.cp-*` selectors (no hash suffixes).
+
+**Pre-check:** Cross-file CSS module local name collision scan — 0 duplicates.
+
+**Visual gate:** `npm run test:visual` PASS (346/346) against Task 0 baselines without `--update-snapshots`. Confirms unhash did not change rendered output.

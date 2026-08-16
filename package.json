@@ -13,7 +13,7 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build-package": "npm run generate-icons && rollup -c && npm run build-types",
+    "build-package": "npm run generate-icons && rollup -c && npm run build-types && node scripts/copy-tokens.mjs",
     "build-storybook": "storybook build",
     "build-types": "tsc --emitDeclarationOnly && cp src/index.d.ts dist/index.d.ts",
     "generate-icons": "node scripts/generate-icons.js",
