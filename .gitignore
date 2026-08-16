@@ -132,3 +132,7 @@ out
 /storybook-static
 /dist
 src/generated/
+
+# Playwright artifacts (snapshots are committed)
+playwright-report/
+test-results/

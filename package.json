@@ -21,6 +21,8 @@
     "storybook": "storybook dev -p 6001",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
     "type-check": "tsc --noEmit"
   },
   "repository": {
@@ -46,6 +48,7 @@
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.28.5",
     "@fluentui/storybook-llms-extractor": "^0.0.2",
+    "@playwright/test": "^1.62.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -67,6 +70,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^3.2.0",
     "cheerio": "^1.2.0",
+    "http-server": "^14.1.1",
     "jsdom": "^26.1.0",
     "node-fetch": "^2.7.0",
     "prop-types": "^15.8.1",
