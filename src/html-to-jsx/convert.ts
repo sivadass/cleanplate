@@ -1,14 +1,11 @@
 import * as cheerio from "cheerio";
-
-type HtmlElement = {
-  type: string;
-  name: string;
-  attribs: Record<string, string>;
-};
-
-type HtmlNode = HtmlElement | { type: string; data?: string };
 import type { ComponentManifest, Manifest } from "./manifest";
 import { docsPathForComponent } from "./manifest";
+import { ConvertError } from "./convert-errors";
+import { convertTableComponent } from "./table-convert";
+import type { HtmlElement, HtmlNode } from "./convert-types";
+
+export { ConvertError } from "./convert-errors";
 
 const GEOMETRY_STYLE_PROPS = new Set([
   "top",
@@ -46,16 +43,6 @@ const ATTR_RENAMES: Record<string, string> = {
   maxlength: "maxLength",
   autocomplete: "autoComplete",
 };
-
-export class ConvertError extends Error {
-  readonly docsPath?: string;
-
-  constructor(message: string, docsPath?: string) {
-    super(docsPath ? `${message} See ${docsPath}.` : message);
-    this.name = "ConvertError";
-    this.docsPath = docsPath;
-  }
-}
 
 function dataCpAttrToProp(attr: string): string {
   const kebab = attr.replace(/^data-cp-/, "");
@@ -270,7 +257,30 @@ function convertTaggedComponent(
     );
   }
 
+  if (componentName === "Table") {
+    return convertTableComponent($, element, entry);
+  }
+
+  const recipe = element.attribs["data-cp-recipe"];
+  if (entry.tier === 3) {
+    if (!recipe) {
+      throw new ConvertError(
+        `${componentName} requires data-cp-recipe.`,
+        docsPathForComponent(componentName),
+      );
+    }
+    if (entry.recipes && !entry.recipes.includes(recipe)) {
+      throw new ConvertError(
+        `Illegal recipe "${recipe}" on ${componentName}.`,
+        docsPathForComponent(componentName),
+      );
+    }
+  }
+
   const props = collectDataCpProps(element, componentName, entry);
+  if (recipe && !props.recipe) {
+    props.recipe = recipe;
+  }
   const propStrings: string[] = Object.entries(props).map(([name, value]) =>
     formatJsxProp(name, value),
   );

@@ -118,6 +118,26 @@ const items = [
 - **defaultExpandedIndex:** Single number or array; controls which panel(s) are open on initial render.
 - **Margin/padding:** Uses suffix API (e.g. `"0"` → m-0, `"4"` → p-4).
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Accordion" data-cp-variant="grouped" class="cp-accordion"></div>
+```
+
+### React equivalent
+
+```jsx
+<Accordion />
+```
+
 ## Related Components / Links
 
 - Container (layout around accordion)

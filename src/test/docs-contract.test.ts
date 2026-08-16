@@ -45,6 +45,25 @@ const V1_HTML_PROTOTYPE_DOCS = [
   "Spinner",
 ] as const;
 
+const TIER1_HTML_PROTOTYPE_DOCS = [
+  "Accordion",
+  "MenuList",
+  "Stepper",
+  "Pills",
+  "MediaObject",
+  "BreadCrumb",
+  "Header",
+  "Footer",
+  "PageHeader",
+  "FeedbackState",
+  "Statistic",
+  "ProgressBar",
+  "Animated",
+  "Pagination",
+] as const;
+
+const TIER3_HTML_PROTOTYPE_DOCS = ["Table", "AppShell"] as const;
+
 describe("docs contract", () => {
   it("has a markdown file per top-level component", () => {
     const missing = EXPORTS.filter((name) => !existsSync(`docs/${name}.md`));
@@ -84,5 +103,20 @@ describe("docs contract", () => {
     }
     const formControls = readFileSync("docs/FormControls.md", "utf8");
     expect(formControls).toMatch(/### HTML prototype \(Input\)/);
+  });
+
+  it("Tier 1 Wave B docs include HTML prototype section", () => {
+    for (const name of TIER1_HTML_PROTOTYPE_DOCS) {
+      const text = readFileSync(`docs/${name}.md`, "utf8");
+      expect(text, `docs/${name}.md`).toMatch(/## HTML prototype/);
+    }
+  });
+
+  it("Tier 3 docs include HTML prototype section", () => {
+    for (const name of TIER3_HTML_PROTOTYPE_DOCS) {
+      const text = readFileSync(`docs/${name}.md`, "utf8");
+      expect(text, `docs/${name}.md`).toMatch(/## HTML prototype/);
+      expect(text).toMatch(/data-cp-recipe/);
+    }
   });
 });

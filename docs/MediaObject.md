@@ -194,6 +194,26 @@ import { MediaObject, Typography } from "cleanplate";
 - **Spacing**: Margin and padding use the same spacing token shape as elsewhere (`string` or `SpacingOption[]` arrays).
 - **Interaction**: Whole row is clickable when `onClick` is supplied; avatar receives the same handler for consistency.
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="MediaObject" data-cp-title="Ada Lovelace" data-cp-subtitle="Engineer" class="cp-media-object"></div>
+```
+
+### React equivalent
+
+```jsx
+<MediaObject title="Ada Lovelace" subtitle="Engineer" />
+```
+
 ## Related Components / Links
 
 - **Avatar** — media slot (`mediaAvatar`, `mediaImage`, `mediaIcon`).

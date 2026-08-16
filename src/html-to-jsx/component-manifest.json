@@ -228,6 +228,310 @@
         "phoneDigits": { "type": "number" }
       }
     },
+    "Accordion": {
+      "exportName": "Accordion",
+      "tier": 1,
+      "props": {
+        "allowMultiple": { "type": "boolean", "default": false },
+        "iconVariant": {
+          "type": "enum",
+          "values": ["expand", "plus"],
+          "default": "expand"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["grouped", "spaced"],
+          "default": "grouped"
+        },
+        "titleTag": {
+          "type": "enum",
+          "values": ["span", "h2", "h3", "h4", "h5", "h6"],
+          "default": "span"
+        },
+        "margin": { "type": "string" },
+        "padding": { "type": "string" }
+      }
+    },
+    "MenuList": {
+      "exportName": "MenuList",
+      "tier": 1,
+      "props": {
+        "activeItem": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"]
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"]
+        },
+        "direction": {
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "default": "horizontal"
+        },
+        "margin": { "type": "string" }
+      }
+    },
+    "Stepper": {
+      "exportName": "Stepper",
+      "tier": 1,
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["horizontal", "vertical"]
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Pills": {
+      "exportName": "Pills",
+      "tier": 1,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "Add tag" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isLoading": { "type": "boolean", "default": false },
+        "mode": {
+          "type": "enum",
+          "values": ["read-only", "edit", "remove"],
+          "default": "read-only"
+        }
+      }
+    },
+    "MediaObject": {
+      "exportName": "MediaObject",
+      "tier": 1,
+      "props": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "description": { "type": "string" },
+        "meta": { "type": "string" },
+        "mediaIcon": { "type": "string", "default": "" },
+        "mediaImage": { "type": "string", "default": "" },
+        "mediaAvatar": { "type": "string", "default": "" },
+        "mediaAvatarCodeText": { "type": "string", "default": "" },
+        "descriptionLineClamp": { "type": "number", "default": 2 },
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "0" }
+      }
+    },
+    "BreadCrumb": {
+      "exportName": "BreadCrumb",
+      "tier": 1,
+      "props": {
+        "separator": {
+          "type": "enum",
+          "values": ["slash", "chevron"],
+          "default": "chevron"
+        },
+        "ariaLabel": { "type": "string", "default": "Breadcrumb" },
+        "margin": { "type": "string" }
+      }
+    },
+    "Header": {
+      "exportName": "Header",
+      "tier": 1,
+      "props": {
+        "logoUrl": { "type": "string" },
+        "activeMenuItem": { "type": "string" },
+        "showCenterMenu": { "type": "boolean", "default": true },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"]
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"]
+        },
+        "margin": { "type": "string" }
+      }
+    },
+    "Footer": {
+      "exportName": "Footer",
+      "tier": 1,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "large"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        },
+        "brandName": { "type": "string", "default": "" },
+        "poweredByLabel": { "type": "string", "default": "" },
+        "poweredByLink": { "type": "string", "default": "" }
+      }
+    },
+    "PageHeader": {
+      "exportName": "PageHeader",
+      "tier": 1,
+      "props": {},
+      "slots": ["title", "subtitle", "primaryCta", "moreMenuContent"]
+    },
+    "FeedbackState": {
+      "exportName": "FeedbackState",
+      "tier": 1,
+      "props": {
+        "variant": { "type": "enum", "values": ["empty", "error"] },
+        "title": { "type": "string" },
+        "titleTag": {
+          "type": "enum",
+          "values": ["h1", "h2", "h3", "h4", "h5", "h6", "p"],
+          "default": "h2"
+        },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "retryLabel": { "type": "string", "default": "Try again" },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Statistic": {
+      "exportName": "Statistic",
+      "tier": 1,
+      "props": {
+        "title": { "type": "string" },
+        "value": { "type": "string" },
+        "variant": {
+          "type": "enum",
+          "values": ["plain", "card"],
+          "default": "plain"
+        },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "loading": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "ProgressBar": {
+      "exportName": "ProgressBar",
+      "tier": 1,
+      "props": {
+        "value": { "type": "number" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "primary",
+            "secondary",
+            "success",
+            "info",
+            "error",
+            "warning"
+          ],
+          "default": "default"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Animated": {
+      "exportName": "Animated",
+      "tier": 1,
+      "props": {
+        "animationType": {
+          "type": "enum",
+          "values": [
+            "fade-in-top",
+            "fade-in-right",
+            "fade-in-bottom",
+            "fade-in-left",
+            "fade-out-top",
+            "fade-out-right",
+            "fade-out-bottom",
+            "fade-out-left"
+          ],
+          "default": "fade-in-bottom"
+        },
+        "as": {
+          "type": "enum",
+          "values": ["span", "div", "li", "section", "article", "p"],
+          "default": "span"
+        },
+        "margin": { "type": "string", "default": "0" },
+        "delay": { "type": "number", "default": 0 },
+        "isBlock": { "type": "boolean", "default": false }
+      }
+    },
+    "Pagination": {
+      "exportName": "Pagination",
+      "tier": 1,
+      "props": {
+        "totalItems": { "type": "number" },
+        "totalLabel": { "type": "string", "default": "Items" },
+        "currentPage": { "type": "number", "default": 1 },
+        "rowsPerPage": { "type": "number", "default": 10 },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "minimal"],
+          "default": "default"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Table": {
+      "exportName": "Table",
+      "tier": 3,
+      "props": {
+        "recipe": {
+          "type": "enum",
+          "values": ["desktop", "mobile"]
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "compact"]
+        },
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "4" },
+        "totalItems": { "type": "number", "default": 0 },
+        "totalLabel": { "type": "string", "default": "Items" },
+        "currentPage": { "type": "number", "default": 1 },
+        "rowsPerPage": { "type": "number", "default": 10 },
+        "hidePagination": { "type": "boolean", "default": false },
+        "cellVerticalAlign": {
+          "type": "enum",
+          "values": ["top", "middle", "bottom"],
+          "default": "top"
+        }
+      },
+      "recipes": ["desktop", "mobile"]
+    },
+    "AppShell": {
+      "exportName": "AppShell",
+      "tier": 3,
+      "props": {
+        "recipe": {
+          "type": "enum",
+          "values": ["desktop", "mobile-drawer"]
+        },
+        "sidebarWidth": { "type": "string", "default": "272px" },
+        "mobileSidebarDrawer": { "type": "boolean" },
+        "mobileSidebarDrawerLabel": {
+          "type": "string",
+          "default": "Main navigation"
+        },
+        "contentClassName": { "type": "string", "default": "" }
+      },
+      "slots": ["children", "header", "footer", "sidebar"],
+      "recipes": ["desktop", "mobile-drawer"]
+    },
     "Dropdown": {
       "exportName": "Dropdown",
       "tier": 4,

@@ -64,3 +64,22 @@ export const Example = () => (
 - **value:** Must be a number between 0 and 100 (validated in development via PropTypes).
 - **DOM:** Outer container with track and fill layers; fill width is set inline from `value`.
 - **Spacing:** Uses the shared suffix-only margin API (e.g. `margin="b-2"`, not prefixed values like `"m-b-2"`).
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="ProgressBar" data-cp-value="50" class="cp-progress-bar"></div>
+```
+
+### React equivalent
+
+```jsx
+<ProgressBar value={50} />
+```

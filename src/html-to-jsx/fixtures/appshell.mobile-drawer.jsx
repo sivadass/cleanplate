@@ -1,0 +1,1 @@
+<AppShell recipe="mobile-drawer" />

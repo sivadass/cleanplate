@@ -58,6 +58,29 @@ describe("convertHtmlToJsx", () => {
       ),
     ).toThrow(/onClick|on-click|docs\//);
   });
+
+  it("hard-fails Table without recipe", () => {
+    expect(() =>
+      convertHtmlToJsx(`<div data-cp="Table" class="cp-table"></div>`, manifest),
+    ).toThrow(/recipe|docs\/Table/);
+  });
+
+  it("converts Table desktop recipe with columns and data", () => {
+    const { jsx } = convertHtmlToJsx(
+      `<div data-cp="Table" data-cp-recipe="desktop" class="cp-table"><table><thead><tr><th data-cp-col="name">Name</th></tr></thead><tbody><tr><td data-cp-field="name">Ada</td></tr></tbody></table></div>`,
+      manifest,
+    );
+    expect(jsx).toContain('recipe="desktop"');
+    expect(jsx).toContain("columns={");
+    expect(jsx).toContain('title: "Name"');
+    expect(jsx).toContain('name: "Ada"');
+  });
+
+  it("hard-fails AppShell without recipe", () => {
+    expect(() =>
+      convertHtmlToJsx(`<div data-cp="AppShell"></div>`, manifest),
+    ).toThrow(/recipe|docs\/AppShell/);
+  });
 });
 
 describe("html-to-jsx fixtures", () => {

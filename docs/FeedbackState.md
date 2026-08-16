@@ -171,6 +171,26 @@ export const ProjectsEmpty = ({ onCreate }) => (
 - `cp-feedback-state-content`, `cp-feedback-state-title`, `cp-feedback-state-description`
 - `cp-feedback-state-error-code`, `cp-feedback-state-actions`, `cp-feedback-state-details`
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="FeedbackState" data-cp-variant="empty" data-cp-title="No results" class="cp-feedback-state"></div>
+```
+
+### React equivalent
+
+```jsx
+<FeedbackState variant="empty" title="No results" />
+```
+
 ## Related Components / Links
 
 - Alert (inline feedback)
