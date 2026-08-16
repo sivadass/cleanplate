@@ -34,6 +34,17 @@ const EXPORTS = [
   "Dropdown",
 ];
 
+const V1_HTML_PROTOTYPE_DOCS = [
+  "Button",
+  "Typography",
+  "Icon",
+  "Container",
+  "Alert",
+  "Badge",
+  "Avatar",
+  "Spinner",
+] as const;
+
 describe("docs contract", () => {
   it("has a markdown file per top-level component", () => {
     const missing = EXPORTS.filter((name) => !existsSync(`docs/${name}.md`));
@@ -64,5 +75,14 @@ describe("docs contract", () => {
       }
     }
     expect(hits, `prefixed spacing in ${hits.join(", ")}`).toEqual([]);
+  });
+
+  it("v1 docs include HTML prototype section", () => {
+    for (const name of V1_HTML_PROTOTYPE_DOCS) {
+      const text = readFileSync(`docs/${name}.md`, "utf8");
+      expect(text, `docs/${name}.md`).toMatch(/## HTML prototype/);
+    }
+    const formControls = readFileSync("docs/FormControls.md", "utf8");
+    expect(formControls).toMatch(/### HTML prototype \(Input\)/);
   });
 });

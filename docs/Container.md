@@ -223,6 +223,35 @@ export const Example = () => (
 - **Border:** `showBorder` only affects border visibility; the container always reserves border space (border is 1px solid, transparent when not shown).
 - The root element is a `div`; all standard HTML div attributes and ref are supported via `...rest`.
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div
+  data-cp="Container"
+  data-cp-display="block"
+  data-cp-width="medium"
+  data-cp-padding="4"
+  data-cp-show-border="true"
+  class="cp-container cp-container--display-block cp-container--width-medium cp-p-4 cp-container--border"
+>
+  <p data-cp="Typography" class="cp-typography">Sample</p>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<Container display="block" width="medium" showBorder>
+  <Typography>Sample</Typography>
+</Container>
+```
+
 ## Related Components / Links
 
 - Typography (often used inside Container for text)

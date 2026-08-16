@@ -183,6 +183,33 @@ export const Example = () => (
 - `variant="icon"` is a visual style variant. For icon-only buttons, pass an accessible name using `aria-label`.
 - In `size="medium"` + `variant="icon"`, styling uses compact horizontal padding and a 44px minimum width.
 
+## HTML prototype
+
+Design agents (Paper, Claude Design) author canonical-frame HTML with `data-cp` attributes and public `cp-*` CSS. Convert to React with the CLI — do not invent JSX by hand.
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<button
+  data-cp="Button"
+  data-cp-variant="outline"
+  data-cp-margin="b-2"
+  class="cp-button cp-button--outline cp-m-b-2"
+>
+  Save
+</button>
+```
+
+### React equivalent
+
+```jsx
+<Button variant="outline" margin="b-2">Save</Button>
+```
+
 ## Related Components / Links
 
 - Icon (used internally for loading spinner)

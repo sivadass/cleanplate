@@ -225,6 +225,32 @@ export const Example = () => (
 - **Margin uses the framework-wide spacing rule (all components):** Pass suffix only: `"0"`, `"2"`, `"b-2"`, `["1", "b-3"]` etc. The component adds the `m-` prefix. Do not pass `"m-2"` or `"m-b-2"`.
 - The `isBold` prop applies bold font weight, which can be combined with any variant.
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<p
+  data-cp="Typography"
+  data-cp-variant="h4"
+  data-cp-align="center"
+  data-cp-margin="b-2"
+  class="cp-typography cp-typography--h4 cp-typography--align-center cp-m-b-2"
+>
+  Hello
+</p>
+```
+
+### React equivalent
+
+```jsx
+<Typography variant="h4" align="center" margin="b-2">Hello</Typography>
+```
+
 ## Related Components / Links
 
 - Container (often used to wrap typography content)

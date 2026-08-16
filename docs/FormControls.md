@@ -196,6 +196,42 @@ import { FormControls } from "cleanplate";
 />
 ```
 
+### HTML prototype (Input)
+
+Tier 1 HTML recipe for `FormControls.Input` only. Other controls gain recipes in later tasks.
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+#### Recipe
+
+```html
+<div
+  data-cp="FormControls.Input"
+  data-cp-label="Email Address"
+  data-cp-name="email"
+  data-cp-type="email"
+  data-cp-placeholder="user@acme.com"
+  data-cp-auto-complete="email"
+  data-cp-data-test-id="email-input"
+  class="cp-form-field"
+></div>
+```
+
+#### React equivalent
+
+```jsx
+<FormControls.Input
+  label="Email Address"
+  name="email"
+  type="email"
+  placeholder="user@acme.com"
+  autoComplete="email"
+  dataTestId="email-input"
+/>
+```
+
 ### Select — multi, groups, async
 
 **Multi** with `mode="multi"` (or legacy `isMulti`). **`triggerMaxItems`** limits visible chips; extra selections show a **`+N`** badge with an accessible label. **`maxSelect`** caps how many options can be chosen (optional).

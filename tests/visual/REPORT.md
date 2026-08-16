@@ -7,6 +7,17 @@
 | Task 7–8 baseline refresh | test:visual:update (Wave A/B cp-* renames) | PASS (346 snapshots) |
 | Task 12 unhash gate | test:visual (no snapshot update) | PASS (346/346) |
 | Task 14 data-cp gate | test:visual (Storybook provider on) | PASS (346/346) |
+| Task 17 kit gate | test:visual (kit.html + 18 row snapshots) | PASS (364/364 total) |
+
+## Task 17 kit gate (2026-08-16)
+
+**Change:** HTML prototype sections in v1 docs, agent skills, `docs/html/kit.html`, fixture round-trips, `tests/visual/kit.spec.ts` (9 rows × desktop/mobile).
+
+**Kit baselines:** New snapshots under `tests/visual/kit.spec.ts-snapshots/` (first capture for HTML+public CSS sticker sheet).
+
+**Storybook gate:** Unchanged — 346/346 still pass against Task 0 baselines.
+
+**Result:** `npm run test:visual` PASS (364/364).
 
 ## Task 5 baseline refresh (2026-08-16)
 

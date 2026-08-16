@@ -43,6 +43,19 @@ When generating code that uses CleanPlate components, **use component props inst
 <Typography variant="h4" style={{ textAlign: "center", marginBottom: "1rem" }}>Login</Typography>
 ```
 
+### HTML prototype (design agents)
+
+v1 Tier 1 components have HTML recipes in `docs/<Component>.md` under `## HTML prototype`. Author with `data-cp` + public `cp-*` CSS; convert with the mechanical CLI:
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+- **Authoring skill:** `skills/cleanplate-html-prototype/SKILL.md`
+- **Conversion skill:** `skills/cleanplate-html-to-react/SKILL.md`
+- **Sticker sheet:** `docs/html/kit.html`
+- **No callbacks in HTML** — hand-wire `onClick` / `onChange` after conversion.
+
 ## Component Documentation
 
 All component documentation is located in the `docs/` folder. The following documentation files are available:

@@ -18,12 +18,20 @@ export default defineConfig({
       maxDiffPixelRatio: 0.001,
     },
   },
-  webServer: {
-    command: "npx http-server storybook-static -p 6006 -s",
-    url: "http://127.0.0.1:6006",
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: [
+    {
+      command: "npx http-server storybook-static -p 6006 -s",
+      url: "http://127.0.0.1:6006",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+    {
+      command: "npx http-server . -p 6007 -s",
+      url: "http://127.0.0.1:6007/docs/html/kit.html",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+  ],
   projects: [
     { name: "desktop", use: { viewport: { width: 1280, height: 800 } } },
     {
