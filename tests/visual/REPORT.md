@@ -35,3 +35,9 @@ Previous 40 failures were layout correction from Container padding fix, not spac
 **Pre-check:** Cross-file CSS module local name collision scan — 0 duplicates.
 
 **Visual gate:** `npm run test:visual` PASS (346/346) against Task 0 baselines without `--update-snapshots`. Confirms unhash did not change rendered output.
+
+## Task 14 data-cp gate (2026-08-16)
+
+**Change:** Opt-in `data-cp` / `data-cp-*` attributes via `CleanPlatePrototypeAttributes` provider (default off). Storybook preview wraps stories with provider enabled.
+
+**Visual gate:** `npm run test:visual` PASS (346/346) — `data-cp` attributes do not affect layout.
