@@ -81,6 +81,30 @@ describe("convertHtmlToJsx", () => {
       convertHtmlToJsx(`<div data-cp="AppShell"></div>`, manifest),
     ).toThrow(/recipe|docs\/AppShell/);
   });
+
+  it("toast fixture is a single card", () => {
+    const html = readFileSync(
+      join(fixturesDir, "toast.single.html"),
+      "utf8",
+    );
+    expect(html.split('data-cp="Toast"').length - 1).toBe(1);
+  });
+
+  it("modal fixture is not nested in overflow hidden", () => {
+    const html = readFileSync(join(fixturesDir, "modal.open.html"), "utf8");
+    expect(html).toMatch(/cp-modal-overlay/);
+    expect(html).not.toMatch(/overflow:\s*hidden/);
+  });
+
+  it("dropdown strips geometry and maps placement + slots", () => {
+    const html = readFileSync(join(fixturesDir, "dropdown.open.html"), "utf8");
+    const { jsx } = convertHtmlToJsx(html, manifest);
+    expect(jsx).not.toMatch(/top:/);
+    expect(jsx).not.toMatch(/left:/);
+    expect(jsx).toContain('placement="bottom-start"');
+    expect(jsx).toContain("trigger={");
+    expect(jsx).toContain("content={");
+  });
 });
 
 describe("html-to-jsx fixtures", () => {

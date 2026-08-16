@@ -194,3 +194,204 @@ ${mobileJsx}
   writeFileSync(shellDoc, shellText);
   console.log("Updated docs/AppShell.md");
 }
+
+function readFixture(base) {
+  const html = readFileSync(
+    join(root, `src/html-to-jsx/fixtures/${base}.html`),
+    "utf8",
+  ).trim();
+  const jsx = readFileSync(
+    join(root, `src/html-to-jsx/fixtures/${base}.jsx`),
+    "utf8",
+  ).trim();
+  return { html, jsx };
+}
+
+function insertBeforeRelated(docPath, block) {
+  let text = readFileSync(docPath, "utf8");
+  if (text.includes("## HTML prototype")) {
+    return false;
+  }
+  const marker = "## Related Components / Links";
+  text = text.includes(marker)
+    ? text.replace(marker, `${block}\n${marker}`)
+    : text + block;
+  writeFileSync(docPath, text);
+  return true;
+}
+
+const TIER2_OVERLAY_DOCS = {
+  Modal: {
+    intro:
+      "Place the **open** overlay at the **artboard root** as a sibling of the page — not inside `overflow: hidden` or transformed frames. Use `data-cp-is-open=\"true\"` and slots `title`, `body`, `footer`.",
+    fixture: "modal.open",
+  },
+  Drawer: {
+    intro:
+      "Place the **open** drawer overlay at the **artboard root**. Use `data-cp-is-open=\"true\"`, `data-cp-placement`, and slots `title`, `body`, `footer`.",
+    fixture: "drawer.open",
+  },
+  ConfirmDialog: {
+    intro:
+      "Place the **open** confirm dialog at the **artboard root** with `cp-confirm-dialog-overlay-open`. Map `title`, `description`, and button labels via `data-cp-*` props.",
+    fixture: "confirm-dialog.open",
+  },
+  Toast: {
+    intro:
+      "HTML recipe is a **single toast card** snapshot (not the imperative queue). Place the host at the **artboard root** (`position: fixed; top: 16px; right: 16px`). After conversion, wire `ref.addMessage({ mode, message })` by hand.",
+    fixture: "toast.single",
+  },
+  BottomSheet: {
+    intro:
+      "Place the **open** bottom sheet at the **artboard root**. Bake one snap with `data-cp-snap` and matching `cp-bottom-sheet--snap-*` class — no drag listeners in HTML.",
+    fixture: "bottom-sheet.open",
+  },
+};
+
+for (const [docName, { intro, fixture }] of Object.entries(TIER2_OVERLAY_DOCS)) {
+  const { html, jsx } = readFixture(fixture);
+  const block = `
+
+## HTML prototype
+
+${intro}
+
+\`\`\`bash
+npm run html-to-jsx -- ${fixture}.html
+\`\`\`
+
+### Recipe (open)
+
+\`\`\`html
+${html}
+\`\`\`
+
+### React equivalent
+
+\`\`\`jsx
+${jsx}
+\`\`\`
+`;
+  if (insertBeforeRelated(join(root, `docs/${docName}.md`), block)) {
+    console.log(`Updated docs/${docName}.md`);
+  }
+}
+
+const dropdownClosed = readFixture("dropdown.closed");
+const dropdownOpen = readFixture("dropdown.open");
+const dropdownBlock = `
+
+## HTML prototype
+
+Tier 4 floater: document **closed** and **open** frames. Open panel uses canonical CSS placement (\`cp-dropdown-floating\`); do not rely on runtime Floating UI coords — the converter strips inline \`top\` / \`left\` / \`width\`.
+
+\`\`\`bash
+npm run html-to-jsx -- dropdown.closed.html
+npm run html-to-jsx -- dropdown.open.html
+\`\`\`
+
+### Recipe (closed)
+
+\`\`\`html
+${dropdownClosed.html}
+\`\`\`
+
+### React equivalent (closed)
+
+\`\`\`jsx
+${dropdownClosed.jsx}
+\`\`\`
+
+### Recipe (open)
+
+\`\`\`html
+${dropdownOpen.html}
+\`\`\`
+
+### React equivalent (open)
+
+\`\`\`jsx
+${dropdownOpen.jsx}
+\`\`\`
+`;
+if (insertBeforeRelated(join(root, "docs/Dropdown.md"), dropdownBlock)) {
+  console.log("Updated docs/Dropdown.md");
+}
+
+const formControlsDoc = join(root, "docs/FormControls.md");
+let formText = readFileSync(formControlsDoc, "utf8");
+
+const formTier4Sections = [
+  {
+    title: "Select",
+    intro:
+      "Place open panels at the **artboard root** when portalling in React. Use \`data-cp-slot=\"trigger\"\` and \`data-cp-slot=\"content\"\`. Strip runtime coords from HTML — canonical \`cp-select-dropdown-panel-entered\` placement only.",
+    closed: "select.closed",
+    open: "select.open",
+  },
+  {
+    title: "Date",
+    intro:
+      "Freeze **one month grid** in the open fixture (\`data-cp-date\` on day cells as text). Converter maps \`data-cp-value\` as an ISO date string; calendar math stays React-only.",
+    closed: "date.closed",
+    open: "date.open",
+  },
+  {
+    title: "ColorPicker",
+    intro:
+      "Freeze hue and thumb position in HTML/CSS for the open frame. Converter maps \`data-cp-value\` hex only — pointer capture and channel math stay React-only.",
+    closed: "colorpicker.closed",
+    open: "colorpicker.open",
+  },
+];
+
+for (const section of formTier4Sections) {
+  const marker = `### HTML prototype (${section.title})`;
+  if (formText.includes(marker)) {
+    continue;
+  }
+  const closed = readFixture(section.closed);
+  const open = readFixture(section.open);
+  const block = `
+
+### HTML prototype (${section.title})
+
+${section.intro}
+
+\`\`\`bash
+npm run html-to-jsx -- ${section.closed}.html
+npm run html-to-jsx -- ${section.open}.html
+\`\`\`
+
+#### Recipe (closed)
+
+\`\`\`html
+${closed.html}
+\`\`\`
+
+#### React equivalent (closed)
+
+\`\`\`jsx
+${closed.jsx}
+\`\`\`
+
+#### Recipe (open)
+
+\`\`\`html
+${open.html}
+\`\`\`
+
+#### React equivalent (open)
+
+\`\`\`jsx
+${open.jsx}
+\`\`\`
+`;
+  const anchor = "## Related Components / Links";
+  formText = formText.includes(anchor)
+    ? formText.replace(anchor, `${block}\n${anchor}`)
+    : formText + block;
+  console.log(`Updated docs/FormControls.md (${section.title})`);
+}
+
+writeFileSync(formControlsDoc, formText);

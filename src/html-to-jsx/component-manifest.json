@@ -563,6 +563,197 @@
         "triggerLabel": { "type": "string" }
       },
       "slots": ["trigger", "content"]
+    },
+    "Modal": {
+      "exportName": "Modal",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large", "fullscreen"],
+          "default": "medium"
+        },
+        "showCloseButton": { "type": "boolean", "default": true },
+        "closeOnOverlayClick": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true },
+        "margin": { "type": "string", "default": "0" },
+        "primaryButtonLabel": { "type": "string", "default": "" },
+        "secondaryButtonLabel": { "type": "string", "default": "" },
+        "dataTestId": { "type": "string" }
+      },
+      "slots": ["title", "body", "footer"]
+    },
+    "Drawer": {
+      "exportName": "Drawer",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "placement": {
+          "type": "enum",
+          "values": ["left", "right", "top", "bottom"],
+          "default": "right"
+        },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large", "full"],
+          "default": "medium"
+        },
+        "showCloseButton": { "type": "boolean", "default": true },
+        "closeOnOverlayClick": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true },
+        "margin": { "type": "string", "default": "0" },
+        "primaryButtonLabel": { "type": "string", "default": "" },
+        "secondaryButtonLabel": { "type": "string", "default": "" }
+      },
+      "slots": ["title", "body", "footer"]
+    },
+    "ConfirmDialog": {
+      "exportName": "ConfirmDialog",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "title": { "type": "string", "default": "Confirm Action" },
+        "description": { "type": "string", "default": "" },
+        "primaryButtonLabel": { "type": "string", "default": "Confirm" },
+        "secondaryButtonLabel": { "type": "string", "default": "Cancel" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "small"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "destructive", "warning"],
+          "default": "default"
+        },
+        "showCloseButton": { "type": "boolean", "default": true },
+        "closeOnOverlayClick": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true }
+      }
+    },
+    "Toast": {
+      "exportName": "Toast",
+      "tier": 2,
+      "props": {
+        "mode": {
+          "type": "enum",
+          "values": ["info", "error", "warning", "success"]
+        },
+        "message": { "type": "string" },
+        "autoClose": { "type": "boolean", "default": false },
+        "autoCloseTime": { "type": "number", "default": 5000 }
+      }
+    },
+    "BottomSheet": {
+      "exportName": "BottomSheet",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "snap": {
+          "type": "enum",
+          "values": ["0.3", "0.6", "0.9"],
+          "default": "0.3"
+        },
+        "margin": { "type": "string" }
+      },
+      "slots": ["default"]
+    },
+    "FormControls.Select": {
+      "exportName": "FormControls.Select",
+      "tier": 4,
+      "props": {
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "clearable": { "type": "boolean", "default": true },
+        "searchable": { "type": "boolean", "default": true },
+        "popoverPlacement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-start"
+        }
+      },
+      "slots": ["trigger", "content"]
+    },
+    "FormControls.Date": {
+      "exportName": "FormControls.Date",
+      "tier": 4,
+      "props": {
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "Select date" },
+        "value": { "type": "string" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "clearable": { "type": "boolean", "default": true },
+        "popoverPlacement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-start"
+        }
+      },
+      "slots": ["trigger", "content"]
+    },
+    "FormControls.ColorPicker": {
+      "exportName": "FormControls.ColorPicker",
+      "tier": 4,
+      "props": {
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "Select color" },
+        "value": { "type": "string" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "clearable": { "type": "boolean", "default": true },
+        "popoverPlacement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-start"
+        }
+      },
+      "slots": ["trigger", "content"]
     }
   }
 }

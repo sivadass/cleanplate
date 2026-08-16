@@ -64,6 +64,16 @@ const TIER1_HTML_PROTOTYPE_DOCS = [
 
 const TIER3_HTML_PROTOTYPE_DOCS = ["Table", "AppShell"] as const;
 
+const TIER2_HTML_PROTOTYPE_DOCS = [
+  "Modal",
+  "Drawer",
+  "ConfirmDialog",
+  "Toast",
+  "BottomSheet",
+] as const;
+
+const TIER4_HTML_PROTOTYPE_DOCS = ["Dropdown"] as const;
+
 describe("docs contract", () => {
   it("has a markdown file per top-level component", () => {
     const missing = EXPORTS.filter((name) => !existsSync(`docs/${name}.md`));
@@ -118,5 +128,24 @@ describe("docs contract", () => {
       expect(text, `docs/${name}.md`).toMatch(/## HTML prototype/);
       expect(text).toMatch(/data-cp-recipe/);
     }
+  });
+
+  it("Tier 2 overlay docs include HTML prototype section", () => {
+    for (const name of TIER2_HTML_PROTOTYPE_DOCS) {
+      const text = readFileSync(`docs/${name}.md`, "utf8");
+      expect(text, `docs/${name}.md`).toMatch(/## HTML prototype/);
+      expect(text).toMatch(/artboard root/i);
+    }
+  });
+
+  it("Tier 4 floater docs include HTML prototype section", () => {
+    for (const name of TIER4_HTML_PROTOTYPE_DOCS) {
+      const text = readFileSync(`docs/${name}.md`, "utf8");
+      expect(text, `docs/${name}.md`).toMatch(/## HTML prototype/);
+    }
+    const formControls = readFileSync("docs/FormControls.md", "utf8");
+    expect(formControls).toMatch(/### HTML prototype \(Select\)/);
+    expect(formControls).toMatch(/### HTML prototype \(Date\)/);
+    expect(formControls).toMatch(/### HTML prototype \(ColorPicker\)/);
   });
 });

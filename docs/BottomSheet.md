@@ -70,6 +70,35 @@ const App = () => {
 - **Body overflow:** Set to `hidden` when open, restored on close or unmount.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0).
 
+
+
+## HTML prototype
+
+Place the **open** bottom sheet at the **artboard root**. Bake one snap with `data-cp-snap` and matching `cp-bottom-sheet--snap-*` class — no drag listeners in HTML.
+
+```bash
+npm run html-to-jsx -- bottom-sheet.open.html
+```
+
+### Recipe (open)
+
+```html
+<div class="cp-bottom-sheet-overlay"></div>
+<div data-cp="BottomSheet" data-cp-is-open="true" data-cp-snap="0.3" class="cp-bottom-sheet cp-bottom-sheet--snap-30">
+  <div class="cp-bottom-sheet__handle"><div class="cp-bottom-sheet__handle-bar"></div></div>
+  <div class="cp-bottom-sheet__content">Sheet content</div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<div className="cp-bottom-sheet-overlay"></div>
+
+
+<BottomSheet isOpen><div className="cp-bottom-sheet__handle"><div className="cp-bottom-sheet__handle-bar"></div></div><div className="cp-bottom-sheet__content">Sheet content</div></BottomSheet>
+```
+
 ## Related Components / Links
 
 - Modal (full overlay dialog)
