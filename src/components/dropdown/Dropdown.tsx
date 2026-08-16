@@ -180,7 +180,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     const triggerProps: DropdownTriggerProps = {
       ref: refs.setReference,
       onClick: handleToggle as (e: ReactMouseEvent<HTMLElement>) => void,
-      className: `${styles["dropdown-trigger"]} ${isOpen ? styles["active"] : ""}`.trim(),
+      className: `${styles["cp-dropdown__trigger"]} ${isOpen ? styles["cp-dropdown__trigger--active"] : ""}`.trim(),
       role: "button",
       "aria-expanded": isOpen,
       "aria-haspopup": "true",
@@ -244,14 +244,14 @@ const Dropdown: React.FC<DropdownProps> = ({
   } as { onClose?: () => void; className: string });
 
   return (
-    <div className={`${styles["dropdown-wrapper"]} ${className}`}>
+    <div className={`${styles["cp-dropdown"]} ${className}`}>
       {triggerElement}
       {isOpen && (
         <div
           ref={refs.setFloating}
           style={floatingStyles}
-          className={`${styles["dropdown-floating"]} ${
-            isAnimating ? styles["dropdown-opening"] : styles["dropdown-closing"]
+          className={`${styles["cp-dropdown-floating"]} ${
+            isAnimating ? styles["cp-dropdown--opening"] : styles["cp-dropdown--closing"]
           }`}
           role="menu"
           aria-orientation="vertical"

@@ -23,7 +23,12 @@ export interface BottomSheetProps {
   children?: React.ReactNode;
 }
 
-const SNAP_POINTS = [0.3, 0.6, 0.9];
+const SNAP_POINTS = [0.3, 0.6, 0.9] as const;
+const SNAP_CLASS: Record<(typeof SNAP_POINTS)[number], string> = {
+  0.3: "cp-bottom-sheet--snap-30",
+  0.6: "cp-bottom-sheet--snap-60",
+  0.9: "cp-bottom-sheet--snap-90",
+};
 const MINIMUM_DISTANCE = 50;
 const CLOSE_THRESHOLD = 0.2;
 
@@ -46,6 +51,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const bottomSheetClassNames = getClassNames(
     styles["cp-bottom-sheet"],
+    !isDragging && styles[SNAP_CLASS[currentSnap as keyof typeof SNAP_CLASS]],
     marginClass,
     className
   );
@@ -148,28 +154,28 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles["bottom-sheet-overlay"]}>
+    <div className={styles["cp-bottom-sheet-overlay"]}>
       <div
         ref={sheetRef}
         style={{
-          transform: `translateY(${(1 - currentSnap) * 100}%)`,
+          transform: isDragging ? undefined : `translateY(${(1 - currentSnap) * 100}%)`,
           transition: isDragging ? "none" : "transform 0.3s ease-out",
         }}
         className={bottomSheetClassNames}
       >
         <div
-          className={styles["bottom-sheet-handle"]}
+          className={styles["cp-bottom-sheet__handle"]}
           onMouseDown={handleTouchStart}
           onTouchStart={handleTouchStart}
         >
-          <div className={styles["bottom-sheet-handle-bar"]} />
+          <div className={styles["cp-bottom-sheet__handle-bar"]} />
           <Icon
-            className={styles["bottom-sheet-handle-icon"]}
+            className={styles["cp-bottom-sheet__handle-icon"]}
             size="medium"
             name="drag_indicator"
           />
         </div>
-        <div className={styles["bottom-sheet-content"]}>{children}</div>
+        <div className={styles["cp-bottom-sheet__content"]}>{children}</div>
       </div>
     </div>
   );

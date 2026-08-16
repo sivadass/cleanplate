@@ -226,8 +226,8 @@ const Drawer: React.FC<DrawerProps> = ({
 
   const drawerClasses = getClassNames(
     styles["cp-drawer"],
-    styles[`placement-${effectivePlacement}`],
-    styles[`size-${size}`],
+    styles[`cp-drawer--placement-${effectivePlacement}`],
+    styles[`cp-drawer--size-${size}`],
     isMobileSheet && styles["cp-drawer-mobile-sheet"],
     marginClass,
     className,
@@ -239,18 +239,18 @@ const Drawer: React.FC<DrawerProps> = ({
   );
 
   const contentClasses = getClassNames(
-    styles["content"],
+    styles["cp-drawer__content"],
     contentClassName,
   );
 
   const headerClasses = getClassNames(
-    styles["header"],
+    styles["cp-drawer__header"],
     headerClassName,
   );
 
-  const bodyClasses = getClassNames(styles["body"], bodyClassName);
+  const bodyClasses = getClassNames(styles["cp-drawer__body"], bodyClassName);
 
-  const footerClasses = getClassNames(styles["footer"], footerClassName);
+  const footerClasses = getClassNames(styles["cp-drawer__footer"], footerClassName);
 
   const handleClose = () => {
     onClose?.();
@@ -303,7 +303,7 @@ const Drawer: React.FC<DrawerProps> = ({
                   <Typography
                     variant="h2"
                     id={titleId}
-                    className={styles["title"]}
+                    className={styles["cp-drawer__title"]}
                     data-testid={drawerFieldTestId(dataTestId, "title")}
                   >
                     {title}
@@ -314,7 +314,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="icon"
                     size="small"
                     onClick={handleClose}
-                    className={styles["close-button"]}
+                    className={styles["cp-drawer__close-button"]}
                     aria-label="Close drawer"
                     data-testid={drawerFieldTestId(dataTestId, "close")}
                   >
@@ -342,8 +342,8 @@ const Drawer: React.FC<DrawerProps> = ({
                     size="medium"
                     onClick={onTertiaryButtonClick}
                     className={getClassNames(
-                      styles["footer-button"],
-                      styles["footer-tertiary"],
+                      styles["cp-drawer__footer-button"],
+                      styles["cp-drawer__footer-tertiary"],
                     )}
                     data-testid={drawerFieldTestId(dataTestId, "tertiary")}
                   >
@@ -355,7 +355,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="outline"
                     size="medium"
                     onClick={onSecondaryButtonClick}
-                    className={styles["footer-button"]}
+                    className={styles["cp-drawer__footer-button"]}
                     data-testid={drawerFieldTestId(dataTestId, "secondary")}
                   >
                     {secondaryButtonLabel}
@@ -366,7 +366,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="solid"
                     size="medium"
                     onClick={onPrimaryButtonClick}
-                    className={styles["footer-button"]}
+                    className={styles["cp-drawer__footer-button"]}
                     data-testid={drawerFieldTestId(dataTestId, "primary")}
                   >
                     {primaryButtonLabel}

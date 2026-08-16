@@ -139,22 +139,22 @@ const Modal: React.FC<ModalProps> = ({
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const modalClasses = getClassNames(
-    styles["modal"],
-    styles[size],
+    styles["cp-modal"],
+    styles[`cp-modal--${size}`],
     marginClass,
     className
   );
 
   const overlayClasses = getClassNames(
-    styles["overlay"],
+    styles["cp-modal-overlay"],
     {
-      [styles["overlay-open"]]: isOpen,
+      [styles["cp-modal-overlay-open"]]: isOpen,
     },
     overlayClassName
   );
 
   const contentClasses = getClassNames(
-    styles["content"],
+    styles["cp-modal__content"],
     contentClassName
   );
 
@@ -187,14 +187,14 @@ const Modal: React.FC<ModalProps> = ({
             <div className={contentClasses}>
               {(title || showCloseButton) && (
                 <div
-                  className={styles["header"]}
+                  className={styles["cp-modal__header"]}
                   data-testid={modalFieldTestId(dataTestId, "header")}
                 >
                   {title && (
                     <Typography
                       variant="h2"
                       id={titleId}
-                      className={styles["title"]}
+                      className={styles["cp-modal__title"]}
                       data-testid={modalFieldTestId(dataTestId, "title")}
                     >
                       {title}
@@ -205,7 +205,7 @@ const Modal: React.FC<ModalProps> = ({
                       variant="icon"
                       size="small"
                       onClick={handleClose}
-                      className={styles["close-button"]}
+                      className={styles["cp-modal__close-button"]}
                       aria-label="Close modal"
                       data-testid={modalFieldTestId(dataTestId, "close")}
                     >
@@ -215,14 +215,14 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               )}
               <div
-                className={styles["body"]}
+                className={styles["cp-modal__body"]}
                 data-testid={modalFieldTestId(dataTestId, "body")}
               >
                 {children}
               </div>
               {(primaryButtonLabel || secondaryButtonLabel) && (
                 <div
-                  className={styles["footer"]}
+                  className={styles["cp-modal__footer"]}
                   data-testid={modalFieldTestId(dataTestId, "footer")}
                 >
                   {secondaryButtonLabel && (
@@ -230,7 +230,7 @@ const Modal: React.FC<ModalProps> = ({
                       variant="outline"
                       size="medium"
                       onClick={onSecondaryButtonClick}
-                      className={styles["footer-button"]}
+                      className={styles["cp-modal__footer-button"]}
                       data-testid={modalFieldTestId(dataTestId, "secondary")}
                     >
                       {secondaryButtonLabel}
@@ -241,7 +241,7 @@ const Modal: React.FC<ModalProps> = ({
                       variant="solid"
                       size="medium"
                       onClick={onPrimaryButtonClick}
-                      className={styles["footer-button"]}
+                      className={styles["cp-modal__footer-button"]}
                       data-testid={modalFieldTestId(dataTestId, "primary")}
                     >
                       {primaryButtonLabel}

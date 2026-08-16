@@ -1,6 +1,7 @@
 import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { expectPublicClass } from "../../test/class-contract";
 import Drawer from "./Drawer";
 
 function mockMatchMedia(matches: boolean) {
@@ -187,7 +188,7 @@ describe("Drawer", () => {
 
     const panel = screen.getByRole("dialog");
     expect(panel.className).toMatch(/cp-drawer-mobile-sheet/);
-    expect(panel.className).toMatch(/placement-bottom/);
+    expect(panel.className).toMatch(/cp-drawer--placement-bottom/);
   });
 
   it("uses ariaLabel when no title is provided", () => {
@@ -234,6 +235,23 @@ describe("Drawer", () => {
 
     expect(screen.getByTestId("settings-drawer-footer")).toHaveClass(
       "custom-footer",
+    );
+  });
+
+  it("dialog and overlay use cp-drawer public classes", () => {
+    render(
+      <Drawer isOpen placement="right" title="Settings" dataTestId="settings-drawer">
+        Body
+      </Drawer>,
+    );
+    expectPublicClass(screen.getByTestId("settings-drawer"), "cp-drawer");
+    expectPublicClass(
+      screen.getByTestId("settings-drawer"),
+      "cp-drawer--placement-right",
+    );
+    expectPublicClass(
+      screen.getByTestId("settings-drawer-overlay"),
+      "cp-drawer-overlay",
     );
   });
 });
