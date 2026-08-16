@@ -15,7 +15,7 @@
   "scripts": {
     "build-package": "npm run generate-icons && rollup -c && npm run build-types",
     "build-storybook": "storybook build",
-    "build-types": "tsc --emitDeclarationOnly",
+    "build-types": "tsc --emitDeclarationOnly && cp src/index.d.ts dist/index.d.ts",
     "generate-icons": "node scripts/generate-icons.js",
     "generate-llms-txt": "storybook-llms-extractor --config llms.config.js",
     "storybook": "storybook dev -p 6001",

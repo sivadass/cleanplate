@@ -94,7 +94,7 @@ import { PageHeader, Button, Container, Icon } from "cleanplate";
 
 <PageHeader
   title={
-    <Container display="flex" align="center" gap="2" padding="0" margin="m-0">
+    <Container display="flex" align="center" gap="2" padding="0" margin="0">
       <Icon name="assignment" size="medium" />
       Custom title with icon
     </Container>

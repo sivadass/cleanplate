@@ -56,7 +56,7 @@ const App = () => {
 ```jsx
 <BottomSheet isOpen={isOpen} onClose={handleClose}>
   <Container padding="4">
-    <Typography variant="h5" margin="m-0 m-b-2">Title</Typography>
+    <Typography variant="h5" margin={["0", "b-2"]}>Title</Typography>
     <Typography variant="p">Body text</Typography>
   </Container>
 </BottomSheet>

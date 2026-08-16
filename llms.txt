@@ -17,7 +17,7 @@ When generating code that uses CleanPlate components, **use component props inst
 **This rule applies to every CleanPlate component** that accepts `margin`, `padding`, or `gap` (Typography, Button, Container, Alert, Avatar, Accordion, Header, Footer, and others). All of them use the same **suffix-only** API; the component adds the prefix internally.
 
 - **Correct:** `margin="0"`, `margin="b-2"`, `margin={["b-2", "t-1"]}`, `padding="4"`, `gap="2"`. The component turns these into m-0, m-b-2, p-4, g-2, etc.
-- **Wrong:** `margin="m-0"`, `padding="p-4"`, `gap="g-2"` — do not include the m-, p-, or g- prefix.
+- **Wrong:** prefixed values like `"m-0"`, `"p-4"`, `"g-2"` in margin/padding/gap props — use suffix-only (`"0"`, `"4"`, `"2"`).
 - Common suffixes: "0", "1", "2", "3", "4", "b-1", "b-2", "t-2", "y-2", "x-2".
 - Use the `margin` / `padding` / `gap` prop instead of `style={{ marginBottom, paddingTop, gap }}` for spacing.
 
@@ -114,6 +114,13 @@ All component documentation is located in the `docs/` folder. The following docu
 - Key Features: Six icon options (progress_activity, autorenew, sync, refresh, cached, loop), sizes (small, medium, large), variants (light, dark), margin spacing (suffix API)
 - Types: SpinnerProps, SpinnerSize, SpinnerVariant, SpinnerIcon, SpinnerMargin, SpacingOption
 - Related Components: Container, Icon (used internally)
+
+### ProgressBar Component
+- File: `docs/ProgressBar.md`
+- Purpose: Horizontal progress indicator showing completion percentage (0–100).
+- Key Features: `value` required 0–100, sizes small|medium|large, variants default|primary|secondary|success|info|error|warning, margin suffix API, `className` / `trackClassName`
+- Types: ProgressBar props documented in `docs/ProgressBar.md` (JS component with PropTypes)
+- Related Components: Statistic (optional progress slot), Container (internal layout)
 
 ### Statistic Component
 - File: `docs/Statistic.md`
