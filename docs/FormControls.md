@@ -196,6 +196,42 @@ import { FormControls } from "cleanplate";
 />
 ```
 
+### HTML prototype (Input)
+
+Tier 1 HTML recipe for `FormControls.Input` only. Other controls gain recipes in later tasks.
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+#### Recipe
+
+```html
+<div
+  data-cp="FormControls.Input"
+  data-cp-label="Email Address"
+  data-cp-name="email"
+  data-cp-type="email"
+  data-cp-placeholder="user@acme.com"
+  data-cp-auto-complete="email"
+  data-cp-data-test-id="email-input"
+  class="cp-form-field"
+></div>
+```
+
+#### React equivalent
+
+```jsx
+<FormControls.Input
+  label="Email Address"
+  name="email"
+  type="email"
+  placeholder="user@acme.com"
+  autoComplete="email"
+  dataTestId="email-input"
+/>
+```
+
 ### Select — multi, groups, async
 
 **Multi** with `mode="multi"` (or legacy `isMulti`). **`triggerMaxItems`** limits visible chips; extra selections show a **`+N`** badge with an accessible label. **`maxSelect`** caps how many options can be chosen (optional).
@@ -712,6 +748,284 @@ CleanPlate exposes a thin layer of CSS custom properties on `:root` so consumer 
 - **`--radius-large`** (the underlying design token) when you want every "large radius" surface in CleanPlate — form fields *and* anything else that opts into the same scale — to move together. Coarser, but useful for whole-product rebrands.
 
 The component-level token is the public, supported override. Underlying design tokens (`--radius-small`, `--radius-medium`, `--radius-large`, …) are exposed but treated as the lower tier — overriding them is allowed, but expect broader visual impact.
+
+
+
+### HTML prototype (Select)
+
+Place open panels at the **artboard root** when portalling in React. Use `data-cp-slot="trigger"` and `data-cp-slot="content"`. Strip runtime coords from HTML — canonical `cp-select-dropdown-panel-entered` placement only.
+
+```bash
+npm run html-to-jsx -- select.closed.html
+npm run html-to-jsx -- select.open.html
+```
+
+#### Recipe (closed)
+
+```html
+<div data-cp="FormControls.Select" data-cp-label="Country" data-cp-placeholder="Choose a country" class="cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header">
+    <span class="cp-select-placeholder">Choose a country</span>
+  </button>
+</div>
+```
+
+#### React equivalent (closed)
+
+```jsx
+<FormControls.Select label="Country" placeholder="Choose a country" trigger={<button type="button" className="cp-select-field-header">
+    <span className="cp-select-placeholder">Choose a country</span>
+  </button>} />
+```
+
+#### Recipe (open)
+
+```html
+<div data-cp="FormControls.Select" data-cp-label="Country" class="cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header cp-select-field-header-open">
+    <span class="cp-select-value">United States</span>
+  </button>
+  <div data-cp-slot="content" class="cp-select-dropdown-panel cp-select-dropdown-panel-entered cp-select-field-options" style="top: 44px; left: 0; width: 280px">
+    <div class="cp-select-field-options-list">
+      <button type="button" class="cp-select-field-option">United States</button>
+      <button type="button" class="cp-select-field-option">Canada</button>
+      <button type="button" class="cp-select-field-option">Mexico</button>
+    </div>
+  </div>
+</div>
+```
+
+#### React equivalent (open)
+
+```jsx
+<FormControls.Select label="Country" trigger={<button type="button" className="cp-select-field-header cp-select-field-header-open">
+    <span className="cp-select-value">United States</span>
+  </button>} content={<div className="cp-select-dropdown-panel cp-select-dropdown-panel-entered cp-select-field-options">
+    <div className="cp-select-field-options-list">
+      <button type="button" className="cp-select-field-option">United States</button>
+      <button type="button" className="cp-select-field-option">Canada</button>
+      <button type="button" className="cp-select-field-option">Mexico</button>
+    </div>
+  </div>} />
+```
+
+
+
+### HTML prototype (Date)
+
+Freeze **one month grid** in the open fixture (`data-cp-date` on day cells as text). Converter maps `data-cp-value` as an ISO date string; calendar math stays React-only.
+
+```bash
+npm run html-to-jsx -- date.closed.html
+npm run html-to-jsx -- date.open.html
+```
+
+#### Recipe (closed)
+
+```html
+<div data-cp="FormControls.Date" data-cp-label="Start date" data-cp-placeholder="Select date" class="cp-date-field-wrapper cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header">
+    <span class="cp-select-placeholder">Select date</span>
+  </button>
+</div>
+```
+
+#### React equivalent (closed)
+
+```jsx
+<FormControls.Date label="Start date" trigger={<button type="button" className="cp-select-field-header">
+    <span className="cp-select-placeholder">Select date</span>
+  </button>} />
+```
+
+#### Recipe (open)
+
+```html
+<div data-cp="FormControls.Date" data-cp-label="Start date" data-cp-value="2026-08-14" class="cp-date-field-wrapper cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header cp-select-field-header-open">
+    <span class="cp-select-value">Aug 14, 2026</span>
+  </button>
+  <div data-cp-slot="content" class="cp-date-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered" style="top: 44px; left: 0; width: 320px">
+    <div class="cp-date-picker-panel-inner">
+      <div class="cp-date-picker-header">
+        <span class="cp-date-picker-label-hit">August 2026</span>
+      </div>
+      <div class="cp-date-picker-grid">
+        <div class="cp-date-picker-weekdays">
+          <span class="cp-date-picker-weekday">Su</span>
+          <span class="cp-date-picker-weekday">Mo</span>
+          <span class="cp-date-picker-weekday">Tu</span>
+          <span class="cp-date-picker-weekday">We</span>
+          <span class="cp-date-picker-weekday">Th</span>
+          <span class="cp-date-picker-weekday">Fr</span>
+          <span class="cp-date-picker-weekday">Sa</span>
+        </div>
+        <div class="cp-date-picker-row">
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-26">26</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-27">27</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-28">28</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-29">29</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-30">30</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-31">31</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-01">1</button>
+        </div>
+        <div class="cp-date-picker-row">
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-02">2</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-03">3</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-04">4</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-05">5</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-06">6</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-07">7</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-08">8</button>
+        </div>
+        <div class="cp-date-picker-row">
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-09">9</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-10">10</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-11">11</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-12">12</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-13">13</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-selected" data-cp-date="2026-08-14">14</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-15">15</button>
+        </div>
+      </div>
+      <div class="cp-date-picker-footer">
+        <button type="button" class="cp-date-picker-footer-button cp-date-picker-footer-button-cancel">Cancel</button>
+        <button type="button" class="cp-date-picker-footer-button">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### React equivalent (open)
+
+```jsx
+<FormControls.Date label="Start date" value="2026-08-14" trigger={<button type="button" className="cp-select-field-header cp-select-field-header-open">
+    <span className="cp-select-value">Aug 14, 2026</span>
+  </button>} content={<div className="cp-date-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered">
+    <div className="cp-date-picker-panel-inner">
+      <div className="cp-date-picker-header">
+        <span className="cp-date-picker-label-hit">August 2026</span>
+      </div>
+      <div className="cp-date-picker-grid">
+        <div className="cp-date-picker-weekdays">
+          <span className="cp-date-picker-weekday">Su</span>
+          <span className="cp-date-picker-weekday">Mo</span>
+          <span className="cp-date-picker-weekday">Tu</span>
+          <span className="cp-date-picker-weekday">We</span>
+          <span className="cp-date-picker-weekday">Th</span>
+          <span className="cp-date-picker-weekday">Fr</span>
+          <span className="cp-date-picker-weekday">Sa</span>
+        </div>
+        <div className="cp-date-picker-row">
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-26">26</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-27">27</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-28">28</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-29">29</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-30">30</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-31">31</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-01">1</button>
+        </div>
+        <div className="cp-date-picker-row">
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-02">2</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-03">3</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-04">4</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-05">5</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-06">6</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-07">7</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-08">8</button>
+        </div>
+        <div className="cp-date-picker-row">
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-09">9</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-10">10</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-11">11</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-12">12</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-13">13</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-selected" data-cp-date="2026-08-14">14</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-15">15</button>
+        </div>
+      </div>
+      <div className="cp-date-picker-footer">
+        <button type="button" className="cp-date-picker-footer-button cp-date-picker-footer-button-cancel">Cancel</button>
+        <button type="button" className="cp-date-picker-footer-button">OK</button>
+      </div>
+    </div>
+  </div>} />
+```
+
+
+
+### HTML prototype (ColorPicker)
+
+Freeze hue and thumb position in HTML/CSS for the open frame. Converter maps `data-cp-value` hex only — pointer capture and channel math stay React-only.
+
+```bash
+npm run html-to-jsx -- colorpicker.closed.html
+npm run html-to-jsx -- colorpicker.open.html
+```
+
+#### Recipe (closed)
+
+```html
+<div data-cp="FormControls.ColorPicker" data-cp-label="Brand color" data-cp-placeholder="Select color" class="cp-select-field cp-color-picker-trigger">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header">
+    <span class="cp-select-placeholder">Select color</span>
+  </button>
+</div>
+```
+
+#### React equivalent (closed)
+
+```jsx
+<FormControls.ColorPicker label="Brand color" trigger={<button type="button" className="cp-select-field-header">
+    <span className="cp-select-placeholder">Select color</span>
+  </button>} />
+```
+
+#### Recipe (open)
+
+```html
+<div data-cp="FormControls.ColorPicker" data-cp-label="Brand color" data-cp-value="#1264A3" class="cp-select-field cp-color-picker-trigger">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header cp-select-field-header-open">
+    <span class="cp-color-picker-trigger-swatch" style="background-color: #1264A3"></span>
+    <span class="cp-color-picker-trigger-text">#1264A3</span>
+  </button>
+  <div data-cp-slot="content" class="cp-color-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered">
+    <div class="cp-color-picker-panel-inner">
+      <div class="cp-color-picker-saturation-area">
+        <div class="cp-color-picker-saturation-thumb"></div>
+      </div>
+      <div class="cp-color-picker-hue-wrap">
+        <input type="range" class="cp-color-picker-hue-slider" value="210" />
+      </div>
+      <div class="cp-color-picker-channel-grid">
+        <input type="text" class="cp-form-field-input" value="#1264A3" readonly />
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### React equivalent (open)
+
+```jsx
+<FormControls.ColorPicker label="Brand color" value="#1264A3" trigger={<button type="button" className="cp-select-field-header cp-select-field-header-open">
+    <span className="cp-color-picker-trigger-swatch" style={{ backgroundColor: "#1264A3" }}></span>
+    <span className="cp-color-picker-trigger-text">#1264A3</span>
+  </button>} content={<div className="cp-color-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered">
+    <div className="cp-color-picker-panel-inner">
+      <div className="cp-color-picker-saturation-area">
+        <div className="cp-color-picker-saturation-thumb"></div>
+      </div>
+      <div className="cp-color-picker-hue-wrap">
+        <input type="range" className="cp-color-picker-hue-slider" value="210" />
+      </div>
+      <div className="cp-color-picker-channel-grid">
+        <input type="text" className="cp-form-field-input" value="#1264A3" readOnly="" />
+      </div>
+    </div>
+  </div>} />
+```
 
 ## Related Components / Links
 

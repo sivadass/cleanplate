@@ -7,6 +7,8 @@ import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import Typography from "../typography";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import type { MaterialIconName } from "../icon/material-icon-names";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
@@ -58,7 +60,20 @@ const MenuList: React.FC<MenuListProps> = ({
   direction = "horizontal",
   onMenuClick,
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "MenuList",
+    { items, activeItem, size, variant, margin, direction },
+    {
+      activeItem: undefined,
+      size: undefined,
+      variant: undefined,
+      margin: undefined,
+      direction: "horizontal",
+    },
+  );
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const menuListClassNames = getClassNames(
     styles["cp-menu-list"],
@@ -74,9 +89,9 @@ const MenuList: React.FC<MenuListProps> = ({
   };
 
   return (
-    <div className={menuListClassNames}>
-      <div className={styles.wrapper}>
-        <ul className={styles[direction]}>
+    <div {...dataCp} className={menuListClassNames}>
+      <div className={styles["cp-menu-list-wrapper"]}>
+        <ul className={styles[`cp-menu-list--${direction}`]}>
           {items?.map((item, index) => {
             const isActive = item.value === activeItem;
             const delay = index * 100;
@@ -84,15 +99,23 @@ const MenuList: React.FC<MenuListProps> = ({
               <Animated
                 as="li"
                 key={item.value}
-                className={isActive ? styles.active : undefined}
+                className={
+                  isActive ? styles["cp-menu-list-item--active"] : undefined
+                }
                 delay={delay}
                 animationType="fade-in-left"
               >
                 <a href={item.value} onClick={(e) => handleMenuClick(e, item)}>
                   {item?.icon && (
-                    <Icon className={styles.menuItemIcon} name={item.icon} />
+                    <Icon
+                      className={styles["cp-menu-list-item-icon"]}
+                      name={item.icon}
+                    />
                   )}
-                  <Typography variant="span" className={styles.menuItemLabel}>
+                  <Typography
+                    variant="span"
+                    className={styles["cp-menu-list-item-label"]}
+                  >
                     {item.label}
                   </Typography>
                 </a>

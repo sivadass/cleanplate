@@ -142,6 +142,26 @@ Prefer **`Dropdown`** with **`Avatar`** as **`trigger`** and **`content`** that 
 - **onMenuItemClick:** Called with the clicked item; mobile menu closes on click.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0).
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<header data-cp="Header" data-cp-logo-url="https://example.com/logo.svg" class="cp-header"></header>
+```
+
+### React equivalent
+
+```jsx
+<Header logoUrl="https://example.com/logo.svg" />
+```
+
 ## Related Components / Links
 
 - MenuList (used in center and mobile menu)

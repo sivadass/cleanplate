@@ -12,7 +12,7 @@ Purpose: A customizable action trigger for user interactions. Supports visual va
 | isFluid | boolean | no | false | Makes the button take full width of its container. |
 | size | "small" \| "medium" | no | "medium" | Size variant of the button. |
 | variant | "solid" \| "outline" \| "ghost" \| "icon" | no | "solid" | Visual style variant of the button (`icon` is a style variant, not an icon prop). |
-| margin | string \| string[] | no | "m-0" | Spacing utility token(s), such as `m-0` or `["m-1", "m-b-2"]`. |
+| margin | string \| string[] | no | "0" | Spacing **suffix** token(s), such as `"0"` or `["0", "b-2"]`. |
 | onClick | function | no | — | Called with the click event when button is clicked. Prevents execution if `isDisabled` or `isLoading` is true. |
 | className | string | no | "" | Additional class names for the root element. |
 | type | "button" \| "submit" \| "reset" | no | "button" | HTML button type attribute. |
@@ -153,8 +153,8 @@ import { Button } from "cleanplate";
 
 export const Example = () => (
   <>
-    <Button margin="m-2">With margin</Button>
-    <Button margin={["m-1", "m-b-3"]}>With multiple margins</Button>
+    <Button margin="2">With margin</Button>
+    <Button margin={["1", "b-3"]}>With multiple margins</Button>
   </>
 );
 ```
@@ -179,9 +179,36 @@ export const Example = () => (
 - The `onClick` handler is not called if the button is disabled or loading, even if the event is triggered.
 - The button extends standard HTML button attributes, so you can use props like `aria-label`, `data-*`, etc.
 - The `type` prop defaults to `"button"` to prevent accidental form submissions. Use `type="submit"` for form submission buttons.
-- Margin spacing accepts either a single string token (e.g., `"m-2"`) or an array of tokens (e.g., `["m-1", "m-b-3"]`).
+- Margin spacing accepts either a single suffix string (e.g., `"2"`) or an array of suffixes (e.g., `["1", "b-3"]`).
 - `variant="icon"` is a visual style variant. For icon-only buttons, pass an accessible name using `aria-label`.
 - In `size="medium"` + `variant="icon"`, styling uses compact horizontal padding and a 44px minimum width.
+
+## HTML prototype
+
+Design agents (Paper, Claude Design) author canonical-frame HTML with `data-cp` attributes and public `cp-*` CSS. Convert to React with the CLI — do not invent JSX by hand.
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<button
+  data-cp="Button"
+  data-cp-variant="outline"
+  data-cp-margin="b-2"
+  class="cp-button cp-button--outline cp-m-b-2"
+>
+  Save
+</button>
+```
+
+### React equivalent
+
+```jsx
+<Button variant="outline" margin="b-2">Save</Button>
+```
 
 ## Related Components / Links
 

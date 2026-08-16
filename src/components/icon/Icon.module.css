@@ -13,46 +13,46 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.small {
+.cp-icon.cp-icon--small {
   font-size: 16px;
 }
 
-.medium {
+.cp-icon.cp-icon--medium {
   font-size: 24px;
 }
 
-.large {
+.cp-icon.cp-icon--large {
   font-size: 36px;
 }
 
-.black {
+.cp-icon.cp-icon--black {
   color: var(--black);
 }
 
-.white {
+.cp-icon.cp-icon--white {
   color: var(--white);
 }
 
-.gray {
+.cp-icon.cp-icon--gray {
   color: var(--text-muted);
 }
 
-.blue {
+.cp-icon.cp-icon--blue {
   color: var(--blue);
 }
 
-.green {  
+.cp-icon.cp-icon--green {
   color: var(--green);
 }
 
-.red {
+.cp-icon.cp-icon--red {
   color: var(--red);
 }
 
-.yellow {
+.cp-icon.cp-icon--yellow {
   color: var(--yellow);
 }
 
-.orange {
+.cp-icon.cp-icon--orange {
   color: var(--orange);
 }

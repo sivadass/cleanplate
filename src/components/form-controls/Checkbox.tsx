@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type CheckboxValue = string | number;
 
@@ -115,6 +117,42 @@ const Checkbox: React.FC<CheckboxProps> = ({
   className = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Checkbox",
+    {
+      options,
+      name,
+      id,
+      label,
+      value,
+      defaultValue,
+      isDisabled,
+      isRequired,
+      isFluid,
+      orientation,
+      variant,
+      cardControlAlign,
+      error,
+      margin,
+      dataTestId,
+    },
+    {
+      value: undefined,
+      defaultValue: undefined,
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      orientation: "vertical",
+      variant: "default",
+      cardControlAlign: "end",
+      error: "",
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      dataTestId: undefined,
+      id: undefined,
+    },
+  );
   const generatedId = useId();
   const fieldId = id ?? name ?? generatedId;
   const legendId = `${fieldId}-legend`;
@@ -161,6 +199,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
   return (
     <fieldset
+      {...dataCp}
       className={wrapperClassName}
       disabled={isDisabled}
       aria-invalid={error ? true : undefined}

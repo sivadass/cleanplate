@@ -84,7 +84,7 @@ import { Button, Icon, MediaObject } from "cleanplate";
   meta="Thu"
   descriptionLineClamp={2}
   action={
-    <Button type="button" variant="icon" aria-label="Star thread" margin="m-0">
+    <Button type="button" variant="icon" aria-label="Star thread" margin="0">
       <Icon name="star_border" />
     </Button>
   }
@@ -123,7 +123,7 @@ import { MediaObject, Typography } from "cleanplate";
   title="Jane Doe"
   description="Ping when you merge."
   meta={
-    <Typography variant="small" margin="m-0" isBold align="right">
+    <Typography variant="small" margin="0" isBold align="right">
       3 new
     </Typography>
   }
@@ -159,12 +159,12 @@ import { MediaObject, Typography } from "cleanplate";
   mediaIcon="star"
   title="Featured"
   description="With spacing utilities"
-  margin="m-b-3"
-  padding="p-2"
+  margin="b-3"
+  padding="2"
 />
 <MediaObject
-  margin={["m-1", "m-b-3"]}
-  padding={["p-1", "p-x-2"]}
+  margin={["1", "b-3"]}
+  padding={["1", "x-2"]}
   title="Row"
 />
 ```
@@ -193,6 +193,26 @@ import { MediaObject, Typography } from "cleanplate";
 - **Styling**: Text stacks use semantic tokens (`--text-default`, `--text-subtle`, `--text-muted`); rules live in CSS modules—not the `Typography` component—so inbox-style line-heights stay consistent.
 - **Spacing**: Margin and padding use the same spacing token shape as elsewhere (`string` or `SpacingOption[]` arrays).
 - **Interaction**: Whole row is clickable when `onClick` is supplied; avatar receives the same handler for consistency.
+
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="MediaObject" data-cp-title="Ada Lovelace" data-cp-subtitle="Engineer" class="cp-media-object"></div>
+```
+
+### React equivalent
+
+```jsx
+<MediaObject title="Ada Lovelace" subtitle="Engineer" />
+```
 
 ## Related Components / Links
 

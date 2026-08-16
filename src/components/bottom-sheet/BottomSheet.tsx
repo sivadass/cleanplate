@@ -4,6 +4,8 @@ import styles from "./BottomSheet.module.scss";
 import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import utilStyles from "../../styles/utils.module.scss";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
@@ -23,7 +25,14 @@ export interface BottomSheetProps {
   children?: React.ReactNode;
 }
 
-const SNAP_POINTS = [0.3, 0.6, 0.9];
+const SNAP_POINTS = [0.3, 0.6, 0.9] as const;
+type SnapPoint = (typeof SNAP_POINTS)[number];
+
+const SNAP_CLASS: Record<SnapPoint, string> = {
+  0.3: "cp-bottom-sheet--snap-30",
+  0.6: "cp-bottom-sheet--snap-60",
+  0.9: "cp-bottom-sheet--snap-90",
+};
 const MINIMUM_DISTANCE = 50;
 const CLOSE_THRESHOLD = 0.2;
 
@@ -34,7 +43,14 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [currentSnap, setCurrentSnap] = useState(SNAP_POINTS[0]);
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "BottomSheet",
+    { isOpen, margin },
+    { margin: undefined },
+  );
+  const [currentSnap, setCurrentSnap] = useState<SnapPoint>(SNAP_POINTS[0]);
   const [isDragging, setIsDragging] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
   const startY = useRef(0);
@@ -43,9 +59,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   const isDraggingRef = useRef(false);
   isDraggingRef.current = isDragging;
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const bottomSheetClassNames = getClassNames(
     styles["cp-bottom-sheet"],
+    !isDragging && styles[SNAP_CLASS[currentSnap]],
     marginClass,
     className
   );
@@ -112,7 +129,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       return;
     }
 
-    let closestSnap = SNAP_POINTS[0];
+    let closestSnap: SnapPoint = SNAP_POINTS[0];
     let minDistance = Math.abs(currentPosition - SNAP_POINTS[0]);
 
     SNAP_POINTS.forEach((snap) => {
@@ -148,28 +165,29 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles["bottom-sheet-overlay"]}>
+    <div className={styles["cp-bottom-sheet-overlay"]}>
       <div
+        {...dataCp}
         ref={sheetRef}
         style={{
-          transform: `translateY(${(1 - currentSnap) * 100}%)`,
+          transform: isDragging ? undefined : `translateY(${(1 - currentSnap) * 100}%)`,
           transition: isDragging ? "none" : "transform 0.3s ease-out",
         }}
         className={bottomSheetClassNames}
       >
         <div
-          className={styles["bottom-sheet-handle"]}
+          className={styles["cp-bottom-sheet__handle"]}
           onMouseDown={handleTouchStart}
           onTouchStart={handleTouchStart}
         >
-          <div className={styles["bottom-sheet-handle-bar"]} />
+          <div className={styles["cp-bottom-sheet__handle-bar"]} />
           <Icon
-            className={styles["bottom-sheet-handle-icon"]}
+            className={styles["cp-bottom-sheet__handle-icon"]}
             size="medium"
             name="drag_indicator"
           />
         </div>
-        <div className={styles["bottom-sheet-content"]}>{children}</div>
+        <div className={styles["cp-bottom-sheet__content"]}>{children}</div>
       </div>
     </div>
   );

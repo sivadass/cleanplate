@@ -210,6 +210,35 @@ Footer actions render in a row: **tertiary** (ghost, left), **secondary** (outli
 - **Spacing:** `margin` uses the suffix API (e.g. `"0"`, `"b-2"`); component adds `m-` prefix.
 - **Reduced motion:** Respects `prefers-reduced-motion: reduce` (transitions minimized in CSS).
 
+
+
+## HTML prototype
+
+Place the **open** drawer overlay at the **artboard root**. Use `data-cp-is-open="true"`, `data-cp-placement`, and slots `title`, `body`, `footer`.
+
+```bash
+npm run html-to-jsx -- drawer.open.html
+```
+
+### Recipe (open)
+
+```html
+<div class="cp-drawer-overlay">
+  <div data-cp="Drawer" data-cp-is-open="true" data-cp-placement="right" class="cp-drawer cp-drawer--placement-right cp-drawer--size-medium">
+    <h2 data-cp-slot="title" class="cp-drawer__title">Filters</h2>
+    <div data-cp-slot="body" class="cp-drawer__body"><p>Refine the list.</p></div>
+  </div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<div className="cp-drawer-overlay">
+  <Drawer isOpen title={<h2 className="cp-drawer__title">Filters</h2>} body={<div className="cp-drawer__body"><p>Refine the list.</p></div>} />
+</div>
+```
+
 ## Related Components / Links
 
 - Modal (centered overlay dialog)

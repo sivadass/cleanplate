@@ -8,6 +8,8 @@ import {
 import getClassNames from "../../utils/get-class-names";
 import { getSpacingClass } from "../../utils/common";
 import utilStyles from "../../styles/utils.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 
@@ -43,18 +45,32 @@ const Animated: React.FC<AnimatedProps> = ({
   isBlock = false,
   ...otherProps
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Animated",
+    { animationType, as: Component, margin, delay, isBlock },
+    {
+      animationType: "fade-in-bottom",
+      as: "span",
+      margin: ["0"],
+      delay: 0,
+      isBlock: false,
+    },
+  );
   const domRef = useRef<HTMLElement>(null);
   const [isVisible, setVisible] = useState(false);
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
-  const delayClass = `delay-${delay}`;
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
+  const delayClass = `cp-animated--delay-${delay}`;
+  const animationClass = `cp-animated--${animationType}`;
 
   const animatedClasses = getClassNames(
-    styles["animated"],
+    styles["cp-animated"],
     {
-      [styles[animationType]]: isVisible,
-      [styles["is-block"]]: isBlock,
+      [styles[animationClass]]: isVisible,
+      [styles["cp-animated--block"]]: isBlock,
     },
-    styles[delayClass],
+    delay > 0 ? styles[delayClass] : undefined,
     marginClass,
     className
   );
@@ -74,7 +90,7 @@ const Animated: React.FC<AnimatedProps> = ({
   }, []);
 
   return (
-    <Component ref={domRef} className={animatedClasses} {...otherProps}>
+    <Component {...dataCp} ref={domRef} className={animatedClasses} {...otherProps}>
       {children}
     </Component>
   );

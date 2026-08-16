@@ -200,6 +200,41 @@ Use the same **`headerRight`** account menu pattern as in the full dashboard exa
 - **Responsive:** At viewport width ≤ 1024px the sidebar column is hidden via CSS. When `header` is `HeaderProps`, the default is to rely on the header’s mobile menu for the same items. When there is no header (or `mobileSidebarDrawer` is `true`), AppShell renders a **Floating UI** mobile drawer: fixed menu trigger, `FloatingPortal` + `FloatingOverlay` (scroll lock) + `FloatingFocusManager` (modal focus), dismiss on overlay press and Escape, and the same `MenuList` as the sidebar. On desktop, use Header’s **`showCenterMenu: false`** when the sidebar already shows the same items so the header center stays empty (or use **`headerCenter`** for a title or other content).
 - **No root spacing props:** AppShell does not expose margin/padding; use `className` or `contentClassName` for layout.
 
+
+
+## HTML prototype
+
+AppShell requires `data-cp-recipe`. Use **two artboards**: `desktop` (header/sidebar/main) and `mobile-drawer` (overlay + entered drawer). Place mobile navigation at the artboard root, not inside clipped frames.
+
+```bash
+npm run html-to-jsx -- appshell.desktop.html
+npm run html-to-jsx -- appshell.mobile-drawer.html
+```
+
+### Recipe (desktop)
+
+```html
+<div data-cp="AppShell" data-cp-recipe="desktop" class="cp-app-shell"><div data-cp-slot="children"><p data-cp="Typography">Dashboard</p></div></div>
+```
+
+### React equivalent (desktop)
+
+```jsx
+<AppShell recipe="desktop" children={<div><Typography>Dashboard</Typography></div>} />
+```
+
+### Recipe (mobile-drawer)
+
+```html
+<div data-cp="AppShell" data-cp-recipe="mobile-drawer" class="cp-app-shell cp-app-shell--mobile-drawer"></div>
+```
+
+### React equivalent (mobile-drawer)
+
+```jsx
+<AppShell recipe="mobile-drawer" />
+```
+
 ## Related Components / Links
 
 - Header (Header props or custom node; with sidebar + `HeaderProps`, pass **`showCenterMenu: false`** to hide duplicate center nav on desktop while keeping `menuItems` for the mobile menu)

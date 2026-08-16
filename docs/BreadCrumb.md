@@ -125,6 +125,26 @@ import { BreadCrumb, Container, Typography } from "cleanplate";
 - **Separator:** Rendered with `aria-hidden="true"`. Chevron uses the Icon component (`chevron_right`); slash is the "/" character.
 - **Spacing:** `margin` accepts the **spacing suffix**; the component adds the `m-` prefix via `getSpacingClass`.
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<nav data-cp="BreadCrumb" data-cp-separator="chevron" class="cp-breadcrumb"></nav>
+```
+
+### React equivalent
+
+```jsx
+<BreadCrumb />
+```
+
 ## Related Components / Links
 
 - Container (layout and spacing around the breadcrumb)

@@ -1,7 +1,11 @@
-.animated {
+.cp-animated {
   opacity: 0;
   will-change: opacity, visibility, visibility;
   display: inline-block;
+
+  &.cp-animated--block {
+    display: block;
+  }
 }
 
 @keyframes fadeInFromTop {
@@ -15,8 +19,10 @@
   }
 }
 
-.fade-in-top {
-  animation: fadeInFromTop 300ms ease-in forwards;
+.cp-animated {
+  &.cp-animated--fade-in-top {
+    animation: fadeInFromTop 300ms ease-in forwards;
+  }
 }
 
 @keyframes fadeOutToTop {
@@ -30,8 +36,10 @@
   }
 }
 
-.fade-out-top {
-  animation: fadeOutToTop 300ms ease-out forwards;
+.cp-animated {
+  &.cp-animated--fade-out-top {
+    animation: fadeOutToTop 300ms ease-out forwards;
+  }
 }
 
 @keyframes fadeInFromLeft {
@@ -45,8 +53,10 @@
   }
 }
 
-.fade-in-left {
-  animation: fadeInFromLeft 300ms ease-in forwards;
+.cp-animated {
+  &.cp-animated--fade-in-left {
+    animation: fadeInFromLeft 300ms ease-in forwards;
+  }
 }
 
 @keyframes fadeOutToLeft {
@@ -60,8 +70,10 @@
   }
 }
 
-.fade-out-left {
-  animation: fadeOutToLeft 300ms ease-out forwards;
+.cp-animated {
+  &.cp-animated--fade-out-left {
+    animation: fadeOutToLeft 300ms ease-out forwards;
+  }
 }
 
 @keyframes fadeInFromRight {
@@ -75,8 +87,10 @@
   }
 }
 
-.fade-in-right {
-  animation: fadeInFromRight 300ms ease-in forwards;
+.cp-animated {
+  &.cp-animated--fade-in-right {
+    animation: fadeInFromRight 300ms ease-in forwards;
+  }
 }
 
 @keyframes fadeOutToRight {
@@ -90,8 +104,10 @@
   }
 }
 
-.fade-out-right {
-  animation: fadeOutToRight 300ms ease-out forwards;
+.cp-animated {
+  &.cp-animated--fade-out-right {
+    animation: fadeOutToRight 300ms ease-out forwards;
+  }
 }
 
 @keyframes fadeInFromBottom {
@@ -105,8 +121,10 @@
   }
 }
 
-.fade-in-bottom {
-  animation: fadeInFromBottom 300ms ease-in forwards;
+.cp-animated {
+  &.cp-animated--fade-in-bottom {
+    animation: fadeInFromBottom 300ms ease-in forwards;
+  }
 }
 
 @keyframes fadeOutToBottom {
@@ -120,130 +138,130 @@
   }
 }
 
-.fade-out-bottom {
-  animation: fadeOutToBottom 300ms ease-out forwards;
+.cp-animated {
+  &.cp-animated--fade-out-bottom {
+    animation: fadeOutToBottom 300ms ease-out forwards;
+  }
 }
 
-.is-block {
-  display: block;
-}
+.cp-animated {
+  &.cp-animated--delay-100 {
+    animation-delay: 100ms;
+  }
 
-.delay-100 {
-  animation-delay: 100ms;
-}
+  &.cp-animated--delay-200 {
+    animation-delay: 200ms;
+  }
 
-.delay-200 {
-  animation-delay: 200ms;
-}
+  &.cp-animated--delay-300 {
+    animation-delay: 300ms;
+  }
 
-.delay-300 {
-  animation-delay: 300ms;
-}
+  &.cp-animated--delay-400 {
+    animation-delay: 400ms;
+  }
 
-.delay-400 {
-  animation-delay: 400ms;
-}
+  &.cp-animated--delay-500 {
+    animation-delay: 500ms;
+  }
 
-.delay-500 {
-  animation-delay: 500ms;
-}
+  &.cp-animated--delay-600 {
+    animation-delay: 600ms;
+  }
 
-.delay-600 {
-  animation-delay: 600ms;
-}
+  &.cp-animated--delay-700 {
+    animation-delay: 700ms;
+  }
 
-.delay-700 {
-  animation-delay: 700ms;
-}
+  &.cp-animated--delay-800 {
+    animation-delay: 800ms;
+  }
 
-.delay-800 {
-  animation-delay: 800ms;
-}
+  &.cp-animated--delay-900 {
+    animation-delay: 900ms;
+  }
 
-.delay-900 {
-  animation-delay: 900ms;
-}
+  &.cp-animated--delay-1000 {
+    animation-delay: 1000ms;
+  }
 
-.delay-1000 {
-  animation-delay: 1000ms;
-}
+  &.cp-animated--delay-1100 {
+    animation-delay: 1100ms;
+  }
 
-.delay-1100 {
-  animation-delay: 1100ms;
-}
+  &.cp-animated--delay-1200 {
+    animation-delay: 1200ms;
+  }
 
-.delay-1200 {
-  animation-delay: 1200ms;
-}
+  &.cp-animated--delay-1300 {
+    animation-delay: 1300ms;
+  }
 
-.delay-1300 {
-  animation-delay: 1300ms;
-}
+  &.cp-animated--delay-1400 {
+    animation-delay: 1400ms;
+  }
 
-.delay-1400 {
-  animation-delay: 1400ms;
-}
+  &.cp-animated--delay-1500 {
+    animation-delay: 1500ms;
+  }
 
-.delay-1500 {
-  animation-delay: 1500ms;
-}
+  &.cp-animated--delay-1600 {
+    animation-delay: 1600ms;
+  }
 
-.delay-1600 {
-  animation-delay: 1600ms;
-}
+  &.cp-animated--delay-1700 {
+    animation-delay: 1700ms;
+  }
 
-.delay-1700 {
-  animation-delay: 1700ms;
-}
+  &.cp-animated--delay-1800 {
+    animation-delay: 1800ms;
+  }
 
-.delay-1800 {
-  animation-delay: 1800ms;
-}
+  &.cp-animated--delay-1900 {
+    animation-delay: 1900ms;
+  }
 
-.delay-1900 {
-  animation-delay: 1900ms;
-}
+  &.cp-animated--delay-2000 {
+    animation-delay: 2000ms;
+  }
 
-.delay-2000 {
-  animation-delay: 2000ms;
-}
+  &.cp-animated--delay-2100 {
+    animation-delay: 2100ms;
+  }
 
-.delay-2100 {
-  animation-delay: 2100ms;
-}
+  &.cp-animated--delay-2200 {
+    animation-delay: 2200ms;
+  }
 
-.delay-2200 {
-  animation-delay: 2200ms;
-}
+  &.cp-animated--delay-2300 {
+    animation-delay: 2300ms;
+  }
 
-.delay-2300 {
-  animation-delay: 2300ms;
-}
+  &.cp-animated--delay-2400 {
+    animation-delay: 2400ms;
+  }
 
-.delay-2400 {
-  animation-delay: 2400ms;
-}
+  &.cp-animated--delay-2500 {
+    animation-delay: 2500ms;
+  }
 
-.delay-2500 {
-  animation-delay: 2500ms;
-}
+  &.cp-animated--delay-2600 {
+    animation-delay: 2600ms;
+  }
 
-.delay-2600 {
-  animation-delay: 2600ms;
-}
+  &.cp-animated--delay-2700 {
+    animation-delay: 2700ms;
+  }
 
-.delay-2700 {
-  animation-delay: 2700ms;
-}
+  &.cp-animated--delay-2800 {
+    animation-delay: 2800ms;
+  }
 
-.delay-2800 {
-  animation-delay: 2800ms;
-}
+  &.cp-animated--delay-2900 {
+    animation-delay: 2900ms;
+  }
 
-.delay-2900 {
-  animation-delay: 2900ms;
-}
-
-.delay-3000 {
-  animation-delay: 3000ms;
+  &.cp-animated--delay-3000 {
+    animation-delay: 3000ms;
+  }
 }

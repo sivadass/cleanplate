@@ -5,6 +5,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ButtonSize = "small" | "medium";
 
@@ -37,7 +39,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isFluid = false,
       size = "medium",
       variant = "solid",
-      margin = "m-0",
+      margin = "0",
       onClick,
       className = "",
       type = "button",
@@ -45,16 +47,32 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) {
-    const marginClass = getSpacingClass(margin, utilStyles, "m");
+    const prototypeEnabled = usePrototypeAttributes();
+    const dataCp = emitDataCp(
+      prototypeEnabled,
+      "Button",
+      { variant, size, isLoading, isDisabled, isFluid, margin, type },
+      {
+        variant: "solid",
+        size: "medium",
+        isLoading: false,
+        isDisabled: false,
+        isFluid: false,
+        margin: "0",
+        type: "button",
+      },
+    );
+
+    const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
     const buttonClasses = getClassNames(
-      styles["button"],
-      styles[size],
-      styles[variant],
+      styles["cp-button"],
+      styles[`cp-button--${size}`],
+      variant !== "solid" ? styles[`cp-button--${variant}`] : "",
       {
-        [styles["fluid"]]: isFluid,
-        [styles["disabled"]]: isDisabled,
-        [styles["loading"]]: isLoading,
+        [styles["cp-button--fluid"]]: isFluid,
+        [styles["cp-button--disabled"]]: isDisabled,
+        [styles["cp-button--loading"]]: isLoading,
       },
       marginClass,
       className,
@@ -70,6 +88,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
+        {...dataCp}
         ref={ref}
         className={buttonClasses}
         type={type}

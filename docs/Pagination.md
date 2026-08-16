@@ -136,6 +136,26 @@ import { Table, Pagination } from "cleanplate";
 - **Page buttons:** First page, last page, and a range around the current page are shown; gaps are represented as ellipsis (disabled "..." button).
 - **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Pagination" data-cp-total-items="100" class="cp-pagination"></div>
+```
+
+### React equivalent
+
+```jsx
+<Pagination totalItems={100} />
+```
+
 ## Related Components / Links
 
 - Table (often used with Pagination for tabular data; Table can show Pagination via `hidePagination={false}` or you can render Pagination separately)

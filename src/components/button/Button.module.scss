@@ -15,7 +15,7 @@
   }
 }
 
-.button {
+.cp-button {
   font-family: inherit;
   font-size: inherit;
   padding: 0 16px;
@@ -31,17 +31,17 @@
   &:hover {
     background: var(--primary-brand-darker);
   }
-  &.disabled {
+  &.cp-button--disabled {
     cursor: not-allowed;
     opacity: 0.65;
   }
-  &.loading {
+  &.cp-button--loading {
     cursor: not-allowed;
   }
-  &.fluid {
+  &.cp-button--fluid {
     width: 100%;
   }
-  &.small {
+  &.cp-button--small {
     height: 24px;
     font-size: 13px;
     border-radius: 6px;
@@ -49,15 +49,15 @@
       font-size: 16px;
     }
   }
-  &.medium {
+  &.cp-button--medium {
     height: 50px;
     min-width: 96px;
-    &.icon {
+    &.cp-button--icon {
       min-width: 50px;
       padding: 0 8px;
     }
   }
-  &.outline {
+  &.cp-button--outline {
     color: var(--primary-brand);
     border-color: var(--primary-brand);
     background: var(--white);
@@ -70,7 +70,7 @@
       color: var(--primary-brand);
     }
   }
-  &.ghost {
+  &.cp-button--ghost {
     color: var(--primary-brand);
     border-color: transparent;
     background: transparent;
@@ -82,7 +82,7 @@
       color: var(--primary-brand);
     }
   }
-  &.icon {
+  &.cp-button--icon {
     color: var(--primary-brand);
     border-color: transparent;
     background: transparent;

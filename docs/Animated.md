@@ -94,6 +94,26 @@ import { Animated } from "cleanplate";
 - **Delay:** The `delay` value is used to build a class name `delay-{delay}`. Styles must define the corresponding `animation-delay` for that class (e.g. `.delay-200 { animation-delay: 200ms; }`).
 - **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<span data-cp="Animated" data-cp-animation-type="fade-in-bottom" class="cp-animated">Hello</span>
+```
+
+### React equivalent
+
+```jsx
+<Animated>Hello</Animated>
+```
+
 ## Related Components / Links
 
 - Container (layout around animated content)

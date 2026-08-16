@@ -16,22 +16,26 @@
 
 .cp-spinner {
   color: var(--primary-brand);
-  &.small {
+
+  &.cp-spinner--small {
     .cp-spinner-icon {
       font-size: 16px;
     }
   }
-  &.medium {
+
+  &.cp-spinner--medium {
     .cp-spinner-icon {
       font-size: 32px;
     }
   }
-  &.large {
+
+  &.cp-spinner--large {
     .cp-spinner-icon {
       font-size: 64px;
     }
   }
-  &.dark {
+
+  &.cp-spinner--dark {
     .cp-spinner-icon {
       color: var(--white);
     }

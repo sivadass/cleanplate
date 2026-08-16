@@ -192,6 +192,35 @@ const App = () => {
 - **ARIA:** The overlay has `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` pointing to the title when present.
 - **Spacing:** `margin` accepts a full class string (e.g. "m-0") or an array of spacing suffixes; the component uses `getSpacingClass` with prefix `m-`.
 
+
+
+## HTML prototype
+
+Place the **open** overlay at the **artboard root** as a sibling of the page — not inside `overflow: hidden` or transformed frames. Use `data-cp-is-open="true"` and slots `title`, `body`, `footer`.
+
+```bash
+npm run html-to-jsx -- modal.open.html
+```
+
+### Recipe (open)
+
+```html
+<div class="cp-modal-overlay cp-modal-overlay-open">
+  <div data-cp="Modal" data-cp-is-open="true" class="cp-modal cp-modal--medium">
+    <h2 data-cp-slot="title" class="cp-modal__title">Edit profile</h2>
+    <div data-cp-slot="body" class="cp-modal__body"><p>Update your details before saving.</p></div>
+  </div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<div className="cp-modal-overlay cp-modal-overlay-open">
+  <Modal isOpen title={<h2 className="cp-modal__title">Edit profile</h2>} body={<div className="cp-modal__body"><p>Update your details before saving.</p></div>} />
+</div>
+```
+
 ## Related Components / Links
 
 - ConfirmDialog (simpler confirmation-only modal with title, description, primary/secondary actions)

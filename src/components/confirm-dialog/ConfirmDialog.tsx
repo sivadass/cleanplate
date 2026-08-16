@@ -4,6 +4,8 @@ import Button from "../button";
 import Icon from "../icon";
 import styles from "./ConfirmDialog.module.scss";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ConfirmDialogSize = "small" | "medium" | "large";
 
@@ -59,23 +61,54 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   className = "",
   overlayClassName = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "ConfirmDialog",
+    {
+      isOpen,
+      title,
+      description,
+      primaryButtonLabel,
+      secondaryButtonLabel,
+      size,
+      variant,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      overlayClassName,
+    },
+    {
+      isOpen: false,
+      title: "Confirm Action",
+      description: "",
+      primaryButtonLabel: "Confirm",
+      secondaryButtonLabel: "Cancel",
+      size: "small",
+      variant: "default",
+      showCloseButton: true,
+      closeOnOverlayClick: true,
+      closeOnEscape: true,
+      overlayClassName: "",
+    },
+  );
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
   const modalClasses = getClassNames(
-    styles["confirm-dialog"],
-    styles[size],
-    styles[variant],
+    styles["cp-confirm-dialog"],
+    styles[`cp-confirm-dialog--${size}`],
+    variant !== "default" && styles[`cp-confirm-dialog--${variant}`],
     {
-      [styles["open"]]: isOpen,
+      [styles["cp-confirm-dialog--open"]]: isOpen,
     },
     className
   );
 
   const overlayClasses = getClassNames(
-    styles["overlay"],
+    styles["cp-confirm-dialog-overlay"],
     {
-      [styles["overlay-open"]]: isOpen,
+      [styles["cp-confirm-dialog-overlay-open"]]: isOpen,
     },
     overlayClassName
   );
@@ -146,6 +179,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       aria-labelledby="confirm-dialog-title"
     >
       <div
+        {...dataCp}
         ref={modalRef}
         className={modalClasses}
         tabIndex={-1}
@@ -154,7 +188,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         {showCloseButton && (
           <button
             type="button"
-            className={styles["close-button"]}
+            className={styles["cp-confirm-dialog__close-button"]}
             onClick={onClose}
             aria-label="Close dialog"
           >
@@ -162,28 +196,28 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           </button>
         )}
 
-        <div className={styles["content"]}>
+        <div className={styles["cp-confirm-dialog__content"]}>
           <Typography
             variant="h2"
             id="confirm-dialog-title"
-            className={styles["title"]}
+            className={styles["cp-confirm-dialog__title"]}
           >
             {title}
           </Typography>
 
           {description && (
-            <Typography variant="p" className={styles["description"]}>
+            <Typography variant="p" className={styles["cp-confirm-dialog__description"]}>
               {description}
             </Typography>
           )}
 
-          <div className={styles["buttons"]}>
+          <div className={styles["cp-confirm-dialog__buttons"]}>
             {secondaryButtonLabel && (
               <Button
                 variant="outline"
                 size="medium"
                 onClick={handleSecondaryClick}
-                className={styles["button"]}
+                className={styles["cp-confirm-dialog__button"]}
               >
                 {secondaryButtonLabel}
               </Button>
@@ -193,7 +227,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
                 variant="solid"
                 size="medium"
                 onClick={handlePrimaryClick}
-                className={styles["button"]}
+                className={styles["cp-confirm-dialog__button"]}
               >
                 {primaryButtonLabel}
               </Button>

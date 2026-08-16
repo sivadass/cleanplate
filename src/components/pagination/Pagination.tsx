@@ -9,6 +9,8 @@ import Button from "../button";
 import Container from "../container";
 import FormControls from "../form-controls";
 import Typography from "../typography";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 const getPaginationButtons = (
   totalItems: number = 120,
@@ -105,6 +107,28 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
   onRowsPerPageChange,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Pagination",
+    {
+      variant,
+      margin,
+      totalItems,
+      totalLabel,
+      currentPage,
+      rowsPerPage,
+      rowsPerPageOptions,
+    },
+    {
+      variant: "default",
+      margin: "0",
+      totalLabel: "Items",
+      currentPage: 1,
+      rowsPerPage: 10,
+      rowsPerPageOptions: defaultRowsPerPageOptions,
+    },
+  );
   const visibleButtons = getPaginationButtons(
     totalItems,
     rowsPerPage,
@@ -116,11 +140,11 @@ const Pagination: React.FC<PaginationProps> = ({
   const totalPages = Math.ceil(totalItems / rowsPerPage);
   const isPrevBtnDisabled = currentPage === 1;
   const isNextBtnDisabled = currentPage === totalPages;
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const paginationClasses = getClassNames(
-    styles["pagination"],
+    styles["cp-pagination"],
     {
-      [styles[variant]]: variant,
+      [styles[`cp-pagination--${variant}`]]: variant,
     },
     marginClass,
     className
@@ -151,25 +175,25 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className={paginationClasses}>
+    <div {...dataCp} className={paginationClasses}>
       <Container
         display="flex"
         align="center"
         justify="center"
-        className={styles["pagination-wrapper"]}
+        className={styles["cp-pagination-wrapper"]}
       >
-        <Container className={styles["total-count"]}>
+        <Container className={styles["cp-pagination-total-count"]}>
           <Typography variant="small">{`Total ${totalLabel}: ${totalItems}`}</Typography>
         </Container>
         <Container
           display="flex"
           align="center"
           justify="center"
-          className={styles["buttons-wrapper"]}
+          className={styles["cp-pagination-buttons-wrapper"]}
         >
           <Button
             variant="outline"
-            className={styles["pagination-button"]}
+            className={styles["cp-pagination-button"]}
             isDisabled={isPrevBtnDisabled}
             onClick={() => handlePrev()}
           >
@@ -182,7 +206,7 @@ const Pagination: React.FC<PaginationProps> = ({
             return (
               <Button
                 variant={isActive ? "solid" : "outline"}
-                className={styles["pagination-button"]}
+                className={styles["cp-pagination-button"]}
                 key={btnId}
                 isDisabled={btn === null}
                 onClick={() => handlePageChange(btn)}
@@ -194,7 +218,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
           <Button
             variant="outline"
-            className={styles["pagination-button"]}
+            className={styles["cp-pagination-button"]}
             isDisabled={isNextBtnDisabled}
             onClick={() => handleNext()}
           >
@@ -205,14 +229,14 @@ const Pagination: React.FC<PaginationProps> = ({
         <Container
           display="flex"
           align="center"
-          className={styles["show-per-page"]}
+          className={styles["cp-pagination-show-per-page"]}
         >
           <Typography variant="small">Show per page</Typography>
           <FormControls.Select
-            className={styles["rows-select"]}
+            className={styles["cp-pagination-rows-select"]}
             placeholder="Rows per page"
-            triggerClassName={styles["rows-select-trigger"]}
-            contentsClassName={styles["rows-select-content"]}
+            triggerClassName={styles["cp-pagination-rows-select-trigger"]}
+            contentsClassName={styles["cp-pagination-rows-select-content"]}
             options={rowsPerPageOptions}
             value={defaultRowsPerPage}
             clearable={false}

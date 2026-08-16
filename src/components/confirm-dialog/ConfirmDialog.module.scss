@@ -1,4 +1,4 @@
-.overlay {
+.cp-confirm-dialog-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,13 +14,13 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
   padding: var(--space-4);
 
-  &.overlay-open {
+  &.cp-confirm-dialog-overlay-open {
     opacity: 1;
     visibility: visible;
   }
 }
 
-.confirm-dialog {
+.cp-confirm-dialog {
   background: var(--white);
   border-radius: var(--radius-x-large);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 20px 48px rgba(0, 0, 0, 0.1);
@@ -34,24 +34,24 @@
   outline: none;
   position: relative;
 
-  &.open {
+  &.cp-confirm-dialog--open {
     transform: scale(1) translateY(0);
   }
 
-  &.small {
+  &.cp-confirm-dialog--small {
     max-width: 400px;
   }
 
-  &.medium {
+  &.cp-confirm-dialog--medium {
     max-width: 500px;
   }
 
-  &.large {
+  &.cp-confirm-dialog--large {
     max-width: 600px;
   }
 }
 
-.close-button {
+.cp-confirm-dialog__close-button {
   position: absolute;
   top: var(--space-4);
   right: var(--space-4);
@@ -79,7 +79,7 @@
   }
 }
 
-.content {
+.cp-confirm-dialog__content {
   padding: var(--space-8) var(--space-6) var(--space-6) var(--space-6);
   display: flex;
   flex-direction: column;
@@ -88,39 +88,39 @@
   gap: var(--space-4);
 }
 
-.title {
+.cp-confirm-dialog__title {
   font-size: 24px;
   font-weight: 700;
   color: var(--black);
   margin: 0;
   line-height: 1.3;
 
-  .small & {
+  .cp-confirm-dialog--small & {
     font-size: 20px;
   }
 
-  .large & {
+  .cp-confirm-dialog--large & {
     font-size: 28px;
   }
 }
 
-.description {
+.cp-confirm-dialog__description {
   font-size: 16px;
   color: var(--text-muted);
   margin: 0;
   line-height: 1.5;
   max-width: 100%;
 
-  .small & {
+  .cp-confirm-dialog--small & {
     font-size: 14px;
   }
 
-  .large & {
+  .cp-confirm-dialog--large & {
     font-size: 18px;
   }
 }
 
-.buttons {
+.cp-confirm-dialog__buttons {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,14 +129,13 @@
   width: 100%;
 }
 
-.button {
+.cp-confirm-dialog__button {
   min-width: 100px;
   flex: 0 0 auto;
 }
 
-// Variant styles
-.destructive {
-  .button:last-child {
+.cp-confirm-dialog--destructive {
+  .cp-confirm-dialog__button:last-child {
     background: var(--error);
     border-color: var(--error);
     color: var(--white);
@@ -148,8 +147,8 @@
   }
 }
 
-.warning {
-  .button:last-child {
+.cp-confirm-dialog--warning {
+  .cp-confirm-dialog__button:last-child {
     background: var(--warning);
     border-color: var(--warning);
     color: var(--white);
@@ -161,41 +160,40 @@
   }
 }
 
-// Responsive design
 @media (max-width: 768px) {
-  .overlay {
+  .cp-confirm-dialog-overlay {
     padding: var(--space-2);
   }
 
-  .confirm-dialog {
+  .cp-confirm-dialog {
     max-height: 95vh;
     max-width: 95vw;
 
-    &.small,
-    &.medium,
-    &.large {
+    &.cp-confirm-dialog--small,
+    &.cp-confirm-dialog--medium,
+    &.cp-confirm-dialog--large {
       max-width: 95vw;
     }
   }
 
-  .content {
+  .cp-confirm-dialog__content {
     padding: var(--space-6) var(--space-4) var(--space-4) var(--space-4);
     gap: var(--space-3);
   }
 
-  .title {
+  .cp-confirm-dialog__title {
     font-size: 18px;
   }
 
-  .description {
+  .cp-confirm-dialog__description {
     font-size: 14px;
   }
 
-  .buttons {
+  .cp-confirm-dialog__buttons {
     flex-direction: column;
     gap: var(--space-2);
-    
-    .button {
+
+    .cp-confirm-dialog__button {
       width: 100%;
       min-width: unset;
     }
@@ -203,36 +201,36 @@
 }
 
 @media (max-width: 480px) {
-  .overlay {
+  .cp-confirm-dialog-overlay {
     padding: var(--space-1);
   }
 
-  .confirm-dialog {
+  .cp-confirm-dialog {
     max-height: 98vh;
     max-width: 98vw;
     border-radius: var(--radius-medium);
 
-    &.small,
-    &.medium,
-    &.large {
+    &.cp-confirm-dialog--small,
+    &.cp-confirm-dialog--medium,
+    &.cp-confirm-dialog--large {
       max-width: 98vw;
     }
   }
 
-  .content {
+  .cp-confirm-dialog__content {
     padding: var(--space-5) var(--space-3) var(--space-3) var(--space-3);
     gap: var(--space-2);
   }
 
-  .title {
+  .cp-confirm-dialog__title {
     font-size: 16px;
   }
 
-  .description {
+  .cp-confirm-dialog__description {
     font-size: 13px;
   }
 
-  .close-button {
+  .cp-confirm-dialog__close-button {
     top: var(--space-3);
     right: var(--space-3);
     width: 28px;
@@ -240,34 +238,31 @@
   }
 }
 
-// Focus management
-.confirm-dialog:focus {
+.cp-confirm-dialog:focus {
   outline: none;
 }
 
-// High contrast mode support
 @media (prefers-contrast: high) {
-  .overlay {
+  .cp-confirm-dialog-overlay {
     background-color: rgba(0, 0, 0, 0.8);
   }
 
-  .confirm-dialog {
+  .cp-confirm-dialog {
     border: 2px solid var(--black);
   }
 
-  .close-button {
+  .cp-confirm-dialog__close-button {
     border: 1px solid var(--black);
   }
 }
 
-// Reduced motion support
 @media (prefers-reduced-motion: reduce) {
-  .overlay,
-  .confirm-dialog {
+  .cp-confirm-dialog-overlay,
+  .cp-confirm-dialog {
     transition: none;
   }
 
-  .confirm-dialog {
+  .cp-confirm-dialog {
     transform: none;
   }
 }

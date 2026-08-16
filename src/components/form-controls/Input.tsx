@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 
 export interface InputProps {
@@ -155,6 +157,59 @@ const Input: React.FC<InputProps> = ({
   suffixA11yLabel,
   phoneDigits,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Input",
+    {
+      name,
+      id,
+      defaultValue,
+      value,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      margin,
+      type,
+      placeholder,
+      error,
+      dataTestId,
+      autoComplete,
+      maxLength,
+      min,
+      max,
+      prefix,
+      suffix,
+      prefixA11yLabel,
+      suffixA11yLabel,
+      phoneDigits,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      type: "text",
+      placeholder: "",
+      error: "",
+      dataTestId: undefined,
+      autoComplete: undefined,
+      maxLength: undefined,
+      min: undefined,
+      max: undefined,
+      prefix: undefined,
+      suffix: undefined,
+      prefixA11yLabel: undefined,
+      suffixA11yLabel: undefined,
+      phoneDigits: undefined,
+      name: undefined,
+      id: undefined,
+      defaultValue: undefined,
+      value: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -368,7 +423,7 @@ const Input: React.FC<InputProps> = ({
   );
 
   return (
-    <div className={fieldWrapperClassName}>
+    <div {...dataCp} className={fieldWrapperClassName}>
       {label && (
         <label className={styles["cp-form-label"]} htmlFor={inputId}>
           {label}{" "}

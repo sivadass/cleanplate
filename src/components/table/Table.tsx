@@ -8,6 +8,8 @@ import {
 } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Typography from "../typography";
 import Pagination from "../pagination";
 import Container from "../container";
@@ -118,9 +120,9 @@ export interface TableProps {
 }
 
 const CELL_ALIGN_CLASS: Record<TableColumnVerticalAlign, string> = {
-  top: styles["cell-align-top"],
-  middle: styles["cell-align-middle"],
-  bottom: styles["cell-align-bottom"],
+  top: styles["cp-table-cell-align-top"],
+  middle: styles["cp-table-cell-align-middle"],
+  bottom: styles["cp-table-cell-align-bottom"],
 };
 
 function getColumnVerticalAlignClass(
@@ -245,6 +247,41 @@ const Table: React.FC<TableProps> = ({
   cellVerticalAlign = "top",
   mobileColumns = null,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Table",
+    {
+      variant,
+      margin,
+      padding,
+      columns,
+      data,
+      totalItems,
+      totalLabel,
+      currentPage,
+      rowsPerPage,
+      rowsPerPageOptions,
+      hidePagination,
+      cellVerticalAlign,
+      mobileColumns,
+    },
+    {
+      variant: undefined,
+      margin: "0",
+      padding: "4",
+      columns: [],
+      data: [],
+      totalItems: 0,
+      totalLabel: "Items",
+      currentPage: 1,
+      rowsPerPage: 10,
+      rowsPerPageOptions: undefined,
+      hidePagination: false,
+      cellVerticalAlign: "top",
+      mobileColumns: null,
+    },
+  );
   const [viewportWidth, setViewportWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1024
   );
@@ -254,10 +291,10 @@ const Table: React.FC<TableProps> = ({
 
   const canShowMobileColumns = isMobile && isMobileColumnsConfigured;
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
-  const paddingClass = getSpacingClass(padding, utilStyles, "p");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
+  const paddingClass = getSpacingClass(padding, utilStyles, "cp-p");
   const tableClasses = getClassNames(
-    styles["table"],
+    styles["cp-table"],
     {
       [styles[variant ?? "default"]]: variant,
     },
@@ -291,9 +328,9 @@ const Table: React.FC<TableProps> = ({
   }, []);
 
   return (
-    <div className={tableClasses}>
+    <div {...dataCp} className={tableClasses}>
       {canShowMobileColumns && mobileColumns ? (
-        <div className={styles["mobile-columns"]}>
+        <div className={styles["cp-table-mobile-columns"]}>
           {data?.map((row) => {
             const rowId = getUniqueId();
             return (
@@ -306,7 +343,7 @@ const Table: React.FC<TableProps> = ({
           })}
         </div>
       ) : (
-        <table className={styles["core-table"]}>
+        <table className={styles["cp-table-core"]}>
           <thead>
             <tr>
               {columns?.map((column) => {
@@ -373,7 +410,7 @@ const Table: React.FC<TableProps> = ({
         </table>
       )}
       {totalItems > 0 && !hidePagination && (
-        <Container className={styles["pagination-wrapper"]}>
+        <Container className={styles["cp-table-pagination-wrapper"]}>
           <Pagination
             totalItems={totalItems}
             totalLabel={totalLabel}

@@ -1,4 +1,4 @@
-.overlay {
+.cp-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,13 +14,13 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
   padding: var(--space-4);
 
-  &.overlay-open {
+  &.cp-modal-overlay-open {
     opacity: 1;
     visibility: visible;
   }
 }
 
-.modal {
+.cp-modal {
   background: var(--white);
   border-radius: var(--radius-medium);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 20px 48px rgba(0, 0, 0, 0.1);
@@ -32,22 +32,22 @@
   outline: none;
   will-change: transform, opacity;
 
-  &.small {
+  &.cp-modal--small {
     max-width: var(--length-small);
     border-radius: var(--radius-x-large);
   }
 
-  &.medium {
+  &.cp-modal--medium {
     max-width: var(--length-medium);
     border-radius: var(--radius-x-large);
   }
 
-  &.large {
+  &.cp-modal--large {
     max-width: var(--length-three-quarters);
     border-radius: var(--radius-x-large);
   }
 
-  &.fullscreen {
+  &.cp-modal--fullscreen {
     max-width: 100vw;
     max-height: 100vh;
     width: 100vw;
@@ -57,7 +57,7 @@
   }
 }
 
-.content {
+.cp-modal__content {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -65,7 +65,7 @@
   border-radius: var(--radius-x-medium);
 }
 
-.header {
+.cp-modal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -73,49 +73,45 @@
   border-bottom: 1px solid var(--gray-100);
   flex-shrink: 0;
 
-  .fullscreen & {
+  .cp-modal--fullscreen & {
     padding: var(--space-6) var(--space-6) var(--space-4) var(--space-6);
   }
 }
 
-.title {
+.cp-modal__title {
   font-size: 18px;
   font-weight: 600;
   color: var(--black);
   margin: 0;
   line-height: 1.4;
 
-  .fullscreen & {
+  .cp-modal--fullscreen & {
     font-size: 24px;
   }
 }
 
-.close-button {
-  // Override Button component styles for close button
+.cp-modal__close-button {
   min-width: 32px !important;
   min-height: 32px !important;
   padding: var(--space-2) !important;
-  
-  // Ensure proper color for close button
   color: var(--text-muted) !important;
-  
+
   &:hover {
     color: var(--black) !important;
   }
 }
 
-.body {
+.cp-modal__body {
   padding: var(--space-4);
   overflow-y: auto;
   flex: 1;
   color: var(--black);
   line-height: 1.5;
 
-  .fullscreen & {
+  .cp-modal--fullscreen & {
     padding: var(--space-6);
   }
 
-  // Custom scrollbar styling
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -135,13 +131,12 @@
   }
 }
 
-// When footer is present, body should have rounded bottom corners
-.content:has(.footer) .body {
+.cp-modal__content:has(.cp-modal__footer) .cp-modal__body {
   border-bottom-left-radius: var(--radius-x-large);
   border-bottom-right-radius: var(--radius-x-large);
 }
 
-.footer {
+.cp-modal__footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -153,117 +148,113 @@
   border-bottom-left-radius: var(--radius-x-large);
   border-bottom-right-radius: var(--radius-x-large);
 
-  .fullscreen & {
+  .cp-modal--fullscreen & {
     padding: var(--space-6);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 }
 
-.footer-button {
+.cp-modal__footer-button {
   min-width: 80px;
 }
 
-// Responsive design
 @media (max-width: 768px) {
-  .overlay {
+  .cp-modal-overlay {
     padding: var(--space-2);
   }
 
-  .modal {
+  .cp-modal {
     max-height: 95vh;
     max-width: 95vw;
 
-    &.small,
-    &.medium,
-    &.large {
+    &.cp-modal--small,
+    &.cp-modal--medium,
+    &.cp-modal--large {
       max-width: 95vw;
     }
   }
 
-  .header {
+  .cp-modal__header {
     padding: var(--space-3) var(--space-3) var(--space-2) var(--space-3);
   }
 
-  .title {
+  .cp-modal__title {
     font-size: 16px;
   }
 
-  .body {
+  .cp-modal__body {
     padding: var(--space-3);
   }
 
-  .footer {
+  .cp-modal__footer {
     padding: var(--space-3);
     gap: var(--space-3);
   }
 }
 
 @media (max-width: 480px) {
-  .overlay {
+  .cp-modal-overlay {
     padding: var(--space-1);
   }
 
-  .modal {
+  .cp-modal {
     max-height: 98vh;
     max-width: 98vw;
     border-radius: var(--radius-medium);
 
-    &.small,
-    &.medium,
-    &.large {
+    &.cp-modal--small,
+    &.cp-modal--medium,
+    &.cp-modal--large {
       max-width: 98vw;
     }
   }
 
-  .header {
+  .cp-modal__header {
     padding: var(--space-2) var(--space-2) var(--space-1) var(--space-2);
   }
 
-  .title {
+  .cp-modal__title {
     font-size: 14px;
   }
 
-  .body {
+  .cp-modal__body {
     padding: var(--space-2);
   }
 
-  .footer {
+  .cp-modal__footer {
     padding: var(--space-2);
     gap: var(--space-2);
     flex-direction: column;
-    
-    .footer-button {
+
+    .cp-modal__footer-button {
       width: 100%;
       min-width: unset;
     }
   }
 }
 
-// Focus management
-.modal:focus {
+.cp-modal:focus {
   outline: none;
 }
 
-// High contrast mode support
 @media (prefers-contrast: high) {
-  .overlay {
+  .cp-modal-overlay {
     background-color: rgba(0, 0, 0, 0.8);
   }
 
-  .modal {
+  .cp-modal {
     border: 2px solid var(--black);
   }
 
-  .header {
+  .cp-modal__header {
     border-bottom-color: var(--black);
   }
 }
 
-// Reduced motion support
 @media (prefers-reduced-motion: reduce) {
-  .overlay,
-  .close-button {
+  .cp-modal-overlay,
+  .cp-modal__close-button {
     transition: none;
   }
 }

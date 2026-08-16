@@ -17,6 +17,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ModalSize = "small" | "medium" | "large" | "fullscreen";
 
@@ -103,7 +105,7 @@ const Modal: React.FC<ModalProps> = ({
   showCloseButton = true,
   closeOnOverlayClick = true,
   closeOnEscape = true,
-  margin = "m-0",
+  margin = "0",
   className = "",
   overlayClassName = "",
   contentClassName = "",
@@ -113,6 +115,39 @@ const Modal: React.FC<ModalProps> = ({
   onSecondaryButtonClick,
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Modal",
+    {
+      isOpen,
+      title,
+      size,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      margin,
+      overlayClassName,
+      contentClassName,
+      primaryButtonLabel,
+      secondaryButtonLabel,
+      dataTestId,
+    },
+    {
+      isOpen: false,
+      title: "",
+      size: "medium",
+      showCloseButton: true,
+      closeOnOverlayClick: true,
+      closeOnEscape: true,
+      margin: "0",
+      overlayClassName: "",
+      contentClassName: "",
+      primaryButtonLabel: "",
+      secondaryButtonLabel: "",
+      dataTestId: undefined,
+    },
+  );
   const titleId = useId();
   const { refs, context } = useFloating({
     open: isOpen,
@@ -136,25 +171,25 @@ const Modal: React.FC<ModalProps> = ({
   const role = useRole(context, { role: "dialog" });
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const modalClasses = getClassNames(
-    styles["modal"],
-    styles[size],
+    styles["cp-modal"],
+    styles[`cp-modal--${size}`],
     marginClass,
     className
   );
 
   const overlayClasses = getClassNames(
-    styles["overlay"],
+    styles["cp-modal-overlay"],
     {
-      [styles["overlay-open"]]: isOpen,
+      [styles["cp-modal-overlay-open"]]: isOpen,
     },
     overlayClassName
   );
 
   const contentClasses = getClassNames(
-    styles["content"],
+    styles["cp-modal__content"],
     contentClassName
   );
 
@@ -175,6 +210,7 @@ const Modal: React.FC<ModalProps> = ({
       >
         <FloatingFocusManager context={context} modal returnFocus>
           <div
+            {...dataCp}
             ref={refs.setFloating}
             className={modalClasses}
             style={modalTransitionStyles}
@@ -187,14 +223,14 @@ const Modal: React.FC<ModalProps> = ({
             <div className={contentClasses}>
               {(title || showCloseButton) && (
                 <div
-                  className={styles["header"]}
+                  className={styles["cp-modal__header"]}
                   data-testid={modalFieldTestId(dataTestId, "header")}
                 >
                   {title && (
                     <Typography
                       variant="h2"
                       id={titleId}
-                      className={styles["title"]}
+                      className={styles["cp-modal__title"]}
                       data-testid={modalFieldTestId(dataTestId, "title")}
                     >
                       {title}
@@ -205,7 +241,7 @@ const Modal: React.FC<ModalProps> = ({
                       variant="icon"
                       size="small"
                       onClick={handleClose}
-                      className={styles["close-button"]}
+                      className={styles["cp-modal__close-button"]}
                       aria-label="Close modal"
                       data-testid={modalFieldTestId(dataTestId, "close")}
                     >
@@ -215,14 +251,14 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               )}
               <div
-                className={styles["body"]}
+                className={styles["cp-modal__body"]}
                 data-testid={modalFieldTestId(dataTestId, "body")}
               >
                 {children}
               </div>
               {(primaryButtonLabel || secondaryButtonLabel) && (
                 <div
-                  className={styles["footer"]}
+                  className={styles["cp-modal__footer"]}
                   data-testid={modalFieldTestId(dataTestId, "footer")}
                 >
                   {secondaryButtonLabel && (
@@ -230,7 +266,7 @@ const Modal: React.FC<ModalProps> = ({
                       variant="outline"
                       size="medium"
                       onClick={onSecondaryButtonClick}
-                      className={styles["footer-button"]}
+                      className={styles["cp-modal__footer-button"]}
                       data-testid={modalFieldTestId(dataTestId, "secondary")}
                     >
                       {secondaryButtonLabel}
@@ -241,7 +277,7 @@ const Modal: React.FC<ModalProps> = ({
                       variant="solid"
                       size="medium"
                       onClick={onPrimaryButtonClick}
-                      className={styles["footer-button"]}
+                      className={styles["cp-modal__footer-button"]}
                       data-testid={modalFieldTestId(dataTestId, "primary")}
                     >
                       {primaryButtonLabel}
