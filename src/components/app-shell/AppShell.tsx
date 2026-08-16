@@ -246,15 +246,15 @@ const AppShell: React.FC<AppShellProps> = ({
   return (
     <div className={rootClassName}>
       {header !== undefined && (
-        <div className={styles["header-slot"]}>
+        <div className={styles["cp-app-shell__header"]}>
           {renderedHeader}
         </div>
       )}
 
-      <div className={styles["body"]}>
+      <div className={styles["cp-app-shell__body"]}>
         {sidebar !== undefined && (
           <aside
-            className={styles["sidebar"]}
+            className={styles["cp-app-shell__sidebar"]}
             style={{ width: sidebarWidth }}
             aria-label="Main navigation"
           >
@@ -264,7 +264,7 @@ const AppShell: React.FC<AppShellProps> = ({
 
         <main
           className={getClassNames(
-            styles["main"],
+            styles["cp-app-shell__main"],
             contentClassName,
           )}
         >
@@ -273,7 +273,7 @@ const AppShell: React.FC<AppShellProps> = ({
       </div>
 
       {footer !== undefined && (
-        <div className={styles["footer-slot"]}>
+        <div className={styles["cp-app-shell__footer"]}>
           {isFooterProps(footer) ? <Footer {...footer} /> : footer}
         </div>
       )}
@@ -284,7 +284,7 @@ const AppShell: React.FC<AppShellProps> = ({
             ref={refs.setReference}
             type="button"
             variant="icon"
-            className={styles["mobile-nav-trigger"]}
+            className={styles["cp-app-shell__mobile-nav-trigger"]}
             aria-label="Open navigation menu"
             {...getReferenceProps()}
           >
@@ -313,11 +313,11 @@ const AppShell: React.FC<AppShellProps> = ({
                   })}
                   aria-label={mobileSidebarDrawerLabel}
                 >
-                  <div className={styles["mobile-drawer-nav"]}>
+                  <div className={styles["cp-app-shell__mobile-drawer-nav"]}>
                     <Button
                       type="button"
                       variant="icon"
-                      className={styles["mobile-drawer-close"]}
+                      className={styles["cp-app-shell__mobile-drawer-close"]}
                       aria-label="Close navigation menu"
                       onClick={beginCloseMobileDrawer}
                     >
