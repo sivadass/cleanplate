@@ -1,6 +1,6 @@
 {
   "name": "cleanplate",
-  "version": "0.3.36",
+  "version": "1.0.0-beta.0",
   "description": "CleanPlate - A Headless React UI Framework",
   "files": [
     "dist",

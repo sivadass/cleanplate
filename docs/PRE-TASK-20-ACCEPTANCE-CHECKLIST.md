@@ -9,7 +9,7 @@ Use this document to verify **Tasks 0–19** are complete before starting **Task
 | PR | https://github.com/sivadass/cleanplate/pull/15 |
 | Plan | `docs/superpowers/plans/2026-08-14-agent-html-react-bridge.md` |
 | HLD | `docs/superpowers/specs/2026-08-14-agent-html-react-bridge-hld.md` |
-| Current version (pre-release) | `0.3.36` — **do not bump until Task 20** |
+| Current version | `1.0.0-beta.0` (beta — pin exact semver until stable `1.0.0`) |
 
 **How to use:** Run each command block, tick boxes as you verify. All sections marked **Required** must pass before Task 20.
 
@@ -279,7 +279,7 @@ Tick when you have verified the deliverable exists and its gate passed.
 
 Do **not** expect these until Task 20 starts:
 
-- [ ] `package.json` version `1.0.0`
+- [ ] `package.json` version `1.0.0-beta.0` (beta; stable `1.0.0` later)
 - [ ] `CHANGELOG.md` release entry with breaking changes (hashed-class removal)
 - [ ] `README.md` LLM section (tokens.css, html-to-jsx, migration link)
 - [ ] Final `tests/visual/REPORT.md` Task 20 row

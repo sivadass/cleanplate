@@ -8,6 +8,19 @@
 | Task 12 unhash gate | test:visual (no snapshot update) | PASS (346/346) |
 | Task 14 data-cp gate | test:visual (Storybook provider on) | PASS (346/346) |
 | Task 17 kit gate | test:visual (kit.html + 18 row snapshots) | PASS (364/364 total) |
+| Task 20 release gate | test:visual (pre-1.0.0-beta.0) | PASS (364/364) |
+
+## Task 20 release gate (2026-08-16)
+
+**Version:** `1.0.0-beta.0` (beta — pin exact semver until stable `1.0.0`).
+
+**Change:** Release checklist before beta tag — version bump, CHANGELOG, README (tokens.css, html-to-jsx CLI, migration link), full test + visual suite.
+
+**Storybook gate:** 346/346 unchanged vs Task 0 baselines.
+
+**Kit gate:** 18/18 unchanged.
+
+**Result:** `npm run test:visual` PASS (364/364).
 
 ## Task 17 kit gate (2026-08-16)
 

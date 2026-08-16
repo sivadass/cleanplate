@@ -83,20 +83,22 @@ npm run html-to-jsx -- bottom-sheet.open.html
 ### Recipe (open)
 
 ```html
-<div class="cp-bottom-sheet-overlay"></div>
-<div data-cp="BottomSheet" data-cp-is-open="true" data-cp-snap="0.3" class="cp-bottom-sheet cp-bottom-sheet--snap-30">
-  <div class="cp-bottom-sheet__handle"><div class="cp-bottom-sheet__handle-bar"></div></div>
-  <div class="cp-bottom-sheet__content">Sheet content</div>
+<div class="cp-bottom-sheet-artboard">
+  <div class="cp-bottom-sheet-overlay"></div>
+  <div data-cp="BottomSheet" data-cp-is-open="true" data-cp-snap="0.3" class="cp-bottom-sheet cp-bottom-sheet--snap-30">
+    <div class="cp-bottom-sheet__handle"><div class="cp-bottom-sheet__handle-bar"></div></div>
+    <div class="cp-bottom-sheet__content">Sheet content</div>
+  </div>
 </div>
 ```
 
 ### React equivalent
 
 ```jsx
-<div className="cp-bottom-sheet-overlay"></div>
-
-
-<BottomSheet isOpen><div className="cp-bottom-sheet__handle"><div className="cp-bottom-sheet__handle-bar"></div></div><div className="cp-bottom-sheet__content">Sheet content</div></BottomSheet>
+<div className="cp-bottom-sheet-artboard">
+  <div className="cp-bottom-sheet-overlay"></div>
+  <BottomSheet isOpen><div className="cp-bottom-sheet__handle"><div className="cp-bottom-sheet__handle-bar"></div></div><div className="cp-bottom-sheet__content">Sheet content</div></BottomSheet>
+</div>
 ```
 
 ## Related Components / Links
