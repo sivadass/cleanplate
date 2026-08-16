@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { expectPublicClass } from "../../test/class-contract";
 import SegmentedControl from "./SegmentedControl";
 
 const baseOptions = [
@@ -221,5 +222,18 @@ describe("SegmentedControl", () => {
 
     expect(screen.getByTestId("day-input-custom")).toBeInTheDocument();
     expect(screen.getByTestId("view-input-week")).toBeInTheDocument();
+  });
+
+  it("root uses cp-segmented-control-field", () => {
+    const { container } = render(
+      <SegmentedControl
+        label="View"
+        name="view"
+        options={[...baseOptions]}
+      />,
+    );
+    const field = container.querySelector("fieldset");
+    expect(field).toBeTruthy();
+    expectPublicClass(field!, "cp-segmented-control-field");
   });
 });
