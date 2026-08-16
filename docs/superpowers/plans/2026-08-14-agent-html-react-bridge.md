@@ -4,9 +4,9 @@
 
 **Goal:** Ship a regression-gated major (`1.0.0`) so design agents can author canonical-frame HTML (`data-cp-*` + public `cp-*` CSS) and a mechanical CLI converts it to CleanPlate React without guessing.
 
-**Architecture:** Build the **test harness first** (public CSS contract, spacing API, docs contract, existing RTL). Rename every SCSS local to unique `cp-*` **while hashing still on**. Unhash in one gated commit. Then opt-in `data-cp` emission, `html-to-jsx` CLI, HTML recipes in existing `docs/*.md`, skills, and a Paper kit. Overlays follow Approach B tiers from the HLD.
+**Architecture:** Capture **Storybook screenshot baselines first** (before any CSS rename). Build the Vitest harness (public CSS contract, spacing API, docs contract, existing RTL). Rename every SCSS local to unique `cp-*` **while hashing still on**, comparing screenshots after each wave. Unhash in one gated commit only if pixels still match the before baselines. Then opt-in `data-cp` emission, `html-to-jsx` CLI, HTML recipes in existing `docs/*.md`, skills, and a Paper kit. Overlays follow Approach B tiers from the HLD.
 
-**Tech Stack:** React 18, Vitest + Testing Library + jsdom, Rollup + Vite CSS Modules, Sass, cheerio (CLI), existing Storybook 7.
+**Tech Stack:** React 18, Vitest + Testing Library + jsdom, Playwright (`@playwright/test`) against `storybook-static`, Rollup + Vite CSS Modules, Sass, cheerio (CLI), existing Storybook 7.
 
 **Spec:** [docs/superpowers/specs/2026-08-14-agent-html-react-bridge-hld.md](../specs/2026-08-14-agent-html-react-bridge-hld.md)
 
@@ -28,6 +28,7 @@
 - HTML recipes live in the same `docs/<Component>.md` (no second doc set).
 - Manifest/schema versioning is deferred (v1).
 - Out of scope: web components; LLM-only conversion; mapping focus trap / scroll lock / drag / Floating UI middleware into HTML.
+- **Visual:** Class rename and unhash must not change pixels. Capture baselines in Task 0 **before** Task 5. Never `--update-snapshots` to hide a real CSS-value change. Font AA only: `maxDiffPixelRatio` ≤ `0.001`. Otherwise `maxDiffPixels: 0`.
 
 ## Stop gates (do not skip)
 
@@ -44,6 +45,13 @@ After any CSS or Rollup change, also:
 npm run build-package
 ```
 
+After any CSS wave (Tasks 5–12) and after Task 14:
+
+```bash
+npm run build-storybook
+npm run test:visual
+```
+
 A wave is **not done** until:
 
 1. `npm test` green (old behavioral tests + new contract tests).
@@ -51,10 +59,11 @@ A wave is **not done** until:
 3. `npm run build-package` green.
 4. New/updated contract tests for that wave green.
 5. No new `margin = "m-0"` (or `"p-` / `"g-` prefixed defaults) in `src/`.
+6. `npm run test:visual` green against Task 0 baselines (Tasks 5+).
 
-Do **not** unhash until Task 12’s uniqueness test passes.
+Do **not** unhash until Task 12’s uniqueness test **and** visual suite pass on the still-hashed `cp-*` rename.
 
-Do **not** bump to `1.0.0` until Task 20’s release checklist passes.
+Do **not** bump to `1.0.0` until Task 20’s release checklist passes (includes visual report).
 
 ## File structure
 
@@ -77,6 +86,199 @@ Do **not** bump to `1.0.0` until Task 20’s release checklist passes.
 | `skills/cleanplate-html-prototype/SKILL.md` | Design/coding agent: write recipes |
 | `skills/cleanplate-html-to-react/SKILL.md` | Coding agent: run CLI, do not invent |
 | `docs/html/kit.html` | Paper/Claude Design sticker sheet (Tier 1 first) |
+| `playwright.config.ts` | Visual tests against served `storybook-static` |
+| `tests/visual/stories.spec.ts` | Canonical-frame screenshots (desktop 1280×800, mobile 390×844) |
+| `tests/visual/kit.spec.ts` | HTML kit vs Storybook (Task 17+) |
+| `tests/visual/REPORT.md` | Before/after pass table (story id, viewport, diff pixels) |
+
+---
+
+### Task 0: Storybook visual baselines (BEFORE any CSS rename)
+
+There is no Playwright in the repo today. Add it **first**. These snapshots are the before. Later tasks compare; they do not redraw the design.
+
+**Files:**
+- Create: `playwright.config.ts`
+- Create: `tests/visual/stories.spec.ts`
+- Create: `tests/visual/story-ids.ts`
+- Create: `tests/visual/REPORT.md` (stub)
+- Modify: `package.json` — scripts + `@playwright/test` devDependency
+- Test: `tests/visual/stories.spec.ts`
+- Git: Playwright snapshot files under `tests/visual/stories.spec.ts-snapshots/`
+
+**Interfaces:**
+- Consumes: existing `src/stories/**` and `npm run build-storybook`
+- Produces: frozen PNG baselines; `npm run test:visual` / `npm run test:visual:update`
+
+- [ ] **Step 1: Add Playwright and scripts**
+
+```json
+"test:visual": "playwright test",
+"test:visual:update": "playwright test --update-snapshots"
+```
+
+Install `@playwright/test` as a devDependency. Run `npx playwright install chromium`.
+
+- [ ] **Step 2: Write `playwright.config.ts`**
+
+```ts
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "tests/visual",
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  use: {
+    baseURL: "http://127.0.0.1:6006",
+    screenshot: "only-on-failure",
+    trace: "off",
+  },
+  expect: {
+    toHaveScreenshot: {
+      animations: "disabled",
+      caret: "hide",
+      maxDiffPixelRatio: 0.001,
+    },
+  },
+  webServer: {
+    command: "npx http-server storybook-static -p 6006 -s",
+    url: "http://127.0.0.1:6006",
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
+  },
+  projects: [
+    { name: "desktop", use: { viewport: { width: 1280, height: 800 } } },
+    {
+      name: "mobile",
+      use: { viewport: { width: 390, height: 844 }, ...devices["iPhone 12"] },
+    },
+  ],
+});
+```
+
+Serve **static** Storybook (`storybook-static`), not `storybook dev`, so fonts and builds are reproducible.
+
+- [ ] **Step 3: Canonical story IDs**
+
+One primary/playground story per component (not every story). Overlays must be the **open** frame (args `isOpen: true`, or click the trigger in the test). Toast: **one** card. Table and AppShell: desktop project for table/shell; mobile project for MediaObject list / drawer.
+
+```ts
+// tests/visual/story-ids.ts
+export const CANONICAL_STORIES = [
+  "components-button--playground",
+  "components-typography--playground",
+  "components-icon--playground",
+  "components-container--playground",
+  "components-alert--playground",
+  "components-badge--playground",
+  "components-avatar--playground",
+  "components-spinner--playground",
+  "components-accordion--playground",
+  "components-menulist--playground",
+  "components-stepper--playground",
+  "components-pills--playground",
+  "components-mediaobject--playground",
+  "components-breadcrumb--playground",
+  "components-header--playground",
+  "components-footer--playground",
+  "components-pageheader--playground",
+  "components-feedbackstate--playground",
+  "components-statistic--playground",
+  "components-progressbar--playground",
+  "components-pagination--playground",
+  "components-form-controls--input",
+  "components-modal--open",
+  "components-drawer--open",
+  "components-confirmdialog--open",
+  "components-bottomsheet--open",
+  "components-toast--single",
+  "components-dropdown--open",
+  "components-table--desktop",
+  "components-appshell--desktop",
+] as const;
+
+export const MOBILE_ONLY_STORIES = [
+  "components-table--mobile",
+  "components-appshell--mobile-drawer",
+] as const;
+```
+
+Resolve actual Storybook IDs from `storybook-static/index.json` (or `stories.json`) after the first build. Do **not** invent IDs; grep that file and put the real ids in `story-ids.ts`. If a component has no “open” story, add a dedicated visual story (e.g. Modal `isOpen` default true) **without changing component visuals**.
+
+- [ ] **Step 4: Screenshot spec**
+
+```ts
+import { test, expect } from "@playwright/test";
+import { CANONICAL_STORIES, MOBILE_ONLY_STORIES } from "./story-ids";
+
+async function openStory(page, id: string) {
+  await page.goto(`/iframe.html?id=${id}&viewMode=story`, {
+    waitUntil: "networkidle",
+  });
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+  });
+}
+
+test.describe("canonical Storybook frames", () => {
+  for (const id of CANONICAL_STORIES) {
+    test(id, async ({ page }, testInfo) => {
+      if (testInfo.project.name === "mobile") test.skip();
+      await openStory(page, id);
+      await expect(page).toHaveScreenshot(`${id}.png`);
+    });
+  }
+  for (const id of MOBILE_ONLY_STORIES) {
+    test(id, async ({ page }, testInfo) => {
+      if (testInfo.project.name !== "mobile") test.skip();
+      await openStory(page, id);
+      await expect(page).toHaveScreenshot(`${id}.png`);
+    });
+  }
+});
+```
+
+Wait for **Inter** and **Material Symbols** (`document.fonts.ready`). Icon ligatures flake if you screenshot before the font loads.
+
+- [ ] **Step 5: Capture the BEFORE baselines**
+
+Run:
+
+```bash
+npm run build-storybook
+npm run test:visual:update
+```
+
+Expected: PNG snapshots written under `tests/visual/stories.spec.ts-snapshots/`.
+
+- [ ] **Step 6: Confirm compare mode is green on the same build**
+
+Run: `npm run test:visual`
+Expected: PASS (matches the baselines just written).
+
+- [ ] **Step 7: Stub `tests/visual/REPORT.md`**
+
+```markdown
+# Visual regression report
+
+| When | Command | Result |
+| --- | --- | --- |
+| Task 0 before | test:visual:update then test:visual | PASS (baseline) |
+```
+
+- [ ] **Step 8: Commit**
+
+```bash
+git add playwright.config.ts tests/visual package.json package-lock.json
+git commit -m "$(cat <<'EOF'
+test: capture Storybook visual baselines before public CSS migration
+
+EOF
+)"
+```
+
+**Do not start Task 5+ until this commit exists.** That commit is the before. Later `--update-snapshots` is allowed only if you prove flake (font not loaded). Document why in the commit body. Never update snapshots to accept a padding/color/radius change.
 
 ---
 
@@ -427,7 +629,8 @@ it("no getSpacingClass still uses prefix m/p/g without cp-", () => {
 
 - [ ] **Step 1: Rename SCSS locals; update prefixes; update tests.**
 - [ ] **Step 2: `npm test && npm run type-check`**
-- [ ] **Step 3: Commit** `refactor: prefix spacing utility classes with cp-m/cp-p/cp-g`
+- [ ] **Step 3: `npm run build-storybook && npm run test:visual`** — spacing values must be unchanged (`--space-*` still applied)
+- [ ] **Step 4: Commit** `refactor: prefix spacing utility classes with cp-m/cp-p/cp-g`
 
 ---
 
@@ -440,7 +643,8 @@ Execute this protocol per component. Do **not** unhash. Do **not** change visual
 3. Add or extend `src/components/<name>/<Name>.test.tsx` using `expectPublicClass` (Task 6 helper) so the root has `cp-<name>` in `className` (hashed suffix allowed until Task 12).
 4. Keep all existing behavioral tests passing (Modal dismiss, Drawer, Date, Statistic, …).
 5. `npm test && npm run type-check`
-6. Commit per family (not one giant commit).
+6. `npm run build-storybook && npm run test:visual` — must match Task 0 baselines. If it diffs: **stop**, do not update snapshots; you changed a visual CSS value, not just a local name.
+7. Commit per family (not one giant commit).
 
 `expectPublicClass` (create in Task 6):
 
@@ -517,7 +721,8 @@ describe("Button public classes", () => {
 - [ ] **Step 2: Run** `npm test -- src/components/button/Button.test.tsx` — FAIL on `cp-button`
 - [ ] **Step 3: Rename SCSS + TSX class maps** (`styles["cp-button"]`, `styles[\`cp-button--${size}\`]`, skip `--solid`)
 - [ ] **Step 4: Run tests** — PASS
-- [ ] **Step 5: Commit** `refactor: Button public cp-button BEM classes`
+- [ ] **Step 5: `npm run build-storybook && npm run test:visual`** — PASS vs Task 0
+- [ ] **Step 6: Commit** `refactor: Button public cp-button BEM classes`
 
 ---
 
@@ -544,7 +749,8 @@ Keep Icon ligature text and Material font behavior unchanged.
 
 - [ ] **Step 1: Implement all seven using Task 6 protocol**
 - [ ] **Step 2: `npm test && npm run type-check`**
-- [ ] **Step 3: Commit** `refactor: public cp-* classes for Wave A primitives`
+- [ ] **Step 3: `npm run build-storybook && npm run test:visual`**
+- [ ] **Step 4: Commit** `refactor: public cp-* classes for Wave A primitives`
 
 ---
 
@@ -558,7 +764,8 @@ Pagination embeds Select — **do not** change Select yet; only Pagination wrapp
 
 - [ ] **Step 1: Protocol per component + `expectPublicClass` test**
 - [ ] **Step 2: `npm test`** (include existing FeedbackState/Statistic tests)
-- [ ] **Step 3: Commit** `refactor: public cp-* classes for Wave B shells and display`
+- [ ] **Step 3: `npm run build-storybook && npm run test:visual`**
+- [ ] **Step 4: Commit** `refactor: public cp-* classes for Wave B shells and display`
 
 ---
 
@@ -573,7 +780,8 @@ Many FormControls locals are already `cp-form-*` / `cp-input-*`. Grep the module
 
 - [ ] **Step 1: Grep + rename unprefixed locals; extend SegmentedControl/Date tests if class assertions needed**
 - [ ] **Step 2: `npm test -- src/components/form-controls`**
-- [ ] **Step 3: Commit** `refactor: ensure FormControls locals are unique cp-*`
+- [ ] **Step 3: `npm run build-storybook && npm run test:visual`**
+- [ ] **Step 4: Commit** `refactor: ensure FormControls locals are unique cp-*`
 
 ---
 
@@ -588,7 +796,8 @@ No dual-recipe HTML yet. Behavior (resize mobile swap, portal drawer) must keep 
 
 - [ ] **Step 1: Class rename + Table desktop/mobile tree tests**
 - [ ] **Step 2: `npm test`**
-- [ ] **Step 3: Commit** `refactor: Table and AppShell public cp-* classes`
+- [ ] **Step 3: `npm run build-storybook && npm run test:visual`** (desktop table + mobile MediaObject / AppShell drawer)
+- [ ] **Step 4: Commit** `refactor: Table and AppShell public cp-* classes`
 
 ---
 
@@ -609,7 +818,8 @@ BottomSheet: add snap modifier classes **in addition to** inline transform so HT
 
 - [ ] **Step 1: Rename + extend Modal.test.tsx / Drawer.test.tsx with `expectPublicClass` on dialog/overlay**
 - [ ] **Step 2: `npm test`**
-- [ ] **Step 3: Commit** `refactor: overlay and floater public cp-* classes`
+- [ ] **Step 3: `npm run build-storybook && npm run test:visual`** (open overlay/floater frames)
+- [ ] **Step 4: Commit** `refactor: overlay and floater public cp-* classes`
 
 ---
 
@@ -649,13 +859,17 @@ console.log(dup.slice(0,30));
 
 If duplicates include `medium`, `overlay`, `content` — **stop**, finish renaming, do not unhash.
 
+This is the before→after proof: screenshots still match Task 0 while `dist/index.css` contains `.cp-button` (unhashed).
+
 - [ ] **Step 1: `npm run build-package` then uniqueness script — empty dup list of generic names**
 - [ ] **Step 2: Switch generateScopedName to `[local]` in Rollup + Vite + Storybook**
 - [ ] **Step 3: Unskip public-css-contract tests; tighten `expectPublicClass`**
 - [ ] **Step 4: `npm test && npm run type-check && npm run build-package && npm test -- src/test/public-css-contract.test.ts`**
 Expected: PASS; `dist/index.css` contains `.cp-button` not `.cp-button-xxxxx`
 - [ ] **Step 5: Write `docs/MIGRATION-v1.md`:** replace hashed selectors with `cp-*`; `className` prop still works; no dual class system
-- [ ] **Step 6: Commit** `feat!: unhash CSS modules; public cp-* class API`
+- [ ] **Step 6: `npm run build-storybook && npm run test:visual`** — **THE visual gate.** Must match Task 0 baselines. If it fails, hashing was masking a name collision; go back to rename. Do **not** `--update-snapshots`.
+- [ ] **Step 7: Append `tests/visual/REPORT.md`** with Task 12 row: story id, viewport, pass/fail, diff pixels (from Playwright output). Attach/keep failed diffs if any.
+- [ ] **Step 8: Commit** `feat!: unhash CSS modules; public cp-* class API`
 
 ---
 
@@ -811,7 +1025,8 @@ Apply `emitDataCp` to all components that will have HTML recipes (every export).
 - [ ] **Step 1: Provider + emit helper + Button tests**
 - [ ] **Step 2: Wire remaining components (same defaults as their props)**
 - [ ] **Step 3: `npm test && npm run type-check`**
-- [ ] **Step 4: Commit** `feat: opt-in data-cp attributes via CleanPlatePrototypeAttributes`
+- [ ] **Step 4: `npm run build-storybook && npm run test:visual`** — `data-cp` attributes must not shift layout vs Task 0
+- [ ] **Step 5: Commit** `feat: opt-in data-cp attributes via CleanPlatePrototypeAttributes`
 
 ---
 
@@ -973,7 +1188,8 @@ Skill html-to-react: **must run the CLI**; never invent JSX; if CLI fails, fix H
 
 - [ ] **Step 1: Docs + skills + kit**
 - [ ] **Step 2: For each v1 recipe, add a fixture and `npm test -- src/html-to-jsx`**
-- [ ] **Step 3: Commit** `docs: HTML prototype recipes and agent skills for v1 primitives`
+- [ ] **Step 3: Kit visual (v1 primitives only)** — `tests/visual/kit.spec.ts` loads `docs/html/kit.html` with `dist/index.css` (file URL or static server). Screenshot Button/Typography/Icon/Container rows. Compare to the matching Storybook canonical frames (same viewport, fonts ready). Pixel match is the proof that HTML+public CSS ≈ React. Do not require this for overlays until Task 19.
+- [ ] **Step 4: Commit** `docs: HTML prototype recipes and agent skills for v1 primitives`
 
 ---
 
@@ -1044,6 +1260,8 @@ npm test
 npm run type-check
 npm run build-package
 npm test -- src/test/public-css-contract.test.ts src/test/docs-contract.test.ts src/html-to-jsx/convert.test.ts
+npm run build-storybook
+npm run test:visual
 ```
 
 - `dist/index.css` has `.cp-button` and no `HASHED_CLASS_RE`
@@ -1052,10 +1270,13 @@ npm test -- src/test/public-css-contract.test.ts src/test/docs-contract.test.ts 
 - Button without provider has no `data-cp`
 - CHANGELOG Breaking lists hashed-class removal
 - `docs/MIGRATION-v1.md` published (not in `docs/*.md` glob if we don’t want it on npm — **include it**: add `docs/MIGRATION-v1.md` to `package.json` files or keep inside `docs/` and expand files glob; currently `docs/*.md` **would** publish MIGRATION which is correct)
+- `tests/visual/REPORT.md` shows Task 0 baseline PASS and Task 12 unhash PASS vs those baselines
+- Playwright snapshots still match Task 0 (no silent `--update-snapshots` after Task 0 except documented flake)
 
 - [ ] **Step 1: Set version `1.0.0`**
 - [ ] **Step 2: Run full checklist**
-- [ ] **Step 3: Commit** `chore: release 1.0.0 public CSS and HTML bridge`
+- [ ] **Step 3: Finalize `tests/visual/REPORT.md` (before Task 0 / after Task 12 / after Task 14)**
+- [ ] **Step 4: Commit** `chore: release 1.0.0 public CSS and HTML bridge`
 
 Do not `npm publish` unless explicitly asked.
 
@@ -1066,6 +1287,10 @@ Do not `npm publish` unless explicitly asked.
 | Gate | When | Pass criteria |
 | --- | --- | --- |
 | Existing RTL (Modal, Drawer, Date, Statistic, …) | Every task | `npm test` green |
+| Storybook visual baselines | Task 0 (before CSS rename) | `test:visual:update` then `test:visual` PASS |
+| Visual vs Task 0 | Tasks 5–12, 14 | `npm run test:visual` PASS; no snapshot updates |
+| Unhash pixels = hashed pixels | Task 12 | visual PASS + `.cp-button` unhashed in dist |
+| HTML kit ≈ Storybook | Task 17+ | `tests/visual/kit.spec.ts` for v1 primitives |
 | Spacing suffix-only | Task 3+ | prefixed values throw in tests; defaults `"0"` |
 | Docs no `margin="m-` | Task 4+ | `docs-contract` |
 | Unique `cp-*` locals | Before Task 12 | uniqueness script |
@@ -1084,6 +1309,7 @@ Do not `npm publish` unless explicitly asked.
 
 | HLD section | Tasks |
 | --- | --- |
+| Visual before/after (not in HLD; required for migration) | 0, 5–12, 14, 17, 20 |
 | §4 conversion contract | 14, 15, 16 |
 | §5 Tier 1 | 6–9, 17–18 |
 | §5 Tier 2–4 | 11, 19 |
@@ -1096,6 +1322,9 @@ Do not `npm publish` unless explicitly asked.
 
 ## Execution notes
 
+- **Task 0 first.** Do not rename SCSS until Storybook baselines are committed.
 - Stop after Task 17 for an internal v1 preview **without** publishing; Task 12 is still the consumer-breaking CSS cutover — do not release hashed `cp-*` names as if they were public.
 - Prefer one family commit per wave so bisect stays possible.
 - If uniqueness fails at Task 12, go back to the colliding component; do not add a second class system.
+- If `test:visual` fails: stop. Diff SCSS values, not snapshots. `--update-snapshots` only for proven font/flake; say why in the commit.
+- `http-server` may need to be added as a devDependency if not present (`npx http-server` is fine).
