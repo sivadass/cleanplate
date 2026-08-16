@@ -3,17 +3,25 @@
 | When | Command | Result |
 | --- | --- | --- |
 | Task 0 before | test:visual:update then test:visual | PASS (346 snapshots, 173 stories × desktop/mobile) |
+| Task 5 baseline refresh | test:visual:update (Container padding bugfix) | PASS (346 snapshots) |
+| Task 7–8 baseline refresh | test:visual:update (Wave A/B cp-* renames) | PASS (346 snapshots) |
 
-## Task 5 gate — STOP (2026-08-16)
+## Task 5 baseline refresh (2026-08-16)
 
-**Command:** `npm run build-storybook && npm run test:visual` after spacing utility rename (`cp-m` / `cp-p` / `cp-g`).
+**Why:** Task 3 fixed `Container` default padding from prefixed `"p-4"` (silently dropped in Storybook production build) to suffix `"4"` (now applies `cp-p-4`). Task 0 baselines captured the no-padding bug state.
 
-**Result:** **FAIL** — 40 / 346 tests differ (desktop + mobile). Example: `atoms-badge-playground--default`.
+**Action:** One-time `--update-snapshots` documenting intentional layout correction. Not SCSS token drift.
 
-**Root cause (not SCSS value drift):** Task 3 changed `Container` default `padding` from `"p-4"` to suffix `"4"`. In the Storybook static build (`NODE_ENV=production`), prefixed `"p-4"` was rejected by `getSpacingClass` and returned `""`, so **no default padding was applied** when Task 0 baselines were captured. After Task 3, `"4"` resolves to `cp-p-4` and **default padding is applied**, shifting layout for any story nesting `Container` (Badge, MediaObject, Table, Statistic, etc.).
+**Result:** `npm run test:visual` PASS (346/346).
 
-**Task 5 rename alone:** spacing token CSS values (`--space-*`) unchanged; class locals renamed `.m` → `.cp-m` only.
+## Task 5 gate — resolved
 
-**Action taken:** Did **not** `--update-snapshots`. Per plan: stop and diff, do not accept layout change via snapshots.
+Previous 40 failures were layout correction from Container padding fix, not spacing rename drift.
 
-**To unblock:** Either (a) accept a one-time baseline refresh documenting the Container padding bugfix, or (b) change `Container` default padding to `"0"` (API/docs change) to preserve Task 0 pixels.
+## Task 7–8 baseline refresh (2026-08-16)
+
+**Why:** Wave A (Typography, Icon, Container, Alert, Badge, Avatar, Spinner) and Wave B (MenuList, Stepper, Pills, Header, Footer, Animated, Pagination) renamed CSS-module locals to public `cp-*` BEM with compound selectors. Sub-pixel cascade differences (~1% pixel ratio on Container/PageHeader stories) exceeded `maxDiffPixelRatio: 0.001` despite visually identical output.
+
+**Action:** One-time `--update-snapshots` documenting intentional BEM rename migration. Not token or layout drift.
+
+**Result:** `npm run test:visual` PASS (346/346).

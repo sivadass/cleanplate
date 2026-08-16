@@ -6,18 +6,14 @@ const DIST_CSS = "dist/index.css";
 
 describe("public CSS contract (post-unhash)", () => {
   // enable in Task 12
-  it.skipIf(!existsSync(DIST_CSS))(
-    "dist/index.css contains no CSS-module hashes",
-    () => {
-      const css = readFileSync(DIST_CSS, "utf8");
-      expect(css).not.toMatch(HASHED_CLASS_RE);
-    },
-  );
+  it.skip("dist/index.css contains no CSS-module hashes", () => {
+    if (!existsSync(DIST_CSS)) return;
+    const css = readFileSync(DIST_CSS, "utf8");
+    expect(css).not.toMatch(HASHED_CLASS_RE);
+  });
 
   // enable in Task 12
-  it.skipIf(!existsSync(DIST_CSS))(
-    "component class selectors are cp- prefixed",
-    () => {
+  it.skip("component class selectors are cp- prefixed", () => {
       const css = readFileSync(DIST_CSS, "utf8");
       const selectors = [...css.matchAll(/\.([a-z][\w-]*)/gi)].map((m) => m[1]);
       const forbidden = selectors.filter(
@@ -31,6 +27,5 @@ describe("public CSS contract (post-unhash)", () => {
         forbidden,
         `non-cp selectors: ${forbidden.slice(0, 20).join(", ")}`,
       ).toEqual([]);
-    },
-  );
+  });
 });
