@@ -29,6 +29,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 const MSG_SYNC_NO_OPTIONS = "No options available";
 const MSG_SYNC_NO_MATCH = "No matching results";
@@ -266,6 +268,69 @@ const Select: React.FC<SelectProps> = ({
   maxSelect,
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Select",
+    {
+      name,
+      id,
+      value,
+      label,
+      isDisabled,
+      triggerClassName,
+      triggerActiveClassName,
+      contentsClassName,
+      panelMinWidth,
+      options,
+      searchDebounce,
+      searchable,
+      searchPlaceholder,
+      addOptionLabel,
+      closeOnAddOption,
+      isRequired,
+      placeholder,
+      error,
+      isFluid,
+      margin,
+      mode,
+      isMulti,
+      triggerMaxItems,
+      clearable,
+      groups,
+      maxSelect,
+      dataTestId,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      triggerClassName: "",
+      triggerActiveClassName: "",
+      contentsClassName: "",
+      panelMinWidth: undefined,
+      options: undefined,
+      searchDebounce: 300,
+      searchable: true,
+      searchPlaceholder: "Search",
+      addOptionLabel: "Add option",
+      closeOnAddOption: true,
+      isRequired: false,
+      placeholder: "Select an option",
+      error: "",
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      mode: undefined,
+      isMulti: false,
+      triggerMaxItems: 2,
+      clearable: true,
+      groups: false,
+      maxSelect: undefined,
+      dataTestId: undefined,
+      name: undefined,
+      id: undefined,
+      value: undefined,
+    },
+  );
   const resolvedMode: "single" | "multi" =
     mode !== undefined ? mode : isMulti ? "multi" : "single";
   const isMultiMode = resolvedMode === "multi";
@@ -1013,6 +1078,7 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
         {

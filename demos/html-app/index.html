@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleanPlate HTML app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+  </head>
+  <body>
+    <div
+      data-cp="AppShell"
+      data-cp-recipe="desktop"
+      class="cp-app-shell"
+    >
+      <div data-cp="Header" class="cp-app-shell__header cp-header">
+        <div class="cp-header-wrapper">
+          <div class="cp-header-left">
+            <button
+              id="open-mobile-menu"
+              type="button"
+              data-cp="Button"
+              data-cp-variant="icon"
+              class="cp-button cp-button--icon cp-button--medium cp-header-mobile-menu-trigger"
+              aria-label="Open menu"
+            >
+              <span data-cp="Icon" data-cp-name="menu" class="cp-icon">menu</span>
+            </button>
+            <div
+              data-cp="Container"
+              data-cp-display="flex"
+              data-cp-align="center"
+              data-cp-gap="2"
+              class="cp-container cp-container--display-flex cp-container--align-center cp-g-2 cp-p-0 cp-m-0"
+            >
+              <span data-cp="Icon" data-cp-name="hub" data-cp-color="blue" class="cp-icon cp-icon--medium cp-icon--blue">hub</span>
+              <p data-cp="Typography" data-cp-is-bold="true" class="cp-typography cp-typography--p cp-typography--bold cp-m-0">Northstar</p>
+            </div>
+          </div>
+          <div class="cp-header-center"></div>
+          <div class="cp-header-right">
+            <div data-cp="Dropdown" data-cp-placement="bottom-end" class="cp-dropdown">
+              <button
+                id="open-account"
+                type="button"
+                data-cp-slot="trigger"
+                data-cp="Avatar"
+                data-cp-name="Maya Chen"
+                class="cp-avatar cp-avatar--medium cp-avatar--text-length-2 cp-dropdown__trigger cp-m-0"
+                aria-label="Account menu"
+              >
+                MC
+              </button>
+              <div
+                id="account-menu"
+                hidden
+                data-cp-slot="content"
+                class="cp-dropdown-floating cp-dropdown-floating--end"
+                role="menu"
+              >
+                <div class="cp-p-2 cp-p-b-3 cp-m-b-2" style="padding: var(--space-2) var(--space-4) var(--space-3); margin-bottom: var(--space-2); border-bottom: 1px solid var(--gray-100)">
+                  <small data-cp="Typography" data-cp-variant="small" class="cp-typography cp-typography--small cp-m-0">Signed in as</small>
+                  <p data-cp="Typography" data-cp-is-bold="true" class="cp-typography cp-typography--p cp-typography--bold cp-m-t-2">Maya Chen</p>
+                  <small data-cp="Typography" data-cp-variant="small" class="cp-typography cp-typography--small cp-m-t-2">maya@northstar.dev</small>
+                </div>
+                <nav data-cp="MenuList" data-cp-direction="vertical" class="cp-menu-list light cp-m-0">
+                  <div class="cp-menu-list-wrapper">
+                    <ul class="cp-menu-list--vertical">
+                      <li data-account="profile"><a href="#"><span class="cp-icon cp-menu-list-item-icon">account_circle</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Profile</span></a></li>
+                      <li data-account="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">tune</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Preferences</span></a></li>
+                      <li data-account="logout"><a href="#"><span class="cp-icon cp-menu-list-item-icon">logout</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Sign out</span></a></li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-app-shell__body">
+        <aside class="cp-app-shell__sidebar" aria-label="Main navigation" style="width: 240px">
+          <nav data-cp="MenuList" data-cp-direction="vertical" data-cp-active-item="overview" class="cp-menu-list light cp-m-0">
+            <div class="cp-menu-list-wrapper">
+              <ul class="cp-menu-list--vertical">
+                <li data-nav="overview" class="cp-menu-list-item--active"><a href="#overview"><span class="cp-icon cp-menu-list-item-icon">speed</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Overview</span></a></li>
+                <li data-nav="projects"><a href="#projects"><span class="cp-icon cp-menu-list-item-icon">receipt_long</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Projects</span></a></li>
+                <li data-nav="activity"><a href="#activity"><span class="cp-icon cp-menu-list-item-icon">forum</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Activity</span></a></li>
+                <li data-nav="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">settings</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Settings</span></a></li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <main class="cp-app-shell__main" data-cp-slot="children">
+          <div data-cp="Container" data-cp-padding="4" class="cp-container cp-p-4" id="overview">
+            <nav data-cp="BreadCrumb" data-cp-separator="chevron" class="cp-breadcrumb cp-m-b-2">
+              <ol class="cp-breadcrumb-list">
+                <li class="cp-breadcrumb-item">
+                  <a class="cp-breadcrumb-link" href="#overview">Northstar</a>
+                  <span class="cp-breadcrumb-separator"><span class="cp-icon cp-breadcrumb-separator-icon">chevron_right</span></span>
+                </li>
+                <li class="cp-breadcrumb-item">
+                  <span class="cp-breadcrumb-current">Workspace</span>
+                </li>
+              </ol>
+            </nav>
+
+            <div data-cp="PageHeader" class="cp-page-header cp-m-b-4">
+              <div class="cp-page-header-row">
+                <div class="cp-page-header-start">
+                  <h1 data-cp-slot="title" class="cp-page-header-title">Workspace overview</h1>
+                  <p class="cp-page-header-subtitle">Track shipping work, people, and the next launch from one place.</p>
+                </div>
+                <div class="cp-page-header-actions">
+                  <div class="cp-page-header-cta">
+                    <button id="open-create" type="button" data-cp="Button" class="cp-button cp-button--medium">New project</button>
+                  </div>
+                  <div data-cp="Dropdown" data-cp-placement="bottom-end" class="cp-dropdown">
+                    <button id="open-more" type="button" data-cp="Button" data-cp-variant="ghost" class="cp-button cp-button--ghost cp-button--icon cp-button--medium cp-page-header-more-trigger" aria-label="More actions">
+                      <span class="cp-icon">more_vert</span>
+                    </button>
+                    <div id="more-menu" hidden class="cp-dropdown-floating cp-dropdown-floating--end" role="menu">
+                      <nav data-cp="MenuList" data-cp-direction="vertical" class="cp-menu-list light cp-m-0">
+                        <div class="cp-menu-list-wrapper">
+                          <ul class="cp-menu-list--vertical">
+                            <li><a href="#" id="refresh-projects">Refresh</a></li>
+                            <li><a href="#" id="open-filters-more">Open filters</a></li>
+                            <li><a href="#" id="view-archived">View archived</a></li>
+                          </ul>
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="trial-alert"
+              data-cp="Alert"
+              data-cp-variant="warning"
+              data-cp-can-dismiss="true"
+              class="cp-alert cp-alert--warning cp-alert--medium cp-m-b-4"
+            >
+              <div class="cp-alert-contents">
+                <span class="cp-icon cp-icon--medium cp-alert-icon">warning</span>
+                <p class="cp-typography cp-alert-message">Your Northstar trial ends in 6 days. Add billing to keep projects and activity history.</p>
+              </div>
+              <button id="dismiss-alert" type="button" class="cp-button cp-button--icon cp-alert-close" aria-label="Dismiss">
+                <span class="cp-icon">close</span>
+              </button>
+            </div>
+
+            <div data-cp="Animated" data-cp-animation-type="fade-in-bottom" class="cp-animated cp-animated--block cp-animated--fade-in-bottom cp-m-b-4">
+              <div data-cp="Container" data-cp-display="flex" data-cp-gap="2" class="cp-container cp-container--display-flex cp-g-2 cp-p-0 cp-m-0">
+                <div class="cp-container cp-container--width-quarter cp-p-0 cp-m-0">
+                  <div data-cp="Statistic" data-cp-variant="card" data-cp-title="Active projects" data-cp-value="4" class="cp-statistic cp-statistic-medium cp-statistic-tone-neutral cp-statistic-card">
+                    <div class="cp-statistic-header">
+                      <span class="cp-statistic-icon"><span class="cp-icon">receipt_long</span></span>
+                      <div class="cp-statistic-title">Active projects</div>
+                    </div>
+                    <div class="cp-statistic-content"><span class="cp-statistic-value">4</span></div>
+                    <div class="cp-statistic-description">Excludes archived work</div>
+                    <div class="cp-statistic-footer">
+                      <span class="cp-statistic-footer-label">This quarter</span>
+                      <span class="cp-statistic-footer-badge"><span data-cp="Badge" data-cp-label="Live" class="cp-badge cp-badge--success">Live</span></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cp-container cp-container--width-quarter cp-p-0 cp-m-0">
+                  <div data-cp="Statistic" data-cp-variant="card" data-cp-tone="warning" data-cp-title="At risk" data-cp-value="1" class="cp-statistic cp-statistic-medium cp-statistic-tone-warning cp-statistic-card">
+                    <div class="cp-statistic-header">
+                      <span class="cp-statistic-icon"><span class="cp-icon">error</span></span>
+                      <div class="cp-statistic-title">At risk</div>
+                    </div>
+                    <div class="cp-statistic-content"><span class="cp-statistic-value">1</span></div>
+                    <div class="cp-statistic-description">Needs a date or owner change</div>
+                  </div>
+                </div>
+                <div class="cp-container cp-container--width-quarter cp-p-0 cp-m-0">
+                  <div data-cp="Statistic" data-cp-variant="card" data-cp-tone="success" data-cp-title="Shipped" data-cp-value="1" class="cp-statistic cp-statistic-medium cp-statistic-tone-success cp-statistic-card">
+                    <div class="cp-statistic-header">
+                      <span class="cp-statistic-icon"><span class="cp-icon">check_circle</span></span>
+                      <div class="cp-statistic-title">Shipped</div>
+                    </div>
+                    <div class="cp-statistic-content"><span class="cp-statistic-value">1</span></div>
+                    <div class="cp-statistic-description">Closed in the last 30 days</div>
+                  </div>
+                </div>
+                <div class="cp-container cp-container--width-quarter cp-p-0 cp-m-0">
+                  <div data-cp="Statistic" data-cp-variant="card" data-cp-title="Storage" data-cp-value="68" class="cp-statistic cp-statistic-medium cp-statistic-tone-neutral cp-statistic-card">
+                    <div class="cp-statistic-header">
+                      <span class="cp-statistic-icon"><span class="cp-icon">cloud</span></span>
+                      <div class="cp-statistic-title">Storage</div>
+                    </div>
+                    <div class="cp-statistic-content"><span class="cp-statistic-value">68</span><span class="cp-statistic-suffix">%</span></div>
+                    <div class="cp-statistic-progress">
+                      <div data-cp="ProgressBar" data-cp-value="68" class="cp-progress-bar cp-progress-bar--primary cp-progress-bar--small cp-m-0">
+                        <div class="cp-progress-bar-track"></div>
+                        <div class="cp-progress-bar-fill" style="width: 68%"></div>
+                      </div>
+                    </div>
+                    <div class="cp-statistic-description">1.4 GB of 2 GB used</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div data-cp="Container" class="cp-container cp-m-b-4 cp-p-0">
+              <h6 data-cp="Typography" data-cp-variant="h6" class="cp-typography cp-typography--h6 cp-m-b-2">Workspace setup</h6>
+              <div id="setup-stepper" data-cp="Stepper" data-cp-variant="horizontal" class="cp-stepper">
+                <div class="cp-stepper-item cp-stepper-item--completed">
+                  <span class="cp-stepper-count"><span class="cp-icon cp-icon--small cp-stepper-count-icon">done</span></span>
+                  <span class="cp-stepper-separator"></span>
+                  <a class="cp-stepper-link" href="#profile">Profile</a>
+                </div>
+                <div class="cp-stepper-item cp-stepper-item--active">
+                  <span class="cp-stepper-count">2</span>
+                  <span class="cp-stepper-separator"></span>
+                  <a class="cp-stepper-link" href="#invite">Invite team</a>
+                </div>
+                <div class="cp-stepper-item">
+                  <span class="cp-stepper-count">3</span>
+                  <span class="cp-stepper-separator"></span>
+                  <a class="cp-stepper-link" href="#billing">Billing</a>
+                </div>
+              </div>
+            </div>
+
+            <div id="projects" data-cp="Container" class="cp-container cp-m-b-4 cp-p-0">
+              <div data-cp="Container" data-cp-display="flex" data-cp-align="center" data-cp-justify="space-between" class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-space-between cp-m-b-2 cp-p-0">
+                <h5 data-cp="Typography" data-cp-variant="h5" class="cp-typography cp-typography--h5 cp-m-0">Projects</h5>
+                <div class="cp-container cp-container--display-flex cp-g-2 cp-p-0 cp-m-0 cp-container--align-center">
+                  <button id="open-filters" type="button" data-cp="Button" data-cp-variant="outline" data-cp-size="small" class="cp-button cp-button--outline cp-button--small">Filters</button>
+                  <div data-cp="Dropdown" data-cp-placement="bottom-end" class="cp-dropdown">
+                    <button id="open-export" type="button" data-cp="Button" data-cp-variant="ghost" data-cp-size="small" class="cp-button cp-button--ghost cp-button--small cp-dropdown__trigger">Export</button>
+                    <div id="export-menu" hidden class="cp-dropdown-floating cp-dropdown-floating--end" role="menu">
+                      <nav data-cp="MenuList" data-cp-direction="vertical" class="cp-menu-list light cp-m-0">
+                        <div class="cp-menu-list-wrapper">
+                          <ul class="cp-menu-list--vertical">
+                            <li data-export="csv"><a href="#"><span class="cp-icon cp-menu-list-item-icon">download</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Export CSV</span></a></li>
+                            <li data-export="pdf"><a href="#"><span class="cp-icon cp-menu-list-item-icon">picture_as_pdf</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Export PDF</span></a></li>
+                          </ul>
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+                  <div id="refresh-spinner" hidden data-cp="Spinner" class="cp-spinner cp-spinner--small">
+                    <span class="cp-icon cp-spinner-icon">progress_activity</span>
+                  </div>
+                </div>
+              </div>
+
+              <nav data-cp="MenuList" data-cp-direction="horizontal" data-cp-active-item="active" class="cp-menu-list light cp-m-b-2">
+                <div class="cp-menu-list-wrapper">
+                  <ul class="cp-menu-list--horizontal">
+                    <li data-tab="active" class="cp-menu-list-item--active"><a href="#projects"><span class="cp-typography cp-typography--span cp-menu-list-item-label">Active</span></a></li>
+                    <li data-tab="done"><a href="#projects"><span class="cp-typography cp-typography--span cp-menu-list-item-label">Done</span></a></li>
+                  </ul>
+                </div>
+              </nav>
+
+              <div data-cp="FormControls.Input" data-cp-type="search" data-cp-label="Search projects" class="cp-form-field cp-form-field-fluid cp-m-b-2">
+                <label class="cp-form-label" for="project-search">Search projects</label>
+                <div class="cp-input-search-wrapper">
+                  <span class="cp-icon cp-input-search-icon">search</span>
+                  <input id="project-search" class="cp-form-control cp-input-search-control" type="search" placeholder="Name or owner" />
+                </div>
+              </div>
+
+              <div id="tag-row" class="cp-container cp-container--display-flex cp-g-2 cp-container--align-center cp-m-b-2 cp-p-0">
+                <div data-cp="Pills" data-cp-mode="remove" data-cp-label="Q3" class="cp-pills">
+                  <div class="cp-pills-wrapper">
+                    <p class="cp-typography cp-pills-label">Q3</p>
+                    <button type="button" class="cp-button cp-button--icon cp-button--medium cp-pills-button" data-remove-tag aria-label="Remove Q3"><span class="cp-icon">close</span></button>
+                  </div>
+                </div>
+                <div data-cp="Pills" data-cp-mode="remove" data-cp-label="launch" class="cp-pills">
+                  <div class="cp-pills-wrapper">
+                    <p class="cp-typography cp-pills-label">launch</p>
+                    <button type="button" class="cp-button cp-button--icon cp-button--medium cp-pills-button" data-remove-tag aria-label="Remove launch"><span class="cp-icon">close</span></button>
+                  </div>
+                </div>
+                <div id="tag-edit" data-cp="Pills" data-cp-mode="edit" class="cp-pills">
+                  <div class="cp-pills-wrapper">
+                    <div class="cp-pills-input">
+                      <input id="tag-input" class="cp-form-control" type="text" placeholder="Add tag" />
+                    </div>
+                    <button id="add-tag" type="button" class="cp-button cp-button--icon cp-button--medium cp-pills-button" aria-label="Add tag"><span class="cp-icon">check</span></button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="projects-empty"
+                hidden
+                data-cp="FeedbackState"
+                data-cp-variant="empty"
+                data-cp-title="No projects match"
+                class="cp-feedback-state cp-feedback-state-small"
+              >
+                <div class="cp-feedback-state-media"><span class="cp-icon cp-icon--large">search_off</span></div>
+                <div class="cp-feedback-state-content">
+                  <h3 class="cp-feedback-state-title">No projects match</h3>
+                  <p class="cp-typography cp-feedback-state-description">Clear search or filters to see the full workspace list.</p>
+                </div>
+                <div class="cp-feedback-state-actions">
+                  <button id="clear-filters" type="button" class="cp-button cp-button--medium">Clear filters</button>
+                </div>
+              </div>
+
+              <div id="projects-table" data-cp="Table" data-cp-recipe="desktop" class="cp-table">
+                <table class="cp-table-core">
+                  <thead>
+                    <tr>
+                      <th data-cp-col="name">Project</th>
+                      <th data-cp-col="owner">Owner</th>
+                      <th data-cp-col="team">Team</th>
+                      <th data-cp-col="status">Status</th>
+                      <th data-cp-col="due">Due</th>
+                    </tr>
+                  </thead>
+                  <tbody id="project-rows">
+                    <tr data-project-id="atlas" data-name="Atlas checkout" data-owner="Maya Chen" data-team="Growth" data-status="on-track" data-due="24 Aug" data-progress="72">
+                      <td data-cp-field="name"><p class="cp-typography cp-typography--p cp-typography--bold cp-m-0">Atlas checkout</p></td>
+                      <td data-cp-field="owner">
+                        <div class="cp-container cp-container--display-flex cp-container--align-center cp-g-2 cp-p-0 cp-m-0">
+                          <div data-cp="Avatar" class="cp-avatar cp-avatar--small cp-avatar--text-length-2">MC</div>
+                          <small class="cp-typography cp-typography--small cp-m-0">Maya Chen</small>
+                        </div>
+                      </td>
+                      <td data-cp-field="team">Growth</td>
+                      <td data-cp-field="status"><span data-cp="Badge" class="cp-badge cp-badge--success">On track</span></td>
+                      <td data-cp-field="due">24 Aug</td>
+                    </tr>
+                    <tr data-project-id="lumen" data-name="Lumen design system" data-owner="Omar Diallo" data-team="Design" data-status="at-risk" data-due="02 Sep" data-progress="41">
+                      <td><p class="cp-typography cp-typography--p cp-typography--bold cp-m-0">Lumen design system</p></td>
+                      <td>
+                        <div class="cp-container cp-container--display-flex cp-container--align-center cp-g-2 cp-p-0 cp-m-0">
+                          <div class="cp-avatar cp-avatar--small cp-avatar--text-length-2">OD</div>
+                          <small class="cp-typography cp-typography--small cp-m-0">Omar Diallo</small>
+                        </div>
+                      </td>
+                      <td>Design</td>
+                      <td><span class="cp-badge cp-badge--warning">At risk</span></td>
+                      <td>02 Sep</td>
+                    </tr>
+                    <tr data-project-id="harbor" data-name="Harbor data pipeline" data-owner="Priya Shah" data-team="Platform" data-status="blocked" data-due="18 Aug" data-progress="28">
+                      <td><p class="cp-typography cp-typography--p cp-typography--bold cp-m-0">Harbor data pipeline</p></td>
+                      <td>
+                        <div class="cp-container cp-container--display-flex cp-container--align-center cp-g-2 cp-p-0 cp-m-0">
+                          <div class="cp-avatar cp-avatar--small cp-avatar--text-length-2">PS</div>
+                          <small class="cp-typography cp-typography--small cp-m-0">Priya Shah</small>
+                        </div>
+                      </td>
+                      <td>Platform</td>
+                      <td><span class="cp-badge cp-badge--error">Blocked</span></td>
+                      <td>18 Aug</td>
+                    </tr>
+                    <tr data-project-id="nimbus" data-name="Nimbus onboarding" data-owner="Leo Park" data-team="Research" data-status="done" data-due="11 Aug" data-progress="100">
+                      <td><p class="cp-typography cp-typography--p cp-typography--bold cp-m-0">Nimbus onboarding</p></td>
+                      <td>
+                        <div class="cp-container cp-container--display-flex cp-container--align-center cp-g-2 cp-p-0 cp-m-0">
+                          <div class="cp-avatar cp-avatar--small cp-avatar--text-length-2">LP</div>
+                          <small class="cp-typography cp-typography--small cp-m-0">Leo Park</small>
+                        </div>
+                      </td>
+                      <td>Research</td>
+                      <td><span class="cp-badge cp-badge--info">Done</span></td>
+                      <td>11 Aug</td>
+                    </tr>
+                    <tr data-project-id="cedar" data-name="Cedar billing" data-owner="Maya Chen" data-team="Growth" data-status="on-track" data-due="30 Aug" data-progress="55">
+                      <td><p class="cp-typography cp-typography--p cp-typography--bold cp-m-0">Cedar billing</p></td>
+                      <td>
+                        <div class="cp-container cp-container--display-flex cp-container--align-center cp-g-2 cp-p-0 cp-m-0">
+                          <div class="cp-avatar cp-avatar--small cp-avatar--text-length-2">MC</div>
+                          <small class="cp-typography cp-typography--small cp-m-0">Maya Chen</small>
+                        </div>
+                      </td>
+                      <td>Growth</td>
+                      <td><span class="cp-badge cp-badge--success">On track</span></td>
+                      <td>30 Aug</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div id="projects-pagination" data-cp="Pagination" class="cp-pagination cp-pagination--default cp-m-t-2">
+                <div class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-center cp-pagination-wrapper">
+                  <div class="cp-pagination-total-count"><small id="project-total" class="cp-typography cp-typography--small">Total Projects: 4</small></div>
+                  <div id="project-page-buttons" class="cp-container cp-container--display-flex cp-container--align-center cp-pagination-buttons-wrapper">
+                    <button id="project-prev" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_left</span></button>
+                    <button type="button" data-page="1" class="cp-button cp-button--solid cp-button--medium cp-pagination-button">1</button>
+                    <button id="project-next" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_right</span></button>
+                  </div>
+                  <div class="cp-container cp-container--display-flex cp-container--align-center cp-pagination-show-per-page cp-g-2">
+                    <small class="cp-typography cp-typography--small">Show per page</small>
+                    <select id="rows-per-page" class="cp-form-control cp-pagination-rows-select-trigger">
+                      <option value="5" selected>5</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="activity" data-cp="Container" class="cp-container cp-m-b-4 cp-p-0">
+              <h5 data-cp="Typography" data-cp-variant="h5" class="cp-typography cp-typography--h5 cp-m-b-2">Activity</h5>
+              <div data-activity data-cp="MediaObject" data-cp-title="Omar Diallo" class="cp-media-object cp-p-2 cp-m-b-2">
+                <div class="cp-media-object-media"><div class="cp-avatar cp-avatar--medium cp-avatar--text-length-2">OD</div></div>
+                <div class="cp-media-object-body" data-has-rail="true">
+                  <p class="cp-media-object-title">Omar Diallo</p>
+                  <p class="cp-media-object-subtitle">Posted a review on Lumen</p>
+                  <p class="cp-media-object-snippet">Token audit is ready. Two contrast issues left on the empty state.</p>
+                  <div class="cp-media-object-meta-cell"><span class="cp-media-object-meta">12m ago</span></div>
+                  <div class="cp-media-object-action-cell"><span class="cp-icon">chevron_right</span></div>
+                </div>
+              </div>
+              <div data-activity data-cp="MediaObject" class="cp-media-object cp-p-2 cp-m-b-2">
+                <div class="cp-media-object-media"><div class="cp-avatar cp-avatar--medium cp-avatar--text-length-2">PS</div></div>
+                <div class="cp-media-object-body" data-has-rail="true">
+                  <p class="cp-media-object-title">Priya Shah</p>
+                  <p class="cp-media-object-subtitle">Blocked Harbor on credentials</p>
+                  <p class="cp-media-object-snippet">Waiting on warehouse access from infra before the backfill can run.</p>
+                  <div class="cp-media-object-meta-cell"><span class="cp-media-object-meta">1h ago</span></div>
+                  <div class="cp-media-object-action-cell"><span class="cp-icon">chevron_right</span></div>
+                </div>
+              </div>
+              <div data-activity data-cp="MediaObject" class="cp-media-object cp-p-2 cp-m-b-2">
+                <div class="cp-media-object-media"><div class="cp-avatar cp-avatar--medium cp-avatar--text-length-2">LP</div></div>
+                <div class="cp-media-object-body" data-has-rail="true">
+                  <p class="cp-media-object-title">Leo Park</p>
+                  <p class="cp-media-object-subtitle">Closed Nimbus onboarding</p>
+                  <p class="cp-media-object-snippet">Activation rate is up 9% week over week after the checklist change.</p>
+                  <div class="cp-media-object-meta-cell"><span class="cp-media-object-meta">Yesterday</span></div>
+                  <div class="cp-media-object-action-cell"><span class="cp-icon">chevron_right</span></div>
+                </div>
+              </div>
+              <div data-cp="Pagination" data-cp-variant="minimal" class="cp-pagination cp-pagination--minimal cp-m-t-2">
+                <div class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-center cp-pagination-wrapper">
+                  <div class="cp-pagination-total-count"><small id="activity-total" class="cp-typography cp-typography--small">Total Updates: 3</small></div>
+                  <div class="cp-container cp-container--display-flex cp-pagination-buttons-wrapper">
+                    <button id="activity-prev" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_left</span></button>
+                    <button type="button" data-activity-page="1" class="cp-button cp-button--solid cp-button--medium cp-pagination-button">1</button>
+                    <button type="button" data-activity-page="2" class="cp-button cp-button--outline cp-button--medium cp-pagination-button">2</button>
+                    <button id="activity-next" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_right</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="settings" data-cp="Container" class="cp-container cp-m-b-4 cp-p-0">
+              <h5 data-cp="Typography" data-cp-variant="h5" class="cp-typography cp-typography--h5 cp-m-b-2">Workspace settings</h5>
+              <p data-cp="Typography" class="cp-typography cp-typography--p cp-m-b-4">Defaults for new projects. Changes stay in this browser session.</p>
+
+              <div data-cp="FormControls.Toggle" class="cp-form-field cp-toggle-field cp-m-b-4">
+                <div class="cp-toggle-row">
+                  <input class="cp-visually-hidden cp-toggle-native" type="checkbox" role="switch" id="digest-email" checked />
+                  <label class="cp-toggle-ui" for="digest-email">
+                    <span class="cp-toggle-track"><span class="cp-toggle-thumb"></span></span>
+                    <span>Send a weekly digest email</span>
+                  </label>
+                </div>
+              </div>
+
+              <fieldset data-cp="FormControls.SegmentedControl" class="cp-form-field cp-segmented-control-field cp-segmented-control--medium cp-m-b-4">
+                <legend class="cp-segmented-control-legend">Table density</legend>
+                <div class="cp-segmented-control-options">
+                  <label class="cp-segmented-control-option">
+                    <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="density" value="comfortable" checked />
+                    <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">Comfortable</span></span>
+                  </label>
+                  <label class="cp-segmented-control-option">
+                    <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="density" value="compact" />
+                    <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">Compact</span></span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div data-cp="FormControls.ColorPicker" class="cp-form-field cp-select-field cp-color-picker-trigger cp-m-b-4">
+                <label class="cp-form-label">Brand color</label>
+                <input id="brand-color" class="demo-native-control" type="color" value="#0f766e" />
+                <button id="open-color" type="button" data-cp-slot="trigger" class="cp-select-field-header">
+                  <span class="cp-select-trigger-main cp-color-picker-trigger-main cp-container--display-flex cp-container--align-center">
+                    <span id="color-swatch" class="cp-color-picker-trigger-swatch" style="background: #0f766e"></span>
+                    <span id="color-value" class="cp-select-value cp-color-picker-trigger-text">#0f766e</span>
+                  </span>
+                </button>
+              </div>
+
+              <div data-cp="FormControls.Date" class="cp-date-field-wrapper cp-select-field cp-m-b-4">
+                <label class="cp-form-label">Plan renewal</label>
+                <input id="renewal-date" class="demo-native-control" type="date" value="2026-12-01" />
+                <button id="open-date" type="button" data-cp-slot="trigger" class="cp-select-field-header">
+                  <span id="date-value" class="cp-select-value">01 Dec 2026</span>
+                  <span class="cp-icon">calendar_month</span>
+                </button>
+              </div>
+
+              <fieldset data-cp="FormControls.Radio" class="cp-form-field cp-radio-field cp-m-b-4">
+                <legend class="cp-radio-legend">Default visibility</legend>
+                <div class="cp-radio-options cp-radio-options-vertical">
+                  <div class="cp-radio-row">
+                    <input class="cp-visually-hidden cp-radio-native" type="radio" name="default-visibility" id="vis-team" value="team" checked />
+                    <label class="cp-form-label-inline" for="vis-team">
+                      <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                      <span class="cp-radio-label-text">
+                        <span class="cp-radio-label-title">Team</span>
+                        <span class="cp-radio-description">Everyone in the workspace</span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="cp-radio-row">
+                    <input class="cp-visually-hidden cp-radio-native" type="radio" name="default-visibility" id="vis-invite" value="invite" />
+                    <label class="cp-form-label-inline" for="vis-invite">
+                      <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                      <span class="cp-radio-label-text"><span class="cp-radio-label-title">Invite only</span></span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset data-cp="FormControls.Checkbox" class="cp-form-field cp-checkbox-field cp-m-b-4">
+                <legend class="cp-checkbox-legend">Email me about</legend>
+                <div class="cp-checkbox-options cp-checkbox-options-vertical">
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" name="email-topics" id="topic-product" value="product" checked />
+                    <label class="cp-form-label-inline" for="topic-product">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Product updates</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" name="email-topics" id="topic-incidents" value="incidents" />
+                    <label class="cp-form-label-inline" for="topic-incidents">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Incident alerts</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" name="email-topics" id="topic-billing" value="billing" />
+                    <label class="cp-form-label-inline" for="topic-billing">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Billing</span></span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div data-cp="FormControls.Stepper" class="cp-form-field cp-m-b-4">
+                <label class="cp-form-label" for="seat-cap">Seat cap</label>
+                <div class="cp-form-control cp-stepper-shell">
+                  <input id="seat-cap" class="cp-stepper-input" type="text" inputmode="numeric" value="25" min="1" max="100" />
+                  <span class="cp-stepper-divider"></span>
+                  <button type="button" class="cp-stepper-btn" data-stepper="seat-cap" data-delta="-1" aria-label="Decrease"><span class="cp-icon">remove</span></button>
+                  <span class="cp-stepper-divider"></span>
+                  <button type="button" class="cp-stepper-btn" data-stepper="seat-cap" data-delta="1" aria-label="Increase"><span class="cp-icon">add</span></button>
+                </div>
+              </div>
+
+              <button id="save-settings" type="button" data-cp="Button" class="cp-button cp-button--medium">Save settings</button>
+            </div>
+
+            <div data-cp="Container" class="cp-container cp-m-b-4 cp-p-0">
+              <h5 data-cp="Typography" data-cp-variant="h5" class="cp-typography cp-typography--h5 cp-m-b-2">Workspace storage</h5>
+              <div data-cp="ProgressBar" data-cp-value="68" class="cp-progress-bar cp-progress-bar--primary cp-progress-bar--medium cp-m-b-2">
+                <div class="cp-progress-bar-track"></div>
+                <div class="cp-progress-bar-fill" style="width: 68%"></div>
+              </div>
+              <small data-cp="Typography" data-cp-variant="small" class="cp-typography cp-typography--small cp-m-0">Attachments and exports share this quota.</small>
+            </div>
+
+            <div data-cp="Accordion" data-cp-variant="spaced" class="cp-accordion cp-accordion-spaced">
+              <div class="cp-accordion-item">
+                <button type="button" class="cp-accordion-header">
+                  <h3 class="cp-accordion-title">How are project statuses set?</h3>
+                  <span class="cp-icon cp-accordion-icon">expand_more</span>
+                </button>
+                <div class="cp-accordion-content">
+                  <p class="cp-typography">Owners update status from the project drawer. At-risk means the due date is inside two weeks with progress under 50%. Blocked needs an explicit blocker note.</p>
+                </div>
+              </div>
+              <div class="cp-accordion-item">
+                <button type="button" class="cp-accordion-header">
+                  <h3 class="cp-accordion-title">Who can archive a project?</h3>
+                  <span class="cp-icon cp-accordion-icon">expand_more</span>
+                </button>
+                <div class="cp-accordion-content">
+                  <p class="cp-typography">Workspace admins and the project owner. Archiving hides the row from the active list but keeps activity history.</p>
+                </div>
+              </div>
+              <div class="cp-accordion-item">
+                <button type="button" class="cp-accordion-header">
+                  <h3 class="cp-accordion-title">Where do notifications go?</h3>
+                  <span class="cp-icon cp-accordion-icon">expand_more</span>
+                </button>
+                <div class="cp-accordion-content">
+                  <p class="cp-typography">In-app toasts for actions you take, and digest email if you enable it under Workspace settings.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <div class="cp-app-shell__footer">
+        <footer data-cp="Footer" data-cp-brand-name="Northstar" class="cp-footer">
+          <div class="cp-footer-custom-contents">
+            <div class="cp-container cp-container--display-flex cp-g-4 cp-p-0 cp-m-b-2">
+              <small class="cp-typography cp-typography--small cp-m-0">Privacy</small>
+              <small class="cp-typography cp-typography--small cp-m-0">Status</small>
+              <small class="cp-typography cp-typography--small cp-m-0">Changelog</small>
+            </div>
+          </div>
+          <div class="cp-footer-copyright">
+            <small class="cp-typography cp-typography--small cp-typography--align-center">© 2026 Northstar. All rights reserved. <a href="https://cleanplate.sivadass.in" target="_blank" rel="noopener noreferrer">Powered by CleanPlate</a></small>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div id="header-mobile-menu" hidden>
+      <div class="cp-header-mobile-menu-overlay" data-close-overlay></div>
+      <div id="header-mobile-drawer" class="cp-header-mobile-menu-drawer" role="dialog" aria-label="Main navigation">
+        <button type="button" class="cp-button cp-button--icon cp-button--medium cp-header-mobile-menu-close" data-close-overlay aria-label="Close menu"><span class="cp-icon">close</span></button>
+        <nav class="cp-header-mobile-menu-nav cp-menu-list light">
+          <div class="cp-menu-list-wrapper">
+            <ul class="cp-menu-list--vertical">
+              <li data-nav="overview"><a href="#overview"><span class="cp-icon cp-menu-list-item-icon">speed</span><span class="cp-typography cp-menu-list-item-label">Overview</span></a></li>
+              <li data-nav="projects"><a href="#projects"><span class="cp-icon cp-menu-list-item-icon">receipt_long</span><span class="cp-typography cp-menu-list-item-label">Projects</span></a></li>
+              <li data-nav="activity"><a href="#activity"><span class="cp-icon cp-menu-list-item-icon">forum</span><span class="cp-typography cp-menu-list-item-label">Activity</span></a></li>
+              <li data-nav="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">settings</span><span class="cp-typography cp-menu-list-item-label">Settings</span></a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div id="modal-create" hidden>
+      <div class="cp-modal-overlay" data-close-overlay>
+        <div data-cp="Modal" data-cp-is-open="true" class="cp-modal cp-modal--large" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="event.stopPropagation()">
+          <div class="cp-modal__content">
+            <div class="cp-modal__header">
+              <h2 id="modal-title" data-cp-slot="title" class="cp-modal__title">New project</h2>
+              <button type="button" class="cp-button cp-button--icon cp-button--medium cp-modal__close-button" data-close-overlay aria-label="Close"><span class="cp-icon">close</span></button>
+            </div>
+            <div data-cp-slot="body" class="cp-modal__body">
+              <div id="wizard-stepper" data-cp="Stepper" class="cp-stepper cp-m-b-4">
+                <div class="cp-stepper-item cp-stepper-item--active">
+                  <span class="cp-stepper-count">1</span>
+                  <span class="cp-stepper-separator"></span>
+                  <a class="cp-stepper-link" href="#details">Details</a>
+                </div>
+                <div class="cp-stepper-item">
+                  <span class="cp-stepper-count">2</span>
+                  <span class="cp-stepper-separator"></span>
+                  <a class="cp-stepper-link" href="#access">Access</a>
+                </div>
+                <div class="cp-stepper-item">
+                  <span class="cp-stepper-count">3</span>
+                  <span class="cp-stepper-separator"></span>
+                  <a class="cp-stepper-link" href="#review">Review</a>
+                </div>
+              </div>
+
+              <div data-wizard-panel="0">
+                <div data-cp="FormControls.Input" class="cp-form-field cp-form-field-fluid cp-m-b-4">
+                  <label class="cp-form-label" for="new-name">Project name *</label>
+                  <input id="new-name" class="cp-form-control" type="text" placeholder="Harbor analytics" required />
+                </div>
+                <div data-cp="FormControls.TextArea" class="cp-form-field cp-form-field-fluid cp-m-b-4">
+                  <label class="cp-form-label" for="new-summary">Summary</label>
+                  <textarea id="new-summary" class="cp-form-control cp-textarea-field" placeholder="What are we shipping?"></textarea>
+                </div>
+                <div data-cp="FormControls.Select" class="cp-select-field cp-m-b-4">
+                  <label class="cp-form-label">Team</label>
+                  <div class="cp-dropdown" style="display: block; width: 100%">
+                    <button id="open-team-select" type="button" data-cp-slot="trigger" class="cp-select-field-header">
+                      <span id="team-value" class="cp-select-value">Design</span>
+                      <span class="cp-icon">expand_more</span>
+                    </button>
+                    <div id="team-select-menu" hidden class="cp-dropdown-floating" role="listbox">
+                      <button type="button" class="cp-select-field-option" data-team="Design">Design</button>
+                      <button type="button" class="cp-select-field-option" data-team="Platform">Platform</button>
+                      <button type="button" class="cp-select-field-option" data-team="Growth">Growth</button>
+                      <button type="button" class="cp-select-field-option" data-team="Research">Research</button>
+                    </div>
+                  </div>
+                </div>
+                <div data-cp="FormControls.Date" class="cp-date-field-wrapper cp-select-field cp-m-b-4">
+                  <label class="cp-form-label">Target date</label>
+                  <input id="project-date" class="demo-native-control" type="date" value="2026-09-12" />
+                  <button id="open-project-date" type="button" class="cp-select-field-header">
+                    <span id="project-date-value" class="cp-select-value">12 Sep 2026</span>
+                    <span class="cp-icon">calendar_month</span>
+                  </button>
+                </div>
+                <div data-cp="FormControls.ColorPicker" class="cp-form-field cp-select-field cp-color-picker-trigger cp-m-b-4">
+                  <label class="cp-form-label">Project color</label>
+                  <input id="project-color" class="demo-native-control" type="color" value="#2563eb" />
+                  <button id="open-project-color" type="button" class="cp-select-field-header">
+                    <span class="cp-select-trigger-main cp-color-picker-trigger-main cp-container--display-flex cp-container--align-center">
+                      <span id="project-color-swatch" class="cp-color-picker-trigger-swatch" style="background: #2563eb"></span>
+                      <span id="project-color-value" class="cp-select-value">#2563eb</span>
+                    </span>
+                  </button>
+                </div>
+                <fieldset data-cp="FormControls.SegmentedControl" class="cp-form-field cp-segmented-control-field cp-segmented-control--medium cp-m-b-4">
+                  <legend class="cp-segmented-control-legend">Priority</legend>
+                  <div class="cp-segmented-control-options">
+                    <label class="cp-segmented-control-option">
+                      <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="priority" value="low" />
+                      <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">Low</span></span>
+                    </label>
+                    <label class="cp-segmented-control-option">
+                      <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="priority" value="medium" checked />
+                      <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">Medium</span></span>
+                    </label>
+                    <label class="cp-segmented-control-option">
+                      <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="priority" value="high" />
+                      <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">High</span></span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div data-wizard-panel="1" hidden>
+                <fieldset data-cp="FormControls.Radio" class="cp-form-field cp-radio-field cp-m-b-4">
+                  <legend class="cp-radio-legend">Visibility</legend>
+                  <div class="cp-radio-options cp-radio-options-vertical">
+                    <div class="cp-radio-row">
+                      <input class="cp-visually-hidden cp-radio-native" type="radio" name="visibility" id="new-vis-team" value="team" checked />
+                      <label class="cp-form-label-inline" for="new-vis-team">
+                        <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                        <span class="cp-radio-label-text"><span class="cp-radio-label-title">Team</span></span>
+                      </label>
+                    </div>
+                    <div class="cp-radio-row">
+                      <input class="cp-visually-hidden cp-radio-native" type="radio" name="visibility" id="new-vis-invite" value="invite" />
+                      <label class="cp-form-label-inline" for="new-vis-invite">
+                        <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                        <span class="cp-radio-label-text"><span class="cp-radio-label-title">Invite only</span></span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset data-cp="FormControls.Checkbox" class="cp-form-field cp-checkbox-field cp-m-b-4">
+                  <legend class="cp-checkbox-legend">Notify via</legend>
+                  <div class="cp-checkbox-options cp-checkbox-options-vertical">
+                    <div class="cp-checkbox-row">
+                      <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" id="ch-slack" value="slack" checked />
+                      <label class="cp-form-label-inline" for="ch-slack">
+                        <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                        <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Slack</span></span>
+                      </label>
+                    </div>
+                    <div class="cp-checkbox-row">
+                      <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" id="ch-email" value="email" />
+                      <label class="cp-form-label-inline" for="ch-email">
+                        <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                        <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Email</span></span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <div data-cp="FormControls.File" data-variant="card" class="cp-form-field cp-file-field cp-m-b-4">
+                  <label class="cp-form-label" for="brief-input">Brief</label>
+                  <input id="brief-input" class="cp-visually-hidden" type="file" accept="application/pdf,image/*" />
+                  <label for="brief-input" class="cp-file-trigger cp-file-trigger-card">
+                    <span class="cp-icon cp-icon--large">cloud_upload</span>
+                    <span class="cp-file-trigger-card-helper">Drop a PDF or image</span>
+                    <span class="cp-file-trigger-card-or">or</span>
+                    <span class="cp-file-trigger-cta">Browse file</span>
+                  </label>
+                  <ul id="brief-list" class="cp-file-list" hidden></ul>
+                </div>
+                <div data-cp="FormControls.Stepper" class="cp-form-field cp-m-b-4">
+                  <label class="cp-form-label" for="new-seats">Contributor seats</label>
+                  <div class="cp-form-control cp-stepper-shell">
+                    <input id="new-seats" class="cp-stepper-input" type="text" inputmode="numeric" value="8" min="1" max="50" />
+                    <span class="cp-stepper-divider"></span>
+                    <button type="button" class="cp-stepper-btn" data-stepper="new-seats" data-delta="-1" aria-label="Decrease"><span class="cp-icon">remove</span></button>
+                    <span class="cp-stepper-divider"></span>
+                    <button type="button" class="cp-stepper-btn" data-stepper="new-seats" data-delta="1" aria-label="Increase"><span class="cp-icon">add</span></button>
+                  </div>
+                </div>
+                <div data-cp="FormControls.Toggle" class="cp-form-field cp-toggle-field cp-m-b-4">
+                  <div class="cp-toggle-row">
+                    <input class="cp-visually-hidden cp-toggle-native" type="checkbox" role="switch" id="private-notes" />
+                    <label class="cp-toggle-ui" for="private-notes">
+                      <span class="cp-toggle-track"><span class="cp-toggle-thumb"></span></span>
+                      <span>Keep kickoff notes private</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div data-wizard-panel="2" hidden>
+                <p id="review-name" class="cp-typography cp-typography--p cp-typography--bold cp-m-b-2">Untitled project</p>
+                <p id="review-summary" class="cp-typography cp-typography--p cp-m-b-2">No summary yet.</p>
+                <small id="review-meta" class="cp-typography cp-typography--small cp-m-0">Design · medium priority · 8 seats</small>
+              </div>
+            </div>
+            <div class="cp-modal__footer">
+              <button id="wizard-secondary" type="button" class="cp-button cp-button--outline cp-button--medium cp-modal__footer-button">Cancel</button>
+              <button id="wizard-primary" type="button" class="cp-button cp-button--medium cp-modal__footer-button">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="drawer-project" hidden>
+      <div class="cp-drawer-overlay" data-close-overlay></div>
+      <div id="drawer-panel" data-cp="Drawer" data-cp-placement="right" class="cp-drawer cp-drawer--placement-right cp-drawer--size-medium" role="dialog" aria-modal="true">
+        <div class="cp-drawer__content">
+          <div class="cp-drawer__header">
+            <h2 id="drawer-title" data-cp-slot="title" class="cp-drawer__title">Project</h2>
+            <button type="button" class="cp-button cp-button--icon cp-button--medium cp-drawer__close-button" data-close-overlay aria-label="Close"><span class="cp-icon">close</span></button>
+          </div>
+          <div data-cp-slot="body" class="cp-drawer__body">
+            <span id="drawer-badge" data-cp="Badge" class="cp-badge cp-badge--success">On track</span>
+            <p id="drawer-copy" class="cp-typography cp-typography--p cp-m-t-3 cp-m-b-2"></p>
+            <small class="cp-typography cp-typography--small cp-m-b-2">Sprint progress</small>
+            <div data-cp="ProgressBar" class="cp-progress-bar cp-progress-bar--success cp-progress-bar--medium cp-m-b-4">
+              <div class="cp-progress-bar-track"></div>
+              <div id="drawer-progress-fill" class="cp-progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <div data-cp="MediaObject" class="cp-media-object cp-p-2">
+              <div class="cp-media-object-media"><div id="drawer-owner-avatar" class="cp-avatar cp-avatar--medium cp-avatar--text-length-2">MC</div></div>
+              <div class="cp-media-object-body">
+                <p id="drawer-owner-name" class="cp-media-object-title">Maya Chen</p>
+                <p class="cp-media-object-subtitle">Project owner</p>
+                <p class="cp-media-object-snippet">Click archive if this work is no longer active.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cp-drawer__footer">
+            <button type="button" class="cp-button cp-button--outline cp-button--medium cp-drawer__footer-button" data-close-overlay>Close</button>
+            <button id="archive-open" type="button" class="cp-button cp-button--medium cp-drawer__footer-button">Archive</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirm-archive" hidden>
+      <div class="cp-confirm-dialog-overlay" data-close-id="confirm-archive">
+        <div data-cp="ConfirmDialog" data-cp-variant="destructive" class="cp-confirm-dialog cp-confirm-dialog--open cp-confirm-dialog--small cp-confirm-dialog--destructive" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+          <div class="cp-confirm-dialog__content">
+            <h2 class="cp-confirm-dialog__title">Archive this project?</h2>
+            <p class="cp-confirm-dialog__description">It leaves the active list. Activity history is kept for the workspace.</p>
+            <div class="cp-confirm-dialog__buttons">
+              <button type="button" class="cp-button cp-button--outline cp-button--medium cp-confirm-dialog__button" data-close-id="confirm-archive">Keep it</button>
+              <button id="archive-confirm" type="button" class="cp-button cp-button--medium cp-confirm-dialog__button">Archive</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sheet-filters" hidden>
+      <div class="cp-bottom-sheet-overlay" data-close-overlay></div>
+      <div data-cp="BottomSheet" data-cp-is-open="true" class="cp-bottom-sheet cp-bottom-sheet--snap-60">
+        <div class="cp-bottom-sheet__handle"><div class="cp-bottom-sheet__handle-bar"></div></div>
+        <div class="cp-bottom-sheet__content">
+          <div class="cp-container cp-p-4">
+            <h5 class="cp-typography cp-typography--h5 cp-m-b-3">Filter projects</h5>
+            <fieldset data-cp="FormControls.Radio" class="cp-form-field cp-radio-field cp-m-b-4">
+              <legend class="cp-radio-legend">Status</legend>
+              <div class="cp-radio-options cp-radio-options-vertical">
+                <div class="cp-radio-row">
+                  <input class="cp-visually-hidden cp-radio-native" type="radio" name="status-filter" id="filter-all" value="all" checked />
+                  <label class="cp-form-label-inline" for="filter-all"><span class="cp-radio-visual"><span class="cp-radio-dot"></span></span><span class="cp-radio-label-text"><span class="cp-radio-label-title">All</span></span></label>
+                </div>
+                <div class="cp-radio-row">
+                  <input class="cp-visually-hidden cp-radio-native" type="radio" name="status-filter" id="filter-on-track" value="on-track" />
+                  <label class="cp-form-label-inline" for="filter-on-track"><span class="cp-radio-visual"><span class="cp-radio-dot"></span></span><span class="cp-radio-label-text"><span class="cp-radio-label-title">On track</span></span></label>
+                </div>
+                <div class="cp-radio-row">
+                  <input class="cp-visually-hidden cp-radio-native" type="radio" name="status-filter" id="filter-at-risk" value="at-risk" />
+                  <label class="cp-form-label-inline" for="filter-at-risk"><span class="cp-radio-visual"><span class="cp-radio-dot"></span></span><span class="cp-radio-label-text"><span class="cp-radio-label-title">At risk</span></span></label>
+                </div>
+                <div class="cp-radio-row">
+                  <input class="cp-visually-hidden cp-radio-native" type="radio" name="status-filter" id="filter-blocked" value="blocked" />
+                  <label class="cp-form-label-inline" for="filter-blocked"><span class="cp-radio-visual"><span class="cp-radio-dot"></span></span><span class="cp-radio-label-text"><span class="cp-radio-label-title">Blocked</span></span></label>
+                </div>
+              </div>
+            </fieldset>
+            <button id="apply-filters" type="button" class="cp-button cp-button--medium">Apply filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="toast-root"
+      data-cp="Toast"
+      class="cp-toast-container"
+      style="position: fixed; top: 16px; right: 16px; z-index: var(--cp-z-toast, 50)"
+    ></div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

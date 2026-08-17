@@ -6,6 +6,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 
@@ -44,16 +46,23 @@ const Spinner: React.FC<SpinnerProps> = ({
   margin = "0",
   className = "",
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Spinner",
+    { size, variant, icon, margin },
+    { size: "medium", variant: "light", icon: "progress_activity", margin: "0" },
+  );
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const iconClasses = getClassNames(
-    styles[size],
-    styles[variant],
+    styles[`cp-spinner--${size}`],
+    variant === "dark" ? styles["cp-spinner--dark"] : "",
     marginClass,
     className
   );
 
   return (
-    <Container className={getClassNames(styles["cp-spinner"], iconClasses)}>
+    <Container {...dataCp} className={getClassNames(styles["cp-spinner"], iconClasses)}>
       <Icon name={icon} className={styles["cp-spinner-icon"]} />
     </Container>
   );

@@ -126,6 +126,26 @@ import { Stepper, Container } from "cleanplate";
 - **Active:** When `step.isActive` is true, the step gets the active CSS class.
 - **Spacing:** `margin` accepts the **spacing suffix**; the component adds the `m-` prefix via `getSpacingClass`.
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Stepper" data-cp-variant="horizontal" class="cp-stepper"></div>
+```
+
+### React equivalent
+
+```jsx
+<Stepper variant="horizontal" />
+```
+
 ## Related Components / Links
 
 - Container (layout and spacing around the stepper)

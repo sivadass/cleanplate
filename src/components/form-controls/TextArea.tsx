@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export interface TextAreaProps {
   name?: string;
@@ -52,6 +54,39 @@ const TextArea: React.FC<TextAreaProps> = ({
   error = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.TextArea",
+    {
+      name,
+      id,
+      defaultValue,
+      value,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      margin,
+      placeholder,
+      error,
+      dataTestId,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      placeholder: "",
+      error: "",
+      dataTestId: undefined,
+      name: undefined,
+      id: undefined,
+      defaultValue: undefined,
+      value: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -70,7 +105,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   );
 
   return (
-    <div className={fieldWrapperClassName}>
+    <div {...dataCp} className={fieldWrapperClassName}>
       {label && (
         <label className={styles["cp-form-label"]} htmlFor={inputId}>
           {label}{" "}

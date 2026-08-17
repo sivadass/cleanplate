@@ -77,6 +77,29 @@ const columns = [
 - **Label:** Optional; can be omitted or empty.
 - **Variants:** Each variant maps to a CSS class that sets background color via design tokens (e.g. `var(--blue)` for info, `var(--green)` for success).
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<p
+  data-cp="Badge"
+  data-cp-label="Info"
+  data-cp-variant="info"
+  class="cp-badge cp-badge--info"
+></p>
+```
+
+### React equivalent
+
+```jsx
+<Badge label="Info" variant="info" />
+```
+
 ## Related Components / Links
 
 - Table (often use Badge in column `customRender` for status or tag columns)

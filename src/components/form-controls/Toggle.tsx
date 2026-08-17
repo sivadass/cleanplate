@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export interface ToggleProps {
   name?: string;
@@ -50,6 +52,37 @@ const Toggle: React.FC<ToggleProps> = ({
   error = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Toggle",
+    {
+      name,
+      id,
+      defaultChecked,
+      checked: checkedProp,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      margin,
+      error,
+      dataTestId,
+    },
+    {
+      defaultChecked: false,
+      checked: undefined,
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      error: "",
+      dataTestId: undefined,
+      name: undefined,
+      id: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -76,6 +109,7 @@ const Toggle: React.FC<ToggleProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={fieldWrapperClassName}
       data-invalid={error ? "true" : undefined}
     >

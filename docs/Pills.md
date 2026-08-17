@@ -97,6 +97,26 @@ const [tag, setTag] = useState("Taxi");
 - **Remove mode:** Close button calls `onRemove()`; parent typically clears or unmounts the pill.
 - **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Pills" data-cp-label="Tags" data-cp-mode="read-only" class="cp-pills"></div>
+```
+
+### React equivalent
+
+```jsx
+<Pills label="Tags" />
+```
+
 ## Related Components / Links
 
 - Container (layout for multiple pills)

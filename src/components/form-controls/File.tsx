@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
 
@@ -109,6 +111,47 @@ const File: React.FC<FileProps> = ({
   error = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.File",
+    {
+      name,
+      id,
+      value,
+      defaultValue,
+      multiple,
+      accept,
+      variant,
+      buttonLabel,
+      dropZoneText,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      margin,
+      error,
+      dataTestId,
+    },
+    {
+      value: undefined,
+      defaultValue: undefined,
+      multiple: false,
+      accept: undefined,
+      variant: "button",
+      buttonLabel: "Browse file",
+      dropZoneText: "Drag files to upload",
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      error: "",
+      dataTestId: undefined,
+      name: undefined,
+      id: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -187,6 +230,7 @@ const File: React.FC<FileProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={wrapperClass}
       data-invalid={error ? "true" : undefined}
       data-variant={variant}

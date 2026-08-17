@@ -149,6 +149,26 @@ For URL-driven tabs, keep `activeItem` in sync with the route (e.g. search param
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0, `"b-2"` → m-b-2).
 - **Responsive (root):** At viewport width **≤1024px**, the root `.wrapper` gets extra padding, full viewport min-height, and constrained max-width so the list reads well in the header mobile sheet and similar narrow layouts (including AppShell’s mobile drawer).
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<nav data-cp="MenuList" data-cp-active-item="home" data-cp-direction="horizontal" class="cp-menu-list"></nav>
+```
+
+### React equivalent
+
+```jsx
+<MenuList activeItem="home" />
+```
+
 ## Related Components / Links
 
 - Dropdown (often uses MenuList inside for menu items)

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CleanPlate HTML Kit — v1 primitives</title>
+    <!-- CDN mirror: https://unpkg.com/cleanplate@1.0.0-beta.0/dist/index.css -->
+    <!-- Token sync: https://unpkg.com/cleanplate@1.0.0-beta.0/dist/tokens.css -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/dist/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <style>
+      :root {
+        font-family: Inter, system-ui, sans-serif;
+      }
+      body {
+        margin: 0;
+        background: #fff;
+        color: #222;
+      }
+      .kit-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+      .kit-row--input {
+        min-height: 160px;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="kit-row-button" class="kit-row">
+      <button
+        data-cp="Button"
+        class="cp-button cp-button--medium"
+      >
+        Hello world!
+      </button>
+    </section>
+
+    <section id="kit-row-typography" class="kit-row">
+      <p data-cp="Typography" class="cp-typography">Hello world!</p>
+    </section>
+
+    <section id="kit-row-icon" class="kit-row">
+      <span
+        data-cp="Icon"
+        data-cp-name="cloud_upload"
+        class="cp-icon cp-icon--medium"
+        >cloud_upload</span
+      >
+    </section>
+
+    <section id="kit-row-container" class="kit-row">
+      <div
+        data-cp="Container"
+        data-cp-display="block"
+        data-cp-width="medium"
+        data-cp-padding="4"
+        data-cp-show-border="true"
+        class="cp-container cp-container--display-block cp-container--width-medium cp-p-4 cp-container--border"
+      >
+        <h3
+          data-cp="Typography"
+          data-cp-variant="h3"
+          data-cp-margin="b-2"
+          class="cp-typography cp-typography--h3 cp-m-b-2"
+        >
+          Container Example
+        </h3>
+        <p data-cp="Typography" class="cp-typography">
+          This is a sample container with customizable properties.
+        </p>
+      </div>
+    </section>
+
+    <section id="kit-row-alert" class="kit-row">
+      <div
+        data-cp="Alert"
+        data-cp-message="The quick brown fox jumps over the lazy dog"
+        class="cp-alert cp-alert--info cp-alert--medium"
+      >
+        <div class="cp-alert-contents">
+          <span class="cp-icon cp-icon--medium cp-alert-icon">info</span>
+          <p class="cp-typography cp-alert-message">
+            The quick brown fox jumps over the lazy dog
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="kit-row-badge" class="kit-row">
+      <p
+        data-cp="Badge"
+        data-cp-label="Info"
+        data-cp-variant="info"
+        class="cp-badge cp-badge--info"
+      >
+        Info
+      </p>
+    </section>
+
+    <section id="kit-row-avatar" class="kit-row">
+      <div
+        data-cp="Avatar"
+        data-cp-name="John Doe"
+        class="cp-avatar cp-avatar--medium cp-avatar--text-length-2"
+      >
+        JD
+      </div>
+    </section>
+
+    <section id="kit-row-spinner" class="kit-row">
+      <div data-cp="Spinner" class="cp-spinner cp-spinner--medium">
+        <span class="cp-icon cp-spinner-icon">progress_activity</span>
+      </div>
+    </section>
+
+    <section id="kit-row-input" class="kit-row kit-row--input">
+      <div
+        data-cp="FormControls.Input"
+        data-cp-label="Email Address"
+        data-cp-name="email"
+        data-cp-type="email"
+        data-cp-placeholder="user@acme.com"
+        data-cp-auto-complete="email"
+        data-cp-data-test-id="email-input"
+        class="cp-form-field cp-m-b-4"
+      >
+        <label class="cp-form-label" for="email-input">Email Address</label>
+        <div class="cp-form-input-wrapper">
+          <input
+            id="email-input"
+            name="email"
+            type="email"
+            placeholder="user@acme.com"
+            autocomplete="email"
+            data-testid="email-input"
+            class="cp-form-input"
+          />
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

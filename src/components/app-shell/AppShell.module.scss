@@ -6,16 +6,16 @@
   flex-direction: column;
   min-height: 100vh;
 
-  .header-slot {
+  .cp-app-shell__header {
     flex-shrink: 0;
   }
 
-  .body {
+  .cp-app-shell__body {
     flex: 1;
     display: flex;
     min-height: 0;
 
-    .sidebar {
+    .cp-app-shell__sidebar {
       flex-shrink: 0;
       overflow-y: auto;
       border-right: 1px solid var(--gray-200);
@@ -27,7 +27,7 @@
       }
     }
 
-    .main {
+    .cp-app-shell__main {
       flex: 1;
       min-height: 0;
       min-width: 0;
@@ -37,14 +37,14 @@
     }
   }
 
-  .footer-slot {
+  .cp-app-shell__footer {
     flex-shrink: 0;
     background: var(--gray-50);
     padding: 0 var(--space-4) var(--space-4) var(--space-4);
     border-top: 1px solid var(--gray-200);
   }
 
-  .mobile-nav-trigger {
+  .cp-app-shell__mobile-nav-trigger {
     position: fixed;
     left: 16px;
     bottom: 16px;
@@ -109,14 +109,14 @@
     }
   }
 
-  .mobile-drawer-nav {
+  .cp-app-shell__mobile-drawer-nav {
     flex: 1;
     min-height: 0;
     position: relative;
     overflow-y: auto;
     padding: 64px var(--space-4) var(--space-4);
 
-    .mobile-drawer-close {
+    .cp-app-shell__mobile-drawer-close {
       flex-shrink: 0;
       position: absolute;
       top: 8px;

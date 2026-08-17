@@ -4,6 +4,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 const GAP_OPTIONS = SPACING_OPTIONS.slice(0, 10);
 
@@ -54,8 +56,8 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Container: React.FC<ContainerProps> = ({
   children,
-  margin = "m-0",
-  padding = "p-4",
+  margin = "0",
+  padding = "4",
   display = "",
   align = "",
   justify = "",
@@ -67,21 +69,37 @@ const Container: React.FC<ContainerProps> = ({
   gap = "4",
   ...rest
 }) => {
-  const displayClass = `display-${display}`;
-  const justifyClass = `justify-${justify}`;
-  const alignClass = `align-${align}`;
-  const widthClass = `width-${width}`;
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Container",
+    { margin, padding, display, align, justify, width, showBorder, gap },
+    {
+      margin: "0",
+      padding: "4",
+      display: "",
+      align: "",
+      justify: "",
+      width: "",
+      showBorder: false,
+      gap: "4",
+    },
+  );
+  const displayClass = `cp-container--display-${display}`;
+  const justifyClass = `cp-container--justify-${justify}`;
+  const alignClass = `cp-container--align-${align}`;
+  const widthClass = `cp-container--width-${width}`;
 
-  const marginStyles = getSpacingClass(margin, utilStyles, "m");
-  const paddingStyles = getSpacingClass(padding, utilStyles, "p");
-  const gapStyles = getSpacingClass(gap, utilStyles, "g");
+  const marginStyles = getSpacingClass(margin, utilStyles, "cp-m");
+  const paddingStyles = getSpacingClass(padding, utilStyles, "cp-p");
+  const gapStyles = getSpacingClass(gap, utilStyles, "cp-g");
 
   const containerClasses = getClassNames(
-    styles["container"],
+    styles["cp-container"],
     paddingStyles,
     marginStyles,
     {
-      [styles["border"]]: showBorder,
+      [styles["cp-container--border"]]: showBorder,
       [styles[widthClass]]: width,
       [styles[displayClass]]: display,
       [styles[justifyClass]]: justify,
@@ -99,6 +117,7 @@ const Container: React.FC<ContainerProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={containerClasses}
       onClick={handleClick}
       style={style}

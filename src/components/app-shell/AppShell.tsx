@@ -26,6 +26,8 @@ import type { FooterProps } from "../footer";
 import Button from "../button";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import { useMediaQuery } from "../../utils/use-media-query";
 import styles from "./AppShell.module.scss";
 
@@ -128,6 +130,23 @@ const AppShell: React.FC<AppShellProps> = ({
   className = "",
   contentClassName = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "AppShell",
+    {
+      sidebarWidth,
+      mobileSidebarDrawer: mobileSidebarDrawerProp,
+      mobileSidebarDrawerLabel,
+      contentClassName,
+    },
+    {
+      sidebarWidth: "272px",
+      mobileSidebarDrawer: undefined,
+      mobileSidebarDrawerLabel: "Main navigation",
+      contentClassName: "",
+    },
+  );
   const rootClassName = getClassNames(styles["cp-app-shell"], className);
   const headerProps = isHeaderProps(header) ? header : null;
   const renderedHeader: React.ReactNode = headerProps
@@ -244,17 +263,17 @@ const AppShell: React.FC<AppShellProps> = ({
     drawerEnabled && (mobileDrawerOpen || mobileDrawerExitAnimating);
 
   return (
-    <div className={rootClassName}>
+    <div {...dataCp} className={rootClassName}>
       {header !== undefined && (
-        <div className={styles["header-slot"]}>
+        <div className={styles["cp-app-shell__header"]}>
           {renderedHeader}
         </div>
       )}
 
-      <div className={styles["body"]}>
+      <div className={styles["cp-app-shell__body"]}>
         {sidebar !== undefined && (
           <aside
-            className={styles["sidebar"]}
+            className={styles["cp-app-shell__sidebar"]}
             style={{ width: sidebarWidth }}
             aria-label="Main navigation"
           >
@@ -264,7 +283,7 @@ const AppShell: React.FC<AppShellProps> = ({
 
         <main
           className={getClassNames(
-            styles["main"],
+            styles["cp-app-shell__main"],
             contentClassName,
           )}
         >
@@ -273,7 +292,7 @@ const AppShell: React.FC<AppShellProps> = ({
       </div>
 
       {footer !== undefined && (
-        <div className={styles["footer-slot"]}>
+        <div className={styles["cp-app-shell__footer"]}>
           {isFooterProps(footer) ? <Footer {...footer} /> : footer}
         </div>
       )}
@@ -284,7 +303,7 @@ const AppShell: React.FC<AppShellProps> = ({
             ref={refs.setReference}
             type="button"
             variant="icon"
-            className={styles["mobile-nav-trigger"]}
+            className={styles["cp-app-shell__mobile-nav-trigger"]}
             aria-label="Open navigation menu"
             {...getReferenceProps()}
           >
@@ -313,11 +332,11 @@ const AppShell: React.FC<AppShellProps> = ({
                   })}
                   aria-label={mobileSidebarDrawerLabel}
                 >
-                  <div className={styles["mobile-drawer-nav"]}>
+                  <div className={styles["cp-app-shell__mobile-drawer-nav"]}>
                     <Button
                       type="button"
                       variant="icon"
-                      className={styles["mobile-drawer-close"]}
+                      className={styles["cp-app-shell__mobile-drawer-close"]}
                       aria-label="Close navigation menu"
                       onClick={beginCloseMobileDrawer}
                     >

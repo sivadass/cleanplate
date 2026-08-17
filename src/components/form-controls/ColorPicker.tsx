@@ -21,6 +21,8 @@ import {
 } from "@floating-ui/react";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import styles from "./FormControls.module.scss";
 import {
   DEFAULT_FORM_FIELD_MARGIN,
@@ -215,6 +217,47 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   onClose,
   className = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.ColorPicker",
+    {
+      value,
+      defaultValue,
+      id,
+      name,
+      label,
+      placeholder,
+      clearable,
+      isDisabled,
+      readOnly,
+      isRequired,
+      error,
+      isFluid,
+      margin,
+      dataTestId,
+      popoverPlacement,
+      className,
+    },
+    {
+      defaultValue: DEFAULT_COLOR_HEX,
+      label: "",
+      placeholder: "Select color",
+      clearable: true,
+      isDisabled: false,
+      readOnly: false,
+      isRequired: false,
+      error: "",
+      isFluid: false,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      dataTestId: undefined,
+      popoverPlacement: "bottom-start",
+      className: "",
+      value: undefined,
+      id: undefined,
+      name: undefined,
+    },
+  );
   const generatedId = useId();
   const fieldId = id ?? generatedId;
   const labelId = `${fieldId}-label`;
@@ -548,6 +591,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
         {
