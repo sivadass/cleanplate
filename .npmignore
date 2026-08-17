@@ -1,5 +1,6 @@
 # IDE and tooling
 /.vscode
+/.cursor
 .DS_Store
 .gitignore
 
@@ -19,3 +20,4 @@ llms.config.js
 # Dependencies and lockfile
 /node_modules
 package-lock.json
+/demos
