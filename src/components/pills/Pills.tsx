@@ -106,8 +106,8 @@ const Pills: React.FC<PillsProps> = ({
   };
 
   return (
-    <Container {...dataCp} className={pillsClasses}>
-      <Container className={pillsWrapperClasses}>
+    <Container {...dataCp} padding="0" gap="0" className={pillsClasses}>
+      <Container padding="0" gap="0" className={pillsWrapperClasses}>
         {(mode === "read-only" || mode === "remove") && (
           <Typography className={styles["cp-pills-label"]}>{label}</Typography>
         )}
@@ -119,6 +119,7 @@ const Pills: React.FC<PillsProps> = ({
             value={labelValue}
             defaultValue=""
             placeholder={placeholder}
+            margin="0"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setLabelValue(event.target.value)
             }

@@ -45,11 +45,20 @@ const ProgressBar = ({
   };
 
   return (
-    <Container {...dataCp} className={[styles["cp-progress-bar"], progressBarClasses]}>
+    <Container
+      {...dataCp}
+      padding="0"
+      gap="0"
+      className={[styles["cp-progress-bar"], progressBarClasses]}
+    >
       <Container
+        padding="0"
+        gap="0"
         className={[styles["cp-progress-bar-track"], trackClassName]}
       ></Container>
       <Container
+        padding="0"
+        gap="0"
         className={[styles["cp-progress-bar-fill"], trackClassName]}
         style={filledStyle}
       ></Container>

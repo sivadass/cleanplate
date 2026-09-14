@@ -1,5 +1,6 @@
 .cp-pills {
   display: inline-block;
+  padding: 0;
   background-color: transparent;
   border: 0;
   border-radius: 22px;
@@ -7,6 +8,7 @@
 
 .cp-pills-wrapper {
   display: flex;
+  padding: 0;
   border: 1px solid var(--primary-brand);
   border-radius: 24px;
   background-color: var(--white);
