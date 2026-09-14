@@ -222,6 +222,63 @@ const columns = [
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.
 - **Spacing:** `margin` and `padding` use the suffix API; the component adds the `m-` and `p-` prefixes via `getSpacingClass`.
 
+
+
+## HTML prototype
+
+Table requires `data-cp-recipe`. Use **two artboards** — one for `desktop` (HTML `<table>`) and one for `mobile` (MediaObject list). Mark column ids with `data-cp-col` on `<th>` and `data-cp-field` on `<td>`. Mobile rows use `data-cp-mobile-*` field maps on the Table root.
+
+```bash
+npm run html-to-jsx -- table.desktop.html
+npm run html-to-jsx -- table.mobile.html
+```
+
+### Recipe (desktop)
+
+```html
+<div data-cp="Table" data-cp-recipe="desktop" class="cp-table"><table class="cp-table-core"><thead><tr><th data-cp-col="name">Name</th><th data-cp-col="email">Email</th></tr></thead><tbody><tr><td data-cp-field="name">John Doe</td><td data-cp-field="email">john@doe.com</td></tr></tbody></table></div>
+```
+
+### React equivalent (desktop)
+
+```jsx
+<Table recipe="desktop" columns={[
+  {
+    id: "name",
+    title: "Name",
+  },
+  {
+    id: "email",
+    title: "Email",
+  },
+]} data={[
+  {
+    name: "John Doe",
+    email: "john@doe.com",
+  },
+]} />
+```
+
+### Recipe (mobile)
+
+```html
+<div data-cp="Table" data-cp-recipe="mobile" data-cp-mobile-title="name" data-cp-mobile-description="email"><div data-cp="MediaObject" data-cp-field-name="John Doe" data-cp-field-email="john@doe.com" data-cp-title="John Doe" data-cp-description="john@doe.com"></div></div>
+```
+
+### React equivalent (mobile)
+
+```jsx
+<Table recipe="mobile" mobileColumns={{
+  title: "name",
+  description: "email",
+}} data={[
+  {
+    name: "John Doe",
+    email: "john@doe.com",
+  },
+]} />
+```
+
 ## Related Components / Links
 
 - Pagination (used inside Table when totalItems > 0 and hidePagination is false; same props as standalone Pagination)

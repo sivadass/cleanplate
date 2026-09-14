@@ -11,6 +11,8 @@ import { getUniqueId, getVariantIcon } from "../../utils/common";
 import styles from "./Toast.module.scss";
 import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type ToastVariant = "info" | "error" | "warning" | "success";
 
@@ -95,12 +97,16 @@ const ToastItem = ({
   onClose: () => void;
   message: string;
 }) => {
-  const classes = useMemo(() => [styles.toast, styles[mode]].join(" "), [mode]);
+  const classes = useMemo(
+    () =>
+      [styles["cp-toast"], styles[`cp-toast--${mode}`]].join(" "),
+    [mode],
+  );
   const iconName = getVariantIcon(mode);
   return (
     <div onClick={onClose} className={classes} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && onClose()}>
-      <Icon className={styles.icon} name={iconName as MaterialIconName} size="medium" />
-      <div className={styles.message}>{message}</div>
+      <Icon className={styles["cp-toast__icon"]} name={iconName as MaterialIconName} size="medium" />
+      <div className={styles["cp-toast__message"]}>{message}</div>
     </div>
   );
 };
@@ -112,6 +118,13 @@ const ToastItem = ({
  */
 const Toast = forwardRef<ToastRefHandle, ToastProps>(
   ({ autoClose = false, autoCloseTime = 5000 }, ref) => {
+    const prototypeEnabled = usePrototypeAttributes();
+    const dataCp = emitDataCp(
+      prototypeEnabled,
+      "Toast",
+      { autoClose, autoCloseTime },
+      { autoClose: false, autoCloseTime: 5000 },
+    );
     const [toasts, setToasts] = useState<ToastItemWithId[]>([]);
     const toastsRef = useRef(toasts);
     toastsRef.current = toasts;
@@ -149,7 +162,7 @@ const Toast = forwardRef<ToastRefHandle, ToastProps>(
     }
 
     return ReactDOM.createPortal(
-      <div className={styles["toast-container"]}>
+      <div {...dataCp} className={styles["cp-toast-container"]}>
         {toasts.map((t) => (
           <ToastItem
             key={t.id}

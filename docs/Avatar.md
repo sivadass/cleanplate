@@ -167,6 +167,30 @@ export const Example = () => (
 - **Spacing:** `margin` accepts the **spacing suffix**; the component adds the `m-` prefix via `getSpacingClass`. Use suffix form (e.g. `"0"`, `"2"`, `"b-3"`) when passing values explicitly.
 - **Root element:** A `div`; supports `ref` and other attributes except **`style`** (omitted from the public type so layout stays class-based).
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div
+  data-cp="Avatar"
+  data-cp-name="John Doe"
+  class="cp-avatar cp-avatar--medium cp-avatar--text-length-2"
+>
+  JD
+</div>
+```
+
+### React equivalent
+
+```jsx
+<Avatar name="John Doe">JD</Avatar>
+```
+
 ## Related Components / Links
 
 - MediaObject (often uses Avatar via `mediaAvatar` for the media slot)

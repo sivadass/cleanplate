@@ -6,13 +6,13 @@ const MARGIN_OPTIONS = SPACING_OPTIONS.slice(0, 10);
 
 const DEFAULT_CHILDREN = (
   <Container padding="4">
-    <Typography variant="h5" margin="m-0 m-b-2">
+    <Typography variant="h5" margin="b-2">
       Bottom Sheet
     </Typography>
-    <Typography variant="p" margin="m-0 m-b-2">
+    <Typography variant="p" margin="b-2">
       Drag the handle down to close. Snap points at 30%, 60%, and 90% of screen height.
     </Typography>
-    <Typography variant="p" margin="m-0">
+    <Typography variant="p" margin="0">
       Touch and mouse support with smooth animations.
     </Typography>
   </Container>
@@ -80,16 +80,16 @@ export const WithContent = {
         </Button>
         <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <Container padding="4">
-            <Typography variant="h5" margin="m-0 m-b-2">
+            <Typography variant="h5" margin="b-2">
               Demo content
             </Typography>
-            <Typography variant="p" margin="m-0 m-b-2">
+            <Typography variant="p" margin="b-2">
               • Drag down to close
             </Typography>
-            <Typography variant="p" margin="m-0 m-b-2">
+            <Typography variant="p" margin="b-2">
               • Snap points at 30%, 60%, 90%
             </Typography>
-            <Typography variant="p" margin="m-0">
+            <Typography variant="p" margin="0">
               • Touch and mouse support
             </Typography>
           </Container>

@@ -93,7 +93,7 @@ export const Variants = {
   name: "Variants",
   render: () => (
     <Container padding="4">
-      <Typography variant="h5" margin="m-0 m-b-2">Variants</Typography>
+      <Typography variant="h5" margin="b-2">Variants</Typography>
       {/* ... */}
     </Container>
   ),

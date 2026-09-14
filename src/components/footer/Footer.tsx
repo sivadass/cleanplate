@@ -5,6 +5,8 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import styles from "./Footer.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 
@@ -43,7 +45,21 @@ const Footer: React.FC<FooterProps> = ({
   children,
   className = "",
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Footer",
+    { margin, size, variant, brandName, poweredByLabel, poweredByLink },
+    {
+      margin: "0",
+      size: "large",
+      variant: "light",
+      brandName: "",
+      poweredByLabel: "",
+      poweredByLink: "",
+    },
+  );
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const footerClasses = getClassNames(
     styles["cp-footer"],
@@ -56,11 +72,11 @@ const Footer: React.FC<FooterProps> = ({
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={footerClasses}>
+    <footer {...dataCp} className={footerClasses}>
       {children && (
-        <div className={styles.footerCustomContents}>{children}</div>
+        <div className={styles["cp-footer-custom-contents"]}>{children}</div>
       )}
-      <div className={styles.copyright}>
+      <div className={styles["cp-footer-copyright"]}>
         <Typography variant="small" align="center">
           &copy; {`${currentYear} ${brandName}. All rights reserved.`}
           {poweredByLabel && poweredByLink && (

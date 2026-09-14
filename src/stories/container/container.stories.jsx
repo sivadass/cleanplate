@@ -17,10 +17,10 @@ const meta = {
 // Sample content components
 const SampleContent = ({ title, description }) => (
   <div>
-    <Typography variant="h3" margin="m-0 m-b-2">
+    <Typography variant="h3" margin="b-2">
       {title}
     </Typography>
-    <Typography variant="p" margin="m-0">
+    <Typography variant="p" margin="0">
       {description}
     </Typography>
   </div>
@@ -28,10 +28,10 @@ const SampleContent = ({ title, description }) => (
 
 const CardContent = ({ title, description, buttonText }) => (
   <div>
-    <Typography variant="h4" margin="m-0 m-b-2">
+    <Typography variant="h4" margin="b-2">
       {title}
     </Typography>
-    <Typography variant="p" margin="m-0 m-b-3">
+    <Typography variant="p" margin="b-3">
       {description}
     </Typography>
     <Button variant="outline" size="small">
@@ -123,7 +123,7 @@ export const DisplayVariants = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)", padding: "var(--space-4)" }}>
       <div>
-        <Typography variant="h4" margin="m-0 m-b-2">Block Display</Typography>
+        <Typography variant="h4" margin="b-2">Block Display</Typography>
         <Container display="block" showBorder padding="3" margin="b-2">
           <SampleContent 
             title="Block Container"
@@ -133,7 +133,7 @@ export const DisplayVariants = {
       </div>
       
       <div>
-        <Typography variant="h4" margin="m-0 m-b-2">Flex Display</Typography>
+        <Typography variant="h4" margin="b-2">Flex Display</Typography>
         <Container display="flex" justify="space-between" align="center" showBorder padding="3" gap="2">
           <SampleContent 
             title="Flex Item 1"
@@ -147,7 +147,7 @@ export const DisplayVariants = {
       </div>
       
       <div>
-        <Typography variant="h4" margin="m-0 m-b-2">Inline Block Display</Typography>
+        <Typography variant="h4" margin="b-2">Inline Block Display</Typography>
         <Container display="inline-block" showBorder padding="3" margin="r-2">
           <SampleContent 
             title="Inline Block 1"
@@ -169,31 +169,31 @@ export const WidthVariants = {
   name: "Width Variants",
   render: () => (
     <div style={{ padding: "var(--space-4)" }}>
-      <Typography variant="h4" margin="m-0 m-b-4">Container Width Options</Typography>
+      <Typography variant="h4" margin="b-4">Container Width Options</Typography>
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
         <Container width="small" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Small Width Container</Typography>
+          <Typography variant="p" margin="0">Small Width Container</Typography>
         </Container>
         <Container width="medium" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Medium Width Container</Typography>
+          <Typography variant="p" margin="0">Medium Width Container</Typography>
         </Container>
         <Container width="large" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Large Width Container</Typography>
+          <Typography variant="p" margin="0">Large Width Container</Typography>
         </Container>
         <Container width="extra-large" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Extra Large Width Container</Typography>
+          <Typography variant="p" margin="0">Extra Large Width Container</Typography>
         </Container>
         <Container width="quarter" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Quarter Width Container</Typography>
+          <Typography variant="p" margin="0">Quarter Width Container</Typography>
         </Container>
         <Container width="half" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Half Width Container</Typography>
+          <Typography variant="p" margin="0">Half Width Container</Typography>
         </Container>
         <Container width="three-quarters" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Three Quarters Width Container</Typography>
+          <Typography variant="p" margin="0">Three Quarters Width Container</Typography>
         </Container>
         <Container width="full" showBorder padding="3">
-          <Typography variant="p" margin="m-0">Full Width Container</Typography>
+          <Typography variant="p" margin="0">Full Width Container</Typography>
         </Container>
       </div>
     </div>
@@ -204,11 +204,11 @@ export const FlexLayouts = {
   name: "Flex Layouts",
   render: () => (
     <div style={{ padding: "var(--space-4)" }}>
-      <Typography variant="h4" margin="m-0 m-b-4">Flex Layout Examples</Typography>
+      <Typography variant="h4" margin="b-4">Flex Layout Examples</Typography>
       
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Space Between</Typography>
+          <Typography variant="h5" margin="b-2">Space Between</Typography>
           <Container display="flex" justify="space-between" showBorder padding="3" gap="2">
             <CardContent title="Card 1" description="First card content" buttonText="Action 1" />
             <CardContent title="Card 2" description="Second card content" buttonText="Action 2" />
@@ -217,14 +217,14 @@ export const FlexLayouts = {
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Center</Typography>
+          <Typography variant="h5" margin="b-2">Center</Typography>
           <Container display="flex" justify="center" align="center" showBorder padding="3" gap="2">
             <CardContent title="Centered Card" description="This card is centered" buttonText="Center Action" />
           </Container>
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Space Around</Typography>
+          <Typography variant="h5" margin="b-2">Space Around</Typography>
           <Container display="flex" justify="space-around" showBorder padding="3" gap="2">
             <CardContent title="Card A" description="First card" buttonText="Action A" />
             <CardContent title="Card B" description="Second card" buttonText="Action B" />
@@ -232,7 +232,7 @@ export const FlexLayouts = {
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Flex End</Typography>
+          <Typography variant="h5" margin="b-2">Flex End</Typography>
           <Container display="flex" justify="flex-end" showBorder padding="3" gap="2">
             <CardContent title="Right Aligned" description="This content is right-aligned" buttonText="Right Action" />
           </Container>
@@ -246,11 +246,11 @@ export const GridLayouts = {
   name: "Grid Layouts",
   render: () => (
     <div style={{ padding: "var(--space-4)" }}>
-      <Typography variant="h4" margin="m-0 m-b-4">Grid Layout Examples</Typography>
+      <Typography variant="h4" margin="b-4">Grid Layout Examples</Typography>
       
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Quarter Grid (4 columns)</Typography>
+          <Typography variant="h5" margin="b-2">Quarter Grid (4 columns)</Typography>
           <Container display="flex" showBorder padding="2" gap="2">
             <Container width="quarter" showBorder padding="3">
               <CardContent title="Quarter 1" description="First quarter" buttonText="Q1" />
@@ -268,7 +268,7 @@ export const GridLayouts = {
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Half Grid (2 columns)</Typography>
+          <Typography variant="h5" margin="b-2">Half Grid (2 columns)</Typography>
           <Container display="flex" showBorder padding="2" gap="2">
             <Container width="half" showBorder padding="3">
               <CardContent title="Left Half" description="Left side content" buttonText="Left" />
@@ -280,7 +280,7 @@ export const GridLayouts = {
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Three Quarters + Quarter</Typography>
+          <Typography variant="h5" margin="b-2">Three Quarters + Quarter</Typography>
           <Container display="flex" showBorder padding="2" gap="2">
             <Container width="three-quarters" showBorder padding="3">
               <CardContent title="Main Content" description="This is the main content area taking up three quarters of the space" buttonText="Main Action" />
@@ -299,53 +299,53 @@ export const SpacingExamples = {
   name: "Spacing Examples",
   render: () => (
     <div style={{ padding: "var(--space-4)" }}>
-      <Typography variant="h4" margin="m-0 m-b-4">Spacing Examples</Typography>
+      <Typography variant="h4" margin="b-4">Spacing Examples</Typography>
       
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Different Padding Values</Typography>
+          <Typography variant="h5" margin="b-2">Different Padding Values</Typography>
           <div style={{ display: "flex", gap: "var(--space-2)" }}>
             <Container showBorder padding="1">
-              <Typography variant="small" margin="m-0">p-1</Typography>
+              <Typography variant="small" margin="0">p-1</Typography>
             </Container>
             <Container showBorder padding="2">
-              <Typography variant="small" margin="m-0">p-2</Typography>
+              <Typography variant="small" margin="0">p-2</Typography>
             </Container>
             <Container showBorder padding="3">
-              <Typography variant="small" margin="m-0">p-3</Typography>
+              <Typography variant="small" margin="0">p-3</Typography>
             </Container>
             <Container showBorder padding="4">
-              <Typography variant="small" margin="m-0">p-4</Typography>
+              <Typography variant="small" margin="0">p-4</Typography>
             </Container>
             <Container showBorder padding="5">
-              <Typography variant="small" margin="m-0">p-5</Typography>
+              <Typography variant="small" margin="0">p-5</Typography>
             </Container>
           </div>
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Different Margin Values</Typography>
+          <Typography variant="h5" margin="b-2">Different Margin Values</Typography>
           <div style={{ display: "flex", gap: "var(--space-2)" }}>
             <Container showBorder padding="2" margin="1">
               <Typography variant="small" margin="0">m-1</Typography>
             </Container>
             <Container showBorder padding="2" margin="2">
-              <Typography variant="small" margin="m-0">m-2</Typography>
+              <Typography variant="small" margin="0">m-2</Typography>
             </Container>
             <Container showBorder padding="2" margin="3">
-              <Typography variant="small" margin="m-0">m-3</Typography>
+              <Typography variant="small" margin="0">m-3</Typography>
             </Container>
             <Container showBorder padding="2" margin="4">
-              <Typography variant="small" margin="m-0">m-4</Typography>
+              <Typography variant="small" margin="0">m-4</Typography>
             </Container>
             <Container showBorder padding="2" margin="5">
-              <Typography variant="small" margin="m-0">m-5</Typography>
+              <Typography variant="small" margin="0">m-5</Typography>
             </Container>
           </div>
         </div>
         
         <div>
-          <Typography variant="h5" margin="m-0 m-b-2">Gap Between Flex Items</Typography>
+          <Typography variant="h5" margin="b-2">Gap Between Flex Items</Typography>
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
             <Container display="flex" showBorder padding="2" gap="1">
               <Container showBorder padding="2">
@@ -401,7 +401,7 @@ export const InteractiveExample = {
     
     return (
       <div style={{ padding: "var(--space-4)" }}>
-        <Typography variant="h4" margin="m-0 m-b-4">Interactive Container</Typography>
+        <Typography variant="h4" margin="b-4">Interactive Container</Typography>
         
         <Container 
           display="flex" 
@@ -417,13 +417,13 @@ export const InteractiveExample = {
           onClick={() => setClickCount(prev => prev + 1)}
         >
           <div style={{ textAlign: "center" }}>
-            <Typography variant="h5" margin="m-0 m-b-2">
+            <Typography variant="h5" margin="b-2">
               Click Me!
             </Typography>
-            <Typography variant="p" margin="m-0 m-b-2">
+            <Typography variant="p" margin="b-2">
               This container has an onClick handler
             </Typography>
-            <Typography variant="small" margin="m-0" color="var(--primary-brand)">
+            <Typography variant="small" margin="0" color="var(--primary-brand)">
               Clicked {clickCount} times
             </Typography>
           </div>

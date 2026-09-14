@@ -1,4 +1,4 @@
-.bottom-sheet-overlay {
+.cp-bottom-sheet-overlay {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
@@ -20,7 +20,19 @@
   max-height: 90vh;
   touch-action: none;
 
-  .bottom-sheet-handle {
+  &.cp-bottom-sheet--snap-30 {
+    transform: translateY(70%);
+  }
+
+  &.cp-bottom-sheet--snap-60 {
+    transform: translateY(40%);
+  }
+
+  &.cp-bottom-sheet--snap-90 {
+    transform: translateY(10%);
+  }
+
+  .cp-bottom-sheet__handle {
     position: absolute;
     top: 0;
     left: 0;
@@ -31,13 +43,13 @@
     justify-content: center;
     cursor: grab;
     touch-action: none;
-    .bottom-sheet-handle-bar {
+    .cp-bottom-sheet__handle-bar {
       width: 64px;
       height: 8px;
       background-color: var(--gray-100);
       border-radius: 9999px;
     }
-    .bottom-sheet-handle-icon {
+    .cp-bottom-sheet__handle-icon {
       position: absolute;
       right: 1rem;
       color: var(--color-gray-400);
@@ -46,13 +58,13 @@
       cursor: grabbing;
     }
     &:hover {
-      .bottom-sheet-handle-bar {
+      .cp-bottom-sheet__handle-bar {
         background-color: var(--gray-500);
       }
     }
   }
 
-  .bottom-sheet-content {
+  .cp-bottom-sheet__content {
     padding: 16px;
     margin-top: 40px;
     overflow-y: auto;

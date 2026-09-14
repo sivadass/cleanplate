@@ -1,81 +1,80 @@
-.typography {
+.cp-typography {
   font-family: inherit;
   font-size: inherit;
   font-weight: normal;
   line-height: 1;
   color: var(--black);
-}
 
-.bold {
-  font-weight: bold;
-}
+  &.cp-typography--bold {
+    font-weight: bold;
+  }
 
-.h1 {
-  font-size: 60px;
-  line-height: 60px;
-}
+  &.cp-typography--h1 {
+    font-size: 60px;
+    line-height: 60px;
+  }
 
-.h2 {
-  font-size: 50px;
-  line-height: 50px;
-}
+  &.cp-typography--h2 {
+    font-size: 50px;
+    line-height: 50px;
+  }
 
-.h3 {
-  font-size: 40px;
-  line-height: 40px;
-}
+  &.cp-typography--h3 {
+    font-size: 40px;
+    line-height: 40px;
+  }
 
-.h4 {
-  font-size: 30px;
-  line-height: 30px;
-}
+  &.cp-typography--h4 {
+    font-size: 30px;
+    line-height: 30px;
+  }
 
-.h5 {
-  font-size: 24px;
-  line-height: 24px;
-}
+  &.cp-typography--h5 {
+    font-size: 24px;
+    line-height: 24px;
+  }
 
-.h6 {
-  font-size: 18px;
-  line-height: 18px;
-}
+  &.cp-typography--h6 {
+    font-size: 18px;
+    line-height: 18px;
+  }
 
-.span {
-  font-size: 16px;
-  line-height: 24px;
-}
+  &.cp-typography--span {
+    font-size: 16px;
+    line-height: 24px;
+  }
 
-.p {
-  font-size: 16px;
-  line-height: 24px;
-}
+  &.cp-typography--p {
+    font-size: 16px;
+    line-height: 24px;
+  }
 
-.small {
-  font-size: 14px;
-  line-height: 20px;
-}
+  &.cp-typography--small {
+    font-size: 14px;
+    line-height: 20px;
+  }
 
-/* Text Alignment */
-.align {
-  &-left {
+  &.cp-typography--align-left {
     text-align: left;
   }
-  &-center {
+
+  &.cp-typography--align-center {
     text-align: center;
   }
-  &-right {
+
+  &.cp-typography--align-right {
     text-align: right;
   }
-}
 
-.word-break {
-  &-normal {
+  &.cp-typography--word-break-normal {
     word-break: normal;
   }
-  &-all {
+
+  &.cp-typography--word-break-all {
     word-break: break-all;
   }
-  &-wrap {
+
+  &.cp-typography--word-break-wrap {
     word-wrap: break-word;
   }
 }

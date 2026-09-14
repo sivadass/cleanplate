@@ -16,5 +16,20 @@ const config = {
   core: {
     builder: "@storybook/builder-vite", // 👈 The builder enabled here.
   },
+  async viteFinal(config) {
+    config.css = config.css ?? {};
+    config.css.modules = {
+      ...config.css.modules,
+      generateScopedName: "[local]",
+    };
+    config.css.preprocessorOptions = {
+      ...config.css.preprocessorOptions,
+      scss: {
+        ...config.css.preprocessorOptions?.scss,
+        api: "modern",
+      },
+    };
+    return config;
+  },
 };
 export default config;

@@ -1,61 +1,82 @@
-.cp-menu-list {
-  .wrapper {
-    ul {
-      display: flex;
-      list-style: none;
-      gap: 8px;
-      margin: 0;
-      padding: 0;
-      li {
-        a {
-          text-decoration: none;
-          display: flex;
-          justify-content: center;
-          gap: 8px;
-          padding: 8px 16px;
-          line-height: 24px;
-          text-align: center;
-          border-radius: 24px;
-          .menuItemIcon {
-            color: var(--primary-brand);
-            opacity: 0.85;
-          }
-          .menuItemLabel {
-            color: var(--primary-brand);
-          }
-          &:hover {
-            background: var(--primary-brand-light);
-          }
-        }
-        &.active {
-          a {
-            background: var(--primary-brand);
-            .menuItemIcon {
-              color: var(--white);
-              opacity: 0.85;
-            }
-            .menuItemLabel {
-              color: var(--white);
-            }
-          }
-        }
-      }
-      &.horizontal {
-        flex-direction: row;
-      }
-      &.vertical {
-        flex-direction: column;
-        li {
-          a {
-            width: 220px;
-            justify-content: flex-start;
-            gap: 12px;
-          }
-          @media (max-width: 1024px) {
-            width: 100%;
-          }
-        }
-      }
+.cp-menu-list-wrapper {
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.cp-menu-list a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 24px;
+  color: var(--primary-brand);
+
+  &:hover {
+    background: var(--primary-brand-light);
+  }
+}
+
+.cp-menu-list--horizontal,
+.cp-menu-list[data-cp-direction="horizontal"] ul {
+  flex-direction: row;
+}
+
+.cp-menu-list--vertical,
+.cp-menu-list[data-cp-direction="vertical"] ul {
+  flex-direction: column;
+
+  a {
+    width: 220px;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  @media (max-width: 1024px) {
+    li {
+      width: 100%;
     }
+  }
+}
+
+/* Size lives here so HTML `cp-icon` (no `--medium`) matches React Icon. */
+.cp-menu-list-item-icon,
+.cp-menu-list .cp-icon.cp-menu-list-item-icon {
+  flex-shrink: 0;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--primary-brand);
+  opacity: 0.85;
+}
+
+/* Beat `.cp-typography { color; line-height }` so HTML/React labels match. */
+.cp-menu-list-item-label,
+.cp-menu-list .cp-typography.cp-menu-list-item-label {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--primary-brand);
+}
+
+.cp-menu-list-item--active a {
+  background: var(--primary-brand);
+  color: var(--white);
+
+  .cp-menu-list-item-icon,
+  .cp-icon.cp-menu-list-item-icon {
+    color: var(--white);
+    opacity: 0.85;
+  }
+
+  .cp-menu-list-item-label,
+  .cp-typography.cp-menu-list-item-label {
+    color: var(--white);
   }
 }

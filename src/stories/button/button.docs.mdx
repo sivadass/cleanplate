@@ -80,8 +80,8 @@ import { Button, Icon } from "cleanplate";
 
 ```jsx
 <>
-  <Button margin="m-2">Single margin token</Button>
-  <Button margin={["m-1", "m-b-3"]}>Multiple margin tokens</Button>
+  <Button margin="2">Single margin token</Button>
+  <Button margin={["1", "b-3"]}>Multiple margin tokens</Button>
 </>
 ```
 
@@ -104,7 +104,7 @@ import { Button, Icon } from "cleanplate";
 - When `isDisabled` is true, click events are prevented and native `disabled` is applied.
 - If both `isDisabled` and `isLoading` are true, the button stays disabled and shows loading.
 - `onClick` is not invoked while disabled/loading, even if an event reaches the element.
-- `margin` accepts a token string or array of tokens (for example `"m-2"` or `["m-1", "m-b-3"]`).
+- `margin` accepts a token string or array of tokens (for example `"2"` or `["1", "b-3"]`).
 - `variant="icon"` is a visual style. For icon-only buttons, provide an accessible name via `aria-label`.
 - In `size="medium"` with `variant="icon"`, the button uses compact horizontal padding and a 44px minimum width.
 

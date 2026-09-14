@@ -56,7 +56,7 @@ const App = () => {
 ```jsx
 <BottomSheet isOpen={isOpen} onClose={handleClose}>
   <Container padding="4">
-    <Typography variant="h5" margin="m-0 m-b-2">Title</Typography>
+    <Typography variant="h5" margin={["0", "b-2"]}>Title</Typography>
     <Typography variant="p">Body text</Typography>
   </Container>
 </BottomSheet>
@@ -69,6 +69,37 @@ const App = () => {
 - **DOM:** Overlay div wrapping the sheet panel; handle area for drag; content area for children.
 - **Body overflow:** Set to `hidden` when open, restored on close or unmount.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0).
+
+
+
+## HTML prototype
+
+Place the **open** bottom sheet at the **artboard root**. Bake one snap with `data-cp-snap` and matching `cp-bottom-sheet--snap-*` class — no drag listeners in HTML.
+
+```bash
+npm run html-to-jsx -- bottom-sheet.open.html
+```
+
+### Recipe (open)
+
+```html
+<div class="cp-bottom-sheet-artboard">
+  <div class="cp-bottom-sheet-overlay"></div>
+  <div data-cp="BottomSheet" data-cp-is-open="true" data-cp-snap="0.3" class="cp-bottom-sheet cp-bottom-sheet--snap-30">
+    <div class="cp-bottom-sheet__handle"><div class="cp-bottom-sheet__handle-bar"></div></div>
+    <div class="cp-bottom-sheet__content">Sheet content</div>
+  </div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<div className="cp-bottom-sheet-artboard">
+  <div className="cp-bottom-sheet-overlay"></div>
+  <BottomSheet isOpen><div className="cp-bottom-sheet__handle"><div className="cp-bottom-sheet__handle-bar"></div></div><div className="cp-bottom-sheet__content">Sheet content</div></BottomSheet>
+</div>
+```
 
 ## Related Components / Links
 

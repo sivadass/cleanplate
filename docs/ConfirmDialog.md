@@ -132,6 +132,32 @@ const App = () => {
 - **Focus:** On open, focus moves to the dialog panel (ref + tabIndex={-1}); on close, focus returns to the previously focused element.
 - **ARIA:** The overlay has `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` pointing to the title.
 
+
+
+## HTML prototype
+
+Place the **open** confirm dialog at the **artboard root** with `cp-confirm-dialog-overlay-open`. Map `title`, `description`, and button labels via `data-cp-*` props.
+
+```bash
+npm run html-to-jsx -- confirm-dialog.open.html
+```
+
+### Recipe (open)
+
+```html
+<div class="cp-confirm-dialog-overlay cp-confirm-dialog-overlay-open">
+  <div data-cp="ConfirmDialog" data-cp-is-open="true" data-cp-title="Delete item?" data-cp-description="This cannot be undone." data-cp-primary-button-label="Delete" data-cp-secondary-button-label="Cancel" data-cp-variant="destructive" class="cp-confirm-dialog cp-confirm-dialog--open cp-confirm-dialog--small"></div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<div className="cp-confirm-dialog-overlay cp-confirm-dialog-overlay-open">
+  <ConfirmDialog isOpen title="Delete item?" description="This cannot be undone." primaryButtonLabel="Delete" variant="destructive" />
+</div>
+```
+
 ## Related Components / Links
 
 - Button (used to open the dialog and for primary/secondary actions inside)

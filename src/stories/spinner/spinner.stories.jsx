@@ -66,7 +66,7 @@ export const IconVariants = {
   name: "Icon variants",
   render: () => (
     <Container padding="4">
-      <Typography variant="h5" margin="m-0 m-b-3">
+      <Typography variant="h5" margin="b-3">
         Spinner icons (all rotate via CSS)
       </Typography>
       <div
@@ -79,37 +79,37 @@ export const IconVariants = {
       >
         <div style={{ textAlign: "center" }}>
           <Spinner icon="progress_activity" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             progress_activity
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner icon="autorenew" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             autorenew
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner icon="sync" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             sync
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner icon="refresh" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             refresh
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner icon="cached" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             cached
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner icon="loop" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             loop
           </Typography>
         </div>
@@ -122,25 +122,25 @@ export const Sizes = {
   name: "Sizes",
   render: () => (
     <Container padding="4">
-      <Typography variant="h5" margin="m-0 m-b-2">
+      <Typography variant="h5" margin="b-2">
         Sizes
       </Typography>
       <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
         <div style={{ textAlign: "center" }}>
           <Spinner size="small" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             small
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner size="medium" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             medium
           </Typography>
         </div>
         <div style={{ textAlign: "center" }}>
           <Spinner size="large" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             large
           </Typography>
         </div>
@@ -153,7 +153,7 @@ export const Variants = {
   name: "Variants (light / dark)",
   render: () => (
     <Container padding="4">
-      <Typography variant="h5" margin="m-0 m-b-2">
+      <Typography variant="h5" margin="b-2">
         Light vs dark
       </Typography>
       <div
@@ -173,7 +173,7 @@ export const Variants = {
           }}
         >
           <Spinner variant="light" margin="b-2" />
-          <Typography variant="small" margin="m-0">
+          <Typography variant="small" margin="0">
             light
           </Typography>
         </div>
@@ -186,7 +186,7 @@ export const Variants = {
           }}
         >
           <Spinner variant="dark" margin="b-2" />
-          <Typography variant="small" margin="m-0" style={{ color: "white" }}>
+          <Typography variant="small" margin="0" style={{ color: "white" }}>
             dark
           </Typography>
         </div>

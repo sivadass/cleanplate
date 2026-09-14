@@ -77,10 +77,10 @@ const UserMenuContent = ({ onClose }) => {
   return (
     <div style={{ padding: "var(--space-2)" }}>
       <div style={{ padding: "var(--space-2) var(--space-1)", borderBottom: "1px solid var(--gray-100)" }}>
-        <Typography variant="small" margin="m-0" color="var(--text-muted)">
+        <Typography variant="small" margin="0" color="var(--text-muted)">
           Signed in as
         </Typography>
-        <Typography variant="p" margin="m-0" fontWeight="600">
+        <Typography variant="p" margin="0" fontWeight="600">
           john.doe@example.com
         </Typography>
       </div>
@@ -163,7 +163,7 @@ export const PlacementVariants = {
   render: () => (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "var(--space-4)", padding: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Bottom Start</Typography>
+        <Typography variant="small" margin="b-2">Bottom Start</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -171,7 +171,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Bottom</Typography>
+        <Typography variant="small" margin="b-2">Bottom</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -179,7 +179,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Bottom End</Typography>
+        <Typography variant="small" margin="b-2">Bottom End</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -187,7 +187,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Top Start</Typography>
+        <Typography variant="small" margin="b-2">Top Start</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -195,7 +195,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Top</Typography>
+        <Typography variant="small" margin="b-2">Top</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -203,7 +203,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Top End</Typography>
+        <Typography variant="small" margin="b-2">Top End</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -211,7 +211,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Left Start</Typography>
+        <Typography variant="small" margin="b-2">Left Start</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -219,7 +219,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Left</Typography>
+        <Typography variant="small" margin="b-2">Left</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -227,7 +227,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Left End</Typography>
+        <Typography variant="small" margin="b-2">Left End</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -235,7 +235,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Right Start</Typography>
+        <Typography variant="small" margin="b-2">Right Start</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -243,7 +243,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Right</Typography>
+        <Typography variant="small" margin="b-2">Right</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -251,7 +251,7 @@ export const PlacementVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Right End</Typography>
+        <Typography variant="small" margin="b-2">Right End</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -317,7 +317,7 @@ export const CustomOffset = {
   render: () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", gap: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Offset: 0px</Typography>
+        <Typography variant="small" margin="b-2">Offset: 0px</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -325,7 +325,7 @@ export const CustomOffset = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Offset: 8px</Typography>
+        <Typography variant="small" margin="b-2">Offset: 8px</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -333,7 +333,7 @@ export const CustomOffset = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Offset: 16px</Typography>
+        <Typography variant="small" margin="b-2">Offset: 16px</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -349,7 +349,7 @@ export const DisabledFeatures = {
   render: () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", gap: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">No Flip</Typography>
+        <Typography variant="small" margin="b-2">No Flip</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -358,7 +358,7 @@ export const DisabledFeatures = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">No Shift</Typography>
+        <Typography variant="small" margin="b-2">No Shift</Typography>
         <Dropdown
           trigger={<Button size="small">Menu</Button>}
           content={<SimpleMenuContent />}
@@ -375,7 +375,7 @@ export const RenderTriggerBasic = {
   render: () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", gap: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Dynamic Text</Typography>
+        <Typography variant="small" margin="b-2">Dynamic Text</Typography>
         <Dropdown
           renderTrigger={({ isOpen, triggerProps }) => (
             <Button {...triggerProps}>
@@ -386,7 +386,7 @@ export const RenderTriggerBasic = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Dynamic Icon</Typography>
+        <Typography variant="small" margin="b-2">Dynamic Icon</Typography>
         <Dropdown
           renderTrigger={({ isOpen, triggerProps }) => (
             <Button {...triggerProps}>
@@ -405,7 +405,7 @@ export const RenderTriggerAdvanced = {
   render: () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", gap: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">State-Based Styling</Typography>
+        <Typography variant="small" margin="b-2">State-Based Styling</Typography>
         <Dropdown
           renderTrigger={({ isOpen, isAnimating, triggerProps }) => (
             <Button 
@@ -424,7 +424,7 @@ export const RenderTriggerAdvanced = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Custom Container</Typography>
+        <Typography variant="small" margin="b-2">Custom Container</Typography>
         <Dropdown
           renderTrigger={({ isOpen, placement, triggerProps }) => (
             <div 
@@ -491,10 +491,10 @@ export const RenderTriggerUserMenu = {
               JD
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              <Typography variant="small" margin="m-0" color="var(--text-primary)">
+              <Typography variant="small" margin="0" color="var(--text-primary)">
                 John Doe
               </Typography>
-              <Typography variant="small" margin="m-0" color="var(--text-muted)">
+              <Typography variant="small" margin="0" color="var(--text-muted)">
                 Administrator
               </Typography>
             </div>
@@ -520,7 +520,7 @@ export const RenderTriggerWithActions = {
   render: () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", gap: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Multiple Actions</Typography>
+        <Typography variant="small" margin="b-2">Multiple Actions</Typography>
         <Dropdown
           renderTrigger={({ isOpen, toggle, close, triggerProps }) => (
             <div style={{ display: 'flex', gap: 'var(--space-1)' }}>
@@ -544,7 +544,7 @@ export const RenderTriggerWithActions = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Custom Toggle</Typography>
+        <Typography variant="small" margin="b-2">Custom Toggle</Typography>
         <Dropdown
           renderTrigger={({ isOpen, toggle, triggerProps }) => (
             <div 
@@ -559,10 +559,10 @@ export const RenderTriggerWithActions = {
                 backgroundColor: isOpen ? 'var(--primary-lightest)' : 'transparent'
               }}
             >
-              <Typography variant="p" margin="m-0" color="var(--primary-brand)">
+              <Typography variant="p" margin="0" color="var(--primary-brand)">
                 Click to {isOpen ? 'close' : 'open'} dropdown
               </Typography>
-              <Typography variant="small" margin="m-0" color="var(--text-muted)">
+              <Typography variant="small" margin="0" color="var(--text-muted)">
                 Custom trigger with dashed border
               </Typography>
             </div>
@@ -579,14 +579,14 @@ export const TriggerLabel = {
   render: () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px", gap: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Basic Trigger Label</Typography>
+        <Typography variant="small" margin="b-2">Basic Trigger Label</Typography>
         <Dropdown
           triggerLabel="Select Option"
           content={<SimpleMenuContent />}
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">User Menu</Typography>
+        <Typography variant="small" margin="b-2">User Menu</Typography>
         <Dropdown
           triggerLabel="Account"
           content={<MenuContent />}
@@ -602,7 +602,7 @@ export const TriggerLabelVariants = {
   render: () => (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "var(--space-4)", padding: "var(--space-4)" }}>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Top Start</Typography>
+        <Typography variant="small" margin="b-2">Top Start</Typography>
         <Dropdown
           triggerLabel="Top Start"
           content={<SimpleMenuContent />}
@@ -610,7 +610,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Top</Typography>
+        <Typography variant="small" margin="b-2">Top</Typography>
         <Dropdown
           triggerLabel="Top"
           content={<SimpleMenuContent />}
@@ -618,7 +618,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Top End</Typography>
+        <Typography variant="small" margin="b-2">Top End</Typography>
         <Dropdown
           triggerLabel="Top End"
           content={<SimpleMenuContent />}
@@ -626,7 +626,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Left Start</Typography>
+        <Typography variant="small" margin="b-2">Left Start</Typography>
         <Dropdown
           triggerLabel="Left Start"
           content={<SimpleMenuContent />}
@@ -634,7 +634,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Left</Typography>
+        <Typography variant="small" margin="b-2">Left</Typography>
         <Dropdown
           triggerLabel="Left"
           content={<SimpleMenuContent />}
@@ -642,7 +642,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Left End</Typography>
+        <Typography variant="small" margin="b-2">Left End</Typography>
         <Dropdown
           triggerLabel="Left End"
           content={<SimpleMenuContent />}
@@ -650,7 +650,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Right Start</Typography>
+        <Typography variant="small" margin="b-2">Right Start</Typography>
         <Dropdown
           triggerLabel="Right Start"
           content={<SimpleMenuContent />}
@@ -658,7 +658,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Right</Typography>
+        <Typography variant="small" margin="b-2">Right</Typography>
         <Dropdown
           triggerLabel="Right"
           content={<SimpleMenuContent />}
@@ -666,7 +666,7 @@ export const TriggerLabelVariants = {
         />
       </div>
       <div style={{ textAlign: "center" }}>
-        <Typography variant="small" margin="m-0 m-b-2">Right End</Typography>
+        <Typography variant="small" margin="b-2">Right End</Typography>
         <Dropdown
           triggerLabel="Right End"
           content={<SimpleMenuContent />}

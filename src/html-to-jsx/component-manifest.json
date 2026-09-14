@@ -1,0 +1,759 @@
+{
+  "components": {
+    "Button": {
+      "exportName": "Button",
+      "tier": 1,
+      "props": {
+        "isLoading": { "type": "boolean", "default": false },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["solid", "outline", "ghost", "icon"],
+          "default": "solid"
+        },
+        "margin": { "type": "string", "default": "0" },
+        "type": {
+          "type": "enum",
+          "values": ["button", "submit", "reset"],
+          "default": "button"
+        }
+      },
+      "slots": ["default"]
+    },
+    "Typography": {
+      "exportName": "Typography",
+      "tier": 1,
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span", "small"]
+        },
+        "margin": { "type": "string", "default": "0" },
+        "isBold": { "type": "boolean", "default": false },
+        "align": {
+          "type": "enum",
+          "values": ["left", "right", "center"],
+          "default": "left"
+        },
+        "wordBreak": {
+          "type": "enum",
+          "values": ["normal", "all", "wrap"],
+          "default": "normal"
+        }
+      },
+      "slots": ["default"]
+    },
+    "Icon": {
+      "exportName": "Icon",
+      "tier": 1,
+      "props": {
+        "name": { "type": "string", "default": "" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "color": {
+          "type": "enum",
+          "values": [
+            "black",
+            "white",
+            "gray",
+            "blue",
+            "green",
+            "red",
+            "yellow",
+            "orange"
+          ],
+          "default": "#222222"
+        }
+      }
+    },
+    "Container": {
+      "exportName": "Container",
+      "tier": 1,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "4" },
+        "display": {
+          "type": "enum",
+          "values": ["inline-block", "block", "flex", ""],
+          "default": ""
+        },
+        "align": {
+          "type": "enum",
+          "values": ["start", "center", "end", ""],
+          "default": ""
+        },
+        "justify": {
+          "type": "enum",
+          "values": [
+            "space-between",
+            "center",
+            "space-around",
+            "space-evenly",
+            "flex-end",
+            "flex-start",
+            ""
+          ],
+          "default": ""
+        },
+        "width": {
+          "type": "enum",
+          "values": [
+            "small",
+            "medium",
+            "large",
+            "extra-large",
+            "quarter",
+            "half",
+            "three-quarters",
+            "full",
+            ""
+          ],
+          "default": ""
+        },
+        "showBorder": { "type": "boolean", "default": false },
+        "gap": { "type": "string", "default": "4" }
+      },
+      "slots": ["default"]
+    },
+    "Alert": {
+      "exportName": "Alert",
+      "tier": 1,
+      "props": {
+        "message": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["success", "error", "warning", "info", "default"],
+          "default": "info"
+        },
+        "canDismiss": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Badge": {
+      "exportName": "Badge",
+      "tier": 1,
+      "props": {
+        "label": { "type": "string" },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "info", "warning", "error", "success"],
+          "default": "default"
+        }
+      }
+    },
+    "Avatar": {
+      "exportName": "Avatar",
+      "tier": 1,
+      "props": {
+        "name": { "type": "string", "default": "" },
+        "codeText": { "type": "string", "default": "" },
+        "image": { "type": "string", "default": "" },
+        "icon": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium"],
+          "default": "medium"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Spinner": {
+      "exportName": "Spinner",
+      "tier": 1,
+      "props": {
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        },
+        "icon": {
+          "type": "enum",
+          "values": [
+            "progress_activity",
+            "autorenew",
+            "sync",
+            "refresh",
+            "cached",
+            "loop"
+          ],
+          "default": "progress_activity"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "FormControls.Input": {
+      "exportName": "FormControls.Input",
+      "tier": 1,
+      "props": {
+        "name": { "type": "string" },
+        "id": { "type": "string" },
+        "defaultValue": { "type": "string" },
+        "value": { "type": "string" },
+        "label": { "type": "string", "default": "" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isRequired": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "type": { "type": "string", "default": "text" },
+        "placeholder": { "type": "string", "default": "" },
+        "error": { "type": "string", "default": "" },
+        "dataTestId": { "type": "string" },
+        "autoComplete": { "type": "string" },
+        "maxLength": { "type": "number" },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "prefix": { "type": "string" },
+        "suffix": { "type": "string" },
+        "prefixA11yLabel": { "type": "string" },
+        "suffixA11yLabel": { "type": "string" },
+        "phoneDigits": { "type": "number" }
+      }
+    },
+    "Accordion": {
+      "exportName": "Accordion",
+      "tier": 1,
+      "props": {
+        "allowMultiple": { "type": "boolean", "default": false },
+        "iconVariant": {
+          "type": "enum",
+          "values": ["expand", "plus"],
+          "default": "expand"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["grouped", "spaced"],
+          "default": "grouped"
+        },
+        "titleTag": {
+          "type": "enum",
+          "values": ["span", "h2", "h3", "h4", "h5", "h6"],
+          "default": "span"
+        },
+        "margin": { "type": "string" },
+        "padding": { "type": "string" }
+      }
+    },
+    "MenuList": {
+      "exportName": "MenuList",
+      "tier": 1,
+      "props": {
+        "activeItem": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"]
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"]
+        },
+        "direction": {
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "default": "horizontal"
+        },
+        "margin": { "type": "string" }
+      }
+    },
+    "Stepper": {
+      "exportName": "Stepper",
+      "tier": 1,
+      "props": {
+        "variant": {
+          "type": "enum",
+          "values": ["horizontal", "vertical"]
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Pills": {
+      "exportName": "Pills",
+      "tier": 1,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "Add tag" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isLoading": { "type": "boolean", "default": false },
+        "mode": {
+          "type": "enum",
+          "values": ["read-only", "edit", "remove"],
+          "default": "read-only"
+        }
+      }
+    },
+    "MediaObject": {
+      "exportName": "MediaObject",
+      "tier": 1,
+      "props": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "description": { "type": "string" },
+        "meta": { "type": "string" },
+        "mediaIcon": { "type": "string", "default": "" },
+        "mediaImage": { "type": "string", "default": "" },
+        "mediaAvatar": { "type": "string", "default": "" },
+        "mediaAvatarCodeText": { "type": "string", "default": "" },
+        "descriptionLineClamp": { "type": "number", "default": 2 },
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "0" }
+      }
+    },
+    "BreadCrumb": {
+      "exportName": "BreadCrumb",
+      "tier": 1,
+      "props": {
+        "separator": {
+          "type": "enum",
+          "values": ["slash", "chevron"],
+          "default": "chevron"
+        },
+        "ariaLabel": { "type": "string", "default": "Breadcrumb" },
+        "margin": { "type": "string" }
+      }
+    },
+    "Header": {
+      "exportName": "Header",
+      "tier": 1,
+      "props": {
+        "logoUrl": { "type": "string" },
+        "activeMenuItem": { "type": "string" },
+        "showCenterMenu": { "type": "boolean", "default": true },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"]
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"]
+        },
+        "margin": { "type": "string" }
+      }
+    },
+    "Footer": {
+      "exportName": "Footer",
+      "tier": 1,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "large"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["light", "dark"],
+          "default": "light"
+        },
+        "brandName": { "type": "string", "default": "" },
+        "poweredByLabel": { "type": "string", "default": "" },
+        "poweredByLink": { "type": "string", "default": "" }
+      }
+    },
+    "PageHeader": {
+      "exportName": "PageHeader",
+      "tier": 1,
+      "props": {},
+      "slots": ["title", "subtitle", "primaryCta", "moreMenuContent"]
+    },
+    "FeedbackState": {
+      "exportName": "FeedbackState",
+      "tier": 1,
+      "props": {
+        "variant": { "type": "enum", "values": ["empty", "error"] },
+        "title": { "type": "string" },
+        "titleTag": {
+          "type": "enum",
+          "values": ["h1", "h2", "h3", "h4", "h5", "h6", "p"],
+          "default": "h2"
+        },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "retryLabel": { "type": "string", "default": "Try again" },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Statistic": {
+      "exportName": "Statistic",
+      "tier": 1,
+      "props": {
+        "title": { "type": "string" },
+        "value": { "type": "string" },
+        "variant": {
+          "type": "enum",
+          "values": ["plain", "card"],
+          "default": "plain"
+        },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "loading": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "ProgressBar": {
+      "exportName": "ProgressBar",
+      "tier": 1,
+      "props": {
+        "value": { "type": "number" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
+        "variant": {
+          "type": "enum",
+          "values": [
+            "default",
+            "primary",
+            "secondary",
+            "success",
+            "info",
+            "error",
+            "warning"
+          ],
+          "default": "default"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Animated": {
+      "exportName": "Animated",
+      "tier": 1,
+      "props": {
+        "animationType": {
+          "type": "enum",
+          "values": [
+            "fade-in-top",
+            "fade-in-right",
+            "fade-in-bottom",
+            "fade-in-left",
+            "fade-out-top",
+            "fade-out-right",
+            "fade-out-bottom",
+            "fade-out-left"
+          ],
+          "default": "fade-in-bottom"
+        },
+        "as": {
+          "type": "enum",
+          "values": ["span", "div", "li", "section", "article", "p"],
+          "default": "span"
+        },
+        "margin": { "type": "string", "default": "0" },
+        "delay": { "type": "number", "default": 0 },
+        "isBlock": { "type": "boolean", "default": false }
+      }
+    },
+    "Pagination": {
+      "exportName": "Pagination",
+      "tier": 1,
+      "props": {
+        "totalItems": { "type": "number" },
+        "totalLabel": { "type": "string", "default": "Items" },
+        "currentPage": { "type": "number", "default": 1 },
+        "rowsPerPage": { "type": "number", "default": 10 },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "minimal"],
+          "default": "default"
+        },
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
+    "Table": {
+      "exportName": "Table",
+      "tier": 3,
+      "props": {
+        "recipe": {
+          "type": "enum",
+          "values": ["desktop", "mobile"]
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "compact"]
+        },
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "4" },
+        "totalItems": { "type": "number", "default": 0 },
+        "totalLabel": { "type": "string", "default": "Items" },
+        "currentPage": { "type": "number", "default": 1 },
+        "rowsPerPage": { "type": "number", "default": 10 },
+        "hidePagination": { "type": "boolean", "default": false },
+        "cellVerticalAlign": {
+          "type": "enum",
+          "values": ["top", "middle", "bottom"],
+          "default": "top"
+        }
+      },
+      "recipes": ["desktop", "mobile"]
+    },
+    "AppShell": {
+      "exportName": "AppShell",
+      "tier": 3,
+      "props": {
+        "recipe": {
+          "type": "enum",
+          "values": ["desktop", "mobile-drawer"]
+        },
+        "sidebarWidth": { "type": "string", "default": "272px" },
+        "mobileSidebarDrawer": { "type": "boolean" },
+        "mobileSidebarDrawerLabel": {
+          "type": "string",
+          "default": "Main navigation"
+        },
+        "contentClassName": { "type": "string", "default": "" }
+      },
+      "slots": ["children", "header", "footer", "sidebar"],
+      "recipes": ["desktop", "mobile-drawer"]
+    },
+    "Dropdown": {
+      "exportName": "Dropdown",
+      "tier": 4,
+      "props": {
+        "placement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-end"
+        },
+        "offset": { "type": "number", "default": 4 },
+        "shift": { "type": "boolean", "default": true },
+        "flip": { "type": "boolean", "default": true },
+        "closeOnClickOutside": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true },
+        "contentClassName": { "type": "string", "default": "" },
+        "triggerLabel": { "type": "string" }
+      },
+      "slots": ["trigger", "content"]
+    },
+    "Modal": {
+      "exportName": "Modal",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large", "fullscreen"],
+          "default": "medium"
+        },
+        "showCloseButton": { "type": "boolean", "default": true },
+        "closeOnOverlayClick": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true },
+        "margin": { "type": "string", "default": "0" },
+        "primaryButtonLabel": { "type": "string", "default": "" },
+        "secondaryButtonLabel": { "type": "string", "default": "" },
+        "dataTestId": { "type": "string" }
+      },
+      "slots": ["title", "body", "footer"]
+    },
+    "Drawer": {
+      "exportName": "Drawer",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "placement": {
+          "type": "enum",
+          "values": ["left", "right", "top", "bottom"],
+          "default": "right"
+        },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large", "full"],
+          "default": "medium"
+        },
+        "showCloseButton": { "type": "boolean", "default": true },
+        "closeOnOverlayClick": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true },
+        "margin": { "type": "string", "default": "0" },
+        "primaryButtonLabel": { "type": "string", "default": "" },
+        "secondaryButtonLabel": { "type": "string", "default": "" }
+      },
+      "slots": ["title", "body", "footer"]
+    },
+    "ConfirmDialog": {
+      "exportName": "ConfirmDialog",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "title": { "type": "string", "default": "Confirm Action" },
+        "description": { "type": "string", "default": "" },
+        "primaryButtonLabel": { "type": "string", "default": "Confirm" },
+        "secondaryButtonLabel": { "type": "string", "default": "Cancel" },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "small"
+        },
+        "variant": {
+          "type": "enum",
+          "values": ["default", "destructive", "warning"],
+          "default": "default"
+        },
+        "showCloseButton": { "type": "boolean", "default": true },
+        "closeOnOverlayClick": { "type": "boolean", "default": true },
+        "closeOnEscape": { "type": "boolean", "default": true }
+      }
+    },
+    "Toast": {
+      "exportName": "Toast",
+      "tier": 2,
+      "props": {
+        "mode": {
+          "type": "enum",
+          "values": ["info", "error", "warning", "success"]
+        },
+        "message": { "type": "string" },
+        "autoClose": { "type": "boolean", "default": false },
+        "autoCloseTime": { "type": "number", "default": 5000 }
+      }
+    },
+    "BottomSheet": {
+      "exportName": "BottomSheet",
+      "tier": 2,
+      "props": {
+        "isOpen": { "type": "boolean", "default": false },
+        "snap": {
+          "type": "enum",
+          "values": ["0.3", "0.6", "0.9"],
+          "default": "0.3"
+        },
+        "margin": { "type": "string" }
+      },
+      "slots": ["default"]
+    },
+    "FormControls.Select": {
+      "exportName": "FormControls.Select",
+      "tier": 4,
+      "props": {
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "clearable": { "type": "boolean", "default": true },
+        "searchable": { "type": "boolean", "default": true },
+        "popoverPlacement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-start"
+        }
+      },
+      "slots": ["trigger", "content"]
+    },
+    "FormControls.Date": {
+      "exportName": "FormControls.Date",
+      "tier": 4,
+      "props": {
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "Select date" },
+        "value": { "type": "string" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "clearable": { "type": "boolean", "default": true },
+        "popoverPlacement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-start"
+        }
+      },
+      "slots": ["trigger", "content"]
+    },
+    "FormControls.ColorPicker": {
+      "exportName": "FormControls.ColorPicker",
+      "tier": 4,
+      "props": {
+        "label": { "type": "string", "default": "" },
+        "placeholder": { "type": "string", "default": "Select color" },
+        "value": { "type": "string" },
+        "isDisabled": { "type": "boolean", "default": false },
+        "isFluid": { "type": "boolean", "default": false },
+        "margin": { "type": "string", "default": "b-4" },
+        "clearable": { "type": "boolean", "default": true },
+        "popoverPlacement": {
+          "type": "enum",
+          "values": [
+            "top",
+            "top-start",
+            "top-end",
+            "bottom",
+            "bottom-start",
+            "bottom-end",
+            "left",
+            "left-start",
+            "left-end",
+            "right",
+            "right-start",
+            "right-end"
+          ],
+          "default": "bottom-start"
+        }
+      },
+      "slots": ["trigger", "content"]
+    }
+  }
+}

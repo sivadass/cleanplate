@@ -108,7 +108,7 @@ export const Default = {
         footer={args.footer}
       >
         <Container padding="4">
-          <Typography variant="h4" margin="m-0 m-b-2">
+          <Typography variant="h4" margin="b-2">
             Dashboard
           </Typography>
           <Typography variant="p">
@@ -151,7 +151,7 @@ export const FullDashboard = {
         sidebarWidth="252px"
       >
         <Container padding="4">
-          <Typography variant="h4" margin="m-0 m-b-2">
+          <Typography variant="h4" margin="b-2">
             {DEFAULT_MENU_ITEMS.find((i) => i.value === activeItem)?.label ?? "Page"}
           </Typography>
           <Typography variant="p">
@@ -181,7 +181,7 @@ export const SidebarOnly = {
         sidebarWidth="252px"
       >
         <Container padding="4">
-          <Typography variant="h5" margin="m-0 m-b-2">
+          <Typography variant="h5" margin="b-2">
             No header or footer
           </Typography>
           <Typography variant="p">
@@ -210,7 +210,7 @@ export const HeaderAndFooterOnly = {
       }}
     >
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           No sidebar
         </Typography>
         <Typography variant="p">
@@ -227,7 +227,7 @@ export const ContentOnly = {
   render: () => (
     <AppShell>
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Minimal shell
         </Typography>
         <Typography variant="p">

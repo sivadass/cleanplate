@@ -1,0 +1,1 @@
+<Pagination totalItems={100} />

@@ -244,6 +244,46 @@ Live reference: **molecules/Header/Playground** in Storybook uses this pattern f
 - **Accessibility:** The trigger receives `aria-expanded` and `aria-haspopup`; the panel has `role="menu"`. Escape and (optionally) click-outside close the dropdown.
 - **Animation:** Opening/closing uses CSS classes (`dropdown-opening` / `dropdown-closing`); a short delay (e.g. 150ms) is used before unmounting so the close animation can run.
 
+
+
+## HTML prototype
+
+Tier 4 floater: document **closed** and **open** frames. Open panel uses canonical CSS placement (`cp-dropdown-floating`); do not rely on runtime Floating UI coords — the converter strips inline `top` / `left` / `width`.
+
+```bash
+npm run html-to-jsx -- dropdown.closed.html
+npm run html-to-jsx -- dropdown.open.html
+```
+
+### Recipe (closed)
+
+```html
+<div data-cp="Dropdown" data-cp-placement="bottom-start" class="cp-dropdown">
+  <button data-cp-slot="trigger" data-cp="Button" class="cp-button cp-dropdown__trigger">Account</button>
+</div>
+```
+
+### React equivalent (closed)
+
+```jsx
+<Dropdown placement="bottom-start" trigger={<Button>Account</Button>} />
+```
+
+### Recipe (open)
+
+```html
+<div data-cp="Dropdown" data-cp-placement="bottom-start" class="cp-dropdown">
+  <button data-cp-slot="trigger" data-cp="Button" class="cp-button cp-dropdown__trigger cp-dropdown__trigger--active">Account</button>
+  <div data-cp-slot="content" class="cp-dropdown-floating" role="menu" style="top: 8px; left: 0; width: 220px">Profile settings</div>
+</div>
+```
+
+### React equivalent (open)
+
+```jsx
+<Dropdown placement="bottom-start" trigger={<Button>Account</Button>} content={<div className="cp-dropdown-floating" role="menu">Profile settings</div>} />
+```
+
 ## Related Components / Links
 
 - Button (commonly used as trigger or inside renderTrigger)

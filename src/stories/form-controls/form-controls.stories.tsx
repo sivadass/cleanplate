@@ -2152,7 +2152,7 @@ export const AllControls = {
 
     return (
       <Container padding="4" style={{ minWidth: 480 }}>
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Form controls
         </Typography>
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>

@@ -7,6 +7,8 @@ import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
 import styles from "./Statistic.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import { formatStatisticValue } from "./format-value";
 import {
   resolveStatisticBadgeVariant,
@@ -109,7 +111,50 @@ const Statistic: React.FC<StatisticProps> = ({
   className = "",
   dataTestId,
 }) => {
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Statistic",
+    {
+      title,
+      value,
+      precision,
+      groupSeparator,
+      decimalSeparator,
+      prefix,
+      suffix,
+      icon,
+      description,
+      progress,
+      footer,
+      variant,
+      tone,
+      size,
+      loading,
+      margin,
+      dataTestId,
+    },
+    {
+      title: undefined,
+      value: undefined,
+      precision: undefined,
+      groupSeparator: undefined,
+      decimalSeparator: undefined,
+      prefix: undefined,
+      suffix: undefined,
+      icon: undefined,
+      description: undefined,
+      progress: undefined,
+      footer: undefined,
+      variant: "plain",
+      tone: "neutral",
+      size: "medium",
+      loading: false,
+      margin: "0",
+      dataTestId: undefined,
+    },
+  );
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const showHeaderRow = variant === "card" || icon != null;
   const showTitle = title != null && title !== "";
   const showProgress = !loading && progress != null;
@@ -144,7 +189,7 @@ const Statistic: React.FC<StatisticProps> = ({
   ) : null;
 
   return (
-    <div className={rootClassName} data-testid={dataTestId}>
+    <div {...dataCp} className={rootClassName} data-testid={dataTestId}>
       {showHeaderRow ? (
         <div className={styles["cp-statistic-header"]}>
           {icon != null ? (
