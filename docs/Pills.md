@@ -108,7 +108,7 @@ npm run html-to-jsx -- recipe.html
 ### Recipe
 
 ```html
-<div data-cp="Pills" data-cp-label="Tags" data-cp-mode="read-only" class="cp-pills"></div>
+<div data-cp="Pills" data-cp-label="Tags" data-cp-mode="read-only" class="cp-pills cp-pills--read-only"></div>
 ```
 
 ### React equivalent

@@ -12,6 +12,23 @@ describe("Pills public classes", () => {
     expectPublicClass(root!, "cp-pills");
   });
 
+  it("puts mode class on the tagged root, not the inner wrapper", () => {
+    const { container } = render(
+      <Pills label="Q3" mode="remove" onRemove={() => {}} />,
+    );
+    const root = container.querySelector(".cp-pills")!;
+    const wrapper = container.querySelector(".cp-pills-wrapper")!;
+    expectPublicClass(root, "cp-pills--remove");
+    expect(wrapper.classList.contains("cp-pills--remove")).toBe(false);
+  });
+
+  it("styles HTML roots that only set data-cp-mode", () => {
+    const scss = readFileSync("src/components/pills/Pills.module.scss", "utf8");
+    expect(scss).toMatch(/\[data-cp-mode="remove"\]/);
+    expect(scss).toMatch(/\[data-cp-mode="edit"\]/);
+    expect(scss).toMatch(/\[data-cp-mode="read-only"\]/);
+  });
+
   it("does not inherit Container default padding or gap that inflate the chip", () => {
     const { container } = render(<Pills label="Tag" mode="read-only" />);
     const root = container.querySelector(".cp-pills")!;

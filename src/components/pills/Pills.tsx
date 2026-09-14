@@ -69,12 +69,11 @@ const Pills: React.FC<PillsProps> = ({
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const pillsClasses = getClassNames(
     styles["cp-pills"],
+    styles[`cp-pills--${mode}`],
     marginClass,
     className
   );
-  const pillsWrapperClasses = getClassNames(styles["cp-pills-wrapper"], {
-    [styles[`cp-pills--${mode}`]]: mode,
-  });
+  const pillsWrapperClasses = styles["cp-pills-wrapper"];
 
   const handleSubmit = () => {
     if (typeof onSubmit === "function") {

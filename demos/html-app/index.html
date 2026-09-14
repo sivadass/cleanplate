@@ -279,19 +279,19 @@
               </div>
 
               <div id="tag-row" class="cp-container cp-container--display-flex cp-g-2 cp-container--align-center cp-m-b-2 cp-p-0">
-                <div data-cp="Pills" data-cp-mode="remove" data-cp-label="Q3" class="cp-pills">
+                <div data-cp="Pills" data-cp-mode="remove" data-cp-label="Q3" class="cp-pills cp-pills--remove">
                   <div class="cp-pills-wrapper">
                     <p class="cp-typography cp-pills-label">Q3</p>
                     <button type="button" class="cp-button cp-button--icon cp-button--medium cp-pills-button" data-remove-tag aria-label="Remove Q3"><span class="cp-icon">close</span></button>
                   </div>
                 </div>
-                <div data-cp="Pills" data-cp-mode="remove" data-cp-label="launch" class="cp-pills">
+                <div data-cp="Pills" data-cp-mode="remove" data-cp-label="launch" class="cp-pills cp-pills--remove">
                   <div class="cp-pills-wrapper">
                     <p class="cp-typography cp-pills-label">launch</p>
                     <button type="button" class="cp-button cp-button--icon cp-button--medium cp-pills-button" data-remove-tag aria-label="Remove launch"><span class="cp-icon">close</span></button>
                   </div>
                 </div>
-                <div id="tag-edit" data-cp="Pills" data-cp-mode="edit" class="cp-pills">
+                <div id="tag-edit" data-cp="Pills" data-cp-mode="edit" class="cp-pills cp-pills--edit">
                   <div class="cp-pills-wrapper">
                     <div class="cp-pills-input">
                       <input id="tag-input" class="cp-form-control" type="text" placeholder="Add tag" />
@@ -396,14 +396,14 @@
               </div>
 
               <div id="projects-pagination" data-cp="Pagination" class="cp-pagination cp-pagination--default cp-m-t-2">
-                <div class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-center cp-pagination-wrapper">
+                <div class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-space-between cp-pagination-wrapper">
                   <div class="cp-pagination-total-count"><small id="project-total" class="cp-typography cp-typography--small">Total Projects: 4</small></div>
                   <div id="project-page-buttons" class="cp-container cp-container--display-flex cp-container--align-center cp-pagination-buttons-wrapper">
                     <button id="project-prev" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_left</span></button>
                     <button type="button" data-page="1" class="cp-button cp-button--solid cp-button--medium cp-pagination-button">1</button>
                     <button id="project-next" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_right</span></button>
                   </div>
-                  <div class="cp-container cp-container--display-flex cp-container--align-center cp-pagination-show-per-page cp-g-2">
+                  <div class="cp-container cp-container--display-flex cp-container--align-center cp-pagination-show-per-page">
                     <small class="cp-typography cp-typography--small">Show per page</small>
                     <select id="rows-per-page" class="cp-form-control cp-pagination-rows-select-trigger">
                       <option value="5" selected>5</option>
@@ -447,7 +447,7 @@
                 </div>
               </div>
               <div data-cp="Pagination" data-cp-variant="minimal" class="cp-pagination cp-pagination--minimal cp-m-t-2">
-                <div class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-center cp-pagination-wrapper">
+                <div class="cp-container cp-container--display-flex cp-container--align-center cp-container--justify-space-between cp-pagination-wrapper">
                   <div class="cp-pagination-total-count"><small id="activity-total" class="cp-typography cp-typography--small">Total Updates: 3</small></div>
                   <div class="cp-container cp-container--display-flex cp-pagination-buttons-wrapper">
                     <button id="activity-prev" type="button" class="cp-button cp-button--outline cp-button--medium cp-pagination-button"><span class="cp-icon">chevron_left</span></button>
@@ -636,10 +636,10 @@
         <nav class="cp-header-mobile-menu-nav cp-menu-list light">
           <div class="cp-menu-list-wrapper">
             <ul class="cp-menu-list--vertical">
-              <li data-nav="overview"><a href="#overview"><span class="cp-icon cp-menu-list-item-icon">speed</span><span class="cp-typography cp-menu-list-item-label">Overview</span></a></li>
-              <li data-nav="projects"><a href="#projects"><span class="cp-icon cp-menu-list-item-icon">receipt_long</span><span class="cp-typography cp-menu-list-item-label">Projects</span></a></li>
-              <li data-nav="activity"><a href="#activity"><span class="cp-icon cp-menu-list-item-icon">forum</span><span class="cp-typography cp-menu-list-item-label">Activity</span></a></li>
-              <li data-nav="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">settings</span><span class="cp-typography cp-menu-list-item-label">Settings</span></a></li>
+              <li data-nav="overview"><a href="#overview"><span class="cp-icon cp-menu-list-item-icon">speed</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Overview</span></a></li>
+              <li data-nav="projects"><a href="#projects"><span class="cp-icon cp-menu-list-item-icon">receipt_long</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Projects</span></a></li>
+              <li data-nav="activity"><a href="#activity"><span class="cp-icon cp-menu-list-item-icon">forum</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Activity</span></a></li>
+              <li data-nav="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">settings</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Settings</span></a></li>
             </ul>
           </div>
         </nav>

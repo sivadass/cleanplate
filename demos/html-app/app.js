@@ -367,8 +367,9 @@ $('add-tag')?.addEventListener('click', () => {
   const value = input.value.trim()
   if (!value) return
   const pill = document.createElement('div')
-  pill.className = 'cp-pills'
+  pill.className = 'cp-pills cp-pills--remove'
   pill.setAttribute('data-cp', 'Pills')
+  pill.setAttribute('data-cp-mode', 'remove')
   pill.innerHTML = `<div class="cp-pills-wrapper"><p class="cp-typography cp-pills-label">${value}</p><button type="button" class="cp-button cp-button--icon cp-button--medium cp-pills-button" data-remove-tag><span class="cp-icon">close</span></button></div>`
   pill.querySelector('[data-remove-tag]').addEventListener('click', () => pill.remove())
   $('tag-row').insertBefore(pill, $('tag-edit'))

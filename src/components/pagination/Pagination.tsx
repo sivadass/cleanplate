@@ -179,16 +179,24 @@ const Pagination: React.FC<PaginationProps> = ({
       <Container
         display="flex"
         align="center"
-        justify="center"
+        justify="space-between"
+        padding="0"
+        gap="0"
         className={styles["cp-pagination-wrapper"]}
       >
-        <Container className={styles["cp-pagination-total-count"]}>
+        <Container
+          padding="0"
+          gap="0"
+          className={styles["cp-pagination-total-count"]}
+        >
           <Typography variant="small">{`Total ${totalLabel}: ${totalItems}`}</Typography>
         </Container>
         <Container
           display="flex"
           align="center"
           justify="center"
+          padding="0"
+          gap="0"
           className={styles["cp-pagination-buttons-wrapper"]}
         >
           <Button
@@ -229,6 +237,8 @@ const Pagination: React.FC<PaginationProps> = ({
         <Container
           display="flex"
           align="center"
+          padding="0"
+          gap="0"
           className={styles["cp-pagination-show-per-page"]}
         >
           <Typography variant="small">Show per page</Typography>
