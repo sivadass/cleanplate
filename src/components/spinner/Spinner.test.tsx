@@ -11,6 +11,13 @@ describe("Spinner public classes", () => {
     expectPublicClass(el, "cp-spinner--large");
   });
 
+  it("does not inherit Container default padding that inflates the spinner", () => {
+    const { container } = render(<Spinner />);
+    const el = container.firstElementChild!;
+    expect(el.className.split(/\s+/)).not.toContain("cp-p-4");
+    expectPublicClass(el, "cp-p-0");
+  });
+
   it("does not emit data-cp by default", () => {
     const { container } = render(<Spinner />);
     expect(container.firstElementChild!.getAttribute("data-cp")).toBeNull();

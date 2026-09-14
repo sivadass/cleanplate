@@ -64,11 +64,11 @@ export const Separators = {
   name: "Separators",
   render: () => (
     <Container padding="4">
-      <Typography variant="h5" margin="m-0 m-b-2">
+      <Typography variant="h5" margin="b-2">
         Chevron (default)
       </Typography>
       <BreadCrumb items={defaultItems} separator="chevron" margin="b-4" />
-      <Typography variant="h5" margin="m-0 m-b-2">
+      <Typography variant="h5" margin="b-2">
         Slash
       </Typography>
       <BreadCrumb items={defaultItems} separator="slash" />

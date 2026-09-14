@@ -14,7 +14,7 @@ Purpose: A full-featured modal overlay for forms, long content, or custom dialog
 | showCloseButton | boolean | no | true | Whether to show the X close button in the header. |
 | closeOnOverlayClick | boolean | no | true | Whether clicking the overlay closes the modal. |
 | closeOnEscape | boolean | no | true | Whether pressing Escape closes the modal. |
-| margin | string \| SpacingOption[] | no | "m-0" | Margin around the modal. Use full class string (e.g. "m-0") or array of spacing suffixes; component adds `m-` prefix. |
+| margin | string \| SpacingOption[] | no | "0" | Margin around the modal. Use a suffix string (e.g. `"0"`, `"b-2"`) or an array of suffixes; the component adds the `m-` prefix. |
 | className | string | no | "" | Additional class names for the modal panel. |
 | overlayClassName | string | no | "" | Additional class names for the overlay. |
 | contentClassName | string | no | "" | Additional class names for the content wrapper. |
@@ -190,7 +190,7 @@ const App = () => {
 - **Body scroll:** Body scroll is locked while open and restored when dismissed.
 - **Focus:** Focus is trapped while open and returned to the previously focused element on close.
 - **ARIA:** The overlay has `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` pointing to the title when present.
-- **Spacing:** `margin` accepts a full class string (e.g. "m-0") or an array of spacing suffixes; the component uses `getSpacingClass` with prefix `m-`.
+- **Spacing:** `margin` accepts a suffix string (e.g. `"0"`, `"b-2"`) or an array of suffixes; the component adds the `m-` prefix via `getSpacingClass`.
 
 
 

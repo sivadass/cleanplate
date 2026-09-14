@@ -1,5 +1,19 @@
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, type Dirent } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+
+const PREFIXED_SPACING_PROP =
+  /(?:margin|padding|gap)=\{?"(?:m|p|g)-|(?:margin|padding|gap)=\{\[\s*"(?:m|p|g)-/;
+
+function walkFiles(dir: string, exts: string[]): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true }) as Dirent[]) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walkFiles(path, exts));
+    else if (exts.some((ext) => entry.name.endsWith(ext))) out.push(path);
+  }
+  return out;
+}
 
 const EXPORTS = [
   "AppShell",
@@ -108,6 +122,14 @@ describe("docs contract", () => {
       }
     }
     expect(hits, `prefixed spacing in ${hits.join(", ")}`).toEqual([]);
+  });
+
+  it("does not pass prefixed spacing in Storybook stories or docs MDX", () => {
+    const files = walkFiles("src/stories", [".jsx", ".tsx", ".mdx", ".js", ".ts"]);
+    const hits = files.filter((f) =>
+      PREFIXED_SPACING_PROP.test(readFileSync(f, "utf8")),
+    );
+    expect(hits, `prefixed spacing props in ${hits.join(", ")}`).toEqual([]);
   });
 
   it("MIGRATION-v1 documents data-cp opt-in and HTML to JSX", () => {

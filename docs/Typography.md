@@ -10,7 +10,7 @@ Purpose: Provides a consistent set of text styles for headings, paragraphs, and 
 | --- | --- | --- | --- | --- |
 | children | React.ReactNode | no | — | Text content to display. |
 | variant | "h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6" \| "p" \| "span" \| "small" | no | "p" | HTML element type to render. Determines the semantic meaning and default styling. |
-| margin | string \| string[] | no | "m-0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
+| margin | string \| string[] | no | "0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
 | className | string | no | "" | Additional class names for the root element. |
 | isBold | boolean | no | false | Applies bold font weight to the text. |
 | align | "left" \| "center" \| "right" | no | "left" | Text alignment within its container. |

@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import Button from "./Button";
@@ -46,5 +47,21 @@ describe("Button public classes", () => {
     );
     screen.getByRole("button").click();
     expect(onClick).not.toHaveBeenCalled();
+  });
+});
+
+describe("icon button circular hit area", () => {
+  const scss = readFileSync("src/components/button/Button.module.scss", "utf8");
+
+  it("small icon buttons set equal width and height with no horizontal padding", () => {
+    const smallBlock = scss.match(
+      /&\.cp-button--small \{([\s\S]*?)\n  &\.cp-button--medium/,
+    )?.[1];
+    expect(smallBlock).toBeDefined();
+    const smallIcon = smallBlock!.match(/&\.cp-button--icon \{([^}]*)\}/);
+    expect(smallIcon).not.toBeNull();
+    expect(smallIcon![1]).toMatch(/width:\s*24px/);
+    expect(smallIcon![1]).toMatch(/min-width:\s*24px/);
+    expect(smallIcon![1]).toMatch(/padding:\s*0/);
   });
 });

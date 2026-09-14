@@ -65,7 +65,7 @@ export interface ModalProps {
   closeOnOverlayClick?: boolean;
   /** Whether pressing Escape closes the modal */
   closeOnEscape?: boolean;
-  /** Margin spacing around the modal (e.g. "m-0" or array of spacing suffixes) */
+  /** Margin spacing around the modal (e.g. "0" or array of spacing suffixes) */
   margin?: ModalMargin;
   /** Additional class names for the modal panel */
   className?: string;

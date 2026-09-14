@@ -62,7 +62,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   );
 
   return (
-    <Container {...dataCp} className={getClassNames(styles["cp-spinner"], iconClasses)}>
+    <Container {...dataCp} padding="0" gap="0" className={getClassNames(styles["cp-spinner"], iconClasses)}>
       <Icon name={icon} className={styles["cp-spinner-icon"]} />
     </Container>
   );
