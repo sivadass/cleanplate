@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { readFileSync } from "node:fs";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import Pills from "./Pills";
 import { expectPublicClass } from "../../test/class-contract";
@@ -28,6 +29,11 @@ describe("Pills public classes", () => {
     const { container } = render(<Pills label="Taxi" mode="edit" />);
     const field = container.querySelector(".cp-pills-input")!;
     expect(field.className.split(/\s+/)).not.toContain("cp-m-b-4");
+  });
+
+  it("overrides form-field width so the action button stays inside the chip", () => {
+    const scss = readFileSync("src/components/pills/Pills.module.scss", "utf8");
+    expect(scss).toMatch(/\.cp-pills-input[\s\S]*?width:\s*auto/);
   });
 
   it("does not emit data-cp by default", () => {

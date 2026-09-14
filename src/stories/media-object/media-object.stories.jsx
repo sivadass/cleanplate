@@ -96,7 +96,7 @@ export const Default = {
     description: "Senior Developer at Tech Corp",
     descriptionLineClamp: 2,
     meta: "",
-    margin: "m-0",
+    margin: "0",
     showAction: false,
   },
   render: (args) => {
@@ -152,7 +152,7 @@ export const WithIcon = {
         padding: "var(--space-4)",
       }}
     >
-      <Typography variant="h4" margin="m-0 m-b-2" align="center">
+      <Typography variant="h4" margin="b-2" align="center">
         Icon variants
       </Typography>
 
@@ -196,7 +196,7 @@ export const WithImage = {
         padding: "var(--space-4)",
       }}
     >
-      <Typography variant="h4" margin="m-0 m-b-2" align="center">
+      <Typography variant="h4" margin="b-2" align="center">
         Image variants
       </Typography>
 
@@ -238,8 +238,8 @@ export const GmailMobileStyleList = {
           meta="Saturday"
           action={<StarActionButton />}
           descriptionLineClamp={1}
-          padding="p-x-3 p-y-2"
-          margin="m-0"
+          padding={["x-3", "y-2"]}
+          margin="0"
         />
         <MediaObject
           mediaAvatar="ExpenseBot"
@@ -249,8 +249,8 @@ export const GmailMobileStyleList = {
           meta="Fri"
           action={<StarActionButton />}
           descriptionLineClamp={2}
-          padding="p-x-3 p-y-2"
-          margin="m-0"
+          padding={["x-3", "y-2"]}
+          margin="0"
         />
         <MediaObject
           mediaAvatar="Design Sync"
@@ -259,8 +259,8 @@ export const GmailMobileStyleList = {
           description="Dropped the condensed deck in Drive; typography refresh is scoped to onboarding only."
           meta="Thu"
           action={<StarActionButton />}
-          padding="p-x-3 p-y-2"
-          margin="m-0"
+          padding={["x-3", "y-2"]}
+          margin="0"
         />
       </Container>
     </div>
@@ -278,12 +278,12 @@ export const ConfigurationsGallery = {
         padding: "var(--space-5)",
       }}
     >
-      <Typography variant="h4" margin="m-0">
+      <Typography variant="h4" margin="0">
         MediaObject layouts
       </Typography>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Legacy two-line (title + description)
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
@@ -292,7 +292,7 @@ export const ConfigurationsGallery = {
       </section>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Title only
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
@@ -301,7 +301,7 @@ export const ConfigurationsGallery = {
       </section>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Three lines, no trailing rail
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
@@ -315,7 +315,7 @@ export const ConfigurationsGallery = {
       </section>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Rail: meta string only (accent typography)
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
@@ -324,7 +324,7 @@ export const ConfigurationsGallery = {
       </section>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Rail: custom meta node + action icon
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
@@ -333,7 +333,7 @@ export const ConfigurationsGallery = {
             title="Invoice #4021"
             description="Reminder: payable on receipt."
             meta={
-              <Typography variant="small" margin="m-0" isBold align="right">
+              <Typography variant="small" margin="0" isBold align="right">
                 Unpaid · $120
               </Typography>
             }
@@ -343,7 +343,7 @@ export const ConfigurationsGallery = {
       </section>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Rail: action only (pins to snippet row when description present)
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
@@ -357,7 +357,7 @@ export const ConfigurationsGallery = {
       </section>
 
       <section>
-        <Typography variant="h6" margin="m-b-2">
+        <Typography variant="h6" margin="b-2">
           Description line clamp (multi-line truncation)
         </Typography>
         <Container display="block" style={{ maxWidth: 420 }}>
