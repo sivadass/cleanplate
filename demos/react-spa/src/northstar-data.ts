@@ -24,6 +24,7 @@ export interface ActivityItem {
 export const NAV_ITEMS: MenuListItem[] = [
   { label: 'Overview', value: 'overview', icon: 'speed' },
   { label: 'Projects', value: 'projects', icon: 'receipt_long' },
+  { label: 'Intake', value: 'intake', icon: 'assignment' },
   { label: 'Activity', value: 'activity', icon: 'forum' },
   { label: 'Settings', value: 'settings', icon: 'settings' },
 ]

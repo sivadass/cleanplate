@@ -22,7 +22,14 @@
   padding: 0;
   border-width: 0;
   border-radius: 4px;
-  .cp-progress-bar-track {
+
+  /* Beat Container defaults (`cp-p-4` / `cp-g-4`) when dist JS is stale. */
+  &.cp-container {
+    padding: 0;
+    gap: 0;
+  }
+  .cp-progress-bar-track,
+  .cp-progress-bar-fill {
     position: absolute;
     top: 0;
     left: 0;
@@ -31,17 +38,17 @@
     padding: 0;
     border-width: 0;
     border-radius: 4px;
+
+    &.cp-container {
+      padding: 0;
+      gap: 0;
+    }
+  }
+  .cp-progress-bar-track {
     background: var(--gray-100);
   }
   .cp-progress-bar-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 0%;
-    height: 8px;
-    padding: 0;
-    border-width: 0;
-    border-radius: 4px;
     background: var(--gray-500);
     transition: width 400ms ease-in-out;
   }

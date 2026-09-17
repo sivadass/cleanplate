@@ -47,6 +47,10 @@ body.cp-overlay-open {
   border: 0;
 }
 
+.intake-form {
+  max-width: 640px;
+}
+
 .cp-table-core tbody tr[data-status='done'] {
   opacity: 0.85;
 }

@@ -1,3 +1,10 @@
+/* Root must be a real selector so CSS modules export `cp-menu-list` for React.
+   Sass `&-wrapper` only emits `.cp-menu-list-wrapper`, which left the React
+   root as `class="cp-m-0"` and skipped all `.cp-menu-list a` chrome. */
+.cp-menu-list {
+  display: block;
+}
+
 .cp-menu-list-wrapper {
   ul {
     display: flex;
@@ -8,7 +15,8 @@
   }
 }
 
-.cp-menu-list a {
+.cp-menu-list a,
+.cp-menu-list-wrapper a {
   text-decoration: none;
   display: flex;
   align-items: center;

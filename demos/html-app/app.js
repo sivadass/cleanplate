@@ -16,7 +16,7 @@ const overlayIds = [
   'header-mobile-menu',
 ]
 
-const dropdownIds = ['account-menu', 'export-menu', 'more-menu', 'team-select-menu']
+const dropdownIds = ['account-menu', 'export-menu', 'more-menu', 'team-select-menu', 'intake-team-menu']
 
 let wizardStep = 0
 let currentPage = 1
@@ -96,10 +96,24 @@ function closeOverlays() {
   overlayIds.forEach((id) => closeOverlay(id))
 }
 
+const NAV_VALUES = ['overview', 'projects', 'intake', 'activity', 'settings']
+
 function setNav(value) {
   document.querySelectorAll('[data-nav]').forEach((item) => {
     item.classList.toggle('cp-menu-list-item--active', item.dataset.nav === value)
   })
+  const isIntake = value === 'intake'
+  const workspace = $('workspace-view')
+  const intake = $('intake')
+  if (workspace) workspace.hidden = isIntake
+  if (intake) intake.hidden = !isIntake
+  if (window.location.hash !== `#${value}`) {
+    window.history.replaceState(null, '', `#${value}`)
+  }
+  if (isIntake) {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    return
+  }
   $(value)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
@@ -259,6 +273,7 @@ $('open-account')?.addEventListener('click', (event) => toggleDropdown('account-
 $('open-export')?.addEventListener('click', (event) => toggleDropdown('export-menu', event))
 $('open-more')?.addEventListener('click', (event) => toggleDropdown('more-menu', event))
 $('open-team-select')?.addEventListener('click', (event) => toggleDropdown('team-select-menu', event))
+$('open-intake-team')?.addEventListener('click', (event) => toggleDropdown('intake-team-menu', event))
 $('open-mobile-menu')?.addEventListener('click', () => openOverlay('header-mobile-menu'))
 
 document.querySelectorAll('[data-close-overlay]').forEach((node) => {
@@ -295,6 +310,13 @@ $('wizard-primary')?.addEventListener('click', () => {
 document.querySelectorAll('#team-select-menu [data-team]').forEach((option) => {
   option.addEventListener('click', () => {
     $('team-value').textContent = option.dataset.team
+    closeDropdowns()
+  })
+})
+
+document.querySelectorAll('#intake-team-menu [data-intake-team]').forEach((option) => {
+  option.addEventListener('click', () => {
+    $('intake-team-value').textContent = option.dataset.intakeTeam
     closeDropdowns()
   })
 })
@@ -521,6 +543,69 @@ $('brief-input')?.addEventListener('change', (event) => {
     .join('')
 })
 
+$('open-intake-color')?.addEventListener('click', () => $('intake-color').click())
+$('intake-color')?.addEventListener('input', (event) => {
+  $('intake-color-swatch').style.background = event.target.value
+  $('intake-color-value').textContent = event.target.value
+})
+
+$('open-intake-kickoff')?.addEventListener('click', () => $('intake-kickoff').showPicker?.() || $('intake-kickoff').click())
+$('intake-kickoff')?.addEventListener('change', (event) => {
+  const date = new Date(`${event.target.value}T00:00:00`)
+  $('intake-kickoff-value').textContent = date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+})
+
+$('intake-brief')?.addEventListener('change', (event) => {
+  const files = Array.from(event.target.files ?? [])
+  $('intake-brief-list').hidden = files.length === 0
+  $('intake-brief-list').innerHTML = files
+    .map(
+      (file) =>
+        `<li class="cp-file-item"><span class="cp-icon">description</span><span>${file.name}</span></li>`,
+    )
+    .join('')
+})
+
+function resetIntakeWidgets() {
+  $('intake-team-value').textContent = 'Design'
+  $('intake-color').value = '#2563eb'
+  $('intake-color-swatch').style.background = '#2563eb'
+  $('intake-color-value').textContent = '#2563eb'
+  $('intake-kickoff').value = '2026-09-21'
+  $('intake-kickoff-value').textContent = '21 Sep 2026'
+  $('intake-weeks').value = '6'
+  $('intake-brief').value = ''
+  $('intake-brief-list').hidden = true
+  $('intake-brief-list').innerHTML = ''
+}
+
+$('intake-form')?.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const title = $('intake-title').value.trim()
+  if (!title) {
+    notify('error', 'Give the request a title before submitting.')
+    return
+  }
+  notify('success', `${title} was filed for intake.`)
+})
+
+$('intake-reset')?.addEventListener('click', () => {
+  $('intake-form').reset()
+  resetIntakeWidgets()
+  notify('info', 'Intake form cleared.')
+})
+
+window.addEventListener('hashchange', () => {
+  const value = window.location.hash.replace('#', '')
+  if (NAV_VALUES.includes(value)) setNav(value)
+})
+
 renderProjects()
 renderActivity()
 setWizardStep(0)
+const initialNav = window.location.hash.replace('#', '')
+setNav(NAV_VALUES.includes(initialNav) ? initialNav : 'overview')

@@ -76,7 +76,7 @@ const MenuList: React.FC<MenuListProps> = ({
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const menuListClassNames = getClassNames(
-    styles["cp-menu-list"],
+    styles["cp-menu-list"] || "cp-menu-list",
     size && styles[size],
     variant && styles[variant],
     marginClass,

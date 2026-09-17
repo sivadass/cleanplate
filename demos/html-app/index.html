@@ -94,6 +94,7 @@
               <ul class="cp-menu-list--vertical">
                 <li data-nav="overview" class="cp-menu-list-item--active"><a href="#overview"><span class="cp-icon cp-menu-list-item-icon">speed</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Overview</span></a></li>
                 <li data-nav="projects"><a href="#projects"><span class="cp-icon cp-menu-list-item-icon">receipt_long</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Projects</span></a></li>
+                <li data-nav="intake"><a href="#intake"><span class="cp-icon cp-menu-list-item-icon">assignment</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Intake</span></a></li>
                 <li data-nav="activity"><a href="#activity"><span class="cp-icon cp-menu-list-item-icon">forum</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Activity</span></a></li>
                 <li data-nav="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">settings</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Settings</span></a></li>
               </ul>
@@ -102,6 +103,7 @@
         </aside>
 
         <main class="cp-app-shell__main" data-cp-slot="children">
+          <div id="workspace-view">
           <div data-cp="Container" data-cp-padding="4" class="cp-container cp-p-4" id="overview">
             <nav data-cp="BreadCrumb" data-cp-separator="chevron" class="cp-breadcrumb cp-m-b-2">
               <ol class="cp-breadcrumb-list">
@@ -610,6 +612,197 @@
               </div>
             </div>
           </div>
+          </div>
+
+          <div id="intake" hidden data-cp="Container" data-cp-padding="4" class="cp-container cp-p-4">
+            <nav data-cp="BreadCrumb" data-cp-separator="chevron" class="cp-breadcrumb cp-m-b-2">
+              <ol class="cp-breadcrumb-list">
+                <li class="cp-breadcrumb-item">
+                  <a class="cp-breadcrumb-link" href="#overview">Northstar</a>
+                  <span class="cp-breadcrumb-separator"><span class="cp-icon cp-breadcrumb-separator-icon">chevron_right</span></span>
+                </li>
+                <li class="cp-breadcrumb-item">
+                  <span class="cp-breadcrumb-current">Intake</span>
+                </li>
+              </ol>
+            </nav>
+
+            <div data-cp="PageHeader" class="cp-page-header cp-m-b-4">
+              <div class="cp-page-header-row">
+                <div class="cp-page-header-start">
+                  <h1 data-cp-slot="title" class="cp-page-header-title">Project intake</h1>
+                  <p class="cp-page-header-subtitle">File a request the workspace can staff this quarter. Submit stays in this browser session.</p>
+                </div>
+              </div>
+            </div>
+
+            <form id="intake-form" class="intake-form">
+              <h6 data-cp="Typography" data-cp-variant="h6" class="cp-typography cp-typography--h6 cp-m-b-2">Basics</h6>
+
+              <div data-cp="FormControls.Input" class="cp-form-field cp-form-field-fluid cp-m-b-4">
+                <label class="cp-form-label" for="intake-title">Request title *</label>
+                <input id="intake-title" class="cp-form-control" type="text" name="title" placeholder="Harbor analytics rebuild" required />
+              </div>
+              <div data-cp="FormControls.Input" class="cp-form-field cp-form-field-fluid cp-m-b-4">
+                <label class="cp-form-label" for="intake-email">Sponsor email</label>
+                <input id="intake-email" class="cp-form-control" type="email" name="email" placeholder="maya@northstar.dev" autocomplete="email" />
+              </div>
+              <div data-cp="FormControls.TextArea" class="cp-form-field cp-form-field-fluid cp-m-b-4">
+                <label class="cp-form-label" for="intake-problem">Problem statement</label>
+                <textarea id="intake-problem" class="cp-form-control cp-textarea-field" name="problem" placeholder="What is blocked, and what does done look like?"></textarea>
+              </div>
+              <div data-cp="FormControls.Select" class="cp-select-field cp-m-b-4">
+                <label class="cp-form-label">Requesting team</label>
+                <div class="cp-dropdown" style="display: block; width: 100%">
+                  <button id="open-intake-team" type="button" data-cp-slot="trigger" class="cp-select-field-header">
+                    <span id="intake-team-value" class="cp-select-value">Design</span>
+                    <span class="cp-icon">expand_more</span>
+                  </button>
+                  <div id="intake-team-menu" hidden class="cp-dropdown-floating" role="listbox">
+                    <button type="button" class="cp-select-field-option" data-intake-team="Design">Design</button>
+                    <button type="button" class="cp-select-field-option" data-intake-team="Platform">Platform</button>
+                    <button type="button" class="cp-select-field-option" data-intake-team="Growth">Growth</button>
+                    <button type="button" class="cp-select-field-option" data-intake-team="Research">Research</button>
+                  </div>
+                </div>
+              </div>
+              <div data-cp="FormControls.ColorPicker" class="cp-form-field cp-select-field cp-color-picker-trigger cp-m-b-4">
+                <label class="cp-form-label">Label color</label>
+                <input id="intake-color" class="demo-native-control" type="color" value="#2563eb" />
+                <button id="open-intake-color" type="button" class="cp-select-field-header">
+                  <span class="cp-select-trigger-main cp-color-picker-trigger-main cp-container--display-flex cp-container--align-center">
+                    <span id="intake-color-swatch" class="cp-color-picker-trigger-swatch" style="background: #2563eb"></span>
+                    <span id="intake-color-value" class="cp-select-value">#2563eb</span>
+                  </span>
+                </button>
+              </div>
+
+              <h6 data-cp="Typography" data-cp-variant="h6" class="cp-typography cp-typography--h6 cp-m-t-4 cp-m-b-2">Schedule and people</h6>
+
+              <div data-cp="FormControls.Date" class="cp-date-field-wrapper cp-select-field cp-m-b-4">
+                <label class="cp-form-label">Kickoff date</label>
+                <input id="intake-kickoff" class="demo-native-control" type="date" value="2026-09-21" />
+                <button id="open-intake-kickoff" type="button" class="cp-select-field-header">
+                  <span id="intake-kickoff-value" class="cp-select-value">21 Sep 2026</span>
+                  <span class="cp-icon">calendar_month</span>
+                </button>
+              </div>
+              <fieldset data-cp="FormControls.SegmentedControl" class="cp-form-field cp-segmented-control-field cp-segmented-control--medium cp-m-b-4">
+                <legend class="cp-segmented-control-legend">Urgency</legend>
+                <div class="cp-segmented-control-options">
+                  <label class="cp-segmented-control-option">
+                    <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="intake-urgency" value="week" />
+                    <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">This week</span></span>
+                  </label>
+                  <label class="cp-segmented-control-option">
+                    <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="intake-urgency" value="month" checked />
+                    <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">This month</span></span>
+                  </label>
+                  <label class="cp-segmented-control-option">
+                    <input class="cp-visually-hidden cp-segmented-control-native" type="radio" name="intake-urgency" value="quarter" />
+                    <span class="cp-segmented-control-segment"><span class="cp-segmented-control-text">This quarter</span></span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset data-cp="FormControls.Radio" class="cp-form-field cp-radio-field cp-m-b-4">
+                <legend class="cp-radio-legend">Engagement type</legend>
+                <div class="cp-radio-options cp-radio-options-vertical">
+                  <div class="cp-radio-row">
+                    <input class="cp-visually-hidden cp-radio-native" type="radio" name="intake-engagement" id="intake-eng-new" value="new" checked />
+                    <label class="cp-form-label-inline" for="intake-eng-new">
+                      <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                      <span class="cp-radio-label-text"><span class="cp-radio-label-title">New project</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-radio-row">
+                    <input class="cp-visually-hidden cp-radio-native" type="radio" name="intake-engagement" id="intake-eng-extension" value="extension" />
+                    <label class="cp-form-label-inline" for="intake-eng-extension">
+                      <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                      <span class="cp-radio-label-text"><span class="cp-radio-label-title">Extension</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-radio-row">
+                    <input class="cp-visually-hidden cp-radio-native" type="radio" name="intake-engagement" id="intake-eng-spike" value="spike" />
+                    <label class="cp-form-label-inline" for="intake-eng-spike">
+                      <span class="cp-radio-visual"><span class="cp-radio-dot"></span></span>
+                      <span class="cp-radio-label-text"><span class="cp-radio-label-title">Spike</span></span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset data-cp="FormControls.Checkbox" class="cp-form-field cp-checkbox-field cp-m-b-4">
+                <legend class="cp-checkbox-legend">Stakeholders to loop in</legend>
+                <div class="cp-checkbox-options cp-checkbox-options-vertical">
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" id="intake-sh-design" value="design" checked />
+                    <label class="cp-form-label-inline" for="intake-sh-design">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Design</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" id="intake-sh-eng" value="eng" checked />
+                    <label class="cp-form-label-inline" for="intake-sh-eng">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Engineering</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" id="intake-sh-product" value="product" />
+                    <label class="cp-form-label-inline" for="intake-sh-product">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Product</span></span>
+                    </label>
+                  </div>
+                  <div class="cp-checkbox-row">
+                    <input class="cp-visually-hidden cp-checkbox-native" type="checkbox" id="intake-sh-legal" value="legal" />
+                    <label class="cp-form-label-inline" for="intake-sh-legal">
+                      <span class="cp-checkbox-visual"><span class="cp-checkbox-tick"></span></span>
+                      <span class="cp-checkbox-label-text"><span class="cp-checkbox-label-title">Legal</span></span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+              <div data-cp="FormControls.Stepper" class="cp-form-field cp-m-b-4">
+                <label class="cp-form-label" for="intake-weeks">Estimated weeks</label>
+                <div class="cp-form-control cp-stepper-shell">
+                  <input id="intake-weeks" class="cp-stepper-input" type="text" inputmode="numeric" value="6" min="1" max="26" />
+                  <span class="cp-stepper-divider"></span>
+                  <button type="button" class="cp-stepper-btn" data-stepper="intake-weeks" data-delta="-1" aria-label="Decrease"><span class="cp-icon">remove</span></button>
+                  <span class="cp-stepper-divider"></span>
+                  <button type="button" class="cp-stepper-btn" data-stepper="intake-weeks" data-delta="1" aria-label="Increase"><span class="cp-icon">add</span></button>
+                </div>
+              </div>
+
+              <h6 data-cp="Typography" data-cp-variant="h6" class="cp-typography cp-typography--h6 cp-m-t-4 cp-m-b-2">Delivery</h6>
+
+              <div data-cp="FormControls.File" data-variant="card" class="cp-form-field cp-file-field cp-m-b-4">
+                <label class="cp-form-label" for="intake-brief">Attach brief</label>
+                <input id="intake-brief" class="cp-visually-hidden" type="file" accept="application/pdf,image/*" />
+                <label for="intake-brief" class="cp-file-trigger cp-file-trigger-card">
+                  <span class="cp-icon cp-icon--large">cloud_upload</span>
+                  <span class="cp-file-trigger-card-helper">Drop a PDF or image</span>
+                  <span class="cp-file-trigger-card-or">or</span>
+                  <span class="cp-file-trigger-cta">Browse file</span>
+                </label>
+                <ul id="intake-brief-list" class="cp-file-list" hidden></ul>
+              </div>
+              <div data-cp="FormControls.Toggle" class="cp-form-field cp-toggle-field cp-m-b-4">
+                <div class="cp-toggle-row">
+                  <input class="cp-visually-hidden cp-toggle-native" type="checkbox" role="switch" id="intake-security" />
+                  <label class="cp-toggle-ui" for="intake-security">
+                    <span class="cp-toggle-track"><span class="cp-toggle-thumb"></span></span>
+                    <span>Needs a security review</span>
+                  </label>
+                </div>
+              </div>
+
+              <div data-cp="Container" data-cp-display="flex" data-cp-gap="2" class="cp-container cp-container--display-flex cp-g-2 cp-p-0 cp-m-t-2">
+                <button id="intake-reset" type="button" class="cp-button cp-button--outline cp-button--medium">Clear</button>
+                <button id="intake-submit" type="submit" class="cp-button cp-button--medium">Submit intake</button>
+              </div>
+            </form>
+          </div>
         </main>
       </div>
 
@@ -638,6 +831,7 @@
             <ul class="cp-menu-list--vertical">
               <li data-nav="overview"><a href="#overview"><span class="cp-icon cp-menu-list-item-icon">speed</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Overview</span></a></li>
               <li data-nav="projects"><a href="#projects"><span class="cp-icon cp-menu-list-item-icon">receipt_long</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Projects</span></a></li>
+              <li data-nav="intake"><a href="#intake"><span class="cp-icon cp-menu-list-item-icon">assignment</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Intake</span></a></li>
               <li data-nav="activity"><a href="#activity"><span class="cp-icon cp-menu-list-item-icon">forum</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Activity</span></a></li>
               <li data-nav="settings"><a href="#settings"><span class="cp-icon cp-menu-list-item-icon">settings</span><span class="cp-typography cp-typography--span cp-menu-list-item-label">Settings</span></a></li>
             </ul>

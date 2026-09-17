@@ -22,6 +22,10 @@ describe("MenuList public classes", () => {
       "src/components/menu-list/MenuList.module.scss",
       "utf8",
     );
+    expect(scss).toMatch(/\.cp-menu-list\s*\{/);
+    expect(scss).toMatch(
+      /\.cp-menu-list a,\s*\n\.cp-menu-list-wrapper a/,
+    );
     expect(scss).toMatch(/\.cp-menu-list a[\s\S]*?align-items:\s*center/);
     expect(scss).toMatch(
       /\.cp-menu-list \.cp-icon\.cp-menu-list-item-icon[\s\S]*?font-size:\s*24px/,

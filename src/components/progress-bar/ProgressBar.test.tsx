@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import ProgressBar from "./ProgressBar";
@@ -17,6 +18,14 @@ describe("ProgressBar", () => {
       expect(el.className.split(/\s+/)).not.toContain("cp-p-4");
       expectPublicClass(el, "cp-p-0");
     }
+  });
+
+  it("beats Container padding in public CSS when cp-p-4 is present", () => {
+    const scss = readFileSync(
+      "src/components/progress-bar/ProgressBar.module.scss",
+      "utf8",
+    );
+    expect(scss).toMatch(/\.cp-progress-bar[\s\S]*?&.cp-container[\s\S]*?padding:\s*0/);
   });
 
   it("does not emit data-cp by default", () => {

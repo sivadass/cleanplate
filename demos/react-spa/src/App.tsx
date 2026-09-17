@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type ChangeEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
 import {
   Accordion,
   Alert,
@@ -49,6 +49,7 @@ import {
   type Project,
   type ProjectStatus,
 } from './northstar-data.ts'
+import { IntakePage } from './IntakePage.tsx'
 
 const CURRENT_USER = {
   name: 'Maya Chen',
@@ -64,10 +65,6 @@ const accountMetaStyle = {
   padding: 'var(--space-2) var(--space-4) var(--space-3) var(--space-4)',
   marginBottom: 'var(--space-2)',
   borderBottom: '1px solid var(--gray-100)',
-}
-
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 function AccountMenuContent({
@@ -140,9 +137,14 @@ function statusBadge(status: ProjectStatus) {
   return <Badge label={config.label} variant={config.variant} />
 }
 
+function navFromHash() {
+  const hash = window.location.hash.replace('#', '')
+  return NAV_ITEMS.some((item) => item.value === hash) ? hash : 'overview'
+}
+
 function App() {
   const toastRef = useRef<ToastRefHandle>(null)
-  const [activeNav, setActiveNav] = useState('overview')
+  const [activeNav, setActiveNav] = useState(navFromHash)
   const [pageTab, setPageTab] = useState('active')
   const [search, setSearch] = useState('')
   const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS)
@@ -186,6 +188,27 @@ function App() {
   const notify = (mode: 'success' | 'info' | 'warning' | 'error', message: string) => {
     toastRef.current?.addMessage({ mode, message })
   }
+
+  const goTo = (value: string) => {
+    setActiveNav(value)
+    if (window.location.hash !== `#${value}`) {
+      window.history.replaceState(null, '', `#${value}`)
+    }
+  }
+
+  useEffect(() => {
+    const onHashChange = () => setActiveNav(navFromHash())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  useEffect(() => {
+    if (activeNav === 'intake') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    document.getElementById(activeNav)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [activeNav])
 
   const filteredProjects = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -325,8 +348,7 @@ function App() {
           activeItem: activeNav,
           variant: 'light',
           onMenuClick: (item: MenuListItem) => {
-            setActiveNav(item.value)
-            scrollToSection(item.value)
+            goTo(item.value)
           },
         }}
         header={{
@@ -334,8 +356,7 @@ function App() {
           showCenterMenu: false,
           activeMenuItem: activeNav,
           onMenuItemClick: (item: MenuListItem) => {
-            setActiveNav(item.value)
-            scrollToSection(item.value)
+            goTo(item.value)
           },
           headerLeft: (
             <Container display="flex" align="center" gap="2" padding="0" margin="0">
@@ -354,8 +375,7 @@ function App() {
                 <AccountMenuContent
                   onSelect={(item) => {
                     if (item.value === 'settings') {
-                      setActiveNav('settings')
-                      scrollToSection('settings')
+                      goTo('settings')
                     }
                     notify('info', `${item.label} — demo only.`)
                   }}
@@ -383,6 +403,9 @@ function App() {
           ),
         }}
       >
+        {activeNav === 'intake' ? (
+          <IntakePage notify={notify} />
+        ) : (
         <Container padding="4" id="overview">
           <BreadCrumb
             margin="b-2"
@@ -407,7 +430,7 @@ function App() {
                 label: 'View archived',
                 onClick: () => {
                   setPageTab('done')
-                  scrollToSection('projects')
+                  goTo('projects')
                 },
               },
             ]}
@@ -728,6 +751,7 @@ function App() {
             items={FAQ_ITEMS}
           />
         </Container>
+        )}
       </AppShell>
 
       <Modal
