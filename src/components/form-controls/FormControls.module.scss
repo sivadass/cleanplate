@@ -2151,13 +2151,13 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-width: 72px;
   margin-bottom: 0;
   flex-grow: 1;
-  .custom-field {
+  .cp-custom-field {
     border-radius: var(--cp-form-control-radius) 0 0
       var(--cp-form-control-radius);
     padding-right: 4px;
     margin-bottom: 0;
     border-right-color: transparent;
-    &.custom-field-open {
+    &.cp-custom-field-open {
       border-radius: var(--cp-form-control-radius) 0 0 0;
     }
   }
@@ -2167,7 +2167,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-width: 88px;
   flex-grow: 1;
   margin-bottom: 0;
-  .custom-field {
+  .cp-custom-field {
     border-radius: 0;
     padding-right: 4px;
     margin-bottom: 0;
@@ -2178,13 +2178,13 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-width: 100px;
   margin-bottom: 0;
   flex-grow: 1;
-  .custom-field {
+  .cp-custom-field {
     border-radius: 0 var(--cp-form-control-radius)
       var(--cp-form-control-radius) 0;
     padding-right: 4px;
     margin-bottom: 0;
     border-left-color: transparent;
-    &.custom-field-open {
+    &.cp-custom-field-open {
       border-radius: 0 var(--cp-form-control-radius) 0 0;
     }
   }
@@ -2516,7 +2516,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 .cp-date-picker-footer-button {
-  &.cancel {
+  &.cp-date-picker-footer-button-cancel {
     color: var(--text-muted);
   }
   @media screen and (max-width: 768px) {

@@ -1,10 +1,11 @@
-.table {
+.cp-table {
   font-family: inherit;
   font-size: inherit;
   font-weight: normal;
   border-radius: var(--cp-form-control-radius);
   background: var(--white);
-  .core-table {
+
+  .cp-table-core {
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
@@ -30,13 +31,13 @@
         margin: 0;
         color: inherit;
       }
-      .cell-align-top {
+      .cp-table-cell-align-top {
         vertical-align: top;
       }
-      .cell-align-middle {
+      .cp-table-cell-align-middle {
         vertical-align: middle;
       }
-      .cell-align-bottom {
+      .cp-table-cell-align-bottom {
         vertical-align: bottom;
       }
       &:last-child {
@@ -52,7 +53,8 @@
       }
     }
   }
-  .pagination-wrapper {
+
+  .cp-table-pagination-wrapper {
     margin-top: 24px;
   }
 }

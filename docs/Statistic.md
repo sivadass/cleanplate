@@ -306,6 +306,26 @@ Example override:
 }
 ```
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Statistic" data-cp-title="Revenue" data-cp-value="1280" class="cp-statistic"></div>
+```
+
+### React equivalent
+
+```jsx
+<Statistic title="Revenue" value="1280" />
+```
+
 ## Related Components / Links
 
 - Spinner (loading state inside value row)

@@ -109,6 +109,24 @@ export const Example = () => (
 - **Layout:** Spinner renders a Container wrapping an Icon; size and variant classes apply to the wrapper.
 - **Spacing:** `margin` accepts the **spacing suffix**; the component adds the `m-` prefix via `getSpacingClass`. Use suffix form (e.g. `"0"`, `"b-2"`) when passing values.
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Spinner" class="cp-spinner cp-spinner--medium"></div>
+```
+
+### React equivalent
+
+```jsx
+<Spinner />
+```
+
 ## Related Components / Links
 
 - Container (used internally as the wrapper; use for layout around the spinner)

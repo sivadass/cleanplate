@@ -40,7 +40,7 @@ export const Default = {
       setPillValue("");
     };
     return (
-      <Container>
+      <Container padding="0">
         <Pills
           {...args}
           label={pillValue}

@@ -120,7 +120,7 @@ const BasicDropdown = () => {
         variant="outline" 
         size="small" 
         isFluid 
-        margin="m-0 m-b-1"
+        margin="b-1"
         onClick={() => {
           alert("Option 1 clicked!");
           onClose?.();
@@ -247,10 +247,10 @@ const UserMenu = () => {
           padding: "var(--space-2) var(--space-1)", 
           borderBottom: "1px solid var(--gray-100)" 
         }}>
-          <Typography variant="small" margin="m-0" color="var(--text-muted)">
+          <Typography variant="small" margin="0" color="var(--text-muted)">
             Signed in as
           </Typography>
-          <Typography variant="p" margin="m-0" fontWeight="600">
+          <Typography variant="p" margin="0" fontWeight="600">
             john.doe@example.com
           </Typography>
         </div>
@@ -315,7 +315,7 @@ const ActionMenu = () => {
 
     return (
       <div style={{ padding: "var(--space-2)" }}>
-        <Typography variant="small" margin="m-0 m-b-2" color="var(--text-muted)">
+        <Typography variant="small" margin="b-2" color="var(--text-muted)">
           Actions
         </Typography>
         <MenuList 
@@ -460,10 +460,10 @@ const UserMenuTrigger = () => {
             JD
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-            <Typography variant="small" margin="m-0" color="var(--text-primary)">
+            <Typography variant="small" margin="0" color="var(--text-primary)">
               John Doe
             </Typography>
-            <Typography variant="small" margin="m-0" color="var(--text-muted)">
+            <Typography variant="small" margin="0" color="var(--text-muted)">
               Administrator
             </Typography>
           </div>

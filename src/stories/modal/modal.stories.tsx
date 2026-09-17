@@ -79,12 +79,12 @@ export const Default = {
       <div>
         <Button
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Open Modal
         </Button>
         <Modal {...args} isOpen={isOpen} onClose={handleClose}>
-          <Typography variant="p" margin="m-0 m-b-3">
+          <Typography variant="p" margin="b-3">
             This is the modal content. You can put any content here including forms, text, images, or other components.
           </Typography>
           <Typography variant="p">
@@ -112,7 +112,7 @@ export const WithForm = {
       <div>
         <Button
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Open Form Modal
         </Button>
@@ -124,7 +124,7 @@ export const WithForm = {
         >
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: "16px" }}>
-              <Typography variant="small" margin="m-0 m-b-1" style={{ display: "block" }}>
+              <Typography variant="small" margin="b-1" style={{ display: "block" }}>
                 Name:
               </Typography>
               <input
@@ -142,7 +142,7 @@ export const WithForm = {
               />
             </div>
             <div style={{ marginBottom: "16px" }}>
-              <Typography variant="small" margin="m-0 m-b-1" style={{ display: "block" }}>
+              <Typography variant="small" margin="b-1" style={{ display: "block" }}>
                 Email:
               </Typography>
               <input
@@ -201,7 +201,7 @@ export const ModalWithFooterButtons = {
       <div>
         <Button
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
         >
           Open Modal with Footer
         </Button>
@@ -217,7 +217,7 @@ export const ModalWithFooterButtons = {
         >
           <div>
             <div style={{ marginBottom: "16px" }}>
-              <Typography variant="small" margin="m-0 m-b-1" style={{ display: "block" }}>
+              <Typography variant="small" margin="b-1" style={{ display: "block" }}>
                 Name:
               </Typography>
               <input
@@ -235,7 +235,7 @@ export const ModalWithFooterButtons = {
               />
             </div>
             <div style={{ marginBottom: "16px" }}>
-              <Typography variant="small" margin="m-0 m-b-1" style={{ display: "block" }}>
+              <Typography variant="small" margin="b-1" style={{ display: "block" }}>
                 Email:
               </Typography>
               <input
@@ -271,7 +271,7 @@ export const FullscreenModal = {
       <div>
         <Button
           onClick={() => setIsOpen(true)}
-          margin="m-0 m-b-4"
+          margin="b-4"
           variant="solid"
         >
           Open Fullscreen Modal
@@ -283,10 +283,10 @@ export const FullscreenModal = {
           size="fullscreen"
         >
           <div style={{ padding: "20px" }}>
-            <Typography variant="h2" margin="m-0 m-b-4">
+            <Typography variant="h2" margin="b-4">
               Welcome to Fullscreen Mode
             </Typography>
-            <Typography variant="p" margin="m-0 m-b-5">
+            <Typography variant="p" margin="b-5">
               This modal takes up the entire viewport, perfect for immersive experiences, detailed forms, or content that needs maximum space.
             </Typography>
 
@@ -308,7 +308,7 @@ export const FullscreenModal = {
                     textAlign: "center",
                   }}
                 >
-                  <Typography variant="h3" margin="m-0 m-b-2">
+                  <Typography variant="h3" margin="b-2">
                     Card {i + 1}
                   </Typography>
                   <Typography variant="p">

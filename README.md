@@ -2,6 +2,8 @@
 
 **A headless React UI framework** — reusable, accessible components you can style to match your brand. No opinionated theme; you bring the look and feel.
 
+> **Beta:** `1.0.0-beta.0` introduces stable public `cp-*` CSS, `dist/tokens.css`, and the HTML → React bridge. Install with an exact semver pin (`npm install cleanplate@1.0.0-beta.0`) until stable `1.0.0` ships. See [`docs/MIGRATION-v1.md`](docs/MIGRATION-v1.md).
+
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [Available components](#available-components)
@@ -44,6 +46,12 @@ Import the reset and base styles **once** at your app root (e.g. `main.jsx`, `Ap
 
 ```jsx
 import "cleanplate/dist/index.css";
+```
+
+Optional — design tokens only (Paper sync, custom themes):
+
+```jsx
+import "cleanplate/dist/tokens.css";
 ```
 
 ### 2. Import and use components
@@ -206,15 +214,29 @@ Documentation for **coding agents** and LLMs ships with the npm package alongsid
 
 - **Index:** `node_modules/cleanplate/llms.txt` — component list, conventions, and links to each doc file.
 - **Per-component docs:** `node_modules/cleanplate/docs/<ComponentName>.md` — props, types, examples, behavior.
+- **Migration (1.0 beta):** `node_modules/cleanplate/docs/MIGRATION-v1.md` — public `cp-*` CSS, spacing suffixes, prototype attributes.
 
 **Agent workflow:** read `node_modules/cleanplate/llms.txt` first, then open the specific files under `node_modules/cleanplate/docs/` (not imports alone).
+
+### HTML prototype → React (design agents)
+
+Design tools (Paper, Claude Design) can author **canonical-frame HTML** with `data-cp` attributes and public `cp-*` classes from `dist/index.css`. Convert mechanically — do not guess JSX:
+
+```bash
+npx cleanplate-html-to-jsx recipe.html
+# or, in this repo: npm run html-to-jsx -- recipe.html
+```
+
+- Recipes live in `docs/<Component>.md` under `## HTML prototype`.
+- Sticker sheet: `docs/html/kit.html` (load `dist/index.css` + Material Symbols).
+- **No callbacks in HTML** — wire `onClick` / `onChange` after conversion.
 
 ### Version-pinned URLs (no download step)
 
 CDN mirrors of the published tarball work well for prompts and CI; pin the semver you depend on:
 
+- **Beta pin:** `https://unpkg.com/cleanplate@1.0.0-beta.0/llms.txt` · `https://unpkg.com/cleanplate@1.0.0-beta.0/dist/index.css` · `https://unpkg.com/cleanplate@1.0.0-beta.0/dist/tokens.css`
 - **Latest:** [unpkg — `llms.txt`](https://unpkg.com/cleanplate@latest/llms.txt) · [jsDelivr — `llms.txt`](https://cdn.jsdelivr.net/npm/cleanplate@latest/llms.txt)
-- **Pinned example:** `https://unpkg.com/cleanplate@0.2.0/llms.txt` and `https://unpkg.com/cleanplate@0.2.0/docs/Button.md` (substitute your installed version)
 
 Human-facing Storybook: [cleanplate.sivadass.in](https://cleanplate.sivadass.in).
 

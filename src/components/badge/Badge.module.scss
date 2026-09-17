@@ -1,4 +1,4 @@
-.badge {
+.cp-badge {
   font-family: inherit;
   font-size: inherit;
   line-height: 1.5;
@@ -8,19 +8,24 @@
   max-width: 300px;
   display: inline-block;
   font-size: 13px;
-  &.info {
+
+  &.cp-badge--info {
     background: var(--blue);
   }
-  &.success {
+
+  &.cp-badge--success {
     background: var(--green);
   }
-  &.error {
+
+  &.cp-badge--error {
     background: var(--red);
   }
-  &.default {
+
+  &.cp-badge--default {
     background: var(--gray-500);
   }
-  &.warning {
+
+  &.cp-badge--warning {
     background: var(--orange);
   }
 }

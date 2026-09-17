@@ -86,6 +86,26 @@ import { Footer } from "cleanplate";
 - **children:** Rendered in a wrapper div above the copyright line.
 - **Margin:** Uses the suffix API (e.g. `"0"` → m-0).
 
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<footer data-cp="Footer" data-cp-brand-name="Acme Inc" class="cp-footer"></footer>
+```
+
+### React equivalent
+
+```jsx
+<Footer brandName="Acme Inc" />
+```
+
 ## Related Components / Links
 
 - Container (layout for footer columns or custom content)

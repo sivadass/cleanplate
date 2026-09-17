@@ -6,6 +6,8 @@ import {
   type FormFieldMargin,
 } from "./form-field-margin";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SegmentedControlValue = string | number;
 export type SegmentedControlSize = "small" | "medium";
@@ -101,6 +103,38 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   className = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.SegmentedControl",
+    {
+      options,
+      name,
+      label,
+      id,
+      value,
+      defaultValue,
+      size,
+      isDisabled,
+      isRequired,
+      isFluid,
+      error,
+      margin,
+      dataTestId,
+    },
+    {
+      value: undefined,
+      defaultValue: undefined,
+      size: "medium",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      error: "",
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      dataTestId: undefined,
+      id: undefined,
+    },
+  );
   const generatedId = useId();
   const fieldId = id ?? name ?? generatedId;
   const legendId = `${fieldId}-legend`;
@@ -139,6 +173,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
 
   return (
     <fieldset
+      {...dataCp}
       className={wrapperClassName}
       disabled={isDisabled}
       aria-invalid={error ? true : undefined}

@@ -1,19 +1,107 @@
-.pills {
+.cp-pills {
   display: inline-block;
+  padding: 0;
   background-color: transparent;
   border: 0;
   border-radius: 22px;
+
+  /* Mode chrome lives on the tagged root (`cp-pills--*` / `data-cp-mode`) so
+     HTML recipes that set data-cp-mode on the same node as `cp-pills` pick up
+     the same surface as React. */
+  &--read-only,
+  &[data-cp-mode="read-only"] {
+    .cp-pills-wrapper {
+      border-width: 0;
+      color: var(--white);
+      background-color: var(--gray-100);
+
+      .cp-pills-label {
+        padding: 0 16px;
+        color: var(--black);
+      }
+    }
+  }
+
+  &--edit,
+  &[data-cp-mode="edit"] {
+    .cp-pills-wrapper {
+      max-width: 180px;
+      background-color: var(--white);
+    }
+
+    .cp-pills-button [class*="icon"] {
+      color: var(--primary-brand) !important;
+    }
+
+    .cp-pills-button:hover {
+      background-color: var(--primary-brand) !important;
+
+      [class*="icon"] {
+        color: var(--white) !important;
+      }
+    }
+  }
+
+  &--remove,
+  &[data-cp-mode="remove"] {
+    .cp-pills-wrapper {
+      border-width: 0;
+      background-color: var(--gray-100);
+
+      .cp-pills-label {
+        padding-right: 8px;
+        padding-left: 16px;
+      }
+    }
+  }
 }
 
-.pill-wrapper {
+.cp-pills-wrapper {
   display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
   border: 1px solid var(--primary-brand);
   border-radius: 24px;
   background-color: var(--white);
   max-width: 240px;
+
+  /* Beat `.cp-form-field { width: 100%; max-width: 240px }` so the check/close
+     button stays on the chip instead of overlapping a full-width input. */
+  .cp-pills-input {
+    width: auto;
+    max-width: 144px;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-bottom: 0;
+    input {
+      width: 100%;
+      height: 44px;
+      padding: 0 8px 0 16px;
+      border: 0;
+      border-radius: 0;
+      outline: none;
+      box-shadow: none;
+      background: transparent;
+      &:focus,
+      &:focus-visible {
+        border: 0;
+        outline: none;
+        box-shadow: none;
+      }
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        border-radius: 24px;
+        font-size: 16px;
+      }
+    }
+  }
 }
 
-.pill-label {
+.cp-pills-label {
   padding: 0 16px;
   line-height: 44px;
   white-space: nowrap;
@@ -21,95 +109,35 @@
   text-overflow: ellipsis;
 }
 
-.pill-input {
-  margin-bottom: 0;
-  max-width: 144px;
-  input {
-    background: transparent;
-    border: 0;
-    padding-right: 8px;
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus,
-    &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
-      border-radius: 24px;
-      font-size: 16px;
+.cp-pills-button {
+  flex-shrink: 0;
+  min-width: 36px !important;
+  height: 44px !important;
+  padding-left: 4px !important;
+  border-radius: 0 22px 22px 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+
+  [class*="icon"] {
+    font-size: 20px;
+    color: var(--secondary-brand-medium) !important;
+  }
+
+  &:hover {
+    background-color: var(--red) !important;
+
+    [class*="icon"] {
+      color: var(--white) !important;
     }
   }
 }
 
-.pill-button {
-  border-radius: 0 22px 22px 0 !important;
-  border-color: transparent !important;
-  [class*="icon"] {
-    color: var(--white) !important;
-  }
-  &:hover {
-    background-color: var(--red) !important;
-  }
-}
-
-.pill-spinner {
+.cp-pills-spinner {
   height: 24px;
   width: 24px;
   [class*="icon"] {
     color: var(--secondary-brand);
     font-size: 24px !important;
     line-height: 24px;
-  }
-}
-
-.read-only {
-  background-color: var(--gray-100);
-  border-width: 0;
-  color: var(--white);
-  .pill-label {
-    color: var(--black);
-    padding: 0 16px 0 16px;
-  }
-}
-
-.edit {
-  background-color: var(--white);
-  &.pill-wrapper {
-    max-width: 180px;
-  }
-  .pill-button {
-    padding-left: 4px !important;
-    min-width: 36px !important;
-    [class*="icon"] {
-      color: var(--primary-brand) !important;
-      font-size: 20px;
-    }
-    &:hover {
-      background-color: var(--primary-brand) !important;
-      [class*="icon"] {
-        color: var(--white) !important;
-      }
-    }
-  }
-}
-
-.remove {
-  background-color: var(--gray-100);
-  border-width: 0;
-  .pill-label {
-    padding-right: 8px;
-    padding-left: 16px;
-  }
-  .pill-button {
-    padding-left: 4px !important;
-    min-width: 36px !important;
-    [class*="icon"] {
-      color: var(--secondary-brand-medium) !important;
-      font-size: 20px;
-    }
-    &:hover {
-      background-color: var(--red) !important;
-      [class*="icon"] {
-        color: var(--white) !important;
-      }
-    }
   }
 }

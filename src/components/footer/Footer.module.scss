@@ -2,10 +2,10 @@
   font-family: inherit;
   font-size: inherit;
   line-height: 1.5;
-  .footer-custom-contents {
+  &-custom-contents {
     margin-top: var(--space-4);
   }
-  .copyright {
+  &-copyright {
     text-align: center;
     margin-top: var(--space-4);
     small {

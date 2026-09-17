@@ -183,7 +183,7 @@ const MediaObjectList = () => {
       borderRadius: "var(--radius-medium)",
       padding: "var(--space-3)"
     }}>
-      <Typography variant="h5" margin="m-0 m-b-3">Team Members</Typography>
+      <Typography variant="h5" margin="b-3">Team Members</Typography>
       {users.map((user, index) => (
         <div key={user.id} style={{ 
           padding: "var(--space-2)",
@@ -211,7 +211,7 @@ const MediaObjectList = () => {
   mediaIcon="star"
   title="Small Margin"
   description="This has small margin spacing"
-  margin="m-1"
+  margin="1"
 />
 
 // Medium margin
@@ -219,7 +219,7 @@ const MediaObjectList = () => {
   mediaIcon="heart"
   title="Medium Margin"
   description="This has medium margin spacing"
-  margin="m-3"
+  margin="3"
 />
 
 // Large margin
@@ -227,7 +227,7 @@ const MediaObjectList = () => {
   mediaIcon="bookmark"
   title="Large Margin"
   description="This has large margin spacing"
-  margin="m-5"
+  margin="5"
 />
 ```
 
@@ -244,13 +244,13 @@ const UserDashboard = () => {
         borderRadius: "var(--radius-medium)",
         padding: "var(--space-4)"
       }}>
-        <Typography variant="h4" margin="m-0 m-b-3">Profile</Typography>
+        <Typography variant="h4" margin="b-3">Profile</Typography>
         <MediaObject
           mediaImage="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
           title="John Doe"
           description="Senior Developer • john.doe@example.com"
         />
-        <Button variant="outline" size="small" margin="m-t-3">
+        <Button variant="outline" size="small" margin="t-3">
           Edit Profile
         </Button>
       </div>
@@ -261,7 +261,7 @@ const UserDashboard = () => {
         borderRadius: "var(--radius-medium)",
         padding: "var(--space-4)"
       }}>
-        <Typography variant="h4" margin="m-0 m-b-3">Recent Activity</Typography>
+        <Typography variant="h4" margin="b-3">Recent Activity</Typography>
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
           <MediaObject
             mediaIcon="notification"
@@ -357,7 +357,7 @@ const ProductCatalog = () => {
 3. **Consistent Spacing**: Use design system spacing tokens
    ```jsx
    // Good: Design system spacing
-   <MediaObject margin="m-3" title="..." description="..." />
+   <MediaObject margin="3" title="..." description="..." />
    
    // Avoid: Custom spacing
    <MediaObject style={{ margin: "12px" }} title="..." description="..." />

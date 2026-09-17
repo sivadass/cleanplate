@@ -97,16 +97,16 @@ export const Variants = {
     const items = DEFAULT_ITEMS.slice(0, 4);
     return (
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Variants
         </Typography>
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
           <div>
-            <Typography variant="p" margin="m-0 m-b-1">Light</Typography>
+            <Typography variant="p" margin="b-1">Light</Typography>
             <MenuList items={items} activeItem={activeItem} onMenuClick={onMenuClick} variant="light" margin="b-2" />
           </div>
           <div>
-            <Typography variant="p" margin="m-0 m-b-1">Dark</Typography>
+            <Typography variant="p" margin="b-1">Dark</Typography>
             <MenuList items={items} activeItem={activeItem} onMenuClick={onMenuClick} variant="dark" />
           </div>
         </div>
@@ -123,16 +123,16 @@ export const Directions = {
     const items = DEFAULT_ITEMS.slice(0, 4);
     return (
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Directions
         </Typography>
         <div style={{ display: "flex", gap: "var(--space-4)", flexWrap: "wrap" }}>
           <div>
-            <Typography variant="p" margin="m-0 m-b-1">Horizontal</Typography>
+            <Typography variant="p" margin="b-1">Horizontal</Typography>
             <MenuList items={items} activeItem={activeItem} onMenuClick={onMenuClick} direction="horizontal" margin="b-2" />
           </div>
           <div>
-            <Typography variant="p" margin="m-0 m-b-1">Vertical</Typography>
+            <Typography variant="p" margin="b-1">Vertical</Typography>
             <MenuList items={items} activeItem={activeItem} onMenuClick={onMenuClick} direction="vertical" />
           </div>
         </div>
@@ -156,10 +156,10 @@ export const Tabs = {
     const onMenuClick = (menuItem) => setActiveItem(menuItem.value);
     return (
       <Container padding="4" width="full">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Tabs (use MenuList)
         </Typography>
-        <Typography variant="p" margin="m-0 m-b-2">
+        <Typography variant="p" margin="b-2">
           Horizontal MenuList acts as the tab control; panel copy below follows{" "}
           <code>activeItem</code>.
         </Typography>
@@ -189,7 +189,7 @@ export const Sizes = {
     const items = DEFAULT_ITEMS.slice(0, 3);
     return (
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Sizes
         </Typography>
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>

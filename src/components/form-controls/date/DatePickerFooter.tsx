@@ -18,7 +18,7 @@ const DatePickerFooter: React.FC<DatePickerFooterProps> = ({
       type="button"
       size="medium"
       variant="ghost"
-      className={`${styles["cp-date-picker-footer-button"]} ${styles["cancel"]}`}
+      className={`${styles["cp-date-picker-footer-button"]} ${styles["cp-date-picker-footer-button-cancel"]}`}
       data-testid={dataTestId ? `${dataTestId}-cancel` : undefined}
       onClick={(e) => {
         e.stopPropagation();

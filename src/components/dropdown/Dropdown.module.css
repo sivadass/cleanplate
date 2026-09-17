@@ -1,20 +1,22 @@
-.dropdown-wrapper {
+.cp-dropdown {
   display: inline-block;
   position: relative;
 }
 
-.dropdown-trigger {
+.cp-dropdown__trigger {
   opacity: 1;
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
 
-.dropdown-trigger.active {
+.cp-dropdown__trigger.cp-dropdown__trigger--active {
   opacity: 0.7;
 }
 
-.dropdown-floating {
+.cp-dropdown-floating {
   position: absolute;
+  top: 100%;
+  left: 0;
   z-index: var(--cp-z-dropdown);
   background: var(--white);
   border-radius: var(--radius-medium);
@@ -26,13 +28,12 @@
   overflow: hidden;
 }
 
-.dropdown-floating p {
+.cp-dropdown-floating p {
   overflow-wrap: anywhere;
   margin: 0;
 }
 
-/* Focus styles for accessibility */
-.dropdown-trigger:focus {
+.cp-dropdown__trigger:focus {
   border-color: var(--primary-brand);
   outline: none;
 }
@@ -55,34 +56,31 @@
   }
 }
 
-/* Animation classes — opacity only so transforms stay owned by Floating UI */
-.dropdown-opening {
+.cp-dropdown--opening {
   animation: dropdownFadeIn 0.15s ease-out;
 }
 
-.dropdown-closing {
+.cp-dropdown--closing {
   animation: dropdownFadeOut 0.15s ease-in;
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
-  .dropdown-floating {
+  .cp-dropdown-floating {
     border: 2px solid var(--black);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .dropdown-opening {
+  .cp-dropdown--opening {
     animation: none;
   }
 
-  .dropdown-closing {
+  .cp-dropdown--closing {
     animation: none;
   }
 
-  .dropdown-trigger {
+  .cp-dropdown__trigger {
     transition: none;
   }
 }

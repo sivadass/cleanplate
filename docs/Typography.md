@@ -10,7 +10,7 @@ Purpose: Provides a consistent set of text styles for headings, paragraphs, and 
 | --- | --- | --- | --- | --- |
 | children | React.ReactNode | no | — | Text content to display. |
 | variant | "h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6" \| "p" \| "span" \| "small" | no | "p" | HTML element type to render. Determines the semantic meaning and default styling. |
-| margin | string \| string[] | no | "m-0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
+| margin | string \| string[] | no | "0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
 | className | string | no | "" | Additional class names for the root element. |
 | isBold | boolean | no | false | Applies bold font weight to the text. |
 | align | "left" \| "center" \| "right" | no | "left" | Text alignment within its container. |
@@ -224,6 +224,32 @@ export const Example = () => (
 - The `wordBreak` prop provides control over how text wraps when it exceeds container width.
 - **Margin uses the framework-wide spacing rule (all components):** Pass suffix only: `"0"`, `"2"`, `"b-2"`, `["1", "b-3"]` etc. The component adds the `m-` prefix. Do not pass `"m-2"` or `"m-b-2"`.
 - The `isBold` prop applies bold font weight, which can be combined with any variant.
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<p
+  data-cp="Typography"
+  data-cp-variant="h4"
+  data-cp-align="center"
+  data-cp-margin="b-2"
+  class="cp-typography cp-typography--h4 cp-typography--align-center cp-m-b-2"
+>
+  Hello
+</p>
+```
+
+### React equivalent
+
+```jsx
+<Typography variant="h4" align="center" margin="b-2">Hello</Typography>
+```
 
 ## Related Components / Links
 

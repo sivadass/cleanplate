@@ -15,6 +15,8 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
 import utilStyles from "../../styles/utils.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Button from "../button";
 import MenuList from "../menu-list";
 import type { MenuListItem } from "../menu-list";
@@ -110,8 +112,30 @@ const Header: React.FC<HeaderProps> = ({
   margin,
   menuItems,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Header",
+    {
+      logoUrl,
+      activeMenuItem,
+      showCenterMenu,
+      menuItems,
+      size,
+      variant,
+      margin,
+    },
+    {
+      logoUrl: undefined,
+      activeMenuItem: undefined,
+      showCenterMenu: true,
+      size: undefined,
+      variant: undefined,
+      margin: undefined,
+    },
+  );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const { refs, context } = useFloating({
     open: isMobileMenuOpen,
     onOpenChange: setIsMobileMenuOpen,
@@ -152,11 +176,11 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <div className={headerClassNames}>
-      <div className={styles.wrapper}>
-        <div className={styles["header-left"]}>
+    <div {...dataCp} className={headerClassNames}>
+      <div className={styles["cp-header-wrapper"]}>
+        <div className={styles["cp-header-left"]}>
           <Button
-            className={styles["mobile-menu-trigger"]}
+            className={styles["cp-header-mobile-menu-trigger"]}
             variant="icon"
             onClick={handleOpenMobileMenu}
           >
@@ -165,10 +189,10 @@ const Header: React.FC<HeaderProps> = ({
           {headerLeft ? (
             headerLeft
           ) : logoUrl ? (
-            <img className={styles.logo} src={logoUrl} alt="" />
+            <img className={styles["cp-header-logo"]} src={logoUrl} alt="" />
           ) : null}
         </div>
-        <div className={styles["header-center"]}>
+        <div className={styles["cp-header-center"]}>
           {headerCenter ??
             (showCenterMenu ? (
               <MenuList
@@ -178,12 +202,12 @@ const Header: React.FC<HeaderProps> = ({
               />
             ) : null)}
         </div>
-        <div className={styles["header-right"]}>{headerRight}</div>
+        <div className={styles["cp-header-right"]}>{headerRight}</div>
       </div>
       {isMounted && (
         <FloatingPortal id="cp-header-mobile-menu-root">
           <FloatingOverlay
-            className={styles["mobile-menu-overlay"]}
+            className={styles["cp-header-mobile-menu-overlay"]}
             lockScroll
             style={backdropTransitionStyles}
             onClick={handleCloseMobileMenu}
@@ -191,7 +215,7 @@ const Header: React.FC<HeaderProps> = ({
           <FloatingFocusManager context={context} modal returnFocus>
             <div
               ref={refs.setFloating}
-              className={styles["mobile-menu-drawer"]}
+              className={styles["cp-header-mobile-menu-drawer"]}
               style={drawerTransitionStyles}
               {...getFloatingProps({
                 "aria-label": "Main navigation",
@@ -199,15 +223,15 @@ const Header: React.FC<HeaderProps> = ({
             >
               <Button
                 className={getClassNames(
-                  styles["mobile-menu-trigger"],
-                  styles["mobile-menu-close"],
+                  styles["cp-header-mobile-menu-trigger"],
+                  styles["cp-header-mobile-menu-close"],
                 )}
                 variant="icon"
                 onClick={handleCloseMobileMenu}
               >
                 <Icon name="close" />
               </Button>
-              <div className={styles["mobile-menu-nav"]}>
+              <div className={styles["cp-header-mobile-menu-nav"]}>
                 <MenuList
                   direction="vertical"
                   items={menuItems}

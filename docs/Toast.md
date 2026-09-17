@@ -89,6 +89,36 @@ toastRef.current?.addMessage({ mode: "success", message: "Success message" });
 - **Icon:** Each mode maps to an icon via `getVariantIcon` (error → "error", success → "check_circle", info → "info").
 - **Click to dismiss:** Clicking a toast removes it.
 
+
+
+## HTML prototype
+
+HTML recipe is a **single toast card** snapshot (not the imperative queue). Place the host at the **artboard root** (`position: fixed; top: 16px; right: 16px`). After conversion, wire `ref.addMessage({ mode, message })` by hand.
+
+```bash
+npm run html-to-jsx -- toast.single.html
+```
+
+### Recipe (open)
+
+```html
+<div data-cp="Toast" data-cp-mode="success" data-cp-message="Changes saved" class="cp-toast-container" style="position: fixed; top: 16px; right: 16px; z-index: var(--cp-z-toast)">
+  <div class="cp-toast cp-toast--success" role="button" tabindex="0">
+    <span class="material-symbols-outlined cp-toast__icon">check_circle</span>
+    <div class="cp-toast__message">Changes saved</div>
+  </div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<Toast mode="success" message="Changes saved"><div className="cp-toast cp-toast--success" role="button" tabIndex="0">
+    <span className="material-symbols-outlined cp-toast__icon">check_circle</span>
+    <div className="cp-toast__message">Changes saved</div>
+  </div></Toast>
+```
+
 ## Related Components / Links
 
 - Alert (inline feedback; use when the message should stay in the layout)

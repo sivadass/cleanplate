@@ -1,0 +1,106 @@
+/* CleanPlate design tokens — import before component CSS for HTML prototypes / Paper sync */
+:root {
+  /* Typography */
+  --font-family: "Inter", sans-serif;
+  --font-size: 16px;
+  /* Colors */
+  --white: #ffffff;
+  --black: #222222;
+  /* Gray scale (tokens: gray.50 … gray.900) */
+  --gray-50: #f9fafb; /* App/page background */
+  --gray-100: #f3f4f6; /* Subtle surfaces */
+  --gray-200: #e5e7eb; /* Borders */
+  --gray-300: #d1d5db; /* Disabled states */
+  --gray-400: #9ca3af; /* Placeholder text */
+  --gray-500: #6b7280; /* Muted text */
+  --gray-700: #374151; /* Secondary text */
+  --gray-900: #111827; /* Primary text */
+  /* Legacy aliases (prefer --gray-* scale and --text-* tokens in components) */
+  --gray: var(--gray-500);
+  --green: #46a758;
+  --blue: #1e90ff;
+  --red: #e5484d;
+  --yellow: #ffe629;
+  --orange: #f76b15;
+  --gray-light: var(--gray-100);
+  --green-light: #46a75825;
+  --blue-light: #1e90ff25;
+  --red-light: #e5484d25;
+  --yellow-light: #ffe62954;
+  --orange-light: #f76c1525;
+
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-x-large: 16px;
+  --radius-xx-large: 20px;
+  --radius-xxx-large: 24px;
+  --radius-round: 50%;
+  /* ------------------------------------------------------------------ */
+  /* Public component tokens — overridable per component family without */
+  /* clobbering the underlying design tokens above. Consumer apps can   */
+  /* set these on :root (or any wrapper) after importing                */
+  /* "cleanplate/dist/index.css" to retheme just one surface.           */
+  /* ------------------------------------------------------------------ */
+  --cp-form-control-radius: var(--radius-large);
+  /* length */
+  --length-small: 240px;
+  --length-medium: 360px;
+  --length-large: 480px;
+  --length-extra-large: 600px;
+  --length-quarter: 25%;
+  --length-one-third: 33.33333%;
+  --length-half: 50%;
+  --length-three-quarters: 75%;
+  --length-full: 100%;
+  /* Spacing V2 */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-auto: auto;
+  /*Branding*/
+  --primary-brand: var(--green);
+  --primary-brand-darker: hsl(from var(--primary-brand) h s calc(l - 5));
+  --primary-brand-light: hsl(from var(--primary-brand) h s calc(l + 40));
+  --primary-brand-lightest: hsl(from var(--primary-brand) h s calc(l + 50));
+  --primary-brand-darkest: hsl(from var(--primary-brand) h s calc(l - 10));
+  --secondary-brand: var(--gray-500);
+  --secondary-brand-light: var(--gray-100);
+  --secondary-brand-medium: hsl(from var(--secondary-brand) h s calc(l + 10));
+  /* Status colors */
+  --success: var(--green);
+  --error: var(--red);
+  --warning: var(--orange);
+  --info: var(--blue);
+  /* Text (tokens: text.default … text.disabled → gray scale) */
+  --text-default: var(--gray-900);
+  --text-subtle: var(--gray-700);
+  --text-muted: var(--gray-500);
+  --text-placeholder: var(--gray-400);
+  --text-disabled: var(--gray-300);
+  --text-interactive: var(--primary-brand);
+  /* Breakpoints */
+  --mobile-breakpoint: 600px;
+  --tablet-breakpoint: 1024px;
+  /*
+   * Z-index layering (low → high). Overlays use the base token; panels use +1.
+   * dropdown → sticky chrome → drawer → modal → picker → toast
+   */
+  --cp-z-dropdown: 1000;
+  --cp-z-sticky: 1010;
+  --cp-z-drawer-overlay: 1100;
+  --cp-z-drawer-panel: 1101;
+  --cp-z-modal-overlay: 1200;
+  --cp-z-picker-backdrop: 1300;
+  --cp-z-picker-panel: 1301;
+  --cp-z-toast: 1400;
+}
