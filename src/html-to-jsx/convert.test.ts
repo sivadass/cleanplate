@@ -32,6 +32,24 @@ describe("convertHtmlToJsx", () => {
     );
   });
 
+  it("maps Button prefixIcon and strips painted icon slots", () => {
+    const { jsx } = convertHtmlToJsx(
+      `<button data-cp="Button" data-cp-prefix-icon="add" class="cp-button cp-button--medium cp-button--has-prefix"><span class="cp-icon cp-button__prefix-icon" aria-hidden="true">add</span>Next</button>`,
+      manifest,
+    );
+    expect(jsx).toContain('<Button prefixIcon="add">Next</Button>');
+    expect(jsx).not.toContain("cp-button__prefix-icon");
+    expect(jsx).not.toContain("<span");
+  });
+
+  it("allows Button size large", () => {
+    const { jsx } = convertHtmlToJsx(
+      `<button data-cp="Button" data-cp-size="large" class="cp-button cp-button--large">Go</button>`,
+      manifest,
+    );
+    expect(jsx).toContain('<Button size="large">Go</Button>');
+  });
+
   it("hard-fails illegal enum", () => {
     expect(() =>
       convertHtmlToJsx(
