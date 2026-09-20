@@ -1,5 +1,4 @@
 import { Button } from "../../index";
-import { Icon } from "../../index";
 import { SPACING_OPTIONS } from "../../constants/common";
 
 const meta = {
@@ -14,7 +13,7 @@ export const Default = {
   name: "Default",
   argTypes: {
     size: {
-      options: ["small", "medium"],
+      options: ["small", "medium", "large"],
       control: "inline-radio",
       description: "Size of the button",
     },
@@ -22,6 +21,14 @@ export const Default = {
       options: ["solid", "outline", "ghost", "icon"],
       control: { type: "inline-radio" },
       description: "Type of the button",
+    },
+    prefixIcon: {
+      control: "text",
+      description: "Leading Material Symbol name",
+    },
+    suffixIcon: {
+      control: "text",
+      description: "Trailing Material Symbol name",
     },
     isFluid: {
       control: { type: "boolean" },
@@ -56,6 +63,7 @@ export const IconVariant = {
   args: {
     variant: "icon",
     size: "medium",
+    prefixIcon: "close",
     isLoading: false,
     isDisabled: false,
     isFluid: false,
@@ -63,12 +71,24 @@ export const IconVariant = {
   },
   render: (args) => {
     const { children, ...otherArgs } = args;
-    return (
-      <Button {...otherArgs}>
-        <Icon name="close" />
-      </Button>
-    );
+    return <Button {...otherArgs} />;
   },
+};
+
+export const Sizes = {
+  name: "Sizes",
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {(["small", "medium", "large"]).map((size) => (
+        <div key={size} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <Button size={size}>Next</Button>
+          <Button size={size} prefixIcon="add">Next</Button>
+          <Button size={size} suffixIcon="expand_more">Next</Button>
+          <Button size={size} variant="icon" prefixIcon="refresh" aria-label="Refresh" />
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 export default meta;

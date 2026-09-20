@@ -32,6 +32,16 @@ Replace selectors that matched hash suffixes with the public `cp-*` name:
 
 Use the BEM-style modifiers documented in each component's `docs/<Component>.md` file (for example `cp-button--outline`, `cp-modal--large`).
 
+## Button sizes (1.0.0-beta.x)
+
+- `small` remapped from 24px to **32px**; `medium` (default) from 50px to **44px**; `min-width: 96px` removed on medium.
+- New **`large`** size at **52px**.
+- `variant="icon"` is now a **square** at the size height, not a circle.
+- New props: **`prefixIcon`** and **`suffixIcon`** (Material Symbol names).
+- Form fields stay **50px** tall. Pass `size="large"` on buttons placed beside inputs.
+
+See `docs/Button.md` for the full size table and HTML prototype recipes.
+
 ## Spacing utilities
 
 Spacing props still use **suffix-only** values (`margin="b-2"`, `padding="4"`). The generated utility classes are `cp-m-*`, `cp-p-*`, and `cp-g-*`. Do not pass CSS-class-style prefixes (`m-`, `p-`, `g-`) in prop values.
