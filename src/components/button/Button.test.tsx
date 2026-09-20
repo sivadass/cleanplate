@@ -62,6 +62,75 @@ describe("Button sizes", () => {
   });
 });
 
+describe("prefix and suffix icons", () => {
+  it("renders prefix and suffix and marks padding modifiers", () => {
+    render(
+      <Button prefixIcon="add" suffixIcon="expand_more">
+        Next
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Next" });
+    expectPublicClass(el, "cp-button--has-prefix");
+    expectPublicClass(el, "cp-button--has-suffix");
+    expect(el.querySelector(".cp-button__prefix-icon")).toHaveTextContent("add");
+    expect(el.querySelector(".cp-button__suffix-icon")).toHaveTextContent(
+      "expand_more",
+    );
+    expect(el.querySelector(".cp-button__prefix-icon")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
+
+  it("replaces prefix with loader while loading and keeps the label", () => {
+    render(
+      <Button prefixIcon="add" isLoading>
+        Next
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Next" });
+    expect(el.querySelector(".cp-button__prefix-icon")).toBeNull();
+    expect(el.querySelector(".cp-button-loader")).not.toBeNull();
+    expectPublicClass(el, "cp-button--has-prefix");
+  });
+
+  it("uses prefixIcon as the glyph for icon-only and hides children", () => {
+    render(
+      <Button variant="icon" prefixIcon="close" aria-label="Close">
+        should-not-show
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Close" });
+    expect(el).not.toHaveTextContent("should-not-show");
+    expect(el.querySelector(".cp-button__prefix-icon")).toHaveTextContent(
+      "close",
+    );
+    expect(el.classList.contains("cp-button--has-prefix")).toBe(false);
+  });
+
+  it("emits prefix icon on prototype attributes", () => {
+    render(
+      <CleanPlatePrototypeAttributes>
+        <Button prefixIcon="add">Next</Button>
+      </CleanPlatePrototypeAttributes>,
+    );
+    const el = screen.getByRole("button");
+    expect(el.getAttribute("data-cp-prefix-icon")).toBe("add");
+    expect(el.getAttribute("data-cp-size")).toBeNull();
+  });
+
+  it("emits size when large", () => {
+    render(
+      <CleanPlatePrototypeAttributes>
+        <Button size="large">Go</Button>
+      </CleanPlatePrototypeAttributes>,
+    );
+    expect(screen.getByRole("button").getAttribute("data-cp-size")).toBe(
+      "large",
+    );
+  });
+});
+
 describe("icon button square hit area", () => {
   const scss = readFileSync("src/components/button/Button.module.scss", "utf8");
 
