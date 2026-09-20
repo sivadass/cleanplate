@@ -50,18 +50,38 @@ describe("Button public classes", () => {
   });
 });
 
-describe("icon button circular hit area", () => {
+describe("Button sizes", () => {
+  it("applies medium class by default", () => {
+    render(<Button>Save</Button>);
+    expectPublicClass(screen.getByRole("button"), "cp-button--medium");
+  });
+
+  it("applies large class", () => {
+    render(<Button size="large">Save</Button>);
+    expectPublicClass(screen.getByRole("button"), "cp-button--large");
+  });
+});
+
+describe("icon button square hit area", () => {
   const scss = readFileSync("src/components/button/Button.module.scss", "utf8");
 
-  it("small icon buttons set equal width and height with no horizontal padding", () => {
-    const smallBlock = scss.match(
-      /&\.cp-button--small \{([\s\S]*?)\n  &\.cp-button--medium/,
-    )?.[1];
-    expect(smallBlock).toBeDefined();
-    const smallIcon = smallBlock!.match(/&\.cp-button--icon \{([^}]*)\}/);
-    expect(smallIcon).not.toBeNull();
-    expect(smallIcon![1]).toMatch(/width:\s*24px/);
-    expect(smallIcon![1]).toMatch(/min-width:\s*24px/);
-    expect(smallIcon![1]).toMatch(/padding:\s*0/);
+  it("does not use a circular icon radius or legacy heights", () => {
+    expect(scss).not.toMatch(/border-radius:\s*50%/);
+    expect(scss).not.toMatch(/height:\s*50px/);
+    expect(scss).not.toMatch(/height:\s*24px/);
+    expect(scss).not.toMatch(/min-width:\s*96px/);
+  });
+
+  it("sizes icon-only buttons from height tokens with zero padding", () => {
+    expect(scss).toMatch(
+      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-button-height-small\)/,
+    );
+    expect(scss).toMatch(
+      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-button-height-medium\)/,
+    );
+    expect(scss).toMatch(
+      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-button-height-large\)/,
+    );
+    expect(scss).toMatch(/&\.cp-button--icon \{[\s\S]*padding:\s*0/);
   });
 });

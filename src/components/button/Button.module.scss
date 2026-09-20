@@ -2,7 +2,7 @@
   animation: spin-animation 1s infinite;
   animation-timing-function: linear;
   display: inline-block;
-  color: var(--white);
+  color: inherit;
 }
 
 @keyframes spin-animation {
@@ -17,8 +17,9 @@
 
 .cp-button {
   font-family: inherit;
-  font-size: inherit;
-  padding: 0 16px;
+  font-size: var(--cp-button-font-medium);
+  height: var(--cp-button-height-medium);
+  padding: 0 var(--cp-button-pad-x-medium);
   border: 1px solid transparent;
   background: var(--primary-brand);
   color: #fff;
@@ -26,8 +27,17 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  column-gap: 8px;
+  column-gap: var(--cp-button-gap-medium);
   justify-content: center;
+
+  .cp-button__prefix-icon,
+  .cp-button__suffix-icon,
+  .cp-button-loader {
+    font-size: var(--cp-button-icon-medium);
+    color: inherit;
+    line-height: 1;
+  }
+
   &:hover {
     background: var(--primary-brand-darker);
   }
@@ -41,28 +51,76 @@
   &.cp-button--fluid {
     width: 100%;
   }
+
   &.cp-button--small {
-    height: 24px;
-    font-size: 13px;
-    border-radius: 6px;
+    height: var(--cp-button-height-small);
+    font-size: var(--cp-button-font-small);
+    padding: 0 var(--cp-button-pad-x-small);
+    column-gap: var(--cp-button-gap-small);
+    .cp-button__prefix-icon,
+    .cp-button__suffix-icon,
     .cp-button-loader {
-      font-size: 16px;
+      font-size: var(--cp-button-icon-small);
+    }
+    &.cp-button--has-prefix {
+      padding-left: var(--cp-button-pad-icon-small);
+    }
+    &.cp-button--has-suffix {
+      padding-right: var(--cp-button-pad-icon-small);
     }
     &.cp-button--icon {
-      width: 24px;
-      min-width: 24px;
+      width: var(--cp-button-height-small);
+      min-width: var(--cp-button-height-small);
       padding: 0;
     }
   }
+
   &.cp-button--medium {
-    height: 50px;
-    min-width: 96px;
+    height: var(--cp-button-height-medium);
+    font-size: var(--cp-button-font-medium);
+    padding: 0 var(--cp-button-pad-x-medium);
+    column-gap: var(--cp-button-gap-medium);
+    .cp-button__prefix-icon,
+    .cp-button__suffix-icon,
+    .cp-button-loader {
+      font-size: var(--cp-button-icon-medium);
+    }
+    &.cp-button--has-prefix {
+      padding-left: var(--cp-button-pad-icon-medium);
+    }
+    &.cp-button--has-suffix {
+      padding-right: var(--cp-button-pad-icon-medium);
+    }
     &.cp-button--icon {
-      min-width: 50px;
-      width: 50px;
+      width: var(--cp-button-height-medium);
+      min-width: var(--cp-button-height-medium);
       padding: 0;
     }
   }
+
+  &.cp-button--large {
+    height: var(--cp-button-height-large);
+    font-size: var(--cp-button-font-large);
+    padding: 0 var(--cp-button-pad-x-large);
+    column-gap: var(--cp-button-gap-large);
+    .cp-button__prefix-icon,
+    .cp-button__suffix-icon,
+    .cp-button-loader {
+      font-size: var(--cp-button-icon-large);
+    }
+    &.cp-button--has-prefix {
+      padding-left: var(--cp-button-pad-icon-large);
+    }
+    &.cp-button--has-suffix {
+      padding-right: var(--cp-button-pad-icon-large);
+    }
+    &.cp-button--icon {
+      width: var(--cp-button-height-large);
+      min-width: var(--cp-button-height-large);
+      padding: 0;
+    }
+  }
+
   &.cp-button--outline {
     color: var(--primary-brand);
     border-color: var(--primary-brand);
@@ -92,7 +150,6 @@
     color: var(--primary-brand);
     border-color: transparent;
     background: transparent;
-    border-radius: 50%;
     padding: 0;
     flex-shrink: 0;
     &:hover {

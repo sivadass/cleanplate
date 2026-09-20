@@ -8,7 +8,7 @@ import getClassNames from "../../utils/get-class-names";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
 
-export type ButtonSize = "small" | "medium";
+export type ButtonSize = "small" | "medium" | "large";
 
 export type ButtonVariant = "solid" | "outline" | "ghost" | "icon";
 
