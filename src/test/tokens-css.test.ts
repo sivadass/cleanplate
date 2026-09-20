@@ -8,6 +8,13 @@ describe("tokens.css", () => {
     expect(css).toContain("--primary-brand");
     expect(css).not.toContain(".cp-button");
     expect(css).not.toMatch(/^\* \{/m);
+    expect(css).toContain("--cp-button-height-small: 32px");
+    expect(css).toContain("--cp-button-height-medium: 44px");
+    expect(css).toContain("--cp-button-height-large: 52px");
+    expect(css).toContain("--cp-button-font-small: 14px");
+    expect(css).toContain("--cp-button-icon-medium: 20px");
+    expect(css).toContain("--cp-button-pad-icon-small: 12px");
+    expect(css).toContain("--cp-button-gap-small: 4px");
   });
 
   it("dist/tokens.css is copied by build-package", () => {
