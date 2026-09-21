@@ -38,9 +38,25 @@ Use the BEM-style modifiers documented in each component's `docs/<Component>.md`
 - New **`large`** size at **52px**.
 - `variant="icon"` is now a **square** at the size height, not a circle.
 - New props: **`prefixIcon`** and **`suffixIcon`** (Material Symbol names).
-- Form fields stay **50px** tall. Pass `size="large"` on buttons placed beside inputs.
+- Default Button (`medium`, 44px) now matches default boxed form fields. Use the same `size` on buttons and fields that sit on one row.
+- Height and radius tokens are shared with form controls: `--cp-form-control-height-*` and `--cp-form-control-radius-*`. `--cp-button-height-*` is removed.
 
 See `docs/Button.md` for the full size table and HTML prototype recipes.
+
+## Form control sizes (1.0.0-beta.x)
+
+- Boxed fields share Button heights: `small` **32px**, `medium` (default) **44px** (was 50px), `large` **52px**.
+- New `size` prop on `Input`, `TextArea`, `Select`, `Date`, `ColorPicker`, `Stepper`, `SegmentedControl`, and `File` (button variant).
+- `SegmentedControl` `small` remaps 40px → 32px; `medium` 50px → 44px; `large` is new at 52px.
+- Checkbox, Radio, Toggle, and File **card** are not sized.
+- Public tokens are `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large` (shared with Button). `--cp-form-control-radius` (single token) and font / pad-x / icon / textarea-min tokens are not public.
+
+See `docs/FormControls.md`.
+
+## Pagination sizes (1.0.0-beta.x)
+
+- Page-number / prev / next buttons and the rows-per-page Select are locked to **small** (32px height, 8px radius) to sit lighter under tables than default Button / Select medium.
+- The rows-per-page trigger is no longer 36px. Pagination has no `size` prop.
 
 ## Spacing utilities
 

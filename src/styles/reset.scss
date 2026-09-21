@@ -44,10 +44,12 @@
   /* set these on :root (or any wrapper) after importing                */
   /* "cleanplate/dist/index.css" to retheme just one surface.           */
   /* ------------------------------------------------------------------ */
-  --cp-form-control-radius: var(--radius-large);
-  --cp-button-height-small: 32px;
-  --cp-button-height-medium: 44px;
-  --cp-button-height-large: 52px;
+  --cp-form-control-radius-small: var(--radius-medium);
+  --cp-form-control-radius-medium: var(--radius-large);
+  --cp-form-control-radius-large: var(--radius-x-large);
+  --cp-form-control-height-small: 32px;
+  --cp-form-control-height-medium: 44px;
+  --cp-form-control-height-large: 52px;
   /* length */
   --length-small: 240px;
   --length-medium: 360px;
@@ -125,12 +127,18 @@ body {
   color: var(--black);
 }
 
-button,
+button {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  border: 1px solid #ccc;
+  height: var(--cp-form-control-height-medium);
+}
+
 input,
 select,
 textarea {
   font-family: var(--font-family);
   font-size: var(--font-size);
   border: 1px solid #ccc;
-  height: 50px;
+  height: var(--cp-form-control-height-medium);
 }

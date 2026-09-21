@@ -205,6 +205,27 @@ describe("SegmentedControl", () => {
     expect(
       container.querySelector("[class*='cp-segmented-control--small']")
     ).toBeTruthy();
+    expect(
+      container.querySelector("[class*='cp-form-field--small']")
+    ).toBeTruthy();
+  });
+
+  it("applies large size class", () => {
+    const { container } = render(
+      <SegmentedControl
+        label="View"
+        name="view"
+        size="large"
+        options={[...baseOptions]}
+      />
+    );
+
+    expect(
+      container.querySelector("[class*='cp-segmented-control--large']")
+    ).toBeTruthy();
+    expect(
+      container.querySelector("[class*='cp-form-field--large']")
+    ).toBeTruthy();
   });
 
   it("uses option-level input test id override", () => {

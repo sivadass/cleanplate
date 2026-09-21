@@ -41,7 +41,23 @@ describe("Pagination public classes", () => {
     }
   });
 
-  it("puts button and select spacing on public pagination classes", () => {
+  it("locks page buttons and rows select to small size tokens", () => {
+    const { container } = render(
+      <Pagination
+        totalItems={100}
+        currentPage={1}
+        onPageChange={vi.fn()}
+      />,
+    );
+    const pageButtons = container.querySelectorAll(".cp-pagination-button");
+    expect(pageButtons.length).toBeGreaterThan(0);
+    pageButtons.forEach((btn) => {
+      expectPublicClass(btn, "cp-button--small");
+    });
+    const rowsSelect = container.querySelector(".cp-pagination-rows-select");
+    expect(rowsSelect).toBeTruthy();
+    expectPublicClass(rowsSelect!, "cp-form-field--small");
+
     const scss = readFileSync(
       "src/components/pagination/Pagination.module.scss",
       "utf8",
@@ -53,8 +69,9 @@ describe("Pagination public classes", () => {
       /\.cp-pagination-show-per-page[\s\S]*?gap:\s*var\(--space-2\)/,
     );
     expect(scss).toMatch(
-      /\.cp-pagination-rows-select-trigger[\s\S]*?height:\s*36px/,
+      /\.cp-pagination-buttons-wrapper \.cp-button\.cp-pagination-button \{[\s\S]*min-width:\s*var\(--cp-form-control-height-small\)/,
     );
+    expect(scss).not.toMatch(/height:\s*36px/);
   });
 
   it("does not emit data-cp by default", () => {

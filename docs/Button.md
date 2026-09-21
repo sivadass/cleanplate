@@ -117,6 +117,8 @@ export const Example = () => (
 
 ### Sizes
 
+Heights: `small` 32px, `medium` 44px (default), `large` 52px. Corner radius uses the same tokens as boxed form fields: `--cp-form-control-radius-small` (8px), `--cp-form-control-radius-medium` (12px), `--cp-form-control-radius-large` (16px). Heights use `--cp-form-control-height-small|medium|large`. There are no `--cp-button-height-*` tokens. Override the shared tokens on `:root` after importing `cleanplate/dist/index.css` (see `docs/FormControls.md` → Theming).
+
 ```jsx
 import { Button } from "cleanplate";
 
@@ -201,7 +203,7 @@ export const Example = () => (
 - Margin spacing accepts either a single suffix string (e.g., `"2"`) or an array of suffixes (e.g., `["1", "b-3"]`).
 - `variant="icon"` is a visual style variant. Icon-only buttons are **square** at the size height (32 / 44 / 52), not circular. Provide an accessible name via `aria-label`.
 - `prefixIcon` / `suffixIcon` inherit the button text color. Glyph sizes are 16 / 20 / 24 px (small / medium / large) — Button CSS only, not `Icon`'s `size` prop.
-- Form controls remain 50px tall. Use `size="large"` (52px) on buttons placed beside inputs or selects.
+- Default `Button` and default boxed fields (`Input`, `Select`, …) are both **44px**. Use matching `size` values when they sit on one row.
 
 ## HTML prototype
 
@@ -247,4 +249,5 @@ npm run html-to-jsx -- recipe.html
 ## Related Components / Links
 
 - Icon (used internally for loading spinner)
-- FormControls (often used alongside buttons in forms)
+- FormControls (often used alongside buttons in forms; default medium matches boxed fields)
+- Pagination (page buttons use `size="small"`; Pagination has no `size` prop)

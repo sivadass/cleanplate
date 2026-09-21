@@ -214,6 +214,11 @@
         "isDisabled": { "type": "boolean", "default": false },
         "isRequired": { "type": "boolean", "default": false },
         "isFluid": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
         "margin": { "type": "string", "default": "b-4" },
         "type": { "type": "string", "default": "text" },
         "placeholder": { "type": "string", "default": "" },
@@ -669,6 +674,11 @@
         "placeholder": { "type": "string", "default": "" },
         "isDisabled": { "type": "boolean", "default": false },
         "isFluid": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
         "margin": { "type": "string", "default": "b-4" },
         "clearable": { "type": "boolean", "default": true },
         "searchable": { "type": "boolean", "default": true },
@@ -702,6 +712,11 @@
         "value": { "type": "string" },
         "isDisabled": { "type": "boolean", "default": false },
         "isFluid": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
         "margin": { "type": "string", "default": "b-4" },
         "clearable": { "type": "boolean", "default": true },
         "popoverPlacement": {
@@ -734,6 +749,11 @@
         "value": { "type": "string" },
         "isDisabled": { "type": "boolean", "default": false },
         "isFluid": { "type": "boolean", "default": false },
+        "size": {
+          "type": "enum",
+          "values": ["small", "medium", "large"],
+          "default": "medium"
+        },
         "margin": { "type": "string", "default": "b-4" },
         "clearable": { "type": "boolean", "default": true },
         "popoverPlacement": {

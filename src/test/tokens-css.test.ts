@@ -8,13 +8,21 @@ describe("tokens.css", () => {
     expect(css).toContain("--primary-brand");
     expect(css).not.toContain(".cp-button");
     expect(css).not.toMatch(/^\* \{/m);
-    expect(css).toContain("--cp-button-height-small: 32px");
-    expect(css).toContain("--cp-button-height-medium: 44px");
-    expect(css).toContain("--cp-button-height-large: 52px");
+    expect(css).toContain("--cp-form-control-radius-small: var(--radius-medium)");
+    expect(css).toContain("--cp-form-control-radius-medium: var(--radius-large)");
+    expect(css).toContain("--cp-form-control-radius-large: var(--radius-x-large)");
+    expect(css).toContain("--cp-form-control-height-small: 32px");
+    expect(css).toContain("--cp-form-control-height-medium: 44px");
+    expect(css).toContain("--cp-form-control-height-large: 52px");
+    expect(css).not.toContain("--cp-button-height-small");
     expect(css).not.toContain("--cp-button-font-small");
     expect(css).not.toContain("--cp-button-pad-x-small");
     expect(css).not.toContain("--cp-button-icon-small");
     expect(css).not.toContain("--cp-button-gap-small");
+    expect(css).not.toContain("--cp-form-control-font-small");
+    expect(css).not.toContain("--cp-form-control-pad-x-small");
+    expect(css).not.toContain("--cp-form-control-icon-small");
+    expect(css).not.toContain("--cp-form-control-textarea-min-small");
   });
 
   it("dist/tokens.css is copied by build-package", () => {

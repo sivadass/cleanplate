@@ -50,6 +50,14 @@ describe("convertHtmlToJsx", () => {
     expect(jsx).toContain('<Button size="large">Go</Button>');
   });
 
+  it("allows FormControls.Input size small", () => {
+    const { jsx } = convertHtmlToJsx(
+      `<div data-cp="FormControls.Input" data-cp-label="Email" data-cp-size="small" class="cp-form-field cp-form-field--small"></div>`,
+      manifest,
+    );
+    expect(jsx).toContain('<FormControls.Input label="Email" size="small" />');
+  });
+
   it("hard-fails illegal enum", () => {
     expect(() =>
       convertHtmlToJsx(

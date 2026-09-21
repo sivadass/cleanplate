@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useArgs } from "@storybook/preview-api";
 import { de } from "date-fns/locale/de";
-import { FormControls, Container, Typography, Icon, Modal } from "../../index";
+import { FormControls, Container, Typography, Icon, Modal, Button } from "../../index";
 import type { Option, SelectValue } from "../../components/form-controls/Select";
 
 /* -------------------------------------------------------------------------- */
@@ -117,6 +117,11 @@ const commonControlArgTypes = {
   },
   isDisabled: { control: "boolean", description: "Disable the field" },
   isFluid: { control: "boolean", description: "Full-width wrapper" },
+  size: {
+    control: { type: "inline-radio" },
+    options: ["small", "medium", "large"],
+    description: "Control height: small 32px, medium 44px (default), large 52px",
+  },
   error: {
     control: "text",
     description: "Error message under the field; flips error styling and ARIA",
@@ -162,7 +167,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **ColorPicker** (hex selection with HSV panel and channel inputs), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **SegmentedControl** (text, icon+label, icon-only), **File (button)**, **File (card)**, **Stepper (form control)**, plus **All controls (showcase)**.",
+          "Each form control has its own playground story with live controls. Toggle props in the Controls panel to see them reflected in the canvas (and vice versa where the control is stateful). Stories: **Input**, **Input (number)**, **Input (prefix / suffix)**, **Input (search)**, **TextArea**, **Select** (and Select variants: async, grouped, bulk/max, chip overflow, error, empty list, mobile sheet, form submit), **Date** (playground plus min/max, week start, disabled rules, locale/format, validation, read-only & no-clear, form `name`, mobile sheet), **ColorPicker** (hex selection with HSV panel and channel inputs), **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **Toggle**, **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **SegmentedControl** (text, icon+label, icon-only), **File (button)**, **File (card)**, **Stepper (form control)**, **Sizes**, plus **All controls (showcase)**.",
       },
     },
   },
@@ -201,6 +206,7 @@ export const Input = {
     isRequired: false,
     isDisabled: false,
     isFluid: false,
+    size: "medium",
     error: "",
     dataTestId: "email-input",
   } as Partial<InputArgs>,
@@ -1905,7 +1911,7 @@ export const SegmentedControl = {
     options: { control: "object" },
     size: {
       control: { type: "inline-radio" },
-      options: ["small", "medium"],
+      options: ["small", "medium", "large"],
     },
     onChange: { action: "onChange" },
   },
@@ -2131,6 +2137,112 @@ export const Stepper = {
       </Container>
     );
   },
+};
+
+/* -------------------------------------------------------------------------- */
+/* Sizes                                                                       */
+/* -------------------------------------------------------------------------- */
+
+const SIZE_SCALE = ["small", "medium", "large"] as const;
+
+export const Sizes = {
+  name: "Sizes",
+  parameters: {
+    controls: { disable: true },
+    layout: "padded",
+    docs: {
+      description: {
+        story:
+          "Boxed controls share `size`: small 32px, medium 44px (default), large 52px — the same heights as Button. TextArea scales min-height instead of collapsing to a single line. File **card**, Checkbox, Radio, Toggle, and picker panels are not part of this scale.",
+      },
+    },
+  },
+  render: () => (
+    <Container padding="4">
+      <div
+        style={{
+          display: "flex",
+          gap: 24,
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+        }}
+      >
+        {SIZE_SCALE.map((size) => (
+          <div
+            key={size}
+            style={{
+              flex: "1 1 240px",
+              minWidth: 240,
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+            }}
+          >
+            <Typography variant="h6">{size}</Typography>
+            <Button size={size}>Save</Button>
+            <FormControls.Input
+              label="Email"
+              placeholder="user@acme.com"
+              size={size}
+            />
+            <FormControls.Input
+              label="Search"
+              type="search"
+              placeholder="Search…"
+              size={size}
+            />
+            <FormControls.Input
+              label="Amount"
+              prefix="$"
+              suffix="USD"
+              placeholder="0.00"
+              size={size}
+            />
+            <FormControls.TextArea
+              label="Message"
+              placeholder="Hello world!"
+              size={size}
+            />
+            <FormControls.Select
+              label="Fruit"
+              options={selectOptions}
+              placeholder="Select a fruit"
+              size={size}
+            />
+            <FormControls.Date
+              label="Date of birth"
+              defaultValue={new Date(1992, 4, 31)}
+              size={size}
+            />
+            <FormControls.ColorPicker
+              label="Brand color"
+              defaultValue="#1264A3"
+              size={size}
+            />
+            <FormControls.Stepper
+              label="Quantity"
+              defaultValue="2"
+              min="0"
+              max="99"
+              size={size}
+            />
+            <FormControls.SegmentedControl
+              label="View"
+              name={`sizes-view-${size}`}
+              options={segmentedViewOptions}
+              defaultValue="week"
+              size={size}
+            />
+            <FormControls.File
+              label="Upload"
+              buttonLabel="Browse file"
+              size={size}
+            />
+          </div>
+        ))}
+      </div>
+    </Container>
+  ),
 };
 
 /* -------------------------------------------------------------------------- */

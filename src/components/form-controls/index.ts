@@ -38,6 +38,7 @@ export {
   SegmentedControl,
 };
 export type { InputProps } from "./Input";
+export type { FormControlSize } from "./form-control-size";
 export type {
   SelectProps,
   SelectOption,

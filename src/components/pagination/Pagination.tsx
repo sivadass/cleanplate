@@ -201,6 +201,7 @@ const Pagination: React.FC<PaginationProps> = ({
         >
           <Button
             variant="outline"
+            size="small"
             className={styles["cp-pagination-button"]}
             isDisabled={isPrevBtnDisabled}
             onClick={() => handlePrev()}
@@ -214,6 +215,7 @@ const Pagination: React.FC<PaginationProps> = ({
             return (
               <Button
                 variant={isActive ? "solid" : "outline"}
+                size="small"
                 className={styles["cp-pagination-button"]}
                 key={btnId}
                 isDisabled={btn === null}
@@ -226,6 +228,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
           <Button
             variant="outline"
+            size="small"
             className={styles["cp-pagination-button"]}
             isDisabled={isNextBtnDisabled}
             onClick={() => handleNext()}
@@ -245,6 +248,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <FormControls.Select
             className={styles["cp-pagination-rows-select"]}
             placeholder="Rows per page"
+            size="small"
             triggerClassName={styles["cp-pagination-rows-select-trigger"]}
             contentsClassName={styles["cp-pagination-rows-select-content"]}
             options={rowsPerPageOptions}

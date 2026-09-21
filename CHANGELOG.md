@@ -32,8 +32,12 @@
 
 ### Breaking
 
-- **Button sizes:** `small` is 32px (was 24px). `medium` (default) is 44px (was 50px) and no longer has `min-width: 96px`. `variant="icon"` is a square at the size height, not a circle. New `large` is 52px. Form controls remain 50px — use `size="large"` next to fields. See `docs/Button.md`.
+- **Button sizes:** `small` is 32px (was 24px). `medium` (default) is 44px (was 50px) and no longer has `min-width: 96px`. `variant="icon"` is a square at the size height, not a circle. New `large` is 52px. See `docs/Button.md`.
+- **Form control sizes:** Boxed fields (`Input`, `TextArea`, `Select`, `Date`, `ColorPicker`, `Stepper`, `SegmentedControl`, `File` button) share `size` (`small` 32 / `medium` 44 default / `large` 52). Default field height remaps 50px → 44px so it aligns with `Button` medium. `SegmentedControl` `small` remaps 40px → 32px; `medium` 50px → 44px; new `large` is 52px. Checkbox, Radio, Toggle, and File card are unchanged. See `docs/FormControls.md`.
+- **Shared size tokens:** Button and boxed fields use `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large`. `--cp-button-height-*`, `--cp-form-control-radius` (single token), and font / pad-x / icon / textarea-min tokens are removed from `:root`.
 
 ### Added
 
 - **Button `prefixIcon` / `suffixIcon`:** Material Symbol names; Button owns glyph size (16 / 20 / 24) and asymmetric padding.
+- **FormControls `size`:** `small` | `medium` | `large` on boxed fields. Public tokens `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large` (shared with Button). Wrapper class `cp-form-field--small|medium|large`.
+- **Pagination small chrome:** Page buttons and the rows-per-page Select use Button / Select `small` (32px). The select trigger is no longer 36px.

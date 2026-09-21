@@ -1,8 +1,41 @@
 .cp-form-field {
+  --cp-form-control-height: var(--cp-form-control-height-medium);
+  --cp-form-control-radius: var(--cp-form-control-radius-medium);
+  --cp-form-control-font: 16px;
+  --cp-form-control-pad-x: 16px;
+  --cp-form-control-icon: 20px;
+  --cp-form-control-textarea-min: 88px;
   font-family: var(--font-family);
   font-size: var(--font-size);
   width: var(--length-full);
   max-width: var(--length-small);
+}
+
+.cp-form-field--small {
+  --cp-form-control-height: var(--cp-form-control-height-small);
+  --cp-form-control-radius: var(--cp-form-control-radius-small);
+  --cp-form-control-font: 14px;
+  --cp-form-control-pad-x: 12px;
+  --cp-form-control-icon: 16px;
+  --cp-form-control-textarea-min: 72px;
+}
+
+.cp-form-field--medium {
+  --cp-form-control-height: var(--cp-form-control-height-medium);
+  --cp-form-control-radius: var(--cp-form-control-radius-medium);
+  --cp-form-control-font: 16px;
+  --cp-form-control-pad-x: 16px;
+  --cp-form-control-icon: 20px;
+  --cp-form-control-textarea-min: 88px;
+}
+
+.cp-form-field--large {
+  --cp-form-control-height: var(--cp-form-control-height-large);
+  --cp-form-control-radius: var(--cp-form-control-radius-large);
+  --cp-form-control-font: 16px;
+  --cp-form-control-pad-x: 20px;
+  --cp-form-control-icon: 24px;
+  --cp-form-control-textarea-min: 104px;
 }
 
 .cp-form-field-fluid {
@@ -39,12 +72,13 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 /* truth for height, side padding, border, focus + disabled states.             */
 /* ---------------------------------------------------------------------------- */
 .cp-form-control {
-  height: 50px;
-  border-radius: var(--cp-form-control-radius);
+  height: var(--cp-form-control-height, var(--cp-form-control-height-medium));
+  border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
   border: 1px solid var(--gray-300);
-  padding: 0 16px;
+  padding: 0 var(--cp-form-control-pad-x, 16px);
   width: 100%;
   background: var(--white);
+  font-size: var(--cp-form-control-font, 16px);
   outline: none;
   transition:
     border-color 0.15s ease,
@@ -87,19 +121,21 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   width: 100%;
 }
 
-.cp-input-search-icon {
+.cp-input-search-wrapper .cp-input-search-icon.cp-icon {
   position: absolute;
-  left: 12px;
+  left: var(--cp-form-control-pad-x);
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
   pointer-events: none;
-  font-size: 20px;
+  font-size: var(--cp-form-control-icon);
 }
 
 .cp-input-search-control {
-  /* Reserve room for the leading 24px icon (12px left + 24px icon + 8px gap). */
-  padding-left: 40px;
+  /* Reserve room for the leading icon (pad-x + glyph + gap). */
+  padding-left: calc(
+    var(--cp-form-control-pad-x) + var(--cp-form-control-icon) + var(--space-2)
+  );
 
   /* Hide the browser's native search clear button — we render our own. */
   &::-webkit-search-decoration,
@@ -114,16 +150,16 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 
 /* Reserve room for the clear button only when it's shown. */
 .cp-input-search-control-cleanable {
-  padding-right: 40px;
+  padding-right: calc(var(--cp-form-control-height) - var(--space-1));
 }
 
 .cp-input-search-clear {
   position: absolute;
-  right: 6px;
+  right: var(--space-1);
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
+  width: calc(var(--cp-form-control-height) - var(--space-3));
+  height: calc(var(--cp-form-control-height) - var(--space-3));
   padding: 0;
   border: none;
   background: transparent;
@@ -146,6 +182,10 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     outline: 2px solid var(--primary-brand);
     outline-offset: 2px;
   }
+
+  .cp-icon {
+    font-size: var(--cp-form-control-icon);
+  }
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -159,7 +199,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   /* Match the plain Input — affix sits at the same horizontal position the
      input text would in a non-affixed field, so swapping between variants
      doesn't shift the visual baseline. */
-  padding: 0 16px;
+  padding: 0 var(--cp-form-control-pad-x);
   width: 100%;
 
   /* The focusable element is the inner input, not the wrapper itself, so we
@@ -184,7 +224,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   flex-shrink: 0;
   color: var(--text-muted);
   font-size: inherit;
-  line-height: 20px;
+  line-height: var(--cp-form-control-icon);
   white-space: nowrap;
   user-select: none;
   /* Cap in CSS too in case the consumer somehow bypasses the JS truncation. */
@@ -254,7 +294,7 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   height: 100%;
   border: none;
   background: transparent;
-  padding: 0 8px 0 16px;
+  padding: 0 8px 0 var(--cp-form-control-pad-x);
   border-radius: 0;
   outline: none;
   font-family: inherit;
@@ -286,7 +326,10 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 
 .cp-stepper-btn {
   flex-shrink: 0;
-  width: 44px;
+  width: var(--cp-form-control-height);
+  /* Override the native button medium-height reset so ± stays square. */
+  height: 100%;
+  min-height: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -294,10 +337,16 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   border: none;
   background: transparent;
   color: var(--text-muted);
+  font-size: var(--cp-form-control-icon);
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
+
+  .cp-icon {
+    font-size: var(--cp-form-control-icon);
+    color: inherit;
+  }
 
   &:hover:not(:disabled) {
     background: var(--primary-brand-lightest);
@@ -328,13 +377,14 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  width: 44px;
+  width: var(--cp-form-control-height);
   align-self: stretch;
   min-height: 0;
 }
 
 .cp-stepper-btn--stacked {
   flex: 1 1 0;
+  height: auto;
   min-height: 0;
   width: 100%;
 }
@@ -359,8 +409,9 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
 }
 
 .cp-textarea-field {
-  min-height: 88px;
-  padding: 8px 16px;
+  height: auto;
+  min-height: var(--cp-form-control-textarea-min, 88px);
+  padding: 8px var(--cp-form-control-pad-x, 16px);
 }
 
 /* Subtle dividers inside the select floating panel — same hue as `.cp-select-option-add` border-top */
@@ -467,8 +518,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: calc(var(--cp-form-control-height) - 14px);
+  height: calc(var(--cp-form-control-height) - 14px);
   margin: 0;
   padding: 0;
   border: none;
@@ -505,17 +556,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-field-header {
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 0 var(--cp-form-control-pad-x);
   background: var(--white);
   border: 1px solid var(--gray-300);
-  border-radius: var(--cp-form-control-radius);
+  border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: inherit;
-  font-size: inherit;
-  // margin-bottom: 8px;
-  min-height: 50px;
+  font-size: var(--cp-form-control-font);
+  min-height: var(--cp-form-control-height);
   outline: none;
   transition:
     border-color 0.15s ease,
@@ -541,7 +591,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   z-index: var(--cp-z-picker-panel);
   overflow: hidden;
   box-sizing: border-box;
-  border-radius: var(--cp-form-control-radius);
+  border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
   box-shadow:
     0 4px 24px rgb(15 23 42 / 0.08),
     0 0 0 1px rgb(15 23 42 / 0.04);
@@ -704,7 +754,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-panel-bulk .cp-select-bulk-checkbox[type="checkbox"] {
   /*
-   * Global reset gives every `input` a 50px height (for text controls). Narrow
+   * Global reset gives every `input` a field height (for text controls). Narrow
    * attribute + class specificity so this native checkbox stays list-row-sized.
    */
   box-sizing: border-box;
@@ -733,7 +783,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
 
 .cp-select-bulk-clear-all {
   /*
-   * Same global reset sets `button { height: 50px }` — shrink to inline text hit area.
+   * Same global reset sets `button { height: var(--cp-form-control-height-medium) }` —
+   * shrink to inline text hit area.
    */
   flex-shrink: 0;
   margin: 0;
@@ -1087,8 +1138,11 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 
-.cp-select-field-arrow {
+.cp-select-field-arrow.cp-icon {
   margin-left: 8px;
+  font-size: var(--cp-form-control-icon);
+  line-height: 1;
+  color: var(--text-muted);
 }
 
 /* Error state — paints the trigger border red so it reads consistently with
@@ -1115,8 +1169,8 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 
   .cp-color-picker-trigger-swatch {
-    width: 24px;
-    height: 24px;
+    width: var(--cp-form-control-icon);
+    height: var(--cp-form-control-icon);
     border: 1px solid var(--gray-300);
     border-radius: var(--radius-small);
     flex-shrink: 0;
@@ -1301,7 +1355,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     width: 100%;
     overflow: hidden;
     border: 1px solid var(--gray-300);
-    border-radius: var(--cp-form-control-radius);
+    border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
     background: var(--white);
   }
 
@@ -1324,8 +1378,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
     width: 100%;
     margin: 0;
     padding: 0 10px;
+    min-height: var(--cp-form-control-height);
     color: var(--text-default);
     text-align: center;
+    font-size: var(--cp-form-control-font);
     line-height: 1.2;
     cursor: pointer;
     transition:
@@ -1345,10 +1401,15 @@ $cp-select-panel-hairline: rgb(235 236 239);
     justify-content: center;
     flex-shrink: 0;
     line-height: 0;
+    font-size: var(--cp-form-control-icon);
 
     img,
     svg {
       display: block;
+    }
+
+    .cp-icon {
+      font-size: var(--cp-form-control-icon);
     }
   }
 
@@ -1384,18 +1445,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 
-.cp-segmented-control--medium {
-  .cp-segmented-control-segment {
-    min-height: 50px;
-    font-size: var(--font-size);
-  }
-}
-
-.cp-segmented-control--small {
-  .cp-segmented-control-segment {
-    min-height: 40px;
-    font-size: 14px;
-  }
+.cp-segmented-control--small,
+.cp-segmented-control--medium,
+.cp-segmented-control--large {
+  /* Size metrics come from `.cp-form-field--*` CSS variables. */
 }
 
 .cp-radio-field {
@@ -1577,7 +1630,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       padding: 16px;
       padding-inline-end: 44px; /* room for control on inline-end */
       border: 1px solid var(--gray-100);
-      border-radius: var(--cp-form-control-radius);
+      border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
       background: var(--white);
       transition:
         border-color 0.15s ease,
@@ -1805,7 +1858,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
       padding: 16px;
       padding-inline-end: 44px; /* room for control on inline-end */
       border: 1px solid var(--gray-100);
-      border-radius: var(--cp-form-control-radius);
+      border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
       background: var(--white);
       transition:
         border-color 0.15s ease,
@@ -1959,15 +2012,19 @@ $cp-select-panel-hairline: rgb(235 236 239);
     align-items: center;
     justify-content: center;
     gap: 8px;
-    height: 44px;
+    height: var(--cp-form-control-height);
     padding: 0 20px;
     border: 1px solid var(--primary-brand);
-    border-radius: var(--cp-form-control-radius);
+    border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
     background: var(--white);
     color: var(--primary-brand);
     font-weight: 500;
     line-height: 1;
     width: auto;
+  }
+
+  .cp-file-trigger-button .cp-icon {
+    font-size: var(--cp-form-control-icon);
   }
 
   &.cp-form-field-fluid .cp-file-trigger-button {
@@ -1987,7 +2044,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     gap: 6px;
     padding: 32px 16px;
     border: 2px dashed var(--gray-500);
-    border-radius: var(--cp-form-control-radius);
+    border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
     background: var(--white);
     color: var(--text-muted);
     text-align: center;
@@ -2012,7 +2069,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     justify-content: center;
     height: 40px;
     padding: 0 20px;
-    border-radius: var(--cp-form-control-radius);
+    border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
     background: var(--primary-brand);
     color: var(--white);
     font-weight: 500;
@@ -2068,7 +2125,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     gap: 12px;
     padding: 10px 12px;
     border: 1px solid var(--gray-100);
-    border-radius: var(--cp-form-control-radius);
+    border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
     background: var(--white);
   }
 
@@ -2146,19 +2203,19 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-date-field-day {
-  border-radius: var(--cp-form-control-radius) 0 0
-    var(--cp-form-control-radius);
+  border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium)) 0 0
+    var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
   min-width: 72px;
   margin-bottom: 0;
   flex-grow: 1;
   .cp-custom-field {
-    border-radius: var(--cp-form-control-radius) 0 0
-      var(--cp-form-control-radius);
+    border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium)) 0 0
+      var(--cp-form-control-radius, var(--cp-form-control-radius-medium));
     padding-right: 4px;
     margin-bottom: 0;
     border-right-color: transparent;
     &.cp-custom-field-open {
-      border-radius: var(--cp-form-control-radius) 0 0 0;
+      border-radius: var(--cp-form-control-radius, var(--cp-form-control-radius-medium)) 0 0 0;
     }
   }
 }
@@ -2179,13 +2236,13 @@ $cp-select-panel-hairline: rgb(235 236 239);
   margin-bottom: 0;
   flex-grow: 1;
   .cp-custom-field {
-    border-radius: 0 var(--cp-form-control-radius)
-      var(--cp-form-control-radius) 0;
+    border-radius: 0 var(--cp-form-control-radius, var(--cp-form-control-radius-medium))
+      var(--cp-form-control-radius, var(--cp-form-control-radius-medium)) 0;
     padding-right: 4px;
     margin-bottom: 0;
     border-left-color: transparent;
     &.cp-custom-field-open {
-      border-radius: 0 var(--cp-form-control-radius) 0 0;
+      border-radius: 0 var(--cp-form-control-radius, var(--cp-form-control-radius-medium)) 0 0;
     }
   }
 }

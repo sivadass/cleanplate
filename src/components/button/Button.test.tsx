@@ -143,14 +143,26 @@ describe("icon button square hit area", () => {
 
   it("sizes icon-only buttons from height tokens with zero padding", () => {
     expect(scss).toMatch(
-      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-button-height-small\)/,
+      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-form-control-height-small\)/,
     );
     expect(scss).toMatch(
-      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-button-height-medium\)/,
+      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-form-control-height-medium\)/,
     );
     expect(scss).toMatch(
-      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-button-height-large\)/,
+      /&\.cp-button--icon \{[\s\S]*width:\s*var\(--cp-form-control-height-large\)/,
     );
     expect(scss).toMatch(/&\.cp-button--icon \{[\s\S]*padding:\s*0/);
+  });
+
+  it("uses shared form-control radius tokens", () => {
+    expect(scss).toMatch(
+      /&\.cp-button--small \{[\s\S]*border-radius:\s*var\(--cp-form-control-radius-small\)/,
+    );
+    expect(scss).toMatch(
+      /&\.cp-button--medium \{[\s\S]*border-radius:\s*var\(--cp-form-control-radius-medium\)/,
+    );
+    expect(scss).toMatch(
+      /&\.cp-button--large \{[\s\S]*border-radius:\s*var\(--cp-form-control-radius-large\)/,
+    );
   });
 });

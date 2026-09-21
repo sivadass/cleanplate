@@ -5,12 +5,17 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SegmentedControlValue = string | number;
-export type SegmentedControlSize = "small" | "medium";
+export type SegmentedControlSize = FormControlSize;
 
 export interface SegmentedControlOption {
   /** Visible text for this segment. Omit for icon-only options. */
@@ -94,7 +99,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   value,
   defaultValue,
   onChange,
-  size = "medium",
+  size = DEFAULT_FORM_CONTROL_SIZE,
   isDisabled = false,
   isRequired = false,
   isFluid = false,
@@ -125,7 +130,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
     {
       value: undefined,
       defaultValue: undefined,
-      size: "medium",
+      size: DEFAULT_FORM_CONTROL_SIZE,
       isDisabled: false,
       isRequired: false,
       isFluid: false,
@@ -155,6 +160,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   const wrapperClassName = getClassNames(
     styles["cp-form-field"],
     styles["cp-segmented-control-field"],
+    getFormControlSizeClass(size, styles),
     styles[`cp-segmented-control--${size}`],
     { [styles["cp-form-field-fluid"]]: isFluid },
     getFormFieldMarginClass(margin),

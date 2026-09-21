@@ -216,7 +216,7 @@ const columns = [
 ## Behavior Notes
 
 - **Required:** `columns` and `data` are required. Each column must have `id` and `title`; row keys should match `id` for default cell display.
-- **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state.
+- **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state. Page buttons and the rows-per-page Select are locked to **small** (32px); Pagination has no `size` prop.
 - **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields (`mediaAvatar`, `mediaAvatarCodeText`, `mediaIcon`, `mediaImage`), or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
 - **Column alignment:** `textAlign` controls horizontal alignment per column. `cellVerticalAlign` sets the table default for vertical alignment; override per column with `verticalAlign` on `TableColumn`.
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.

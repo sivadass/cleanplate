@@ -5,6 +5,11 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
@@ -22,6 +27,8 @@ export interface InputProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   type?: string;
@@ -141,6 +148,7 @@ const Input: React.FC<InputProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   type = "text",
   className = "",
@@ -170,6 +178,7 @@ const Input: React.FC<InputProps> = ({
       isDisabled,
       isRequired,
       isFluid,
+      size,
       margin,
       type,
       placeholder,
@@ -190,6 +199,7 @@ const Input: React.FC<InputProps> = ({
       isDisabled: false,
       isRequired: false,
       isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
       margin: DEFAULT_FORM_FIELD_MARGIN,
       type: "text",
       placeholder: "",
@@ -361,6 +371,7 @@ const Input: React.FC<InputProps> = ({
 
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
+    getFormControlSizeClass(size, styles),
     {
       [styles["cp-form-field-fluid"]]: isFluid,
     },
@@ -434,7 +445,6 @@ const Input: React.FC<InputProps> = ({
         <div className={styles["cp-input-search-wrapper"]}>
           <Icon
             name="search"
-            size="medium"
             aria-hidden={true}
             className={styles["cp-input-search-icon"]}
           />
@@ -447,7 +457,7 @@ const Input: React.FC<InputProps> = ({
               aria-label="Clear search"
               data-testid={inputFieldTestId(dataTestId, "clear")}
             >
-              <Icon name="close" size="small" aria-hidden={true} />
+              <Icon name="close" aria-hidden={true} />
             </button>
           )}
         </div>

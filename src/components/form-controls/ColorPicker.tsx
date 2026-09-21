@@ -29,6 +29,11 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import { useMediaQuery } from "./date/use-media-query";
 import Input from "./Input";
 
@@ -182,6 +187,8 @@ export interface ColorPickerProps {
   isRequired?: boolean;
   error?: string;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   /**
@@ -210,6 +217,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   isRequired = false,
   error = "",
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   dataTestId,
   popoverPlacement = "bottom-start",
@@ -234,6 +242,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       isRequired,
       error,
       isFluid,
+      size,
       margin,
       dataTestId,
       popoverPlacement,
@@ -249,6 +258,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       isRequired: false,
       error: "",
       isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
       margin: DEFAULT_FORM_FIELD_MARGIN,
       dataTestId: undefined,
       popoverPlacement: "bottom-start",
@@ -594,6 +604,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
+        getFormControlSizeClass(size, styles),
         {
           [styles["cp-form-field-fluid"]]: isFluid,
           [styles["cp-form-field-disabled"]]: isDisabled,
@@ -687,7 +698,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 <Icon name="close" size="small" color="gray" />
               </button>
             ) : null}
-            <Icon name="palette" size="small" color="gray" aria-hidden />
+            <Icon name="palette" className={styles["cp-select-field-arrow"]} aria-hidden />
           </div>
         </div>
 

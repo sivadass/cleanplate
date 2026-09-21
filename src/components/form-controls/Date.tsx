@@ -32,6 +32,11 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import DatePickerPanel from "./date/DatePickerPanel";
 import type { Constraints } from "./date/date-types";
 import {
@@ -93,6 +98,8 @@ export interface DateProps {
   label?: string;
   error?: string;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   /**
@@ -128,6 +135,7 @@ const DatePicker: React.FC<DateProps> = ({
   label = "",
   error = "",
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   dataTestId,
   isRequired = false,
@@ -159,6 +167,7 @@ const DatePicker: React.FC<DateProps> = ({
       label,
       error,
       isFluid,
+      size,
       margin,
       dataTestId,
       isRequired,
@@ -177,6 +186,7 @@ const DatePicker: React.FC<DateProps> = ({
       label: "",
       error: "",
       isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
       margin: DEFAULT_FORM_FIELD_MARGIN,
       dataTestId: undefined,
       isRequired: false,
@@ -448,6 +458,7 @@ const DatePicker: React.FC<DateProps> = ({
       {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
+        getFormControlSizeClass(size, styles),
         {
           [styles["cp-form-field-fluid"]]: isFluid,
           [styles["cp-form-field-disabled"]]: isDisabled,
@@ -532,8 +543,7 @@ const DatePicker: React.FC<DateProps> = ({
             ) : null}
             <Icon
               name="calendar_month"
-              size="small"
-              color="gray"
+              className={styles["cp-select-field-arrow"]}
               aria-hidden
             />
           </div>

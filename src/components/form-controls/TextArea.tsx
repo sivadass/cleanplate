@@ -5,6 +5,11 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
@@ -19,6 +24,8 @@ export interface TextAreaProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Control density: type and min-height. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   className?: string;
@@ -48,6 +55,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   placeholder = "",
@@ -67,6 +75,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       isDisabled,
       isRequired,
       isFluid,
+      size,
       margin,
       placeholder,
       error,
@@ -77,6 +86,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       isDisabled: false,
       isRequired: false,
       isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
       margin: DEFAULT_FORM_FIELD_MARGIN,
       placeholder: "",
       error: "",
@@ -93,6 +103,7 @@ const TextArea: React.FC<TextAreaProps> = ({
 
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
+    getFormControlSizeClass(size, styles),
     { [styles["cp-form-field-fluid"]]: isFluid },
     getFormFieldMarginClass(margin),
     className

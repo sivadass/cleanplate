@@ -55,6 +55,8 @@ const App = () => (
 
 ### Sizes
 
+Heights: `small` 32px, `medium` 44px (default), `large` 52px. Corner radius uses the same tokens as boxed form fields: `--cp-form-control-radius-small` (8px), `--cp-form-control-radius-medium` (12px), `--cp-form-control-radius-large` (16px). Heights use `--cp-form-control-height-small|medium|large`. Override those on `:root` after importing `cleanplate/dist/index.css` — there are no `--cp-button-height-*` tokens.
+
 ```jsx
 <>
   <Button size="small">Small</Button>
@@ -109,7 +111,7 @@ const App = () => (
 - `margin` accepts a token string or array of tokens (for example `"2"` or `["1", "b-3"]`).
 - `variant="icon"` is a visual style. Icon-only buttons are **square** at the size height (32 / 44 / 52). Provide an accessible name via `aria-label`.
 - `prefixIcon` / `suffixIcon` inherit button text color. Glyph sizes are 16 / 20 / 24 px per size.
-- Form controls remain 50px tall. Use `size="large"` on buttons placed beside inputs.
+- Default Button (`medium`, 44px) matches default boxed form fields. Use the same `size` on buttons and fields that sit on one row. Pagination page buttons are an exception: they are locked to `small`.
 
 ## Props
 

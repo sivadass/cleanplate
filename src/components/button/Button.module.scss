@@ -18,12 +18,12 @@
 .cp-button {
   font-family: inherit;
   font-size: 16px;
-  height: var(--cp-button-height-medium);
+  height: var(--cp-form-control-height-medium);
   padding: 0 24px;
   border: 1px solid transparent;
   background: var(--primary-brand);
   color: #fff;
-  border-radius: var(--cp-form-control-radius);
+  border-radius: var(--cp-form-control-radius-medium);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -53,10 +53,11 @@
   }
 
   &.cp-button--small {
-    height: var(--cp-button-height-small);
+    height: var(--cp-form-control-height-small);
     font-size: 14px;
     padding: 0 16px;
     column-gap: 4px;
+    border-radius: var(--cp-form-control-radius-small);
     .cp-button__prefix-icon,
     .cp-button__suffix-icon,
     .cp-button-loader {
@@ -69,17 +70,18 @@
       padding-right: 12px;
     }
     &.cp-button--icon {
-      width: var(--cp-button-height-small);
-      min-width: var(--cp-button-height-small);
+      width: var(--cp-form-control-height-small);
+      min-width: var(--cp-form-control-height-small);
       padding: 0;
     }
   }
 
   &.cp-button--medium {
-    height: var(--cp-button-height-medium);
+    height: var(--cp-form-control-height-medium);
     font-size: 16px;
     padding: 0 24px;
     column-gap: 8px;
+    border-radius: var(--cp-form-control-radius-medium);
     .cp-button__prefix-icon,
     .cp-button__suffix-icon,
     .cp-button-loader {
@@ -92,17 +94,18 @@
       padding-right: 20px;
     }
     &.cp-button--icon {
-      width: var(--cp-button-height-medium);
-      min-width: var(--cp-button-height-medium);
+      width: var(--cp-form-control-height-medium);
+      min-width: var(--cp-form-control-height-medium);
       padding: 0;
     }
   }
 
   &.cp-button--large {
-    height: var(--cp-button-height-large);
+    height: var(--cp-form-control-height-large);
     font-size: 16px;
     padding: 0 32px;
     column-gap: 8px;
+    border-radius: var(--cp-form-control-radius-large);
     .cp-button__prefix-icon,
     .cp-button__suffix-icon,
     .cp-button-loader {
@@ -115,8 +118,8 @@
       padding-right: 24px;
     }
     &.cp-button--icon {
-      width: var(--cp-button-height-large);
-      min-width: var(--cp-button-height-large);
+      width: var(--cp-form-control-height-large);
+      min-width: var(--cp-form-control-height-large);
       padding: 0;
     }
   }

@@ -171,6 +171,7 @@ export type {
   DropdownTriggerProps,
 } from "./components/dropdown";
 export type { InputProps } from "./components/form-controls/Input";
+export type { FormControlSize } from "./components/form-controls/form-control-size";
 export type {
   SelectProps,
   SelectOption,

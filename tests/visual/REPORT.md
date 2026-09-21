@@ -9,6 +9,21 @@
 | Task 14 data-cp gate | test:visual (Storybook provider on) | PASS (346/346) |
 | Task 17 kit gate | test:visual (kit.html + 18 row snapshots) | PASS (364/364 total) |
 | Task 20 release gate | test:visual (pre-1.0.0-beta.0) | PASS (364/364) |
+| Form control sizes | Browser verification of Sizes matrix + Modal with form (Playwright PNG regen pending `npx playwright install`) | Heights 32 / 44 / 52 confirmed |
+
+## Form control sizes (2026-09-21)
+
+**Change:** Boxed fields share Button heights (`small` 32 / `medium` 44 default / `large` 52). Default field remaps 50px → 44px. New `Sizes` Storybook matrix.
+
+**Browser verification** (Storybook `localhost:6001`, not Playwright snapshots):
+
+- Sizes story: Button + Input + search + affix + TextArea + Select + Date + ColorPicker + Stepper + SegmentedControl + File button all report 32 / 44 / 52 (TextArea min-height 72 / 88 / 104). Search glyphs 16 / 20 / 24. Color swatches 16 / 20 / 24.
+- Typed into small search (`orders`); stepper increment 2 → 3; opened small Select panel (panel search stays unsized); SegmentedControl Day selectable.
+- Input playground: default medium is 44px / 16px type / 16px pad; `size=small` is 32px / 14px / 12px pad.
+- Modal **With Form**: native reset inputs are 44px, flush with medium Cancel/Submit.
+- HTML kit `#kit-row-input`: `cp-form-control` + `cp-form-field--medium` is 44px (typed `kit@acme.com`). Inner class was `cp-form-input` (not a public class); kit now matches React.
+
+**Playwright PNG update** was not run here: Chromium is missing from this environment (`npx playwright install` was skipped). After browsers are installed: `npm run build-storybook && npx playwright test --update-snapshots -g "formcontrols|kit-row-input|with-form"`.
 
 ## Task 20 release gate (2026-08-16)
 

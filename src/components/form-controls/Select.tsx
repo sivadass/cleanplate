@@ -13,7 +13,7 @@ import {
   FloatingPortal,
   offset,
   shift,
-  size,
+  size as floatingSize,
   useClick,
   useDismiss,
   useFloating,
@@ -28,6 +28,11 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
@@ -198,6 +203,8 @@ export interface SelectProps {
   placeholder?: string;
   error?: string;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   /**
@@ -259,6 +266,7 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Select an option",
   error = "",
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   mode,
   isMulti = false,
@@ -292,6 +300,7 @@ const Select: React.FC<SelectProps> = ({
       placeholder,
       error,
       isFluid,
+      size,
       margin,
       mode,
       isMulti,
@@ -318,6 +327,7 @@ const Select: React.FC<SelectProps> = ({
       placeholder: "Select an option",
       error: "",
       isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
       margin: DEFAULT_FORM_FIELD_MARGIN,
       mode: undefined,
       isMulti: false,
@@ -400,7 +410,7 @@ const Select: React.FC<SelectProps> = ({
             offset(4),
             flip({ padding: 8 }),
             shift({ padding: 8 }),
-            size({
+            floatingSize({
               apply({ availableHeight, rects, elements }) {
                 const panelStyle: Partial<CSSStyleDeclaration> = {
                   maxHeight: `${Math.max(96, Math.floor(availableHeight) - 12)}px`,
@@ -1081,6 +1091,7 @@ const Select: React.FC<SelectProps> = ({
       {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
+        getFormControlSizeClass(size, styles),
         {
           [styles["cp-form-field-fluid"]]: isFluid,
           [styles["cp-form-field-disabled"]]: isDisabled,
@@ -1197,7 +1208,7 @@ const Select: React.FC<SelectProps> = ({
             )}
             <Icon
               name={isOpen ? "arrow_drop_up" : "arrow_drop_down"}
-              className={`arrow ${isOpen ? "up" : "down"}`}
+              className={`${styles["cp-select-field-arrow"]} arrow ${isOpen ? "up" : "down"}`}
               aria-hidden
             />
           </div>
