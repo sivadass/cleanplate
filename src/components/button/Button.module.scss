@@ -17,9 +17,9 @@
 
 .cp-button {
   font-family: inherit;
-  font-size: var(--cp-button-font-medium);
+  font-size: 16px;
   height: var(--cp-button-height-medium);
-  padding: 0 var(--cp-button-pad-x-medium);
+  padding: 0 24px;
   border: 1px solid transparent;
   background: var(--primary-brand);
   color: #fff;
@@ -27,13 +27,13 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  column-gap: var(--cp-button-gap-medium);
+  column-gap: 8px;
   justify-content: center;
 
   .cp-button__prefix-icon,
   .cp-button__suffix-icon,
   .cp-button-loader {
-    font-size: var(--cp-button-icon-medium);
+    font-size: 20px;
     color: inherit;
     line-height: 1;
   }
@@ -54,19 +54,19 @@
 
   &.cp-button--small {
     height: var(--cp-button-height-small);
-    font-size: var(--cp-button-font-small);
-    padding: 0 var(--cp-button-pad-x-small);
-    column-gap: var(--cp-button-gap-small);
+    font-size: 14px;
+    padding: 0 16px;
+    column-gap: 4px;
     .cp-button__prefix-icon,
     .cp-button__suffix-icon,
     .cp-button-loader {
-      font-size: var(--cp-button-icon-small);
+      font-size: 16px;
     }
     &.cp-button--has-prefix {
-      padding-left: var(--cp-button-pad-icon-small);
+      padding-left: 12px;
     }
     &.cp-button--has-suffix {
-      padding-right: var(--cp-button-pad-icon-small);
+      padding-right: 12px;
     }
     &.cp-button--icon {
       width: var(--cp-button-height-small);
@@ -77,19 +77,19 @@
 
   &.cp-button--medium {
     height: var(--cp-button-height-medium);
-    font-size: var(--cp-button-font-medium);
-    padding: 0 var(--cp-button-pad-x-medium);
-    column-gap: var(--cp-button-gap-medium);
+    font-size: 16px;
+    padding: 0 24px;
+    column-gap: 8px;
     .cp-button__prefix-icon,
     .cp-button__suffix-icon,
     .cp-button-loader {
-      font-size: var(--cp-button-icon-medium);
+      font-size: 20px;
     }
     &.cp-button--has-prefix {
-      padding-left: var(--cp-button-pad-icon-medium);
+      padding-left: 20px;
     }
     &.cp-button--has-suffix {
-      padding-right: var(--cp-button-pad-icon-medium);
+      padding-right: 20px;
     }
     &.cp-button--icon {
       width: var(--cp-button-height-medium);
@@ -100,19 +100,19 @@
 
   &.cp-button--large {
     height: var(--cp-button-height-large);
-    font-size: var(--cp-button-font-large);
-    padding: 0 var(--cp-button-pad-x-large);
-    column-gap: var(--cp-button-gap-large);
+    font-size: 16px;
+    padding: 0 32px;
+    column-gap: 8px;
     .cp-button__prefix-icon,
     .cp-button__suffix-icon,
     .cp-button-loader {
-      font-size: var(--cp-button-icon-large);
+      font-size: 24px;
     }
     &.cp-button--has-prefix {
-      padding-left: var(--cp-button-pad-icon-large);
+      padding-left: 24px;
     }
     &.cp-button--has-suffix {
-      padding-right: var(--cp-button-pad-icon-large);
+      padding-right: 24px;
     }
     &.cp-button--icon {
       width: var(--cp-button-height-large);
