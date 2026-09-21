@@ -18,6 +18,21 @@ const GEOMETRY_STYLE_PROPS = new Set([
   "max-width",
 ]);
 
+const BUTTON_ICON_SLOT_CLASSES = new Set([
+  "cp-button__prefix-icon",
+  "cp-button__suffix-icon",
+]);
+
+function classListContains(classAttr: string | undefined, name: string): boolean {
+  return (classAttr ?? "").split(/\s+/).includes(name);
+}
+
+function isButtonIconSlot(element: HtmlElement): boolean {
+  return [...BUTTON_ICON_SLOT_CLASSES].some((slotClass) =>
+    classListContains(element.attribs["class"], slotClass),
+  );
+}
+
 const VOID_ELEMENTS = new Set([
   "area",
   "base",
@@ -302,6 +317,10 @@ function convertTaggedComponent(
       }
 
       if (child.type !== "tag") {
+        return;
+      }
+
+      if (componentName === "Button" && isButtonIconSlot(child as HtmlElement)) {
         return;
       }
 

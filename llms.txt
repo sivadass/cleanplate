@@ -63,7 +63,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Button Component
 - File: `docs/Button.md`
 - Purpose: A highly customizable and interactive UI element designed to handle user actions with various styles, sizes, and variants. Supports loading states, disabled states, and click events.
-- Key Features: Variants (solid, outline, ghost, icon), sizes (small, medium), loading states, disabled states, fluid layout, margin spacing
+- Key Features: Variants (solid, outline, ghost, icon), sizes (small, medium, large), prefixIcon/suffixIcon, loading states, disabled states, fluid layout, margin spacing
 - Types: ButtonProps, ButtonSize, ButtonVariant, ButtonMargin, SpacingOption
 
 ### Typography Component

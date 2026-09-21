@@ -30,4 +30,10 @@
 
 ## Unreleased
 
-_No unreleased changes._
+### Breaking
+
+- **Button sizes:** `small` is 32px (was 24px). `medium` (default) is 44px (was 50px) and no longer has `min-width: 96px`. `variant="icon"` is a square at the size height, not a circle. New `large` is 52px. Form controls remain 50px — use `size="large"` next to fields. See `docs/Button.md`.
+
+### Added
+
+- **Button `prefixIcon` / `suffixIcon`:** Material Symbol names; Button owns glyph size (16 / 20 / 24) and asymmetric padding.

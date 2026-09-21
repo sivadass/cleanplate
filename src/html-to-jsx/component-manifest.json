@@ -9,9 +9,11 @@
         "isFluid": { "type": "boolean", "default": false },
         "size": {
           "type": "enum",
-          "values": ["small", "medium"],
+          "values": ["small", "medium", "large"],
           "default": "medium"
         },
+        "prefixIcon": { "type": "string" },
+        "suffixIcon": { "type": "string" },
         "variant": {
           "type": "enum",
           "values": ["solid", "outline", "ghost", "icon"],

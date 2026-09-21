@@ -45,6 +45,9 @@
   /* "cleanplate/dist/index.css" to retheme just one surface.           */
   /* ------------------------------------------------------------------ */
   --cp-form-control-radius: var(--radius-large);
+  --cp-button-height-small: 32px;
+  --cp-button-height-medium: 44px;
+  --cp-button-height-large: 52px;
   /* length */
   --length-small: 240px;
   --length-medium: 360px;

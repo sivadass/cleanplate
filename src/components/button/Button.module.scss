@@ -2,7 +2,7 @@
   animation: spin-animation 1s infinite;
   animation-timing-function: linear;
   display: inline-block;
-  color: var(--white);
+  color: inherit;
 }
 
 @keyframes spin-animation {
@@ -17,8 +17,9 @@
 
 .cp-button {
   font-family: inherit;
-  font-size: inherit;
-  padding: 0 16px;
+  font-size: 16px;
+  height: var(--cp-button-height-medium);
+  padding: 0 24px;
   border: 1px solid transparent;
   background: var(--primary-brand);
   color: #fff;
@@ -28,6 +29,15 @@
   align-items: center;
   column-gap: 8px;
   justify-content: center;
+
+  .cp-button__prefix-icon,
+  .cp-button__suffix-icon,
+  .cp-button-loader {
+    font-size: 20px;
+    color: inherit;
+    line-height: 1;
+  }
+
   &:hover {
     background: var(--primary-brand-darker);
   }
@@ -41,28 +51,76 @@
   &.cp-button--fluid {
     width: 100%;
   }
+
   &.cp-button--small {
-    height: 24px;
-    font-size: 13px;
-    border-radius: 6px;
+    height: var(--cp-button-height-small);
+    font-size: 14px;
+    padding: 0 16px;
+    column-gap: 4px;
+    .cp-button__prefix-icon,
+    .cp-button__suffix-icon,
     .cp-button-loader {
       font-size: 16px;
     }
+    &.cp-button--has-prefix {
+      padding-left: 12px;
+    }
+    &.cp-button--has-suffix {
+      padding-right: 12px;
+    }
     &.cp-button--icon {
-      width: 24px;
-      min-width: 24px;
+      width: var(--cp-button-height-small);
+      min-width: var(--cp-button-height-small);
       padding: 0;
     }
   }
+
   &.cp-button--medium {
-    height: 50px;
-    min-width: 96px;
+    height: var(--cp-button-height-medium);
+    font-size: 16px;
+    padding: 0 24px;
+    column-gap: 8px;
+    .cp-button__prefix-icon,
+    .cp-button__suffix-icon,
+    .cp-button-loader {
+      font-size: 20px;
+    }
+    &.cp-button--has-prefix {
+      padding-left: 20px;
+    }
+    &.cp-button--has-suffix {
+      padding-right: 20px;
+    }
     &.cp-button--icon {
-      min-width: 50px;
-      width: 50px;
+      width: var(--cp-button-height-medium);
+      min-width: var(--cp-button-height-medium);
       padding: 0;
     }
   }
+
+  &.cp-button--large {
+    height: var(--cp-button-height-large);
+    font-size: 16px;
+    padding: 0 32px;
+    column-gap: 8px;
+    .cp-button__prefix-icon,
+    .cp-button__suffix-icon,
+    .cp-button-loader {
+      font-size: 24px;
+    }
+    &.cp-button--has-prefix {
+      padding-left: 24px;
+    }
+    &.cp-button--has-suffix {
+      padding-right: 24px;
+    }
+    &.cp-button--icon {
+      width: var(--cp-button-height-large);
+      min-width: var(--cp-button-height-large);
+      padding: 0;
+    }
+  }
+
   &.cp-button--outline {
     color: var(--primary-brand);
     border-color: var(--primary-brand);
@@ -92,7 +150,6 @@
     color: var(--primary-brand);
     border-color: transparent;
     background: transparent;
-    border-radius: 50%;
     padding: 0;
     flex-shrink: 0;
     &:hover {
