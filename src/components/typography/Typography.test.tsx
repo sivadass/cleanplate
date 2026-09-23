@@ -35,6 +35,9 @@ describe("Typography type scale contract", () => {
 
   it("maps variants to public font tokens", () => {
     expect(scss).toMatch(
+      /\.cp-typography\s*\{[\s\S]*font-family:\s*var\(--cp-font-family\)/,
+    );
+    expect(scss).toMatch(
       /\.cp-typography\s*\{[\s\S]*font-size:\s*var\(--cp-font-size-md\)/,
     );
     expect(scss).toMatch(

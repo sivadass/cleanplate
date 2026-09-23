@@ -1,5 +1,5 @@
 .cp-typography {
-  font-family: inherit;
+  font-family: var(--cp-font-family);
   font-size: var(--cp-font-size-md);
   font-weight: var(--cp-font-weight-regular);
   line-height: var(--cp-font-leading-md);

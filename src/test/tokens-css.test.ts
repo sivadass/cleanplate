@@ -23,6 +23,8 @@ describe("tokens.css", () => {
     expect(css).not.toContain("--cp-form-control-pad-x-small");
     expect(css).not.toContain("--cp-form-control-icon-small");
     expect(css).not.toContain("--cp-form-control-textarea-min-small");
+    expect(css).toContain("--cp-font-family:");
+    expect(css).not.toMatch(/(?:^|[^-])--font-family:/);
     expect(css).toContain("--cp-font-size-xs: 12px");
     expect(css).toContain("--cp-font-size-sm: 14px");
     expect(css).toContain("--cp-font-size-md: 16px");

@@ -1,7 +1,7 @@
 /* CleanPlate design tokens — import before component CSS for HTML prototypes / Paper sync */
 :root {
   /* Typography */
-  --font-family: "Inter", sans-serif;
+  --cp-font-family: "Inter", sans-serif;
   --font-size: 16px;
   /* Colors */
   --white: #ffffff;

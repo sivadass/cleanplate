@@ -1,5 +1,5 @@
 // This file is auto-generated. Do not edit manually.
-// Generated on: 2026-09-21T04:47:47.211Z
+// Generated on: 2026-09-23T01:32:09.105Z
 // Total icons: 4284
 
 /**

@@ -1,7 +1,7 @@
 /* Variables */
 :root {
   /* Typography */
-  --font-family: "Inter", sans-serif;
+  --cp-font-family: "Inter", sans-serif;
   --font-size: 16px;
   /* Colors */
   --white: #ffffff;
@@ -141,7 +141,7 @@
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: var(--cp-font-family);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -152,7 +152,7 @@ body {
 }
 
 button {
-  font-family: var(--font-family);
+  font-family: var(--cp-font-family);
   font-size: var(--font-size);
   border: 1px solid #ccc;
   height: var(--cp-form-control-height-medium);
@@ -161,7 +161,7 @@ button {
 input,
 select,
 textarea {
-  font-family: var(--font-family);
+  font-family: var(--cp-font-family);
   font-size: var(--font-size);
   border: 1px solid #ccc;
   height: var(--cp-form-control-height-medium);

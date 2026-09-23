@@ -19,7 +19,7 @@ Two scales that meet at 24px. UI sizes are a 4px grid plus **14px** (`sm`). Disp
 | `p` / `span` | 16 (`md`) | 24 | 400 | 0 |
 | `small` | 12 (`xs`) | 16 | 400 | +0.01em |
 
-Public tokens: `--cp-font-size-*`, `--cp-font-leading-*`, `--cp-font-tracking-*`, `--cp-font-weight-*`. `isBold` sets weight to 700 and does not change size or tracking.
+Public tokens: `--cp-font-family`, `--cp-font-size-*`, `--cp-font-leading-*`, `--cp-font-tracking-*`, `--cp-font-weight-*`. `isBold` sets weight to 700 and does not change size or tracking.
 
 ## Props / Inputs
 

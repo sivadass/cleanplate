@@ -99,6 +99,8 @@ Visual remap only. `variant` names and `cp-typography--*` classes are unchanged.
 
 `h5` is now body-sized semibold — use `h3` or `h4` for 24/20. Apps that need the old 14px caption should use `h6` or a local style. Override tokens after importing `cleanplate/dist/index.css` (for example `--cp-font-size-4xl`) rather than targeting hashed classes.
 
+`--font-family` is renamed to **`--cp-font-family`** (same Inter stack). Apps that overrode `--font-family` on `:root` should set `--cp-font-family` instead.
+
 ## Need help?
 
 Open an issue at [github.com/sivadass/cleanplate](https://github.com/sivadass/cleanplate) with the component name and the selector you were overriding.
