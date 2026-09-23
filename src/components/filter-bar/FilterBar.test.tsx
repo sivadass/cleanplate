@@ -4,6 +4,7 @@ import { useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { expectPublicClass } from "../../test/class-contract";
 import FilterBar from "./FilterBar";
+import { DATE_RANGE_ERROR } from "./filter-bar-model";
 import type { FilterBarField, FilterBarValues } from "./filter-bar-types";
 
 const status: FilterBarField = {
@@ -21,16 +22,19 @@ function Harness({
   fields,
   initial,
   onChange,
+  dataTestId,
 }: {
   fields: FilterBarField[];
   initial: FilterBarValues;
   onChange?: (values: FilterBarValues) => void;
+  dataTestId?: string;
 }) {
   const [values, setValues] = useState(initial);
   return (
     <FilterBar
       fields={fields}
       values={values}
+      dataTestId={dataTestId}
       onChange={(next) => {
         onChange?.(next);
         setValues(next);
@@ -275,5 +279,87 @@ describe("FilterBar drawer", () => {
       <FilterBar fields={[team]} values={{ team: null }} onChange={vi.fn()} />,
     );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+});
+
+const due: FilterBarField = { id: "due", type: "dateRange", label: "Due", placement: "drawer" };
+const dueBar: FilterBarField = { id: "due", type: "dateRange", label: "Due", placement: "bar" };
+
+function enabledDayIds(prefix: string): string[] {
+  return screen
+    .getAllByTestId(new RegExp(`^${prefix}-day-`))
+    .map((element) => element.getAttribute("data-testid") ?? "")
+    .filter((id) => {
+      const element = screen.getByTestId(id);
+      return element.getAttribute("aria-disabled") !== "true" && !element.hasAttribute("disabled");
+    });
+}
+
+async function commitEdgeDay(
+  user: ReturnType<typeof userEvent.setup>,
+  prefix: string,
+  edge: "first" | "last",
+) {
+  await user.click(screen.getByTestId(`${prefix}-trigger`));
+  const ids = enabledDayIds(prefix);
+  const dayId = edge === "first" ? ids[0] : ids[ids.length - 1];
+  await user.click(screen.getByTestId(dayId));
+  await user.click(screen.getByTestId(`${prefix}-done`));
+}
+
+describe("FilterBar date range", () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+  });
+
+  it("shows the error and disables Apply when from is after to", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <FilterBar
+        dataTestId="filters"
+        fields={[due]}
+        values={{ due: { from: null, to: null } }}
+        onChange={onChange}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    await commitEdgeDay(user, "filters-field-due-from", "last");
+    await commitEdgeDay(user, "filters-field-due-to", "first");
+
+    expect(screen.getByText("From must be on or before To")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Apply" })).toBeDisabled();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("commits a from-only bar range and then refuses an earlier to", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <Harness
+        dataTestId="filters"
+        fields={[dueBar]}
+        initial={{ due: { from: null, to: null } }}
+        onChange={onChange}
+      />,
+    );
+
+    await commitEdgeDay(user, "filters-field-due-from", "last");
+    expect(onChange).toHaveBeenCalledTimes(1);
+    await commitEdgeDay(user, "filters-field-due-to", "first");
+    expect(screen.getByText(DATE_RANGE_ERROR)).toBeInTheDocument();
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("counts a partial committed range as one Filters field", () => {
+    render(
+      <FilterBar
+        fields={[due]}
+        values={{ due: { from: new Date(2026, 7, 1), to: null } }}
+        onChange={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Filters 1" })).toBeInTheDocument();
   });
 });

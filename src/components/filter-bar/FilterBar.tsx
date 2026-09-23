@@ -3,24 +3,46 @@ import styles from "./FilterBar.module.scss";
 import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import getClassNames from "../../utils/get-class-names";
-import { Input, Select } from "../form-controls";
+import { Date as DateField, Input, Select } from "../form-controls";
 import type { Option } from "../form-controls/Select";
 import Button from "../button";
 import Drawer from "../drawer";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
-import type { FilterBarField, FilterBarFieldValue, FilterBarProps, FilterBarValues } from "./filter-bar-types";
+import type {
+  FilterBarDateRangeField,
+  FilterBarDateRangeValue,
+  FilterBarField,
+  FilterBarFieldValue,
+  FilterBarProps,
+  FilterBarValues,
+} from "./filter-bar-types";
 import {
   activeDrawerCount,
+  DATE_RANGE_ERROR,
   dedupeFields,
   drawerDraftEqualsCommitted,
   emptyValue,
+  isDateRangeInvalid,
   readValue,
   withFieldValue,
 } from "./filter-bar-model";
 
 function controlTestId(base: string | undefined, id: string): string | undefined {
   return base ? `${base}-field-${id}` : undefined;
+}
+
+function asDateRange(value: FilterBarFieldValue): FilterBarDateRangeValue {
+  if (
+    value !== null &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    "from" in value &&
+    "to" in value
+  ) {
+    return value;
+  }
+  return { from: null, to: null };
 }
 
 function selectValue(value: FilterBarFieldValue, multi: boolean): Option | Option[] | null {
@@ -32,12 +54,50 @@ function selectValue(value: FilterBarFieldValue, multi: boolean): Option | Optio
     : null;
 }
 
+function DateRangeFields({
+  field,
+  range,
+  error,
+  isFluid,
+  testId,
+  onChange,
+}: {
+  field: FilterBarDateRangeField;
+  range: FilterBarDateRangeValue;
+  error?: string;
+  isFluid?: boolean;
+  testId?: string;
+  onChange: (next: FilterBarDateRangeValue) => void;
+}) {
+  return (
+    <div className={styles["cp-filter-bar__date-range"]}>
+      <DateField
+        label={`${field.label} from`}
+        size="small"
+        isFluid={isFluid}
+        value={range.from}
+        onChange={(from) => onChange({ ...range, from })}
+        dataTestId={testId ? `${testId}-from` : undefined}
+      />
+      <DateField
+        label={`${field.label} to`}
+        size="small"
+        isFluid={isFluid}
+        value={range.to}
+        error={error}
+        onChange={(to) => onChange({ ...range, to })}
+        dataTestId={testId ? `${testId}-to` : undefined}
+      />
+    </div>
+  );
+}
+
 function renderFieldControl(
   field: FilterBarField,
   value: FilterBarFieldValue,
   testId: string | undefined,
   onFieldChange: (next: FilterBarFieldValue) => void,
-  options?: { isFluid?: boolean },
+  options?: { isFluid?: boolean; dateRange?: FilterBarDateRangeValue; dateError?: string },
 ) {
   if (field.type === "search") {
     return (
@@ -66,6 +126,18 @@ function renderFieldControl(
       />
     );
   }
+  if (field.type === "dateRange" && options?.dateRange) {
+    return (
+      <DateRangeFields
+        field={field}
+        range={options.dateRange}
+        error={options.dateError}
+        isFluid={options?.isFluid}
+        testId={testId}
+        onChange={onFieldChange as (next: FilterBarDateRangeValue) => void}
+      />
+    );
+  }
   return null;
 }
 
@@ -83,6 +155,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
   const duplicateKey = duplicateIds.join("\0");
   const [isOpen, setIsOpen] = useState(false);
   const [draft, setDraft] = useState<FilterBarValues>({});
+  const [barDateDraft, setBarDateDraft] = useState<Record<string, FilterBarDateRangeValue>>({});
   const openIdsRef = useRef<string | null>(null);
 
   const barFields = uniqueFields.filter((field) => field.placement === "bar");
@@ -90,6 +163,12 @@ const FilterBar: React.FC<FilterBarProps> = ({
   const drawerIdsKey = drawerFields.map((field) => field.id).join("\0");
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
   const activeCount = activeDrawerCount(drawerFields, values);
+
+  const drawerDateRangeInvalid = drawerFields.some(
+    (field) =>
+      field.type === "dateRange" &&
+      isDateRangeInvalid(asDateRange(readValue(field, draft))),
+  );
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production" || duplicateKey.length === 0) return;
@@ -129,7 +208,21 @@ const FilterBar: React.FC<FilterBarProps> = ({
     setDraft(next);
   }
 
+  function changeBarDate(fieldId: string, next: FilterBarDateRangeValue) {
+    if (isDateRangeInvalid(next)) {
+      setBarDateDraft((current) => ({ ...current, [fieldId]: next }));
+      return;
+    }
+    setBarDateDraft((current) => {
+      const copy = { ...current };
+      delete copy[fieldId];
+      return copy;
+    });
+    onChange(withFieldValue(values, fieldId, next));
+  }
+
   function apply() {
+    if (drawerDateRangeInvalid) return;
     if (drawerDraftEqualsCommitted(drawerFields, values, draft)) {
       dismiss();
       return;
@@ -142,6 +235,49 @@ const FilterBar: React.FC<FilterBarProps> = ({
     dismiss();
   }
 
+  function renderBarField(field: FilterBarField) {
+    const testId = controlTestId(dataTestId, field.id);
+    if (field.type === "dateRange") {
+      const displayed = barDateDraft[field.id] ?? asDateRange(readValue(field, values));
+      return renderFieldControl(field, readValue(field, values), testId, (next) =>
+        changeBarDate(field.id, next as FilterBarDateRangeValue),
+      {
+        dateRange: displayed,
+        dateError: isDateRangeInvalid(displayed) ? DATE_RANGE_ERROR : undefined,
+      });
+    }
+    const value = readValue(field, values);
+    return renderFieldControl(field, value, testId, (next) =>
+      onChange(withFieldValue(values, field.id, next)),
+    );
+  }
+
+  function renderDrawerField(field: FilterBarField) {
+    const value = readValue(field, draft);
+    const testId = controlTestId(dataTestId, field.id);
+    if (field.type === "dateRange") {
+      const range = asDateRange(value);
+      return renderFieldControl(
+        field,
+        value,
+        testId,
+        (next) => setDraft((current) => withFieldValue(current, field.id, next)),
+        {
+          isFluid: true,
+          dateRange: range,
+          dateError: isDateRangeInvalid(range) ? DATE_RANGE_ERROR : undefined,
+        },
+      );
+    }
+    return renderFieldControl(
+      field,
+      value,
+      testId,
+      (next) => setDraft((current) => withFieldValue(current, field.id, next)),
+      { isFluid: true },
+    );
+  }
+
   return (
     <div
       {...dataCp}
@@ -149,17 +285,9 @@ const FilterBar: React.FC<FilterBarProps> = ({
       data-testid={dataTestId}
     >
       <div className={styles["cp-filter-bar__fields"]}>
-        {barFields.map((field) => {
-          const value = readValue(field, values);
-          const testId = controlTestId(dataTestId, field.id);
-          return (
-            <React.Fragment key={field.id}>
-              {renderFieldControl(field, value, testId, (next) =>
-                onChange(withFieldValue(values, field.id, next)),
-              )}
-            </React.Fragment>
-          );
-        })}
+        {barFields.map((field) => (
+          <React.Fragment key={field.id}>{renderBarField(field)}</React.Fragment>
+        ))}
         {drawerFields.length > 0 && (
           <Button
             variant="outline"
@@ -183,25 +311,13 @@ const FilterBar: React.FC<FilterBarProps> = ({
           onPrimaryButtonClick={apply}
           secondaryButtonLabel="Clear"
           onSecondaryButtonClick={clearDraft}
-          isPrimaryButtonDisabled={false}
+          isPrimaryButtonDisabled={drawerDateRangeInvalid}
           dataTestId={dataTestId ? `${dataTestId}-drawer` : undefined}
         >
           <div className={styles["cp-filter-bar__drawer-fields"]}>
-            {drawerFields.map((field) => {
-              const value = readValue(field, draft);
-              const testId = controlTestId(dataTestId, field.id);
-              return (
-                <React.Fragment key={field.id}>
-                  {renderFieldControl(
-                    field,
-                    value,
-                    testId,
-                    (next) => setDraft((current) => withFieldValue(current, field.id, next)),
-                    { isFluid: true },
-                  )}
-                </React.Fragment>
-              );
-            })}
+            {drawerFields.map((field) => (
+              <React.Fragment key={field.id}>{renderDrawerField(field)}</React.Fragment>
+            ))}
           </div>
         </Drawer>
       )}
