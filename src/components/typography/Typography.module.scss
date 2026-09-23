@@ -1,57 +1,76 @@
 .cp-typography {
   font-family: inherit;
-  font-size: inherit;
-  font-weight: normal;
-  line-height: 1;
+  font-size: var(--cp-font-size-md);
+  font-weight: var(--cp-font-weight-regular);
+  line-height: var(--cp-font-leading-md);
+  letter-spacing: var(--cp-font-tracking-ui);
   color: var(--black);
 
   &.cp-typography--bold {
-    font-weight: bold;
+    font-weight: var(--cp-font-weight-bold);
   }
 
   &.cp-typography--h1 {
-    font-size: 60px;
-    line-height: 60px;
+    font-size: var(--cp-font-size-4xl);
+    font-weight: var(--cp-font-weight-bold);
+    line-height: var(--cp-font-leading-4xl);
+    letter-spacing: var(--cp-font-tracking-display);
   }
 
   &.cp-typography--h2 {
-    font-size: 50px;
-    line-height: 50px;
+    font-size: var(--cp-font-size-2xl);
+    font-weight: var(--cp-font-weight-bold);
+    line-height: var(--cp-font-leading-2xl);
+    letter-spacing: var(--cp-font-tracking-title);
   }
 
   &.cp-typography--h3 {
-    font-size: 40px;
-    line-height: 40px;
+    font-size: var(--cp-font-size-xl);
+    font-weight: var(--cp-font-weight-bold);
+    line-height: var(--cp-font-leading-xl);
+    letter-spacing: var(--cp-font-tracking-heading);
   }
 
   &.cp-typography--h4 {
-    font-size: 30px;
-    line-height: 30px;
+    font-size: var(--cp-font-size-lg);
+    font-weight: var(--cp-font-weight-medium);
+    line-height: var(--cp-font-leading-lg);
+    letter-spacing: var(--cp-font-tracking-ui);
   }
 
   &.cp-typography--h5 {
-    font-size: 24px;
-    line-height: 24px;
+    font-size: var(--cp-font-size-md);
+    font-weight: var(--cp-font-weight-medium);
+    line-height: var(--cp-font-leading-md);
+    letter-spacing: var(--cp-font-tracking-ui);
   }
 
   &.cp-typography--h6 {
-    font-size: 18px;
-    line-height: 18px;
+    font-size: var(--cp-font-size-sm);
+    font-weight: var(--cp-font-weight-medium);
+    line-height: var(--cp-font-leading-sm);
+    letter-spacing: var(--cp-font-tracking-caption);
   }
 
   &.cp-typography--span {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: var(--cp-font-size-md);
+    font-weight: var(--cp-font-weight-regular);
+    line-height: var(--cp-font-leading-md);
+    letter-spacing: var(--cp-font-tracking-ui);
   }
 
   &.cp-typography--p {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: var(--cp-font-size-md);
+    font-weight: var(--cp-font-weight-regular);
+    line-height: var(--cp-font-leading-md);
+    letter-spacing: var(--cp-font-tracking-ui);
   }
 
   &.cp-typography--small {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: var(--cp-font-size-xs);
+    font-weight: var(--cp-font-weight-regular);
+    line-height: var(--cp-font-leading-xs);
+    letter-spacing: var(--cp-font-tracking-caption);
   }
 
   &.cp-typography--align-left {
