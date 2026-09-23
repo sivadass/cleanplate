@@ -5,7 +5,14 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 
 /**
@@ -29,6 +36,8 @@ export interface FormControlsStepperProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   className?: string;
@@ -84,6 +93,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   placeholder = "",
@@ -94,6 +104,49 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   step = 1,
   layout = "default",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Stepper",
+    {
+      name,
+      id,
+      defaultValue,
+      value,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      size,
+      margin,
+      placeholder,
+      error,
+      dataTestId,
+      min,
+      max,
+      step,
+      layout,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      placeholder: "",
+      error: "",
+      dataTestId: undefined,
+      step: 1,
+      layout: "default",
+      name: undefined,
+      id: undefined,
+      defaultValue: undefined,
+      value: undefined,
+      min: undefined,
+      max: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -118,6 +171,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
 
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
+    getFormControlSizeClass(size, styles),
     { [styles["cp-form-field-fluid"]]: isFluid },
     getFormFieldMarginClass(margin),
     className
@@ -221,7 +275,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
   );
 
   return (
-    <div className={fieldWrapperClassName}>
+    <div {...dataCp} className={fieldWrapperClassName}>
       {label && (
         <label className={styles["cp-form-label"]} htmlFor={inputId}>
           {label}{" "}
@@ -239,7 +293,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               onClick={() => adjust(-1)}
               data-testid={stepperFieldTestId(dataTestId, "decrement")}
             >
-              <Icon name="remove" size="medium" color="gray" aria-hidden />
+              <Icon name="remove" aria-hidden />
             </button>
             <span className={styles["cp-stepper-divider"]} aria-hidden />
             {inputEl}
@@ -252,7 +306,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               onClick={() => adjust(1)}
               data-testid={stepperFieldTestId(dataTestId, "increment")}
             >
-              <Icon name="add" size="medium" color="gray" aria-hidden />
+              <Icon name="add" aria-hidden />
             </button>
           </>
         ) : layout === "trailing-stacked-chevrons" ? (
@@ -275,7 +329,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
                 onClick={() => adjust(1)}
                 data-testid={stepperFieldTestId(dataTestId, "increment")}
               >
-                <Icon name="expand_less" size="medium" color="gray" aria-hidden />
+                <Icon name="expand_less" aria-hidden />
               </button>
               <span className={styles["cp-stepper-stack-divider"]} aria-hidden />
               <button
@@ -289,7 +343,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
                 onClick={() => adjust(-1)}
                 data-testid={stepperFieldTestId(dataTestId, "decrement")}
               >
-                <Icon name="expand_more" size="medium" color="gray" aria-hidden />
+                <Icon name="expand_more" aria-hidden />
               </button>
             </div>
           </>
@@ -305,7 +359,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               onClick={() => adjust(-1)}
               data-testid={stepperFieldTestId(dataTestId, "decrement")}
             >
-              <Icon name="remove" size="medium" color="gray" aria-hidden />
+              <Icon name="remove" aria-hidden />
             </button>
             <span className={styles["cp-stepper-divider"]} aria-hidden />
             <button
@@ -316,7 +370,7 @@ const Stepper: React.FC<FormControlsStepperProps> = ({
               onClick={() => adjust(1)}
               data-testid={stepperFieldTestId(dataTestId, "increment")}
             >
-              <Icon name="add" size="medium" color="gray" aria-hidden />
+              <Icon name="add" aria-hidden />
             </button>
           </>
         )}

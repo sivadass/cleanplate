@@ -17,14 +17,15 @@ When generating code that uses CleanPlate components, **use component props inst
 **This rule applies to every CleanPlate component** that accepts `margin`, `padding`, or `gap` (Typography, Button, Container, Alert, Avatar, Accordion, Header, Footer, and others). All of them use the same **suffix-only** API; the component adds the prefix internally.
 
 - **Correct:** `margin="0"`, `margin="b-2"`, `margin={["b-2", "t-1"]}`, `padding="4"`, `gap="2"`. The component turns these into m-0, m-b-2, p-4, g-2, etc.
-- **Wrong:** `margin="m-0"`, `padding="p-4"`, `gap="g-2"` — do not include the m-, p-, or g- prefix.
+- **Wrong:** prefixed values like `"m-0"`, `"p-4"`, `"g-2"` in margin/padding/gap props — use suffix-only (`"0"`, `"4"`, `"2"`).
 - Common suffixes: "0", "1", "2", "3", "4", "b-1", "b-2", "t-2", "y-2", "x-2".
 - Use the `margin` / `padding` / `gap` prop instead of `style={{ marginBottom, paddingTop, gap }}` for spacing.
 
 ### Typography
 - **Text alignment:** Use the `align` prop. Example: `<Typography align="center">` not `style={{ textAlign: "center" }}`. Values: `"left"`, `"center"`, `"right"`.
-- **Spacing:** Use `margin` with the spacing suffix (see above; same rule as all components).
+- **Spacing:** Use `margin` with the suffix rule (see above).
 - **Bold:** Use `isBold` prop, not `style={{ fontWeight: "bold" }}`.
+- **Hierarchy:** Use `variant` (`h1`–`h6`, `p`, `span`, `small`). Do not set inline `fontSize`. Sizes come from the two-scale tokens (UI 12/14/16/20/24, display 32/40/48). `h1` is 48; `h5` is 16/600 (same size as body, heavier). Need a 20 or 24 heading? Use `h4` or `h3`, not `h5`.
 
 ### Other components
 - **Container:** Use `padding`, `margin`, `gap`, `align`, `justify`, `display`, `width` props (spacing uses suffix rule above).
@@ -43,6 +44,19 @@ When generating code that uses CleanPlate components, **use component props inst
 <Typography variant="h4" style={{ textAlign: "center", marginBottom: "1rem" }}>Login</Typography>
 ```
 
+### HTML prototype (design agents)
+
+v1 Tier 1 components have HTML recipes in `docs/<Component>.md` under `## HTML prototype`. Author with `data-cp` + public `cp-*` CSS; convert with the mechanical CLI:
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+- **Authoring skill:** `skills/cleanplate-html-prototype/SKILL.md`
+- **Conversion skill:** `skills/cleanplate-html-to-react/SKILL.md`
+- **Sticker sheet:** `docs/html/kit.html`
+- **No callbacks in HTML** — hand-wire `onClick` / `onChange` after conversion.
+
 ## Component Documentation
 
 All component documentation is located in the `docs/` folder. The following documentation files are available:
@@ -50,13 +64,13 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Button Component
 - File: `docs/Button.md`
 - Purpose: A highly customizable and interactive UI element designed to handle user actions with various styles, sizes, and variants. Supports loading states, disabled states, and click events.
-- Key Features: Variants (solid, outline, ghost, icon), sizes (small, medium), loading states, disabled states, fluid layout, margin spacing
+- Key Features: Variants (solid, outline, ghost, icon), sizes (small 32 / medium 44 default / large 52), prefixIcon/suffixIcon (glyphs 16 / 20 / 24), square `variant="icon"`, loading states, disabled states, fluid layout, margin spacing. Height and radius tokens are shared with boxed form fields (`--cp-form-control-height-*`, `--cp-form-control-radius-*`). No `--cp-button-height-*` tokens.
 - Types: ButtonProps, ButtonSize, ButtonVariant, ButtonMargin, SpacingOption
 
 ### Typography Component
 - File: `docs/Typography.md`
 - Purpose: Provides a consistent set of text styles for headings, paragraphs, and inline elements, ensuring clear hierarchy, readability, and brand-aligned communication across the interface.
-- Key Features: Variants (h1-h6, p, span, small), text alignment, word breaking, bold text, margin spacing
+- Key Features: Variants (h1-h6, p, span, small), two-scale tokens (UI 12–24, display 32/40/48), text alignment, word breaking, bold text, margin spacing
 - Types: TypographyProps, TypographyVariant, TypographyAlign, TypographyWordBreak, TypographyMargin, SpacingOption
 
 ### Icon Component
@@ -115,6 +129,13 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: SpinnerProps, SpinnerSize, SpinnerVariant, SpinnerIcon, SpinnerMargin, SpacingOption
 - Related Components: Container, Icon (used internally)
 
+### ProgressBar Component
+- File: `docs/ProgressBar.md`
+- Purpose: Horizontal progress indicator showing completion percentage (0–100).
+- Key Features: `value` required 0–100, sizes small|medium|large, variants default|primary|secondary|success|info|error|warning, margin suffix API, `className` / `trackClassName`
+- Types: ProgressBar props documented in `docs/ProgressBar.md` (JS component with PropTypes)
+- Related Components: Statistic (optional progress slot), Container (internal layout)
+
 ### Statistic Component
 - File: `docs/Statistic.md`
 - Purpose: Displays a labeled numeric metric (title + formatted value) with optional prefix/suffix, loading state, semantic value coloring, and card-style dashboard tiles. For dashboard KPIs and summary tiles.
@@ -169,14 +190,14 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Pagination Component
 - File: `docs/Pagination.md`
 - Purpose: Navigate large content sets by pages. Shows total count, prev/next and page-number buttons with ellipsis, and optional rows-per-page select. Controlled via currentPage and rowsPerPage.
-- Key Features: Variants (default, minimal), rowsPerPageOptions, onPageChange(page, rowsPerPage), onRowsPerPageChange(rowsPerPage), margin spacing (suffix API)
+- Key Features: Variants (default, minimal), rowsPerPageOptions, onPageChange(page, rowsPerPage), onRowsPerPageChange(rowsPerPage), margin spacing (suffix API). Page buttons and rows-per-page Select are locked to small (32px / `--cp-form-control-radius-small`); no `size` prop.
 - Types: PaginationProps, PaginationVariant, PaginationMargin, PaginationRowsPerPageOption, SpacingOption
 - Related Components: Table (often used with Pagination), Container, Button, FormControls.Select, Typography, Icon (used internally)
 
 ### Table Component
 - File: `docs/Table.md`
 - Purpose: Displays structured data in a table with configurable columns, optional built-in pagination, and responsive mobile view (MediaObject cards when viewport < 768px and mobileColumns set).
-- Key Features: columns (id, title, textAlign, widthPercentage, customRender), data (TableRow[]), variants (default, compact), mobileColumns, onRowClick, pagination props (totalItems, currentPage, onPageChange, etc.), hidePagination, margin (suffix API)
+- Key Features: columns (id, title, textAlign, widthPercentage, customRender), data (TableRow[]), variants (default, compact), mobileColumns, onRowClick, pagination props (totalItems, currentPage, onPageChange, etc.), hidePagination, margin (suffix API). Built-in Pagination chrome is locked to small (32px).
 - Types: TableProps, TableColumn, TableRow, TableVariant, TableMargin, TableColumnTextAlign, TableMobileColumns, TableMobileColumnKey, TableMobileColumnField, SpacingOption
 - Related Components: Pagination (built-in), MediaObject (mobile view), Typography, Container, Badge (often in customRender)
 
@@ -204,10 +225,10 @@ All component documentation is located in the `docs/` folder. The following docu
 ### FormControls
 - File: `docs/FormControls.md`
 - Purpose: Set of form primitives: Input, TextArea, Select, Date, Checkbox, Radio, SegmentedControl, File, Toggle, **FormControls.Stepper** (numeric +/− only; wizard step UI is the separate **`Stepper`** export — `docs/Stepper.md`). Access via `FormControls.Input`, `FormControls.Select`, etc.
-- Key Features: Input (supports text/search/number + prefix/suffix; number maps to numeric text input, strips non-digits on change, optional `phoneDigits` trims autofill to last N digits for phone fields, clamps via `min`/`max` on blur; search adds icon + clear button), TextArea, **Select** (Floating UI: portalled combobox on desktop with flip/shift positioning; **viewport ≤768px** uses a **bottom sheet** shell with `role="dialog"` / `aria-modal` when a label exists; **sync** `options` with in-panel **search filter**, or **async** via `options={null}` + `onSearch` (debounced); **groups** (`Option.group` sticky headers); **multi** chips with `triggerMaxItems` **+N** overflow, **Select all / Clear all**, **`maxSelect`** cap; optional **`onAddOption`** + **`addOptionLabel`** (persistent footer below scrollable list); combobox + listbox ARIA, **`aria-invalid`** on error, **`aria-controls`** on trigger/search only while open; `name` + hidden input for forms — multi posts comma-joined **`value`s**), **Date** (calendar **`Date | null`** + **Cancel/OK** staging; `date-fns` **Locale** + **`dateFormat`**; **Floating UI** desktop popover **~max 400px** wide (viewport-capped) with **`popoverPlacement`**; **≤768px** **bottom sheet** + backdrop/body lock like Select; **month/year subviews** with back + **“Select a month of {yyyy}”** / **“Select a year for {MMMM}”** titles; trigger **`calendar_month`** icon + optional clear; **`minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`**, **`weekStartsOn`**, **`readOnly`**, **`clearable`**, **`name`** → hidden **`yyyy-MM-dd`**, **`onOpen`/`onClose`**), Checkbox (group-first: options[], CheckboxValue[] for multi-select, onChange(values, e); each option supports `description` and `icon`; `variant="card"` for tile-style options), Radio (group-first: options[], single value, onChange(value, e); each option supports `description` and `icon`; `variant="card"` for tile-style options), **SegmentedControl** (compact single-select options for forms; equal-width segments; text/icon/icon-only with `ariaLabel`; not for top-level app navigation — use `MenuList` for tabs/nav), File (`variant="button" | "card"`; card variant has dashed drop zone with drag-and-drop; `value: File[]` + `onChange(files, e)`; renders a removable file list with type-aware thumbnail, name, and size), Toggle (switch semantics via checkbox + role="switch"), **FormControls.Stepper** (numeric integer only: inner field is `type="text"` + `inputMode="numeric"` with − / +; `min`, `max`, `step`; **`layout`**: `"default"` | `"split-controls"` | `"trailing-stacked-chevrons"`; no **`type`** prop — use **Input** for other field kinds; − / + clicks do not move focus into the field, avoiding unwanted mobile keyboard); common props label, isRequired, isFluid, error
-- Types: InputProps, **Option** (preferred), **SelectOption** (deprecated alias of Option), **SelectValue**, SelectProps, TextAreaProps, CheckboxProps, CheckboxOption, CheckboxValue, FileProps, FileVariant, RadioProps, RadioOption, RadioValue, SegmentedControlProps, SegmentedControlOption, SegmentedControlValue, SegmentedControlSize, ToggleProps, DateProps, FormControlsStepperProps, **FormControlsStepperLayout**
-- Theming: Public CSS custom property `--cp-form-control-radius` (default `var(--radius-large)` = 12px) controls corner radius for Input, TextArea, **FormControls.Stepper** shell, Select trigger + open dropdown corners, Date trigger + calendar panel shell, SegmentedControl track shell, File (outline trigger, drop zone, in-card CTA span, file list rows), and Radio/Checkbox `variant="card"` tiles. Override on `:root` (or any wrapper / inline `style`) after importing `cleanplate/dist/index.css` to retheme just form fields. Prefer this over overriding the underlying `--radius-large` design token, which affects every "large radius" surface in the framework.
-- Related Components: Pills (Input), Pagination (Select), Container, Button
+- Key Features: Input (supports text/search/number + prefix/suffix; number maps to numeric text input, strips non-digits on change, optional `phoneDigits` trims autofill to last N digits for phone fields, clamps via `min`/`max` on blur; search adds icon + clear button), TextArea, **Select** (Floating UI: portalled combobox on desktop with flip/shift positioning; **viewport ≤768px** uses a **bottom sheet** shell with `role="dialog"` / `aria-modal` when a label exists; **sync** `options` with in-panel **search filter**, or **async** via `options={null}` + `onSearch` (debounced); **groups** (`Option.group` sticky headers); **multi** chips with `triggerMaxItems` **+N** overflow, **Select all / Clear all**, **`maxSelect`** cap; optional **`onAddOption`** + **`addOptionLabel`** (persistent footer below scrollable list); combobox + listbox ARIA, **`aria-invalid`** on error, **`aria-controls`** on trigger/search only while open; `name` + hidden input for forms — multi posts comma-joined **`value`s**), **Date** (calendar **`Date | null`** + **Cancel/OK** staging; `date-fns` **Locale** + **`dateFormat`**; **Floating UI** desktop popover **~max 400px** wide (viewport-capped) with **`popoverPlacement`**; **≤768px** **bottom sheet** + backdrop/body lock like Select; **month/year subviews** with back + **“Select a month of {yyyy}”** / **“Select a year for {MMMM}”** titles; trigger **`calendar_month`** icon + optional clear; **`minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`**, **`weekStartsOn`**, **`readOnly`**, **`clearable`**, **`name`** → hidden **`yyyy-MM-dd`**, **`onOpen`/`onClose`**), Checkbox (group-first: options[], CheckboxValue[] for multi-select, onChange(values, e); each option supports `description` and `icon`; `variant="card"` for tile-style options), Radio (group-first: options[], single value, onChange(value, e); each option supports `description` and `icon`; `variant="card"` for tile-style options), **SegmentedControl** (compact single-select options for forms; equal-width segments; text/icon/icon-only with `ariaLabel`; not for top-level app navigation — use `MenuList` for tabs/nav), File (`variant="button" | "card"`; card variant has dashed drop zone with drag-and-drop; `value: File[]` + `onChange(files, e)`; renders a removable file list with type-aware thumbnail, name, and size), Toggle (switch semantics via checkbox + role="switch"), **FormControls.Stepper** (numeric integer only: inner field is `type="text"` + `inputMode="numeric"` with − / +; `min`, `max`, `step`; **`layout`**: `"default"` | `"split-controls"` | `"trailing-stacked-chevrons"`; no **`type`** prop — use **Input** for other field kinds; − / + clicks do not move focus into the field, avoiding unwanted mobile keyboard); common props label, isRequired, isFluid, **size** (`small` / `medium` default / `large` on boxed controls), error
+- Types: InputProps, **FormControlSize**, **Option** (preferred), **SelectOption** (deprecated alias of Option), **SelectValue**, SelectProps, TextAreaProps, CheckboxProps, CheckboxOption, CheckboxValue, FileProps, FileVariant, RadioProps, RadioOption, RadioValue, SegmentedControlProps, SegmentedControlOption, SegmentedControlValue, SegmentedControlSize, ToggleProps, DateProps, FormControlsStepperProps, **FormControlsStepperLayout**
+- Theming: Public CSS custom properties `--cp-form-control-radius-small|medium|large` (8 / 12 / 16) and `--cp-form-control-height-small|medium|large` (32 / 44 / 52), shared with Button. Boxed controls take `size` (`small` / `medium` default / `large`). Override on `:root` (or any wrapper / inline `style`) after importing `cleanplate/dist/index.css` to retheme just form fields and buttons. Prefer this over overriding the underlying `--radius-*` design tokens, which affect every surface on that radius step.
+- Related Components: Pills (Input), Pagination (Select, locked to `small`), Container, Button
 
 ### Toast Component
 - File: `docs/Toast.md`

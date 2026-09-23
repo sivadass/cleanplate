@@ -1,0 +1,55 @@
+import { Meta, Unstyled } from "@storybook/blocks";
+import { Container, Typography } from "../../index";
+
+<Meta title="atoms/Typography/Type scale" />
+
+# Type scale
+
+Every `variant` on one page, same sample string. Compare size, weight, leading, and tracking. UI steps are 12–24; display steps are 32 / 40 / 48 (`h1` is 48 — there is no default 40).
+
+<Unstyled>
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">h1 · 48 / 56 · 700 · −0.03em</Typography>
+  <Typography variant="h1" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">h2 · 32 / 40 · 700 · −0.02em</Typography>
+  <Typography variant="h2" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">h3 · 24 / 32 · 700 · −0.015em</Typography>
+  <Typography variant="h3" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">h4 · 20 / 28 · 600</Typography>
+  <Typography variant="h4" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">h5 · 16 / 24 · 600 (same size as body)</Typography>
+  <Typography variant="h5" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">h6 · 14 / 20 · 600</Typography>
+  <Typography variant="h6" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">p · 16 / 24 · 400</Typography>
+  <Typography variant="p" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="b-6" width="full">
+  <Typography variant="small" margin="b-1">span · 16 / 24 · 400</Typography>
+  <Typography variant="span" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+
+<Container display="block" padding="0" margin="0" width="full">
+  <Typography variant="small" margin="b-1">small · 12 / 16 · 400</Typography>
+  <Typography variant="small" margin="0">The quick brown fox jumps over the lazy dog</Typography>
+</Container>
+</Unstyled>

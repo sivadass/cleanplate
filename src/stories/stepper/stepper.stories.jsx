@@ -55,11 +55,11 @@ export const Variants = {
   name: "Variants",
   render: () => (
     <Container padding="4">
-      <Typography variant="h5" margin="m-0 m-b-2">
+      <Typography variant="h5" margin="b-2">
         Horizontal
       </Typography>
       <Stepper config={defaultConfig} variant="horizontal" margin="b-4" />
-      <Typography variant="h5" margin="m-0 m-b-2">
+      <Typography variant="h5" margin="b-2">
         Vertical
       </Typography>
       <Stepper config={defaultConfig} variant="vertical" />
@@ -88,7 +88,7 @@ export const Interactive = {
     ];
     return (
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Click a step to set it active
         </Typography>
         <Stepper

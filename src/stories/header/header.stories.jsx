@@ -165,12 +165,12 @@ export const Variants = {
     const items = DEFAULT_MENU_ITEMS.slice(0, 4);
     return (
       <Container padding="4">
-        <Typography variant="h5" margin="m-0 m-b-2">
+        <Typography variant="h5" margin="b-2">
           Variants
         </Typography>
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
           <div>
-            <Typography variant="p" margin="m-0 m-b-1">Light</Typography>
+            <Typography variant="p" margin="b-1">Light</Typography>
             <Header
               logoUrl="https://f005.backblazeb2.com/file/sivadass-cloud/cleanplate-logo.svg"
               menuItems={items}
@@ -181,7 +181,7 @@ export const Variants = {
             />
           </div>
           <div>
-            <Typography variant="p" margin="m-0 m-b-1">Dark</Typography>
+            <Typography variant="p" margin="b-1">Dark</Typography>
             <Header
               logoUrl="https://f005.backblazeb2.com/file/sivadass-cloud/cleanplate-logo.svg"
               menuItems={items}

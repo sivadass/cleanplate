@@ -17,6 +17,8 @@ import utilStyles from "../../styles/utils.module.scss";
 import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import { useMediaQuery } from "../../utils/use-media-query";
 
 /** Frozen breakpoint: matches Select, Date, Table mobile behavior. */
@@ -184,6 +186,51 @@ const Drawer: React.FC<DrawerProps> = ({
   onTertiaryButtonClick,
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Drawer",
+    {
+      isOpen,
+      placement,
+      size,
+      title,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      margin,
+      overlayClassName,
+      contentClassName,
+      headerClassName,
+      bodyClassName,
+      footerClassName,
+      ariaLabel,
+      primaryButtonLabel,
+      secondaryButtonLabel,
+      tertiaryButtonLabel,
+      dataTestId,
+    },
+    {
+      isOpen: false,
+      placement: "right",
+      size: "medium",
+      title: "",
+      showCloseButton: true,
+      closeOnOverlayClick: true,
+      closeOnEscape: true,
+      margin: "0",
+      overlayClassName: "",
+      contentClassName: "",
+      headerClassName: "",
+      bodyClassName: "",
+      footerClassName: "",
+      ariaLabel: undefined,
+      primaryButtonLabel: "",
+      secondaryButtonLabel: "",
+      tertiaryButtonLabel: "",
+      dataTestId: undefined,
+    },
+  );
   const titleId = useId();
   const isMobileSheet = useMediaQuery(DRAWER_MOBILE_SHEET_MEDIA);
   const effectivePlacement: DrawerPlacement = isMobileSheet
@@ -222,12 +269,12 @@ const Drawer: React.FC<DrawerProps> = ({
   const role = useRole(context, { role: "dialog" });
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
-  const marginClass = getSpacingClass(margin, utilStyles, "m");
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
 
   const drawerClasses = getClassNames(
     styles["cp-drawer"],
-    styles[`placement-${effectivePlacement}`],
-    styles[`size-${size}`],
+    styles[`cp-drawer--placement-${effectivePlacement}`],
+    styles[`cp-drawer--size-${size}`],
     isMobileSheet && styles["cp-drawer-mobile-sheet"],
     marginClass,
     className,
@@ -239,18 +286,18 @@ const Drawer: React.FC<DrawerProps> = ({
   );
 
   const contentClasses = getClassNames(
-    styles["content"],
+    styles["cp-drawer__content"],
     contentClassName,
   );
 
   const headerClasses = getClassNames(
-    styles["header"],
+    styles["cp-drawer__header"],
     headerClassName,
   );
 
-  const bodyClasses = getClassNames(styles["body"], bodyClassName);
+  const bodyClasses = getClassNames(styles["cp-drawer__body"], bodyClassName);
 
-  const footerClasses = getClassNames(styles["footer"], footerClassName);
+  const footerClasses = getClassNames(styles["cp-drawer__footer"], footerClassName);
 
   const handleClose = () => {
     onClose?.();
@@ -283,6 +330,7 @@ const Drawer: React.FC<DrawerProps> = ({
       />
       <FloatingFocusManager context={context} modal returnFocus>
         <div
+          {...dataCp}
           ref={refs.setFloating}
           className={drawerClasses}
           style={panelTransitionStyles}
@@ -303,7 +351,7 @@ const Drawer: React.FC<DrawerProps> = ({
                   <Typography
                     variant="h2"
                     id={titleId}
-                    className={styles["title"]}
+                    className={styles["cp-drawer__title"]}
                     data-testid={drawerFieldTestId(dataTestId, "title")}
                   >
                     {title}
@@ -314,7 +362,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="icon"
                     size="small"
                     onClick={handleClose}
-                    className={styles["close-button"]}
+                    className={styles["cp-drawer__close-button"]}
                     aria-label="Close drawer"
                     data-testid={drawerFieldTestId(dataTestId, "close")}
                   >
@@ -342,8 +390,8 @@ const Drawer: React.FC<DrawerProps> = ({
                     size="medium"
                     onClick={onTertiaryButtonClick}
                     className={getClassNames(
-                      styles["footer-button"],
-                      styles["footer-tertiary"],
+                      styles["cp-drawer__footer-button"],
+                      styles["cp-drawer__footer-tertiary"],
                     )}
                     data-testid={drawerFieldTestId(dataTestId, "tertiary")}
                   >
@@ -355,7 +403,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="outline"
                     size="medium"
                     onClick={onSecondaryButtonClick}
-                    className={styles["footer-button"]}
+                    className={styles["cp-drawer__footer-button"]}
                     data-testid={drawerFieldTestId(dataTestId, "secondary")}
                   >
                     {secondaryButtonLabel}
@@ -366,7 +414,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="solid"
                     size="medium"
                     onClick={onPrimaryButtonClick}
-                    className={styles["footer-button"]}
+                    className={styles["cp-drawer__footer-button"]}
                     data-testid={drawerFieldTestId(dataTestId, "primary")}
                   >
                     {primaryButtonLabel}

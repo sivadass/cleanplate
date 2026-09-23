@@ -1,10 +1,10 @@
-.toast-container {
+.cp-toast-container {
   gap: 16px;
   display: flex;
   flex-direction: column;
 }
 
-.toast {
+.cp-toast {
   width: 320px;
   display: flex;
   position: relative;
@@ -22,23 +22,27 @@
     transform: scale(0.95);
     box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.45);
   }
-  &.success {
+  &.cp-toast--success {
     background-color: var(--green);
   }
-  &.warning {
+  &.cp-toast--warning {
     background-color: var(--orange);
   }
-  &.error {
+  &.cp-toast--error {
     background-color: var(--red);
   }
-  &.info {
+  &.cp-toast--info {
     background-color: var(--blue);
   }
-  .icon {
+  .cp-toast__icon {
     color: var(--white);
     margin-right: 8px;
     font-size: 24px;
     opacity: 0.5;
+  }
+  .cp-toast__message {
+    flex: 1;
+    min-width: 0;
   }
 }
 

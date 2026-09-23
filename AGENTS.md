@@ -43,3 +43,12 @@ Correct vs avoid:
 1. Read `node_modules/cleanplate/llms.txt` for global rules and the right `docs/*.md` path.  
 2. Open the matching `docs/<Component>.md` before inventing props or patterns.  
 3. Match **TypeScript types** exported from `'cleanplate'` when the project uses TypeScript.
+
+## HTML prototype workflow
+
+Design agents author canonical-frame HTML with `data-cp` attributes and public `cp-*` CSS classes. Convert mechanically — never invent JSX from HTML by hand.
+
+1. Read `docs/<Component>.md` → `## HTML prototype` (Input: `### HTML prototype (Input)` in `docs/FormControls.md`).
+2. Author HTML using `skills/cleanplate-html-prototype/SKILL.md`.
+3. Run `npm run html-to-jsx -- recipe.html` (see `skills/cleanplate-html-to-react/SKILL.md`).
+4. Sticker sheet reference: `docs/html/kit.html`.

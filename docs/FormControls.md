@@ -1,22 +1,46 @@
 # FormControls
 
-FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.ColorPicker`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.SegmentedControl`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across controls: label, isDisabled, isRequired, isFluid, margin, className, error.
+FormControls is a set of form primitives exported as a namespace: `FormControls.Input`, `FormControls.Select`, `FormControls.TextArea`, `FormControls.Date`, `FormControls.ColorPicker`, `FormControls.Checkbox`, `FormControls.Radio`, `FormControls.SegmentedControl`, `FormControls.File`, `FormControls.Toggle`, `FormControls.Stepper`. Use them to build forms with consistent styling, labels, validation messages, and optional fluid layout. Common props across boxed controls: label, isDisabled, isRequired, isFluid, **size**, margin, className, error.
 
 ## Controls overview
 
 | Control | Purpose | Key props |
 | --- | --- | --- |
-| Input | Single-line text | placeholder, value, onChange(e), type, `phoneDigits` (numeric autofill) |
-| TextArea | Multi-line text | placeholder, value, onChange(e) |
-| Select | Floating UI combobox: desktop portalled list; **≤768px** bottom sheet; sync or async options, search, groups, multi chips + cap | `mode` / `isMulti`, `options`, `onSearch`, `searchable`, `groups`, `maxSelect`, `triggerMaxItems`, `panelMinWidth`, `name`, `placeholder`, `error` |
-| Date | Calendar date picker (`date-fns` + Floating UI); **Cancel** / **OK** staging; desktop **popover** (~**400px** max width, viewport-capped); **≤768px** **bottom sheet** + backdrop; **month** / **year** subviews with back + titled headers; trigger **`calendar_month`** icon | `value`/`defaultValue` (`Date \| null`), `onChange`, `minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`, `locale`, `weekStartsOn`, `dateFormat`, `clearable`, `readOnly`, `name` (hidden **yyyy-MM-dd**), `popoverPlacement`, `onOpen`/`onClose` |
-| ColorPicker | Hex color picker (`#RRGGBB`) with Floating UI dialog pattern: desktop popover, **≤768px** bottom sheet, saturation/value canvas, hue slider, and RGB channel inputs | `value`/`defaultValue`, `onChange`, `clearable`, `readOnly`, `name` (hidden hex input), `placeholder`, `popoverPlacement`, `onOpen`/`onClose` |
+| Input | Single-line text | placeholder, value, onChange(e), type, `phoneDigits` (numeric autofill), **size** |
+| TextArea | Multi-line text | placeholder, value, onChange(e), **size** (type + min-height) |
+| Select | Floating UI combobox: desktop portalled list; **≤768px** bottom sheet; sync or async options, search, groups, multi chips + cap | `mode` / `isMulti`, `options`, `onSearch`, `searchable`, `groups`, `maxSelect`, `triggerMaxItems`, `panelMinWidth`, `name`, `placeholder`, `error`, **size** |
+| Date | Calendar date picker (`date-fns` + Floating UI); **Cancel** / **OK** staging; desktop **popover** (~**400px** max width, viewport-capped); **≤768px** **bottom sheet** + backdrop; **month** / **year** subviews with back + titled headers; trigger **`calendar_month`** icon | `value`/`defaultValue` (`Date \| null`), `onChange`, `minDate`/`maxDate`/`disabledDates`/`disabledDaysOfWeek`, `locale`, `weekStartsOn`, `dateFormat`, `clearable`, `readOnly`, `name` (hidden **yyyy-MM-dd**), `popoverPlacement`, `onOpen`/`onClose`, **size** |
+| ColorPicker | Hex color picker (`#RRGGBB`) with Floating UI dialog pattern: desktop popover, **≤768px** bottom sheet, saturation/value canvas, hue slider, and RGB channel inputs | `value`/`defaultValue`, `onChange`, `clearable`, `readOnly`, `name` (hidden hex input), `placeholder`, `popoverPlacement`, `onOpen`/`onClose`, **size** |
 | Checkbox | Checkbox group (array-based, multi-select) | name, label, options, value (CheckboxValue[]), defaultValue, onChange(values, e), orientation, variant, cardControlAlign |
 | Radio | Radio group (array-based) | name, label, options, value, defaultValue, onChange(value, e), orientation, variant, cardControlAlign |
-| SegmentedControl | Compact single-select segmented field (equal-width options) | name, label, options, value/defaultValue, onChange(value, e), size, isRequired, isDisabled |
-| File | File picker with `button` / `card` variants, drag-and-drop, and a removable file list | name, label, variant, multiple, accept, value (File[]), onChange(files, e), buttonLabel, dropZoneText |
+| SegmentedControl | Compact single-select segmented field (equal-width options) | name, label, options, value/defaultValue, onChange(value, e), **size** (`small` / `medium` / `large`), isRequired, isDisabled |
+| File | File picker with `button` / `card` variants, drag-and-drop, and a removable file list | name, label, variant, multiple, accept, value (File[]), onChange(files, e), buttonLabel, dropZoneText, **size** (button variant height) |
 | Toggle | On/off switch | checked, defaultChecked, onChange(checked: boolean) |
-| Stepper | Numeric value with integrated − / + (integer text field + `min` / `max` / `step`) | placeholder, value, onChange(e), min, max, step, layout |
+| Stepper | Numeric value with integrated − / + (integer text field + `min` / `max` / `step`) | placeholder, value, onChange(e), min, max, step, layout, **size** |
+
+## Sizes
+
+Boxed controls share `size?: FormControlSize` (`"small" | "medium" | "large"`, default `"medium"`). Heights match Button so a default Input and a default Button sit flush.
+
+| size | Height | Type | Side padding | Radius |
+| --- | --- | --- | --- | --- |
+| `small` | 32px | 14px | 12px | `--cp-form-control-radius-small` (8px) |
+| `medium` (default) | 44px | 16px | 16px | `--cp-form-control-radius-medium` (12px) |
+| `large` | 52px | 16px | 20px | `--cp-form-control-radius-large` (16px) |
+
+`TextArea` keeps `height: auto` and scales `min-height` (72 / 88 / 104). Glyphs (search, stepper ±, select chevron, File button) scale 16 / 20 / 24. Field labels (`.cp-form-label`) do not scale.
+
+**Not sized in this pass:** Checkbox / Radio indicators, Toggle track, File **card** dropzone, Select/Date/ColorPicker **panels**.
+
+Public classes: `cp-form-field--small|medium|large` on the field wrapper (always present). Size class sets local CSS variables; `.cp-form-control` and triggers consume them.
+
+```jsx
+<FormControls.Input label="Email" />
+<FormControls.Input label="Filters" size="small" />
+<FormControls.Input label="Headline" size="large" />
+<Button>Save</Button>
+<Button size="large">Save</Button>
+```
 
 ## E2E / test selectors (overview)
 
@@ -97,6 +121,8 @@ interface SelectProps {
   isRequired?: boolean;
   isDisabled?: boolean;
   isFluid?: boolean;
+  /** Trigger height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   error?: string;
   className?: string;
   triggerClassName?: string;
@@ -136,6 +162,8 @@ interface InputProps {
   isRequired?: boolean;
   isDisabled?: boolean;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   className?: string;
   error?: string;
   /** On the native `<input>`; suffixed `-clear`, `-prefix`, `-suffix`, `-error` — see **Input — E2E / test selectors**. */
@@ -173,7 +201,7 @@ interface InputProps {
 - **RadioOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`.
 - **CheckboxProps**: `options` (non-empty `CheckboxOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value` (`CheckboxValue[]`), `defaultValue` (`CheckboxValue[]`), `onChange(values, e)`, `orientation` (`"vertical" | "horizontal"`), `variant` (`"default" | "card"`), `cardControlAlign` (`"start" | "end"`, default `"end"` — card variant only; top-inline-start vs top-inline-end corner), `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, and labels — see **Checkbox and Radio — E2E / test selectors**).
 - **CheckboxOption**: `{ label, value, isDisabled?, description?, icon?, dataTestId?, id? }`. `description` is rendered under the option label as muted secondary text and linked via `aria-describedby`. `icon` accepts any `ReactNode` (e.g. `<Icon />`, `<img />`, custom SVG) and renders to the left of the label/description. **`dataTestId`** on an option overrides the group-derived `-input-{value}` id for that option's native `<input>`. `CheckboxValue = string | number`.
-- **SegmentedControlProps**: `options` (non-empty `SegmentedControlOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value`, `defaultValue`, `onChange(value, e)`, `size` (`"small" | "medium"`), `isDisabled`, `isRequired`, `isFluid`, `margin`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, labels, and `-error` message).
+- **SegmentedControlProps**: `options` (non-empty `SegmentedControlOption[]`), `name`, `label` (group `<legend>`), optional `id`, `value`, `defaultValue`, `onChange(value, e)`, `size` (`"small" | "medium" | "large"`), `isDisabled`, `isRequired`, `isFluid`, `margin`, `className`, `error`, **`dataTestId`** (root on `<fieldset>`; suffixed ids on options container, rows, inputs, labels, and `-error` message).
 - **SegmentedControlOption**: `{ label?, value, icon?, ariaLabel?, isDisabled?, dataTestId?, id? }`. Supports text, icon+label, or icon-only. For icon-only segments, set `ariaLabel`. `dataTestId` overrides only that option's input id.
 - **DateProps**: `value` / `defaultValue` (`Date | null`), `onChange(date: Date | null)`, `placeholder`, **`dateFormat`** (display string via `date-fns` + `locale`, default `MMM dd, yyyy`), **`name`** (renders a hidden `<input>` that submits **`yyyy-MM-dd`** for the committed calendar date), **`minDate`** / **`maxDate`** (inclusive navigation + selection bounds), **`disabledDates`** / **`disabledDaysOfWeek`** (greyed cells), **`locale`** (`date-fns` `Locale` — grid, subview copy, and field text), **`weekStartsOn`** (`0`–`6`, default `0` = Sunday), **`clearable`** (default `true`; shows clear control when a value exists), **`readOnly`** (no picker; value fixed), **`popoverPlacement`** (Floating UI placement for desktop; default `bottom-start`), **`onOpen`** / **`onClose`**, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, **`dataTestId`** (see **Date — E2E / test selectors**).
 - **ColorPickerProps**: `value` / `defaultValue` (`#RGB` / `#RRGGBB`, normalized to `#RRGGBB`), `onChange(color: string | null)`, `placeholder`, `clearable` (default `true`), `readOnly`, `popoverPlacement` (Floating UI desktop placement), `onOpen` / `onClose`, plus shared `label`, `isDisabled`, `isRequired`, `isFluid`, `className`, `error`, `margin`, and **`dataTestId`** (wrapper root with `-trigger`, `-panel`, `-sv-area`, `-hue-slider`, `-hex-input`, `-rgb-r`, `-rgb-g`, `-rgb-b`, `-input` suffixes).
@@ -193,6 +221,57 @@ import { FormControls } from "cleanplate";
   placeholder="Select"
   options={[{ label: "Apple", value: "apple" }, { label: "Mango", value: "mango" }]}
   onChange={(option) => console.log(option)}
+/>
+```
+
+### HTML prototype (Input)
+
+Tier 1 HTML recipe for `FormControls.Input` only. Other controls gain recipes in later tasks.
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+#### Recipe
+
+```html
+<div
+  data-cp="FormControls.Input"
+  data-cp-label="Email Address"
+  data-cp-name="email"
+  data-cp-type="email"
+  data-cp-placeholder="user@acme.com"
+  data-cp-auto-complete="email"
+  data-cp-data-test-id="email-input"
+  class="cp-form-field cp-form-field--medium"
+></div>
+```
+
+Non-default size emits `data-cp-size` (default `medium` is omitted):
+
+```html
+<div
+  data-cp="FormControls.Input"
+  data-cp-label="Filters"
+  data-cp-size="small"
+  class="cp-form-field cp-form-field--small"
+></div>
+```
+
+```jsx
+<FormControls.Input label="Filters" size="small" />
+```
+
+#### React equivalent
+
+```jsx
+<FormControls.Input
+  label="Email Address"
+  name="email"
+  type="email"
+  placeholder="user@acme.com"
+  autoComplete="email"
+  dataTestId="email-input"
 />
 ```
 
@@ -646,7 +725,7 @@ const [files, setFiles] = useState([]);
 
 ### Used by other components
 
-Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControls.Input` in edit mode.
+Pagination uses `FormControls.Select` (`size="small"`) for rows-per-page. Pagination has no `size` prop. Pills uses `FormControls.Input` in edit mode.
 
 ## Behavior Notes
 
@@ -667,7 +746,7 @@ Pagination uses `FormControls.Select` for rows-per-page. Pills uses `FormControl
 - **ColorPicker:** Emits normalized **`#RRGGBB`** values (`null` when cleared). Uses the same Floating UI surface pattern as Select/Date: desktop anchored popover with flip/shift, and **≤768px** bottom sheet + backdrop + body scroll lock. Trigger shows a swatch and the committed hex value. Inside the panel, saturation/value canvas + hue slider + HEX/RGB channels stay synchronized. `readOnly` / `isDisabled` block opening and edits. `name` renders a hidden input so native form submit includes the current hex value.
 - **Radio:** Group-first API — pass `options: RadioOption[]`. Renders `<fieldset>` + `<legend>` with a single `value` and `onChange(value, e)`. `isRequired` puts `*` on the legend and adds `required`/`aria-required` to the first enabled option (HTML5 only requires one input in the group to carry it). Custom ring/dot follows the native `:checked` state so uncontrolled groups stay visually correct. Pass `variant="card"` for tile-style options; `cardControlAlign` (`start` | `end`, default `end`) places the ring in the top-inline-start or top-inline-end corner (left / right in LTR). Optional `icon` beside label/description; primary-brand border + tint when selected. **`dataTestId`** on the group maps to the fieldset and emits suffixed ids (`-options`, `-option-{value}`, `-input-{value}`, `-label-{value}`); per-option `dataTestId` overrides the input suffix only.
 - **Checkbox:** Group-first API — pass `options: CheckboxOption[]`. Renders `<fieldset>` + `<legend>` with a `value: CheckboxValue[]` and `onChange(values, e)`. `isRequired` puts `*` on the legend and sets `aria-required` on the group; native HTML5 doesn't enforce "at least one" for checkbox groups, so add custom validation at the form layer. Custom box/tick follows the native `:checked` state. Pass `variant="card"` for tile-style options; `cardControlAlign` (`start` | `end`, default `end`) places the box in the top-inline-start or top-inline-end corner (left / right in LTR). For a single checkbox, pass a one-element `options` array — `value=[]` is unchecked, `value=[opt.value]` is checked. **`dataTestId`** uses the same suffix scheme as Radio.
-- **SegmentedControl:** Compact single-select field built on native radios (`<fieldset>` + `<legend>` + `role="radiogroup"`). Use for mutually exclusive form options, typically 2-5 entries. Segments are always equal width. Supports `value`/`defaultValue`, `size` (`small`/`medium`), option-level disable, and icon-only options with `ariaLabel`. The control does not support click-to-deselect and is not intended for top-level app navigation; use `MenuList` for tab/navigation layouts.
+- **SegmentedControl:** Compact single-select field built on native radios (`<fieldset>` + `<legend>` + `role="radiogroup"`). Use for mutually exclusive form options, typically 2-5 entries. Segments are always equal width. Supports `value`/`defaultValue`, `size` (`small` / `medium` / `large` — 32 / 44 / 52), option-level disable, and icon-only options with `ariaLabel`. The control does not support click-to-deselect and is not intended for top-level app navigation; use `MenuList` for tab/navigation layouts.
 - **File:** Native `<input type="file">` is visually hidden but stays in the a11y tree. Manages a `File[]` selection internally; `onChange(files, e)` fires for picker selections, drops, and removals (the underlying event is `undefined` for non-picker triggers). With `multiple`, subsequent picks/drops append; without, the new selection replaces the old. The card variant supports drag-and-drop and tints primary-brand on hover. Removing a file resets the native input so re-selecting the same file still emits a change. `defaultValue` seeds the visual list only — browsers don't allow programmatic pre-population of file inputs.
 - **isFluid:** Full-width field wrapper.
 
@@ -677,15 +756,22 @@ CleanPlate exposes a thin layer of CSS custom properties on `:root` so consumer 
 
 | Token | Default | What it controls |
 | --- | --- | --- |
-| `--cp-form-control-radius` | `var(--radius-large)` (12px) | Corner radius for `Input`, `TextArea`, `Stepper`, `Select` trigger + open dropdown corners, `Date` day/month/year segments, `File` (outline trigger, drop zone, in-card CTA, file list rows), and `Radio` / `Checkbox` `variant="card"` option tiles. |
+| `--cp-form-control-radius-small` | `var(--radius-medium)` (8px) | Corner radius for `size="small"` boxed fields and Button. |
+| `--cp-form-control-radius-medium` | `var(--radius-large)` (12px) | Default corner radius (`size="medium"`) for boxed fields, Button, Container, Table, File card, Radio/Checkbox cards, and picker panels. |
+| `--cp-form-control-radius-large` | `var(--radius-x-large)` (16px) | Corner radius for `size="large"` boxed fields and Button. |
+| `--cp-form-control-height-small` | `32px` | Height for `size="small"` boxed fields and Button. |
+| `--cp-form-control-height-medium` | `44px` | Default height (`size="medium"`) for boxed fields and Button. |
+| `--cp-form-control-height-large` | `52px` | Height for `size="large"` boxed fields and Button. |
 
 ### Recipes
 
 ```css
-/* Square-ish form fields across the whole app, while leaving badges, cards,   */
-/* and other --radius-large surfaces alone.                                    */
+/* Square-ish form fields and buttons across the whole app, while leaving     */
+/* badges, cards, and other --radius-* surfaces alone.                        */
 :root {
-  --cp-form-control-radius: 4px;
+  --cp-form-control-radius-small: 4px;
+  --cp-form-control-radius-medium: 4px;
+  --cp-form-control-radius-large: 4px;
 }
 ```
 
@@ -693,7 +779,9 @@ CleanPlate exposes a thin layer of CSS custom properties on `:root` so consumer 
 /* Scope the override to one section — CSS custom properties cascade, so any   */
 /* wrapper works as the boundary.                                              */
 .checkout-form {
-  --cp-form-control-radius: 0;
+  --cp-form-control-radius-small: 0;
+  --cp-form-control-radius-medium: 0;
+  --cp-form-control-radius-large: 0;
 }
 ```
 
@@ -702,20 +790,298 @@ CleanPlate exposes a thin layer of CSS custom properties on `:root` so consumer 
 <FormControls.Input
   name="zip"
   label="ZIP"
-  style={{ "--cp-form-control-radius": "20px" }}
+  style={{ "--cp-form-control-radius-medium": "20px" }}
 />
 ```
 
 ### When to override what
 
-- **`--cp-form-control-radius`** when you want to retheme just the form-field family (Input, Select trigger, Date, Stepper, TextArea, File triggers and card CTA, file list rows, Radio/Checkbox card tiles). Recommended path.
-- **`--radius-large`** (the underlying design token) when you want every "large radius" surface in CleanPlate — form fields *and* anything else that opts into the same scale — to move together. Coarser, but useful for whole-product rebrands.
+- **`--cp-form-control-radius-small|medium|large`** when you want to retheme just the form-field / Button family (Input, Select trigger, Date, Stepper, TextArea, File triggers and card CTA, file list rows, Radio/Checkbox card tiles, Button). Recommended path.
+- **`--radius-medium` / `--radius-large` / `--radius-x-large`** (the underlying design tokens) when you want every surface on that radius step in CleanPlate to move together. Coarser, but useful for whole-product rebrands.
 
 The component-level token is the public, supported override. Underlying design tokens (`--radius-small`, `--radius-medium`, `--radius-large`, …) are exposed but treated as the lower tier — overriding them is allowed, but expect broader visual impact.
+
+
+
+### HTML prototype (Select)
+
+Place open panels at the **artboard root** when portalling in React. Use `data-cp-slot="trigger"` and `data-cp-slot="content"`. Strip runtime coords from HTML — canonical `cp-select-dropdown-panel-entered` placement only.
+
+```bash
+npm run html-to-jsx -- select.closed.html
+npm run html-to-jsx -- select.open.html
+```
+
+#### Recipe (closed)
+
+```html
+<div data-cp="FormControls.Select" data-cp-label="Country" data-cp-placeholder="Choose a country" class="cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header">
+    <span class="cp-select-placeholder">Choose a country</span>
+  </button>
+</div>
+```
+
+#### React equivalent (closed)
+
+```jsx
+<FormControls.Select label="Country" placeholder="Choose a country" trigger={<button type="button" className="cp-select-field-header">
+    <span className="cp-select-placeholder">Choose a country</span>
+  </button>} />
+```
+
+#### Recipe (open)
+
+```html
+<div data-cp="FormControls.Select" data-cp-label="Country" class="cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header cp-select-field-header-open">
+    <span class="cp-select-value">United States</span>
+  </button>
+  <div data-cp-slot="content" class="cp-select-dropdown-panel cp-select-dropdown-panel-entered cp-select-field-options" style="top: 44px; left: 0; width: 280px">
+    <div class="cp-select-field-options-list">
+      <button type="button" class="cp-select-field-option">United States</button>
+      <button type="button" class="cp-select-field-option">Canada</button>
+      <button type="button" class="cp-select-field-option">Mexico</button>
+    </div>
+  </div>
+</div>
+```
+
+#### React equivalent (open)
+
+```jsx
+<FormControls.Select label="Country" trigger={<button type="button" className="cp-select-field-header cp-select-field-header-open">
+    <span className="cp-select-value">United States</span>
+  </button>} content={<div className="cp-select-dropdown-panel cp-select-dropdown-panel-entered cp-select-field-options">
+    <div className="cp-select-field-options-list">
+      <button type="button" className="cp-select-field-option">United States</button>
+      <button type="button" className="cp-select-field-option">Canada</button>
+      <button type="button" className="cp-select-field-option">Mexico</button>
+    </div>
+  </div>} />
+```
+
+
+
+### HTML prototype (Date)
+
+Freeze **one month grid** in the open fixture (`data-cp-date` on day cells as text). Converter maps `data-cp-value` as an ISO date string; calendar math stays React-only.
+
+```bash
+npm run html-to-jsx -- date.closed.html
+npm run html-to-jsx -- date.open.html
+```
+
+#### Recipe (closed)
+
+```html
+<div data-cp="FormControls.Date" data-cp-label="Start date" data-cp-placeholder="Select date" class="cp-date-field-wrapper cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header">
+    <span class="cp-select-placeholder">Select date</span>
+  </button>
+</div>
+```
+
+#### React equivalent (closed)
+
+```jsx
+<FormControls.Date label="Start date" trigger={<button type="button" className="cp-select-field-header">
+    <span className="cp-select-placeholder">Select date</span>
+  </button>} />
+```
+
+#### Recipe (open)
+
+```html
+<div data-cp="FormControls.Date" data-cp-label="Start date" data-cp-value="2026-08-14" class="cp-date-field-wrapper cp-select-field">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header cp-select-field-header-open">
+    <span class="cp-select-value">Aug 14, 2026</span>
+  </button>
+  <div data-cp-slot="content" class="cp-date-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered" style="top: 44px; left: 0; width: 320px">
+    <div class="cp-date-picker-panel-inner">
+      <div class="cp-date-picker-header">
+        <span class="cp-date-picker-label-hit">August 2026</span>
+      </div>
+      <div class="cp-date-picker-grid">
+        <div class="cp-date-picker-weekdays">
+          <span class="cp-date-picker-weekday">Su</span>
+          <span class="cp-date-picker-weekday">Mo</span>
+          <span class="cp-date-picker-weekday">Tu</span>
+          <span class="cp-date-picker-weekday">We</span>
+          <span class="cp-date-picker-weekday">Th</span>
+          <span class="cp-date-picker-weekday">Fr</span>
+          <span class="cp-date-picker-weekday">Sa</span>
+        </div>
+        <div class="cp-date-picker-row">
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-26">26</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-27">27</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-28">28</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-29">29</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-30">30</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-31">31</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-01">1</button>
+        </div>
+        <div class="cp-date-picker-row">
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-02">2</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-03">3</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-04">4</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-05">5</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-06">6</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-07">7</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-08">8</button>
+        </div>
+        <div class="cp-date-picker-row">
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-09">9</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-10">10</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-11">11</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-12">12</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-13">13</button>
+          <button type="button" class="cp-date-picker-day cp-date-picker-day-selected" data-cp-date="2026-08-14">14</button>
+          <button type="button" class="cp-date-picker-day" data-cp-date="2026-08-15">15</button>
+        </div>
+      </div>
+      <div class="cp-date-picker-footer">
+        <button type="button" class="cp-date-picker-footer-button cp-date-picker-footer-button-cancel">Cancel</button>
+        <button type="button" class="cp-date-picker-footer-button">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### React equivalent (open)
+
+```jsx
+<FormControls.Date label="Start date" value="2026-08-14" trigger={<button type="button" className="cp-select-field-header cp-select-field-header-open">
+    <span className="cp-select-value">Aug 14, 2026</span>
+  </button>} content={<div className="cp-date-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered">
+    <div className="cp-date-picker-panel-inner">
+      <div className="cp-date-picker-header">
+        <span className="cp-date-picker-label-hit">August 2026</span>
+      </div>
+      <div className="cp-date-picker-grid">
+        <div className="cp-date-picker-weekdays">
+          <span className="cp-date-picker-weekday">Su</span>
+          <span className="cp-date-picker-weekday">Mo</span>
+          <span className="cp-date-picker-weekday">Tu</span>
+          <span className="cp-date-picker-weekday">We</span>
+          <span className="cp-date-picker-weekday">Th</span>
+          <span className="cp-date-picker-weekday">Fr</span>
+          <span className="cp-date-picker-weekday">Sa</span>
+        </div>
+        <div className="cp-date-picker-row">
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-26">26</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-27">27</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-28">28</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-29">29</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-30">30</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-outside-month" data-cp-date="2026-07-31">31</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-01">1</button>
+        </div>
+        <div className="cp-date-picker-row">
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-02">2</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-03">3</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-04">4</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-05">5</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-06">6</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-07">7</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-08">8</button>
+        </div>
+        <div className="cp-date-picker-row">
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-09">9</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-10">10</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-11">11</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-12">12</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-13">13</button>
+          <button type="button" className="cp-date-picker-day cp-date-picker-day-selected" data-cp-date="2026-08-14">14</button>
+          <button type="button" className="cp-date-picker-day" data-cp-date="2026-08-15">15</button>
+        </div>
+      </div>
+      <div className="cp-date-picker-footer">
+        <button type="button" className="cp-date-picker-footer-button cp-date-picker-footer-button-cancel">Cancel</button>
+        <button type="button" className="cp-date-picker-footer-button">OK</button>
+      </div>
+    </div>
+  </div>} />
+```
+
+
+
+### HTML prototype (ColorPicker)
+
+Freeze hue and thumb position in HTML/CSS for the open frame. Converter maps `data-cp-value` hex only — pointer capture and channel math stay React-only.
+
+```bash
+npm run html-to-jsx -- colorpicker.closed.html
+npm run html-to-jsx -- colorpicker.open.html
+```
+
+#### Recipe (closed)
+
+```html
+<div data-cp="FormControls.ColorPicker" data-cp-label="Brand color" data-cp-placeholder="Select color" class="cp-select-field cp-color-picker-trigger">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header">
+    <span class="cp-select-placeholder">Select color</span>
+  </button>
+</div>
+```
+
+#### React equivalent (closed)
+
+```jsx
+<FormControls.ColorPicker label="Brand color" trigger={<button type="button" className="cp-select-field-header">
+    <span className="cp-select-placeholder">Select color</span>
+  </button>} />
+```
+
+#### Recipe (open)
+
+```html
+<div data-cp="FormControls.ColorPicker" data-cp-label="Brand color" data-cp-value="#1264A3" class="cp-select-field cp-color-picker-trigger">
+  <button data-cp-slot="trigger" type="button" class="cp-select-field-header cp-select-field-header-open">
+    <span class="cp-color-picker-trigger-swatch" style="background-color: #1264A3"></span>
+    <span class="cp-color-picker-trigger-text">#1264A3</span>
+  </button>
+  <div data-cp-slot="content" class="cp-color-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered">
+    <div class="cp-color-picker-panel-inner">
+      <div class="cp-color-picker-saturation-area">
+        <div class="cp-color-picker-saturation-thumb"></div>
+      </div>
+      <div class="cp-color-picker-hue-wrap">
+        <input type="range" class="cp-color-picker-hue-slider" value="210" />
+      </div>
+      <div class="cp-color-picker-channel-grid">
+        <input type="text" class="cp-form-field-input" value="#1264A3" readonly />
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### React equivalent (open)
+
+```jsx
+<FormControls.ColorPicker label="Brand color" value="#1264A3" trigger={<button type="button" className="cp-select-field-header cp-select-field-header-open">
+    <span className="cp-color-picker-trigger-swatch" style={{ backgroundColor: "#1264A3" }}></span>
+    <span className="cp-color-picker-trigger-text">#1264A3</span>
+  </button>} content={<div className="cp-color-picker-floating-shell cp-select-dropdown-panel cp-select-dropdown-panel-entered">
+    <div className="cp-color-picker-panel-inner">
+      <div className="cp-color-picker-saturation-area">
+        <div className="cp-color-picker-saturation-thumb"></div>
+      </div>
+      <div className="cp-color-picker-hue-wrap">
+        <input type="range" className="cp-color-picker-hue-slider" value="210" />
+      </div>
+      <div className="cp-color-picker-channel-grid">
+        <input type="text" className="cp-form-field-input" value="#1264A3" readOnly="" />
+      </div>
+    </div>
+  </div>} />
+```
 
 ## Related Components / Links
 
 - Pills (uses FormControls.Input in edit mode)
-- Pagination (uses FormControls.Select for rows-per-page)
+- Pagination (uses FormControls.Select `size="small"` for rows-per-page; Pagination has no `size` prop)
 - Container (layout around form fields)
 - Button (submit/cancel in forms)

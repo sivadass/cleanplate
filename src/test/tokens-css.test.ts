@@ -1,0 +1,62 @@
+import { existsSync, readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+describe("tokens.css", () => {
+  it("source tokens.css exposes spacing and brand tokens", () => {
+    const css = readFileSync("src/styles/tokens.css", "utf8");
+    expect(css).toContain("--space-4");
+    expect(css).toContain("--primary-brand");
+    expect(css).not.toContain(".cp-button");
+    expect(css).not.toMatch(/^\* \{/m);
+    expect(css).toContain("--cp-form-control-radius-small: var(--radius-medium)");
+    expect(css).toContain("--cp-form-control-radius-medium: var(--radius-large)");
+    expect(css).toContain("--cp-form-control-radius-large: var(--radius-x-large)");
+    expect(css).toContain("--cp-form-control-height-small: 32px");
+    expect(css).toContain("--cp-form-control-height-medium: 44px");
+    expect(css).toContain("--cp-form-control-height-large: 52px");
+    expect(css).not.toContain("--cp-button-height-small");
+    expect(css).not.toContain("--cp-button-font-small");
+    expect(css).not.toContain("--cp-button-pad-x-small");
+    expect(css).not.toContain("--cp-button-icon-small");
+    expect(css).not.toContain("--cp-button-gap-small");
+    expect(css).not.toContain("--cp-form-control-font-small");
+    expect(css).not.toContain("--cp-form-control-pad-x-small");
+    expect(css).not.toContain("--cp-form-control-icon-small");
+    expect(css).not.toContain("--cp-form-control-textarea-min-small");
+    expect(css).toContain("--cp-font-family:");
+    expect(css).not.toMatch(/(?:^|[^-])--font-family:/);
+    expect(css).toContain("--cp-font-size-xs: 12px");
+    expect(css).toContain("--cp-font-size-sm: 14px");
+    expect(css).toContain("--cp-font-size-md: 16px");
+    expect(css).toContain("--cp-font-size-lg: 20px");
+    expect(css).toContain("--cp-font-size-xl: 24px");
+    expect(css).toContain("--cp-font-size-2xl: 32px");
+    expect(css).toContain("--cp-font-size-3xl: 40px");
+    expect(css).toContain("--cp-font-size-4xl: 48px");
+    expect(css).toContain("--cp-font-leading-xs: 16px");
+    expect(css).toContain("--cp-font-leading-sm: 20px");
+    expect(css).toContain("--cp-font-leading-md: 24px");
+    expect(css).toContain("--cp-font-leading-lg: 28px");
+    expect(css).toContain("--cp-font-leading-xl: 32px");
+    expect(css).toContain("--cp-font-leading-2xl: 40px");
+    expect(css).toContain("--cp-font-leading-3xl: 48px");
+    expect(css).toContain("--cp-font-leading-4xl: 56px");
+    expect(css).toContain("--cp-font-tracking-display: -0.03em");
+    expect(css).toContain("--cp-font-tracking-title: -0.02em");
+    expect(css).toContain("--cp-font-tracking-heading: -0.015em");
+    expect(css).toContain("--cp-font-tracking-ui: 0");
+    expect(css).toContain("--cp-font-tracking-caption: 0.01em");
+    expect(css).toContain("--cp-font-weight-regular: 400");
+    expect(css).toContain("--cp-font-weight-medium: 600");
+    expect(css).toContain("--cp-font-weight-bold: 700");
+    expect(css).not.toContain("--cp-font-size-md: var(--font-size)");
+  });
+
+  it("dist/tokens.css is copied by build-package", () => {
+    expect(existsSync("dist/tokens.css")).toBe(true);
+    const css = readFileSync("dist/tokens.css", "utf8");
+    expect(css).toContain("--space-4");
+    expect(css).toContain("--primary-brand");
+    expect(css).not.toContain(".cp-button");
+  });
+});

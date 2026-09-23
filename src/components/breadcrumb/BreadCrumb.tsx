@@ -5,6 +5,8 @@ import { getSpacingClass } from "../../utils/common";
 import { SPACING_OPTIONS } from "../../constants/common";
 import utilStyles from "../../styles/utils.module.scss";
 import styles from "./BreadCrumb.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 export type BreadCrumbMargin = string | SpacingOption[];
@@ -37,7 +39,14 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
   margin,
   className = "",
 }) => {
-  const marginClass = margin ? getSpacingClass(margin, utilStyles, "m") : undefined;
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "BreadCrumb",
+    { items, separator, ariaLabel, margin },
+    { separator: "chevron", ariaLabel: "Breadcrumb", margin: undefined },
+  );
+  const marginClass = margin ? getSpacingClass(margin, utilStyles, "cp-m") : undefined;
   const rootClassName = getClassNames(
     styles["cp-breadcrumb"],
     separator === "slash" && styles["cp-breadcrumb-separator-slash"],
@@ -46,7 +55,7 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({
   );
 
   return (
-    <nav className={rootClassName} aria-label={ariaLabel}>
+    <nav {...dataCp} className={rootClassName} aria-label={ariaLabel}>
       <ol className={styles["cp-breadcrumb-list"]} itemScope itemType="https://schema.org/BreadcrumbList">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

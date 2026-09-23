@@ -21,12 +21,19 @@ import {
 } from "@floating-ui/react";
 import Icon from "../icon";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import styles from "./FormControls.module.scss";
 import {
   DEFAULT_FORM_FIELD_MARGIN,
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import { useMediaQuery } from "./date/use-media-query";
 import Input from "./Input";
 
@@ -180,6 +187,8 @@ export interface ColorPickerProps {
   isRequired?: boolean;
   error?: string;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   /**
@@ -208,6 +217,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   isRequired = false,
   error = "",
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   dataTestId,
   popoverPlacement = "bottom-start",
@@ -215,6 +225,49 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   onClose,
   className = "",
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.ColorPicker",
+    {
+      value,
+      defaultValue,
+      id,
+      name,
+      label,
+      placeholder,
+      clearable,
+      isDisabled,
+      readOnly,
+      isRequired,
+      error,
+      isFluid,
+      size,
+      margin,
+      dataTestId,
+      popoverPlacement,
+      className,
+    },
+    {
+      defaultValue: DEFAULT_COLOR_HEX,
+      label: "",
+      placeholder: "Select color",
+      clearable: true,
+      isDisabled: false,
+      readOnly: false,
+      isRequired: false,
+      error: "",
+      isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      dataTestId: undefined,
+      popoverPlacement: "bottom-start",
+      className: "",
+      value: undefined,
+      id: undefined,
+      name: undefined,
+    },
+  );
   const generatedId = useId();
   const fieldId = id ?? generatedId;
   const labelId = `${fieldId}-label`;
@@ -548,8 +601,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={getClassNames(
         styles["cp-form-field"],
+        getFormControlSizeClass(size, styles),
         {
           [styles["cp-form-field-fluid"]]: isFluid,
           [styles["cp-form-field-disabled"]]: isDisabled,
@@ -643,7 +698,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 <Icon name="close" size="small" color="gray" />
               </button>
             ) : null}
-            <Icon name="palette" size="small" color="gray" aria-hidden />
+            <Icon name="palette" className={styles["cp-select-field-arrow"]} aria-hidden />
           </div>
         </div>
 

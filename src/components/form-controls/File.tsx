@@ -5,7 +5,14 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 import type { MaterialIconName } from "../icon/material-icon-names";
 
@@ -47,6 +54,11 @@ export interface FileProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /**
+   * Control height for the **button** variant (32 / 44 / 52). The card dropzone
+   * ignores height. @default "medium"
+   */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   className?: string;
@@ -104,11 +116,55 @@ const File: React.FC<FileProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   error = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.File",
+    {
+      name,
+      id,
+      value,
+      defaultValue,
+      multiple,
+      accept,
+      variant,
+      buttonLabel,
+      dropZoneText,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      size,
+      margin,
+      error,
+      dataTestId,
+    },
+    {
+      value: undefined,
+      defaultValue: undefined,
+      multiple: false,
+      accept: undefined,
+      variant: "button",
+      buttonLabel: "Browse file",
+      dropZoneText: "Drag files to upload",
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      error: "",
+      dataTestId: undefined,
+      name: undefined,
+      id: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -125,6 +181,7 @@ const File: React.FC<FileProps> = ({
   const wrapperClass = getClassNames(
     styles["cp-form-field"],
     styles["cp-file-field"],
+    getFormControlSizeClass(size, styles),
     { [styles["cp-form-field-fluid"]]: isFluid },
     getFormFieldMarginClass(margin),
     className
@@ -187,6 +244,7 @@ const File: React.FC<FileProps> = ({
 
   return (
     <div
+      {...dataCp}
       className={wrapperClass}
       data-invalid={error ? "true" : undefined}
       data-variant={variant}
@@ -246,7 +304,7 @@ const File: React.FC<FileProps> = ({
           className={triggerClass}
           data-testid={fileFieldTestId(dataTestId, "trigger")}
         >
-          <Icon name="upload" size="medium" aria-hidden={true} />
+          <Icon name="upload" aria-hidden={true} />
           <span>{buttonLabel}</span>
         </label>
       )}

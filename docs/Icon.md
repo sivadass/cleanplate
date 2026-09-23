@@ -217,6 +217,24 @@ export const Example = () => (
 - Icons are scalable and will inherit the font size from their container if custom sizing is needed.
 - The component is designed to work seamlessly with other CleanPlate components like Button, Typography, and Alert.
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<span data-cp="Icon" data-cp-name="cloud_upload" class="cp-icon cp-icon--medium"></span>
+```
+
+### React equivalent
+
+```jsx
+<Icon name="cloud_upload" />
+```
+
 ## Related Components / Links
 
 - Button (commonly uses icons for visual enhancement)

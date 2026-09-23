@@ -15,7 +15,7 @@ The `Pagination` component lets users move through large sets of content by spli
 - **Variants**: `default` (full layout) and `minimal` (simplified layout)
 - **Controlled**: `currentPage` and `rowsPerPage` are controlled; use `onPageChange` and `onRowsPerPageChange` to update state
 - **Spacing**: Margin via suffix API (e.g. `"0"` → m-0) or array of spacing suffixes
-- **Design system**: Uses Container, Button, Typography, Icon, and FormControls.Select
+- **Design system**: Uses Container, Button (`size="small"`), Typography, Icon, and FormControls.Select (`size="small"`). Pagination has no `size` prop.
 
 ## Usage
 
@@ -161,6 +161,10 @@ Apply outer spacing with `margin` (suffix or array of suffixes; component adds `
 - **variant**: `"default"` or `"minimal"`.
 - **margin**, **className**: Spacing and extra classes.
 
+### Size
+
+Page buttons and the rows-per-page Select are locked to Button / Select **`small`** (32px height, `--cp-form-control-radius-small` / 8px). Pagination does not expose `size`.
+
 ### Callbacks
 
 - **onPageChange(page, rowsPerPage)**: Fired when the user clicks a page number or prev/next. Update `currentPage` (and optionally `rowsPerPage`) in state.
@@ -181,6 +185,6 @@ Apply outer spacing with `margin` (suffix or array of suffixes; component adds `
 
 - **Table** – Often used with Pagination for tabular data (e.g. `hidePagination={false}` and a Pagination below the table).
 - **Container** – Used inside Pagination for layout.
-- **Button** – Used for prev/next and page numbers.
-- **FormControls.Select** – Used for the “Show per page” dropdown.
+- **Button** – Used for prev/next and page numbers (`size="small"`).
+- **FormControls.Select** – Used for the “Show per page” dropdown (`size="small"`).
 - **Typography**, **Icon** – Used for labels and chevrons.

@@ -14,7 +14,7 @@ Purpose: A full-featured modal overlay for forms, long content, or custom dialog
 | showCloseButton | boolean | no | true | Whether to show the X close button in the header. |
 | closeOnOverlayClick | boolean | no | true | Whether clicking the overlay closes the modal. |
 | closeOnEscape | boolean | no | true | Whether pressing Escape closes the modal. |
-| margin | string \| SpacingOption[] | no | "m-0" | Margin around the modal. Use full class string (e.g. "m-0") or array of spacing suffixes; component adds `m-` prefix. |
+| margin | string \| SpacingOption[] | no | "0" | Margin around the modal. Use a suffix string (e.g. `"0"`, `"b-2"`) or an array of suffixes; the component adds the `m-` prefix. |
 | className | string | no | "" | Additional class names for the modal panel. |
 | overlayClassName | string | no | "" | Additional class names for the overlay. |
 | contentClassName | string | no | "" | Additional class names for the content wrapper. |
@@ -190,7 +190,36 @@ const App = () => {
 - **Body scroll:** Body scroll is locked while open and restored when dismissed.
 - **Focus:** Focus is trapped while open and returned to the previously focused element on close.
 - **ARIA:** The overlay has `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` pointing to the title when present.
-- **Spacing:** `margin` accepts a full class string (e.g. "m-0") or an array of spacing suffixes; the component uses `getSpacingClass` with prefix `m-`.
+- **Spacing:** `margin` accepts a suffix string (e.g. `"0"`, `"b-2"`) or an array of suffixes; the component adds the `m-` prefix via `getSpacingClass`.
+
+
+
+## HTML prototype
+
+Place the **open** overlay at the **artboard root** as a sibling of the page — not inside `overflow: hidden` or transformed frames. Use `data-cp-is-open="true"` and slots `title`, `body`, `footer`.
+
+```bash
+npm run html-to-jsx -- modal.open.html
+```
+
+### Recipe (open)
+
+```html
+<div class="cp-modal-overlay cp-modal-overlay-open">
+  <div data-cp="Modal" data-cp-is-open="true" class="cp-modal cp-modal--medium">
+    <h2 data-cp-slot="title" class="cp-modal__title">Edit profile</h2>
+    <div data-cp-slot="body" class="cp-modal__body"><p>Update your details before saving.</p></div>
+  </div>
+</div>
+```
+
+### React equivalent
+
+```jsx
+<div className="cp-modal-overlay cp-modal-overlay-open">
+  <Modal isOpen title={<h2 className="cp-modal__title">Edit profile</h2>} body={<div className="cp-modal__body"><p>Update your details before saving.</p></div>} />
+</div>
+```
 
 ## Related Components / Links
 

@@ -7,6 +7,8 @@ import { SPACING_OPTIONS } from "../../constants/common";
 import { getSpacingClass, getVariantIcon } from "../../utils/common";
 import styles from "./Alert.module.scss";
 import utilsStyles from "../../styles/utils.module.scss";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export type AlertSize = "small" | "medium";
 
@@ -39,10 +41,17 @@ const Alert: React.FC<AlertProps> = ({
   onDismiss,
   margin = ["0"],
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "Alert",
+    { message, size, variant, canDismiss, margin },
+    { size: "medium", variant: "info", canDismiss: false, margin: ["0"], message: undefined },
+  );
   const [isVisible, setIsVisible] = useState(true);
 
   const iconName = getVariantIcon(variant);
-  const marginClasses = getSpacingClass(margin, utilsStyles, "m");
+  const marginClasses = getSpacingClass(margin, utilsStyles, "cp-m");
 
   const handleClose = () => {
     setIsVisible(false);
@@ -57,14 +66,15 @@ const Alert: React.FC<AlertProps> = ({
 
   return (
     <div
-      className={`${styles["cp-alert"]} ${styles[variant]} ${styles[size]} ${marginClasses}`}
+      {...dataCp}
+      className={`${styles["cp-alert"]} ${styles[`cp-alert--${variant}`]} ${styles[`cp-alert--${size}`]} ${marginClasses}`}
     >
-      <div className={styles["contents"]}>
-        <Icon className={styles["alert-icon"]} name={iconName as MaterialIconName} size={size} />
-        <Typography className={styles["alert-message"]}>{message}</Typography>
+      <div className={styles["cp-alert-contents"]}>
+        <Icon className={styles["cp-alert-icon"]} name={iconName as MaterialIconName} size={size} />
+        <Typography className={styles["cp-alert-message"]}>{message}</Typography>
       </div>
       {canDismiss && (
-        <Button className={styles["close"]} onClick={handleClose}>
+        <Button className={styles["cp-alert-close"]} onClick={handleClose}>
           <Icon name="close" size={size} />
         </Button>
       )}

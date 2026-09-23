@@ -4,13 +4,30 @@ Purpose: Provides a consistent set of text styles for headings, paragraphs, and 
 
 **For AI / LLM:** Prefer component props over inline `style`. Use `align="center"` for text alignment (not `style={{ textAlign: "center" }}`). For spacing, use the `margin` prop with the **framework-wide spacing suffix rule** (same for all CleanPlate components): pass suffix only (e.g. `margin="b-2"`), not `style={{ marginBottom }}` and not `"m-0"` or `"m-b-2"` — the component adds the `m-` prefix. See `llms.txt` for the full spacing rule.
 
+## Type scale
+
+Two scales that meet at 24px. UI sizes are a 4px grid plus **14px** (`sm`). Display sizes are Major Third from 24, snapped: 32 / 40 / 48. `h4`–`h6` reuse UI sizes. `--cp-font-size-3xl` (40px) has no default variant — override `h1` or `h2` if a product needs it.
+
+| variant | Size | Line-height | Weight | Tracking |
+| --- | --- | --- | --- | --- |
+| `h1` | 48 (`4xl`) | 56 | 700 | −0.03em |
+| `h2` | 32 (`2xl`) | 40 | 700 | −0.02em |
+| `h3` | 24 (`xl`) | 32 | 700 | −0.015em |
+| `h4` | 20 (`lg`) | 28 | 600 | 0 |
+| `h5` | 16 (`md`) | 24 | 600 | 0 |
+| `h6` | 14 (`sm`) | 20 | 600 | +0.01em |
+| `p` / `span` | 16 (`md`) | 24 | 400 | 0 |
+| `small` | 12 (`xs`) | 16 | 400 | +0.01em |
+
+Public tokens: `--cp-font-family`, `--cp-font-size-*`, `--cp-font-leading-*`, `--cp-font-tracking-*`, `--cp-font-weight-*`. `isBold` sets weight to 700 and does not change size or tracking.
+
 ## Props / Inputs
 
 | Prop | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | children | React.ReactNode | no | — | Text content to display. |
 | variant | "h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6" \| "p" \| "span" \| "small" | no | "p" | HTML element type to render. Determines the semantic meaning and default styling. |
-| margin | string \| string[] | no | "m-0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
+| margin | string \| string[] | no | "0" | Spacing **suffix** only (same rule as all components). Component adds `m-` prefix. E.g. `"0"`, `"b-2"`, `["1", "b-3"]`. Do not pass `"m-0"`. |
 | className | string | no | "" | Additional class names for the root element. |
 | isBold | boolean | no | false | Applies bold font weight to the text. |
 | align | "left" \| "center" \| "right" | no | "left" | Text alignment within its container. |
@@ -224,6 +241,32 @@ export const Example = () => (
 - The `wordBreak` prop provides control over how text wraps when it exceeds container width.
 - **Margin uses the framework-wide spacing rule (all components):** Pass suffix only: `"0"`, `"2"`, `"b-2"`, `["1", "b-3"]` etc. The component adds the `m-` prefix. Do not pass `"m-2"` or `"m-b-2"`.
 - The `isBold` prop applies bold font weight, which can be combined with any variant.
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<p
+  data-cp="Typography"
+  data-cp-variant="h4"
+  data-cp-align="center"
+  data-cp-margin="b-2"
+  class="cp-typography cp-typography--h4 cp-typography--align-center cp-m-b-2"
+>
+  Hello
+</p>
+```
+
+### React equivalent
+
+```jsx
+<Typography variant="h4" align="center" margin="b-2">Hello</Typography>
+```
 
 ## Related Components / Links
 

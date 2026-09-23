@@ -20,9 +20,34 @@ FormControls is a set of form primitives: Input, TextArea, Select, Date, ColorPi
 - **SegmentedControl:** Compact single-select segmented field (equal-width segments) for 2-5 mutually exclusive options. Supports text, icon+label, and icon-only options (`ariaLabel` required for icon-only). Uses `fieldset`/`legend`, native radios, and the same suffix test-id pattern as Radio/Checkbox plus `-error`.
 - **File:** File picker with `button` (default) and `card` variants. Both render a removable file list below the trigger; the card variant adds a dashed drop zone with drag-and-drop. Use `multiple`, `accept`, `buttonLabel`, `dropZoneText` to tailor the UX.
 - **Toggle:** Accessible switch (`checkbox` + `role="switch"`) with track/thumb; `checked` / `defaultChecked` and `onChange(checked: boolean)`
-- **Stepper:** Text input for form stepper flows (label, placeholder, error)
-- **Common:** label, isDisabled, isRequired, isFluid, className, error for most controls
+- **Stepper:** Numeric integer field with − / + (`min` / `max` / `step`); not wizard step UI (that is the separate `Stepper` export)
+- **Common:** label, isDisabled, isRequired, isFluid, **size** (`small` / `medium` / `large` on boxed controls), className, error for most controls
 - **E2E:** Pass `dataTestId` on any control for stable Playwright hooks. Suffix patterns are consistent (`-trigger`, `-option-{value}`, `-error`, …). See `docs/FormControls.md` → **E2E / test selectors (overview)**.
+
+## Sizes
+
+Boxed controls share `size` (`small` | `medium` | `large`, default `medium`). Heights match Button so a default Input and a default Button sit flush.
+
+| size | Height | Type | Side padding | Radius |
+| --- | --- | --- | --- | --- |
+| `small` | 32px | 14px | 12px | `--cp-form-control-radius-small` (8px) |
+| `medium` (default) | 44px | 16px | 16px | `--cp-form-control-radius-medium` (12px) |
+| `large` | 52px | 16px | 20px | `--cp-form-control-radius-large` (16px) |
+
+`TextArea` keeps `height: auto` and scales `min-height` (72 / 88 / 104). Glyphs scale 16 / 20 / 24. Field labels do not scale.
+
+**Not sized:** Checkbox / Radio indicators, Toggle track, File **card** dropzone, Select / Date / ColorPicker **panels**.
+
+See Playground story **Sizes** for a Button + field matrix.
+
+## Theming
+
+Public `:root` tokens (shared with Button). Override after importing `cleanplate/dist/index.css`:
+
+- `--cp-form-control-height-small|medium|large` — 32 / 44 / 52
+- `--cp-form-control-radius-small|medium|large` — 8 / 12 / 16
+
+Font, padding, and icon metrics are not public tokens. Prefer these over overriding `--radius-*`, which affects every surface on that radius step. Full recipes: `docs/FormControls.md` → **Theming**.
 
 ## Usage
 
@@ -297,7 +322,7 @@ await expect(page.getByTestId("shipping-input-express")).toBeChecked();
 
 ## Storybook playground
 
-In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). **Input** stories include **Input (number)**, **Input (phone number)** (autofill + `phoneDigits`), **Input (prefix / suffix)**, and **Input (search)**. **Date** also has focused stories: **min / max**, **week starts Monday**, **disabled weekends + dates**, **locale + display format**, **required + error**, **read-only & no clear**, **form (hidden yyyy-MM-dd)**, and **narrow viewport (bottom sheet)**. **ColorPicker** includes default and active-panel stories for swatch/hex/channel workflows. For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
+In Storybook, open **atoms → FormControls → Playground**. Each control has its own story with live **Controls** (and **Actions** where wired). **Input** stories include **Input (number)**, **Input (phone number)** (autofill + `phoneDigits`), **Input (prefix / suffix)**, and **Input (search)**. **Date** also has focused stories: **min / max**, **week starts Monday**, **disabled weekends + dates**, **locale + display format**, **required + error**, **read-only & no clear**, **form (hidden yyyy-MM-dd)**, and **narrow viewport (bottom sheet)**. **ColorPicker** includes default and active-panel stories for swatch/hex/channel workflows. **Sizes** is the Button + boxed-field height/radius matrix. For full group examples, open **Radio (group)**, **Radio (card variant)**, **Radio (single option)**, **Checkbox (group)**, **Checkbox (card variant)**, **Checkbox (single option)**, **File (button)**, and **File (card)**.
 
 ## Props
 
@@ -356,6 +381,6 @@ Key props beyond the generated table:
 ## Related components
 
 - **Pills** – Uses FormControls.Input in edit mode
-- **Pagination** – Uses FormControls.Select for rows-per-page
-- **Button** – Submit or cancel in forms
+- **Pagination** – Uses FormControls.Select (`size="small"`) for rows-per-page; Pagination has no `size` prop
+- **Button** – Submit or cancel in forms; default `medium` (44px) matches default boxed fields. Shared height/radius tokens.
 - **Container** – Layout and spacing around form fields

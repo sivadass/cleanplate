@@ -1,7 +1,16 @@
+import React from "react";
 import "../src/styles/reset.scss";
+import { CleanPlatePrototypeAttributes } from "../src/prototype/CleanPlatePrototypeAttributes";
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
+  decorators: [
+    (Story) => (
+      <CleanPlatePrototypeAttributes>
+        <Story />
+      </CleanPlatePrototypeAttributes>
+    ),
+  ],
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {

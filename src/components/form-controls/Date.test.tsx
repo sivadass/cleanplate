@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { expectPublicClass } from "../../test/class-contract";
 import DatePickerField from "./Date";
 
 describe("Date (calendar picker)", () => {
@@ -94,5 +95,23 @@ describe("Date (calendar picker)", () => {
     await waitFor(() => {
       expect(screen.getByText("May 20, 2026")).toBeInTheDocument();
     });
+  });
+
+  it("footer cancel button uses cp-date-picker-footer-button-cancel", async () => {
+    const user = userEvent.setup();
+    render(
+      <DatePickerField
+        label="Pick"
+        value={new Date(2026, 4, 10)}
+        dataTestId="dp"
+      />,
+    );
+    await user.click(screen.getByTestId("dp-trigger"));
+    await waitFor(() => {
+      expect(screen.getByTestId("dp-panel")).toBeInTheDocument();
+    });
+    const cancel = screen.getByTestId("dp-cancel");
+    expectPublicClass(cancel, "cp-date-picker-footer-button");
+    expectPublicClass(cancel, "cp-date-picker-footer-button-cancel");
   });
 });

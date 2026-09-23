@@ -122,6 +122,28 @@ export const Example = () => (
 - **Spacing:** `margin` accepts the **spacing suffix**; the component adds the `m-` prefix via `getSpacingClass`. Use suffix form (e.g. `"0"`, `"b-2"`) when passing values.
 - **Root element:** A `div`; Alert does not extend HTML attributes, so only the documented props are supported.
 
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div
+  data-cp="Alert"
+  data-cp-message="The quick brown fox jumps over the lazy dog"
+  class="cp-alert cp-alert--info cp-alert--medium"
+></div>
+```
+
+### React equivalent
+
+```jsx
+<Alert message="The quick brown fox jumps over the lazy dog" />
+```
+
 ## Related Components / Links
 
 - Typography (used internally for the message text)

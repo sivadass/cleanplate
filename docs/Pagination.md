@@ -134,7 +134,28 @@ import { Table, Pagination } from "cleanplate";
 - **onPageChange:** Called when the user clicks a page number or prev/next; receives `(page, rowsPerPage)`. Update `currentPage` in state.
 - **onRowsPerPageChange:** Called when the user selects a new rows-per-page value; receives the new number. Update `rowsPerPage` and usually set `currentPage` to 1.
 - **Page buttons:** First page, last page, and a range around the current page are shown; gaps are represented as ellipsis (disabled "..." button).
+- **Size:** Page buttons and the rows-per-page Select are locked to Button / Select **`small`** (32px height, `--cp-form-control-radius-small` / 8px). Pagination has no `size` prop.
 - **Spacing:** `margin` uses the suffix API; the component adds the `m-` prefix via `getSpacingClass`.
+
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="Pagination" data-cp-total-items="100" class="cp-pagination"></div>
+```
+
+### React equivalent
+
+```jsx
+<Pagination totalItems={100} />
+```
 
 ## Related Components / Links
 

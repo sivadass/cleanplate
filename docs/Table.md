@@ -216,11 +216,68 @@ const columns = [
 ## Behavior Notes
 
 - **Required:** `columns` and `data` are required. Each column must have `id` and `title`; row keys should match `id` for default cell display.
-- **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state.
+- **Pagination:** Built-in Pagination is shown when `totalItems` > 0 and `hidePagination` is false. Pass `onPageChange` and optionally `onRowsPerPageChange`; keep `currentPage` and `rowsPerPage` in parent state. Page buttons and the rows-per-page Select are locked to **small** (32px); Pagination has no `size` prop.
 - **Mobile:** When viewport width < 768px and `mobileColumns` is set, each row renders as a `MediaObject`. Map row keys to `title`, `subtitle`, `description`, `meta`, and media fields (`mediaAvatar`, `mediaAvatarCodeText`, `mediaIcon`, `mediaImage`), or use resolvers / `action` for custom per-row UI. Static MediaObject props (`descriptionLineClamp`, `margin`, `padding`, etc.) pass through unchanged.
 - **Column alignment:** `textAlign` controls horizontal alignment per column. `cellVerticalAlign` sets the table default for vertical alignment; override per column with `verticalAlign` on `TableColumn`.
 - **customRender:** Receives `(rowData, column)` and returns a React node; use for badges, buttons, or any custom cell content.
 - **Spacing:** `margin` and `padding` use the suffix API; the component adds the `m-` and `p-` prefixes via `getSpacingClass`.
+
+
+
+## HTML prototype
+
+Table requires `data-cp-recipe`. Use **two artboards** — one for `desktop` (HTML `<table>`) and one for `mobile` (MediaObject list). Mark column ids with `data-cp-col` on `<th>` and `data-cp-field` on `<td>`. Mobile rows use `data-cp-mobile-*` field maps on the Table root.
+
+```bash
+npm run html-to-jsx -- table.desktop.html
+npm run html-to-jsx -- table.mobile.html
+```
+
+### Recipe (desktop)
+
+```html
+<div data-cp="Table" data-cp-recipe="desktop" class="cp-table"><table class="cp-table-core"><thead><tr><th data-cp-col="name">Name</th><th data-cp-col="email">Email</th></tr></thead><tbody><tr><td data-cp-field="name">John Doe</td><td data-cp-field="email">john@doe.com</td></tr></tbody></table></div>
+```
+
+### React equivalent (desktop)
+
+```jsx
+<Table recipe="desktop" columns={[
+  {
+    id: "name",
+    title: "Name",
+  },
+  {
+    id: "email",
+    title: "Email",
+  },
+]} data={[
+  {
+    name: "John Doe",
+    email: "john@doe.com",
+  },
+]} />
+```
+
+### Recipe (mobile)
+
+```html
+<div data-cp="Table" data-cp-recipe="mobile" data-cp-mobile-title="name" data-cp-mobile-description="email"><div data-cp="MediaObject" data-cp-field-name="John Doe" data-cp-field-email="john@doe.com" data-cp-title="John Doe" data-cp-description="john@doe.com"></div></div>
+```
+
+### React equivalent (mobile)
+
+```jsx
+<Table recipe="mobile" mobileColumns={{
+  title: "name",
+  description: "email",
+}} data={[
+  {
+    name: "John Doe",
+    email: "john@doe.com",
+  },
+]} />
+```
 
 ## Related Components / Links
 

@@ -5,7 +5,14 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 
 export interface TextAreaProps {
   name?: string;
@@ -17,6 +24,8 @@ export interface TextAreaProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Control density: type and min-height. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   className?: string;
@@ -46,18 +55,55 @@ const TextArea: React.FC<TextAreaProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   className = "",
   placeholder = "",
   error = "",
   dataTestId,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.TextArea",
+    {
+      name,
+      id,
+      defaultValue,
+      value,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      size,
+      margin,
+      placeholder,
+      error,
+      dataTestId,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      placeholder: "",
+      error: "",
+      dataTestId: undefined,
+      name: undefined,
+      id: undefined,
+      defaultValue: undefined,
+      value: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
 
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
+    getFormControlSizeClass(size, styles),
     { [styles["cp-form-field-fluid"]]: isFluid },
     getFormFieldMarginClass(margin),
     className
@@ -70,7 +116,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   );
 
   return (
-    <div className={fieldWrapperClassName}>
+    <div {...dataCp} className={fieldWrapperClassName}>
       {label && (
         <label className={styles["cp-form-label"]} htmlFor={inputId}>
           {label}{" "}

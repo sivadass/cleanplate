@@ -1,7 +1,7 @@
 /* Variables */
 :root {
   /* Typography */
-  --font-family: "Inter", sans-serif;
+  --cp-font-family: "Inter", sans-serif;
   --font-size: 16px;
   /* Colors */
   --white: #ffffff;
@@ -44,7 +44,36 @@
   /* set these on :root (or any wrapper) after importing                */
   /* "cleanplate/dist/index.css" to retheme just one surface.           */
   /* ------------------------------------------------------------------ */
-  --cp-form-control-radius: var(--radius-large);
+  --cp-form-control-radius-small: var(--radius-medium);
+  --cp-form-control-radius-medium: var(--radius-large);
+  --cp-form-control-radius-large: var(--radius-x-large);
+  --cp-form-control-height-small: 32px;
+  --cp-form-control-height-medium: 44px;
+  --cp-form-control-height-large: 52px;
+  --cp-font-size-xs: 12px;
+  --cp-font-size-sm: 14px;
+  --cp-font-size-md: 16px;
+  --cp-font-size-lg: 20px;
+  --cp-font-size-xl: 24px;
+  --cp-font-size-2xl: 32px;
+  --cp-font-size-3xl: 40px;
+  --cp-font-size-4xl: 48px;
+  --cp-font-leading-xs: 16px;
+  --cp-font-leading-sm: 20px;
+  --cp-font-leading-md: 24px;
+  --cp-font-leading-lg: 28px;
+  --cp-font-leading-xl: 32px;
+  --cp-font-leading-2xl: 40px;
+  --cp-font-leading-3xl: 48px;
+  --cp-font-leading-4xl: 56px;
+  --cp-font-tracking-display: -0.03em;
+  --cp-font-tracking-title: -0.02em;
+  --cp-font-tracking-heading: -0.015em;
+  --cp-font-tracking-ui: 0;
+  --cp-font-tracking-caption: 0.01em;
+  --cp-font-weight-regular: 400;
+  --cp-font-weight-medium: 600;
+  --cp-font-weight-bold: 700;
   /* length */
   --length-small: 240px;
   --length-medium: 360px;
@@ -112,7 +141,7 @@
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: var(--cp-font-family);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -122,12 +151,18 @@ body {
   color: var(--black);
 }
 
-button,
+button {
+  font-family: var(--cp-font-family);
+  font-size: var(--font-size);
+  border: 1px solid #ccc;
+  height: var(--cp-form-control-height-medium);
+}
+
 input,
 select,
 textarea {
-  font-family: var(--font-family);
+  font-family: var(--cp-font-family);
   font-size: var(--font-size);
   border: 1px solid #ccc;
-  height: 50px;
+  height: var(--cp-form-control-height-medium);
 }

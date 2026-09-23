@@ -5,7 +5,14 @@ import {
   getFormFieldMarginClass,
   type FormFieldMargin,
 } from "./form-field-margin";
+import {
+  DEFAULT_FORM_CONTROL_SIZE,
+  getFormControlSizeClass,
+  type FormControlSize,
+} from "./form-control-size";
 import getClassNames from "../../utils/get-class-names";
+import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
+import { emitDataCp } from "../../prototype/emit-data-cp";
 import Icon from "../icon";
 
 export interface InputProps {
@@ -20,6 +27,8 @@ export interface InputProps {
   isDisabled?: boolean;
   isRequired?: boolean;
   isFluid?: boolean;
+  /** Control height: 32 / 44 / 52. @default "medium" */
+  size?: FormControlSize;
   /** Spacing suffix for outer margin. @default "b-4" */
   margin?: FormFieldMargin;
   type?: string;
@@ -139,6 +148,7 @@ const Input: React.FC<InputProps> = ({
   isDisabled = false,
   isRequired = false,
   isFluid = false,
+  size = DEFAULT_FORM_CONTROL_SIZE,
   margin = DEFAULT_FORM_FIELD_MARGIN,
   type = "text",
   className = "",
@@ -155,6 +165,61 @@ const Input: React.FC<InputProps> = ({
   suffixA11yLabel,
   phoneDigits,
 }) => {
+  const prototypeEnabled = usePrototypeAttributes();
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FormControls.Input",
+    {
+      name,
+      id,
+      defaultValue,
+      value,
+      label,
+      isDisabled,
+      isRequired,
+      isFluid,
+      size,
+      margin,
+      type,
+      placeholder,
+      error,
+      dataTestId,
+      autoComplete,
+      maxLength,
+      min,
+      max,
+      prefix,
+      suffix,
+      prefixA11yLabel,
+      suffixA11yLabel,
+      phoneDigits,
+    },
+    {
+      label: "",
+      isDisabled: false,
+      isRequired: false,
+      isFluid: false,
+      size: DEFAULT_FORM_CONTROL_SIZE,
+      margin: DEFAULT_FORM_FIELD_MARGIN,
+      type: "text",
+      placeholder: "",
+      error: "",
+      dataTestId: undefined,
+      autoComplete: undefined,
+      maxLength: undefined,
+      min: undefined,
+      max: undefined,
+      prefix: undefined,
+      suffix: undefined,
+      prefixA11yLabel: undefined,
+      suffixA11yLabel: undefined,
+      phoneDigits: undefined,
+      name: undefined,
+      id: undefined,
+      defaultValue: undefined,
+      value: undefined,
+    },
+  );
   const generatedId = useId();
   const inputId = id ?? name ?? generatedId;
   const errorId = `${inputId}-error`;
@@ -306,6 +371,7 @@ const Input: React.FC<InputProps> = ({
 
   const fieldWrapperClassName = getClassNames(
     styles["cp-form-field"],
+    getFormControlSizeClass(size, styles),
     {
       [styles["cp-form-field-fluid"]]: isFluid,
     },
@@ -368,7 +434,7 @@ const Input: React.FC<InputProps> = ({
   );
 
   return (
-    <div className={fieldWrapperClassName}>
+    <div {...dataCp} className={fieldWrapperClassName}>
       {label && (
         <label className={styles["cp-form-label"]} htmlFor={inputId}>
           {label}{" "}
@@ -379,7 +445,6 @@ const Input: React.FC<InputProps> = ({
         <div className={styles["cp-input-search-wrapper"]}>
           <Icon
             name="search"
-            size="medium"
             aria-hidden={true}
             className={styles["cp-input-search-icon"]}
           />
@@ -392,7 +457,7 @@ const Input: React.FC<InputProps> = ({
               aria-label="Clear search"
               data-testid={inputFieldTestId(dataTestId, "clear")}
             >
-              <Icon name="close" size="small" aria-hidden={true} />
+              <Icon name="close" aria-hidden={true} />
             </button>
           )}
         </div>

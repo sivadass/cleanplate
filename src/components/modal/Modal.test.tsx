@@ -1,6 +1,7 @@
 import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { expectPublicClass } from "../../test/class-contract";
 import Modal from "./Modal";
 
 describe("Modal", () => {
@@ -117,6 +118,24 @@ describe("Modal", () => {
     );
     expect(screen.getByTestId("settings-modal-secondary")).toHaveTextContent(
       "Cancel",
+    );
+  });
+
+  it("dialog and overlay use cp-modal public classes", () => {
+    render(
+      <Modal isOpen title="Settings" dataTestId="settings-modal">
+        Body
+      </Modal>,
+    );
+    expectPublicClass(screen.getByTestId("settings-modal"), "cp-modal");
+    expectPublicClass(screen.getByTestId("settings-modal"), "cp-modal--medium");
+    expectPublicClass(
+      screen.getByTestId("settings-modal-overlay"),
+      "cp-modal-overlay",
+    );
+    expectPublicClass(
+      screen.getByTestId("settings-modal-overlay"),
+      "cp-modal-overlay-open",
     );
   });
 });

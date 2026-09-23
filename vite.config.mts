@@ -4,6 +4,9 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [react()],
   css: {
+    modules: {
+      generateScopedName: "[local]",
+    },
     preprocessorOptions: {
       scss: {
         api: "modern",
@@ -16,5 +19,10 @@ export default defineConfig({
     include: ["src/**/*.test.{ts,tsx}"],
     setupFiles: ["./vitest.setup.ts"],
     passWithNoTests: true,
+    css: {
+      modules: {
+        classNameStrategy: "non-scoped",
+      },
+    },
   },
 });

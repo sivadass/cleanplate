@@ -94,7 +94,7 @@ import { PageHeader, Button, Container, Icon } from "cleanplate";
 
 <PageHeader
   title={
-    <Container display="flex" align="center" gap="2" padding="0" margin="m-0">
+    <Container display="flex" align="center" gap="2" padding="0" margin="0">
       <Icon name="assignment" size="medium" />
       Custom title with icon
     </Container>
@@ -126,6 +126,26 @@ import { PageHeader, Button, Container, Icon } from "cleanplate";
 - **Title / subtitle:** Always rendered with Typography (`h4` / `p`); strings and custom ReactNode children share the same heading styles and semantics.
 - **More menu:** When moreMenuItems is set, renders a Dropdown with an icon Button (more_vert) and MenuList; each item onClick runs and the dropdown closes. When moreMenuContent is set, that content is shown in the dropdown. Use one or the other.
 - **Accessibility:** More trigger has aria-expanded, aria-haspopup, and aria-label; menu items use MenuList semantics.
+
+
+
+## HTML prototype
+
+```bash
+npm run html-to-jsx -- recipe.html
+```
+
+### Recipe
+
+```html
+<div data-cp="PageHeader" class="cp-page-header"><h1 data-cp-slot="title">Projects</h1></div>
+```
+
+### React equivalent
+
+```jsx
+<PageHeader title={<h1>Projects</h1>} />
+```
 
 ## Related Components / Links
 
