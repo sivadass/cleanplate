@@ -109,8 +109,7 @@ export default meta;
 ### Meta
 
 ```mdx
-import { Meta } from "@storybook/blocks";
-import { ArgsTable } from "@storybook/addon-docs";
+import { Meta, ArgTypes } from "@storybook/addon-docs/blocks";
 import { ComponentName, Container, Typography } from "../../index";
 
 <Meta title="atoms/ComponentName/Documentation" />
@@ -139,7 +138,7 @@ import { ComponentName, Container, Typography } from "../../index";
 7. **Props**  
    ```mdx
    ## Props
-   <ArgsTable of={ComponentName} />
+   <ArgTypes of={ComponentName} />
    ```
 
 8. **Related components**  
@@ -148,8 +147,7 @@ import { ComponentName, Container, Typography } from "../../index";
 ### Example skeleton (docs)
 
 ```mdx
-import { Meta } from "@storybook/blocks";
-import { ArgsTable } from "@storybook/addon-docs";
+import { Meta, ArgTypes } from "@storybook/addon-docs/blocks";
 import { ComponentName, Container } from "../../index";
 
 <Meta title="atoms/ComponentName/Documentation" />
@@ -201,7 +199,7 @@ const App = () => <ComponentName prop="value" />;
 
 ## Props
 
-<ArgsTable of={ComponentName} />
+<ArgTypes of={ComponentName} />
 
 ## Related components
 
@@ -222,7 +220,7 @@ const App = () => <ComponentName prop="value" />;
 ## 5. Checklist for a new component
 
 - [ ] Create `src/stories/<name>/<name>.stories.jsx` with meta (title, component, parameters, argTypes, args), Default story, and at least one named story (e.g. Variants).
-- [ ] Create `src/stories/<name>/<name>.docs.mdx` with Meta, intro, Features, Usage, Examples, Behavior, Props (ArgsTable), Related components.
+- [ ] Create `src/stories/<name>/<name>.docs.mdx` with Meta, intro, Features, Usage, Examples, Behavior, Props (ArgTypes), Related components.
 - [ ] Use spacing **suffix** in examples and in Controls (e.g. `"0"`, `"b-2"`), not full tokens like `"m-0"`.
 - [ ] Add `onClick` / `onClose` etc. as `action` in argTypes so they appear in the Actions panel.
 - [ ] Ensure the Documentation tab title matches the Playground (e.g. both `atoms/Alert/...`).

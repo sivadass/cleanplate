@@ -2,7 +2,7 @@ import React from "react";
 import "../src/styles/reset.scss";
 import { CleanPlatePrototypeAttributes } from "../src/prototype/CleanPlatePrototypeAttributes";
 
-/** @type { import('@storybook/react').Preview } */
+/** @type { import('@storybook/react-vite').Preview } */
 const preview = {
   decorators: [
     (Story) => (
@@ -12,7 +12,6 @@ const preview = {
     ),
   ],
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
