@@ -35,6 +35,7 @@
 - **Button sizes:** `small` is 32px (was 24px). `medium` (default) is 44px (was 50px) and no longer has `min-width: 96px`. `variant="icon"` is a square at the size height, not a circle. New `large` is 52px. See `docs/Button.md`.
 - **Form control sizes:** Boxed fields (`Input`, `TextArea`, `Select`, `Date`, `ColorPicker`, `Stepper`, `SegmentedControl`, `File` button) share `size` (`small` 32 / `medium` 44 default / `large` 52). Default field height remaps 50px → 44px so it aligns with `Button` medium. `SegmentedControl` `small` remaps 40px → 32px; `medium` 50px → 44px; new `large` is 52px. Checkbox, Radio, Toggle, and File card are unchanged. See `docs/FormControls.md`.
 - **Shared size tokens:** Button and boxed fields use `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large`. `--cp-button-height-*`, `--cp-form-control-radius` (single token), and font / pad-x / icon / textarea-min tokens are removed from `:root`.
+- **Typography type scale:** Headings remap 60/50/40/30/24/18 → **48/32/24/20/16/14**. `small` is **12px** (was 14px). Heading line-height is no longer `1`. Public tokens `--cp-font-size-*`, `--cp-font-leading-*`, `--cp-font-tracking-*`, `--cp-font-weight-*`. Class names unchanged. See `docs/Typography.md`.
 
 ### Added
 

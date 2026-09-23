@@ -4,6 +4,23 @@ Purpose: Provides a consistent set of text styles for headings, paragraphs, and 
 
 **For AI / LLM:** Prefer component props over inline `style`. Use `align="center"` for text alignment (not `style={{ textAlign: "center" }}`). For spacing, use the `margin` prop with the **framework-wide spacing suffix rule** (same for all CleanPlate components): pass suffix only (e.g. `margin="b-2"`), not `style={{ marginBottom }}` and not `"m-0"` or `"m-b-2"` — the component adds the `m-` prefix. See `llms.txt` for the full spacing rule.
 
+## Type scale
+
+Two scales that meet at 24px. UI sizes are a 4px grid plus **14px** (`sm`). Display sizes are Major Third from 24, snapped: 32 / 40 / 48. `h4`–`h6` reuse UI sizes. `--cp-font-size-3xl` (40px) has no default variant — override `h1` or `h2` if a product needs it.
+
+| variant | Size | Line-height | Weight | Tracking |
+| --- | --- | --- | --- | --- |
+| `h1` | 48 (`4xl`) | 56 | 700 | −0.03em |
+| `h2` | 32 (`2xl`) | 40 | 700 | −0.02em |
+| `h3` | 24 (`xl`) | 32 | 700 | −0.015em |
+| `h4` | 20 (`lg`) | 28 | 600 | 0 |
+| `h5` | 16 (`md`) | 24 | 600 | 0 |
+| `h6` | 14 (`sm`) | 20 | 600 | +0.01em |
+| `p` / `span` | 16 (`md`) | 24 | 400 | 0 |
+| `small` | 12 (`xs`) | 16 | 400 | +0.01em |
+
+Public tokens: `--cp-font-size-*`, `--cp-font-leading-*`, `--cp-font-tracking-*`, `--cp-font-weight-*`. `isBold` sets weight to 700 and does not change size or tracking.
+
 ## Props / Inputs
 
 | Prop | Type | Required | Default | Description |

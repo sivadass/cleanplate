@@ -82,6 +82,23 @@ See `llms.txt` (HTML prototype section), `skills/cleanplate-html-to-react/SKILL.
 
 Storybook and the Playwright visual suite use the same unhashed names. Pixel baselines captured before the migration remain valid when markup and tokens are unchanged.
 
+## Typography type scale (1.0.0-beta.x)
+
+Visual remap only. `variant` names and `cp-typography--*` classes are unchanged.
+
+| Variant | Before | After |
+| --- | --- | --- |
+| `h1` | 60px / 60px | 48px / 56px / 700 / −0.03em |
+| `h2` | 50px / 50px | 32px / 40px / 700 / −0.02em |
+| `h3` | 40px / 40px | 24px / 32px / 700 / −0.015em |
+| `h4` | 30px / 30px | 20px / 28px / 600 |
+| `h5` | 24px / 24px | 16px / 24px / 600 |
+| `h6` | 18px / 18px | 14px / 20px / 600 |
+| `p` / `span` | 16px / 24px | 16px / 24px / 400 |
+| `small` | 14px / 20px | 12px / 16px / 400 |
+
+`h5` is now body-sized semibold — use `h3` or `h4` for 24/20. Apps that need the old 14px caption should use `h6` or a local style. Override tokens after importing `cleanplate/dist/index.css` (for example `--cp-font-size-4xl`) rather than targeting hashed classes.
+
 ## Need help?
 
 Open an issue at [github.com/sivadass/cleanplate](https://github.com/sivadass/cleanplate) with the component name and the selector you were overriding.

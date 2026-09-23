@@ -23,8 +23,9 @@ When generating code that uses CleanPlate components, **use component props inst
 
 ### Typography
 - **Text alignment:** Use the `align` prop. Example: `<Typography align="center">` not `style={{ textAlign: "center" }}`. Values: `"left"`, `"center"`, `"right"`.
-- **Spacing:** Use `margin` with the spacing suffix (see above; same rule as all components).
+- **Spacing:** Use `margin` with the suffix rule (see above).
 - **Bold:** Use `isBold` prop, not `style={{ fontWeight: "bold" }}`.
+- **Hierarchy:** Use `variant` (`h1`–`h6`, `p`, `span`, `small`). Do not set inline `fontSize`. Sizes come from the two-scale tokens (UI 12/14/16/20/24, display 32/40/48). `h1` is 48; `h5` is 16/600 (same size as body, heavier). Need a 20 or 24 heading? Use `h4` or `h3`, not `h5`.
 
 ### Other components
 - **Container:** Use `padding`, `margin`, `gap`, `align`, `justify`, `display`, `width` props (spacing uses suffix rule above).
@@ -69,7 +70,7 @@ All component documentation is located in the `docs/` folder. The following docu
 ### Typography Component
 - File: `docs/Typography.md`
 - Purpose: Provides a consistent set of text styles for headings, paragraphs, and inline elements, ensuring clear hierarchy, readability, and brand-aligned communication across the interface.
-- Key Features: Variants (h1-h6, p, span, small), text alignment, word breaking, bold text, margin spacing
+- Key Features: Variants (h1-h6, p, span, small), two-scale tokens (UI 12–24, display 32/40/48), text alignment, word breaking, bold text, margin spacing
 - Types: TypographyProps, TypographyVariant, TypographyAlign, TypographyWordBreak, TypographyMargin, SpacingOption
 
 ### Icon Component
