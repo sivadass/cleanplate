@@ -136,6 +136,7 @@ describe("Drawer", () => {
     expect(screen.getByTestId("settings-drawer")).toBeInTheDocument();
     expect(screen.getByTestId("settings-drawer-overlay")).toBeInTheDocument();
     expect(screen.getByTestId("settings-drawer-header")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-drawer-title").tagName).toBe("H4");
     expect(screen.getByTestId("settings-drawer-title")).toHaveTextContent(
       "Settings",
     );

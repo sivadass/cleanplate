@@ -105,6 +105,7 @@ describe("Modal", () => {
     expect(screen.getByTestId("settings-modal")).toBeInTheDocument();
     expect(screen.getByTestId("settings-modal-overlay")).toBeInTheDocument();
     expect(screen.getByTestId("settings-modal-header")).toBeInTheDocument();
+    expect(screen.getByTestId("settings-modal-title").tagName).toBe("H4");
     expect(screen.getByTestId("settings-modal-title")).toHaveTextContent(
       "Settings",
     );

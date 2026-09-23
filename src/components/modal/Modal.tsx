@@ -228,7 +228,7 @@ const Modal: React.FC<ModalProps> = ({
                 >
                   {title && (
                     <Typography
-                      variant="h2"
+                      variant="h4"
                       id={titleId}
                       className={styles["cp-modal__title"]}
                       data-testid={modalFieldTestId(dataTestId, "title")}

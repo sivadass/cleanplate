@@ -207,7 +207,7 @@ npm run html-to-jsx -- modal.open.html
 ```html
 <div class="cp-modal-overlay cp-modal-overlay-open">
   <div data-cp="Modal" data-cp-is-open="true" class="cp-modal cp-modal--medium">
-    <h2 data-cp-slot="title" class="cp-modal__title">Edit profile</h2>
+    <h4 data-cp-slot="title" class="cp-modal__title">Edit profile</h4>
     <div data-cp-slot="body" class="cp-modal__body"><p>Update your details before saving.</p></div>
   </div>
 </div>
@@ -217,7 +217,7 @@ npm run html-to-jsx -- modal.open.html
 
 ```jsx
 <div className="cp-modal-overlay cp-modal-overlay-open">
-  <Modal isOpen title={<h2 className="cp-modal__title">Edit profile</h2>} body={<div className="cp-modal__body"><p>Update your details before saving.</p></div>} />
+  <Modal isOpen title={<h4 className="cp-modal__title">Edit profile</h4>} body={<div className="cp-modal__body"><p>Update your details before saving.</p></div>} />
 </div>
 ```
 
