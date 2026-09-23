@@ -159,11 +159,12 @@
 }
 
 .cp-drawer__title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--black);
   margin: 0;
-  line-height: 1.4;
+  color: var(--black);
+  font-size: var(--cp-font-size-lg);
+  font-weight: var(--cp-font-weight-medium);
+  line-height: var(--cp-font-leading-lg);
+  letter-spacing: var(--cp-font-tracking-ui);
 }
 
 .cp-drawer__close-button {
@@ -233,10 +234,6 @@
 @media (max-width: 768px) {
   .cp-drawer__header {
     padding: var(--space-3) var(--space-3) var(--space-2) var(--space-3);
-  }
-
-  .cp-drawer__title {
-    font-size: 16px;
   }
 
   .cp-drawer__body {

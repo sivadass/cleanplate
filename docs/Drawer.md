@@ -225,7 +225,7 @@ npm run html-to-jsx -- drawer.open.html
 ```html
 <div class="cp-drawer-overlay">
   <div data-cp="Drawer" data-cp-is-open="true" data-cp-placement="right" class="cp-drawer cp-drawer--placement-right cp-drawer--size-medium">
-    <h2 data-cp-slot="title" class="cp-drawer__title">Filters</h2>
+    <h4 data-cp-slot="title" class="cp-drawer__title">Filters</h4>
     <div data-cp-slot="body" class="cp-drawer__body"><p>Refine the list.</p></div>
   </div>
 </div>
@@ -235,7 +235,7 @@ npm run html-to-jsx -- drawer.open.html
 
 ```jsx
 <div className="cp-drawer-overlay">
-  <Drawer isOpen title={<h2 className="cp-drawer__title">Filters</h2>} body={<div className="cp-drawer__body"><p>Refine the list.</p></div>} />
+  <Drawer isOpen title={<h4 className="cp-drawer__title">Filters</h4>} body={<div className="cp-drawer__body"><p>Refine the list.</p></div>} />
 </div>
 ```
 

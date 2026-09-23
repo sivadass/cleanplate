@@ -79,15 +79,12 @@
 }
 
 .cp-modal__title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--black);
   margin: 0;
-  line-height: 1.4;
-
-  .cp-modal--fullscreen & {
-    font-size: 24px;
-  }
+  color: var(--black);
+  font-size: var(--cp-font-size-lg);
+  font-weight: var(--cp-font-weight-medium);
+  line-height: var(--cp-font-leading-lg);
+  letter-spacing: var(--cp-font-tracking-ui);
 }
 
 .cp-modal__close-button {
@@ -179,10 +176,6 @@
     padding: var(--space-3) var(--space-3) var(--space-2) var(--space-3);
   }
 
-  .cp-modal__title {
-    font-size: 16px;
-  }
-
   .cp-modal__body {
     padding: var(--space-3);
   }
@@ -212,10 +205,6 @@
 
   .cp-modal__header {
     padding: var(--space-2) var(--space-2) var(--space-1) var(--space-2);
-  }
-
-  .cp-modal__title {
-    font-size: 14px;
   }
 
   .cp-modal__body {

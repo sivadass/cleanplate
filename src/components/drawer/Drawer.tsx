@@ -349,7 +349,7 @@ const Drawer: React.FC<DrawerProps> = ({
               >
                 {title && (
                   <Typography
-                    variant="h2"
+                    variant="h4"
                     id={titleId}
                     className={styles["cp-drawer__title"]}
                     data-testid={drawerFieldTestId(dataTestId, "title")}
