@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -119,5 +119,161 @@ describe("FilterBar bar", () => {
     const root = container.firstElementChild as Element;
     expectPublicClass(root, "cp-filter-bar");
     expect(root.className).toContain("cp-m-b-2");
+  });
+});
+
+const owner: FilterBarField = {
+  id: "owner",
+  type: "multiSelect",
+  label: "Owner",
+  placement: "drawer",
+  options: [
+    { value: "asha", label: "Asha" },
+    { value: "leo", label: "Leo" },
+  ],
+};
+
+const team: FilterBarField = {
+  id: "team",
+  type: "select",
+  label: "Team",
+  placement: "drawer",
+  options: [{ value: "core", label: "Core" }],
+};
+
+describe("FilterBar drawer", () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+  });
+
+  it("hides the Filters button when every field is in the bar", () => {
+    render(
+      <FilterBar
+        fields={[{ id: "q", type: "search", label: "Search", placement: "bar" }]}
+        values={{ q: "" }}
+        onChange={vi.fn()}
+      />,
+    );
+    expect(screen.queryByRole("button", { name: "Filters" })).not.toBeInTheDocument();
+  });
+
+  it("shows Filters or Filters N from committed drawer values", () => {
+    const { rerender } = render(
+      <FilterBar fields={[owner]} values={{ owner: [] }} onChange={vi.fn()} />,
+    );
+    expect(screen.getByRole("button", { name: "Filters" })).toBeInTheDocument();
+
+    rerender(
+      <FilterBar
+        fields={[owner, team]}
+        values={{
+          owner: [{ value: "asha", label: "Asha" }],
+          team: { value: "core", label: "Core" },
+        }}
+        onChange={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Filters 2" })).toBeInTheDocument();
+  });
+
+  it("does not call onChange until Apply, and keeps a bar edit made while open", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <Harness
+        fields={[
+          { id: "q", type: "search", label: "Search", placement: "bar" },
+          owner,
+        ]}
+        initial={{ q: "", owner: [] }}
+        onChange={onChange}
+      />,
+    );
+
+    await user.type(screen.getByRole("textbox", { name: "Search" }), "a");
+    onChange.mockClear();
+
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    await user.click(screen.getByRole("combobox", { name: "Owner" }));
+    await user.click(await screen.findByRole("option", { name: "Asha" }));
+    expect(onChange).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      q: "a",
+      owner: [expect.objectContaining({ value: "asha" })],
+    });
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("closes on Apply without onChange when the draft matches", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<Harness fields={[owner]} initial={{ owner: [] }} onChange={onChange} />);
+
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+    expect(onChange).not.toHaveBeenCalled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("commits cleared drawer values only after Apply", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <Harness
+        fields={[owner]}
+        initial={{ owner: [{ value: "asha", label: "Asha" }] }}
+        onChange={onChange}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Filters 1" }));
+    await user.click(screen.getByRole("button", { name: "Clear" }));
+    expect(onChange).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", { name: "Apply" }));
+    expect(onChange).toHaveBeenCalledWith({ owner: [] });
+  });
+
+  it("drops the draft on close, Escape, and overlay pointerdown", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    const fields = [owner];
+    const initial = { owner: [] as FilterBarValues["owner"] };
+
+    render(
+      <FilterBar fields={fields} values={initial} onChange={onChange} dataTestId="filters" />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    await user.click(screen.getByRole("combobox", { name: "Owner" }));
+    await user.click(await screen.findByRole("option", { name: "Asha" }));
+    await user.click(screen.getByRole("button", { name: /close drawer/i }));
+    expect(onChange).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    await user.keyboard("{Escape}");
+    expect(onChange).not.toHaveBeenCalled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    fireEvent.pointerDown(screen.getByTestId("filters-drawer-overlay"));
+    expect(onChange).not.toHaveBeenCalled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("closes and drops the draft when drawer field ids change while open", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(
+      <FilterBar fields={[owner]} values={{ owner: [] }} onChange={vi.fn()} />,
+    );
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+    rerender(
+      <FilterBar fields={[team]} values={{ team: null }} onChange={vi.fn()} />,
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });
