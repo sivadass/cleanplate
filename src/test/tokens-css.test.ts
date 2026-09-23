@@ -23,6 +23,31 @@ describe("tokens.css", () => {
     expect(css).not.toContain("--cp-form-control-pad-x-small");
     expect(css).not.toContain("--cp-form-control-icon-small");
     expect(css).not.toContain("--cp-form-control-textarea-min-small");
+    expect(css).toContain("--cp-font-size-xs: 12px");
+    expect(css).toContain("--cp-font-size-sm: 14px");
+    expect(css).toContain("--cp-font-size-md: 16px");
+    expect(css).toContain("--cp-font-size-lg: 20px");
+    expect(css).toContain("--cp-font-size-xl: 24px");
+    expect(css).toContain("--cp-font-size-2xl: 32px");
+    expect(css).toContain("--cp-font-size-3xl: 40px");
+    expect(css).toContain("--cp-font-size-4xl: 48px");
+    expect(css).toContain("--cp-font-leading-xs: 16px");
+    expect(css).toContain("--cp-font-leading-sm: 20px");
+    expect(css).toContain("--cp-font-leading-md: 24px");
+    expect(css).toContain("--cp-font-leading-lg: 28px");
+    expect(css).toContain("--cp-font-leading-xl: 32px");
+    expect(css).toContain("--cp-font-leading-2xl: 40px");
+    expect(css).toContain("--cp-font-leading-3xl: 48px");
+    expect(css).toContain("--cp-font-leading-4xl: 56px");
+    expect(css).toContain("--cp-font-tracking-display: -0.03em");
+    expect(css).toContain("--cp-font-tracking-title: -0.02em");
+    expect(css).toContain("--cp-font-tracking-heading: -0.015em");
+    expect(css).toContain("--cp-font-tracking-ui: 0");
+    expect(css).toContain("--cp-font-tracking-caption: 0.01em");
+    expect(css).toContain("--cp-font-weight-regular: 400");
+    expect(css).toContain("--cp-font-weight-medium: 600");
+    expect(css).toContain("--cp-font-weight-bold: 700");
+    expect(css).not.toContain("--cp-font-size-md: var(--font-size)");
   });
 
   it("dist/tokens.css is copied by build-package", () => {
