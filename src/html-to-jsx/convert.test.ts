@@ -94,6 +94,28 @@ describe("convertHtmlToJsx", () => {
     ).toThrow(/onClick|on-click|docs\//);
   });
 
+  it("converts FilterBar fields into a fields array", () => {
+    const { jsx } = convertHtmlToJsx(
+      `<div data-cp="FilterBar" class="cp-filter-bar">
+      <div data-cp-type="search" data-cp-id="q" data-cp-label="Search" data-cp-placement="bar" data-cp-placeholder="Find"></div>
+      <div data-cp-type="select" data-cp-id="status" data-cp-label="Status" data-cp-placement="bar">
+        <div data-cp-value="active" data-cp-label="Active"></div>
+      </div>
+      <div data-cp-type="dateRange" data-cp-id="due" data-cp-label="Due" data-cp-placement="drawer"></div>
+    </div>`,
+      manifest,
+    );
+    expect(jsx).toContain("<FilterBar");
+    expect(jsx).toContain('type: "search"');
+    expect(jsx).toContain('id: "q"');
+    expect(jsx).toContain('placeholder: "Find"');
+    expect(jsx).toContain('type: "select"');
+    expect(jsx).toContain('value: "active"');
+    expect(jsx).toContain('type: "dateRange"');
+    expect(jsx).not.toContain("onChange");
+    expect(jsx).not.toContain("values=");
+  });
+
   it("hard-fails Table without recipe", () => {
     expect(() =>
       convertHtmlToJsx(`<div data-cp="Table" class="cp-table"></div>`, manifest),

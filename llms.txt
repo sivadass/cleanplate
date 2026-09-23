@@ -201,6 +201,13 @@ All component documentation is located in the `docs/` folder. The following docu
 - Types: TableProps, TableColumn, TableRow, TableVariant, TableMargin, TableColumnTextAlign, TableMobileColumns, TableMobileColumnKey, TableMobileColumnField, SpacingOption
 - Related Components: Pagination (built-in), MediaObject (mobile view), Typography, Container, Badge (often in customRender)
 
+### FilterBar Component
+- File: `docs/FilterBar.md`
+- Purpose: Collects search, select, multi-select, and date-range values above a table. The app filters the rows.
+- Key Features: fields (id, type, label, placement bar|drawer), controlled values and onChange, drawer draft with Apply and Clear, date-range validation, margin suffix API. Fields are small (32px).
+- Types: FilterBarProps, FilterBarField, FilterBarFieldValue, FilterBarValues, FilterBarDateRangeValue, FilterBarPlacement, FilterBarMargin, SpacingOption
+- Related Components: Table (consumer filters its data), FormControls.Input, FormControls.Select, FormControls.Date, Drawer, Button
+
 ### Badge Component
 - File: `docs/Badge.md`
 - Purpose: Short label with colored background for status, tags, or counts. Inline-block, five variants.
@@ -313,6 +320,7 @@ All documentation files follow a consistent format:
 | Drawer | `docs/Drawer.md` | Edge slide-in panel; bottom sheet on mobile |
 | Pagination | `docs/Pagination.md` | Page navigation for tables and lists |
 | Table | `docs/Table.md` | Structured tabular data with optional pagination and mobile view |
+| FilterBar | `docs/FilterBar.md` | Filter toolbar for tables and lists |
 | Badge | `docs/Badge.md` | Status labels, tags, and counts with colored variants |
 | Pills | `docs/Pills.md` | Tags/chips with read-only, edit, and remove modes |
 | Animated | `docs/Animated.md` | Scroll-triggered entrance/exit animations |

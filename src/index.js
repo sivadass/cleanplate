@@ -27,6 +27,7 @@ import ProgressBar from "./components/progress-bar";
 import Accordion from "./components/accordion";
 import BottomSheet from "./components/bottom-sheet";
 import Drawer from "./components/drawer";
+import FilterBar from "./components/filter-bar";
 import Table from "./components/table";
 import Pagination from "./components/pagination";
 import Pills from "./components/pills";
@@ -61,6 +62,7 @@ export {
   Accordion,
   BottomSheet,
   Drawer,
+  FilterBar,
   Table,
   Pagination,
   Pills,

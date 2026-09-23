@@ -146,6 +146,16 @@ export type {
   SpacingOption as DrawerSpacingOption,
 } from "./components/drawer";
 export type {
+  FilterBarProps,
+  FilterBarField,
+  FilterBarFieldValue,
+  FilterBarValues,
+  FilterBarDateRangeValue,
+  FilterBarPlacement,
+  FilterBarMargin,
+  SpacingOption as FilterBarSpacingOption,
+} from "./components/filter-bar";
+export type {
   TableProps,
   TableColumn,
   TableRow,

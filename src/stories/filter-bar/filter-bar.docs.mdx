@@ -1,0 +1,27 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="atoms/FilterBar/Documentation" />
+
+# FilterBar
+
+`FilterBar` collects search, select, multi-select, and date-range values for filtering a table or list. Bar fields update immediately; drawer fields apply on **Apply**. The app filters row data and passes the result to `Table`.
+
+## Usage
+
+```jsx
+import { FilterBar, Table } from "cleanplate";
+
+<FilterBar
+  fields={[
+    { id: "q", type: "search", label: "Search", placement: "bar" },
+    { id: "status", type: "select", label: "Status", placement: "bar", options: statusOptions },
+    { id: "owner", type: "multiSelect", label: "Owner", placement: "drawer", options: ownerOptions },
+    { id: "due", type: "dateRange", label: "Due", placement: "drawer" },
+  ]}
+  values={filters}
+  onChange={setFilters}
+/>
+<Table columns={columns} data={filteredRows} />
+```
+
+Add `values` and `onChange` after converting from the HTML prototype in `docs/FilterBar.md`.

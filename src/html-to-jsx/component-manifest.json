@@ -493,6 +493,13 @@
         "margin": { "type": "string", "default": "0" }
       }
     },
+    "FilterBar": {
+      "exportName": "FilterBar",
+      "tier": 2,
+      "props": {
+        "margin": { "type": "string", "default": "0" }
+      }
+    },
     "Table": {
       "exportName": "Table",
       "tier": 3,

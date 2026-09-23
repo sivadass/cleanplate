@@ -39,6 +39,7 @@
 
 ### Added
 
+- **FilterBar:** Controlled search, select, multi-select, and date-range fields for filtering a table. Bar fields update immediately. Drawer fields apply on Apply. See `docs/FilterBar.md`.
 - **Button `prefixIcon` / `suffixIcon`:** Material Symbol names; Button owns glyph size (16 / 20 / 24) and asymmetric padding.
 - **FormControls `size`:** `small` | `medium` | `large` on boxed fields. Public tokens `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large` (shared with Button). Wrapper class `cp-form-field--small|medium|large`.
 - **Pagination small chrome:** Page buttons and the rows-per-page Select use Button / Select `small` (32px). The select trigger is no longer 36px.
