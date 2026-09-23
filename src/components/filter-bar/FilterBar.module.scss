@@ -9,6 +9,21 @@
   gap: var(--space-2);
 }
 
+/* Match .cp-form-label + control stack so the Filters button lines up with inputs. */
+.cp-filter-bar__button-slot {
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-filter-bar__button-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--cp-font-size-sm);
+  line-height: 1.5;
+  color: transparent;
+  user-select: none;
+}
+
 .cp-filter-bar__date-range {
   display: flex;
   flex-wrap: wrap;

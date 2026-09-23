@@ -59,6 +59,7 @@ function DateRangeFields({
   range,
   error,
   isFluid,
+  fieldMargin = "b-4",
   testId,
   onChange,
 }: {
@@ -66,6 +67,7 @@ function DateRangeFields({
   range: FilterBarDateRangeValue;
   error?: string;
   isFluid?: boolean;
+  fieldMargin?: "0" | "b-4";
   testId?: string;
   onChange: (next: FilterBarDateRangeValue) => void;
 }) {
@@ -74,6 +76,7 @@ function DateRangeFields({
       <DateField
         label={`${field.label} from`}
         size="small"
+        margin={fieldMargin}
         isFluid={isFluid}
         value={range.from}
         onChange={(from) => onChange({ ...range, from })}
@@ -82,6 +85,7 @@ function DateRangeFields({
       <DateField
         label={`${field.label} to`}
         size="small"
+        margin={fieldMargin}
         isFluid={isFluid}
         value={range.to}
         error={error}
@@ -97,14 +101,21 @@ function renderFieldControl(
   value: FilterBarFieldValue,
   testId: string | undefined,
   onFieldChange: (next: FilterBarFieldValue) => void,
-  options?: { isFluid?: boolean; dateRange?: FilterBarDateRangeValue; dateError?: string },
+  options?: {
+    isFluid?: boolean;
+    dateRange?: FilterBarDateRangeValue;
+    dateError?: string;
+    fieldMargin?: "0" | "b-4";
+  },
 ) {
+  const fieldMargin = options?.fieldMargin ?? "b-4";
   if (field.type === "search") {
     return (
       <Input
         label={field.label}
         placeholder={field.placeholder}
         size="small"
+        margin={fieldMargin}
         value={typeof value === "string" ? value : ""}
         onChange={(event) => onFieldChange(event.target.value)}
         dataTestId={testId}
@@ -117,6 +128,7 @@ function renderFieldControl(
       <Select
         label={field.label}
         size="small"
+        margin={fieldMargin}
         isFluid={options?.isFluid}
         mode={multi ? "multi" : "single"}
         options={field.options}
@@ -133,6 +145,7 @@ function renderFieldControl(
         range={options.dateRange}
         error={options.dateError}
         isFluid={options?.isFluid}
+        fieldMargin={fieldMargin}
         testId={testId}
         onChange={onFieldChange as (next: FilterBarDateRangeValue) => void}
       />
@@ -242,6 +255,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
       return renderFieldControl(field, readValue(field, values), testId, (next) =>
         changeBarDate(field.id, next as FilterBarDateRangeValue),
       {
+        fieldMargin: "0",
         dateRange: displayed,
         dateError: isDateRangeInvalid(displayed) ? DATE_RANGE_ERROR : undefined,
       });
@@ -249,7 +263,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
     const value = readValue(field, values);
     return renderFieldControl(field, value, testId, (next) =>
       onChange(withFieldValue(values, field.id, next)),
-    );
+    { fieldMargin: "0" });
   }
 
   function renderDrawerField(field: FilterBarField) {
@@ -289,16 +303,21 @@ const FilterBar: React.FC<FilterBarProps> = ({
           <React.Fragment key={field.id}>{renderBarField(field)}</React.Fragment>
         ))}
         {drawerFields.length > 0 && (
-          <Button
-            variant="outline"
-            size="small"
-            type="button"
-            className={styles["cp-filter-bar__button"]}
-            data-testid={dataTestId ? `${dataTestId}-button` : undefined}
-            onClick={openDrawer}
-          >
-            {activeCount === 0 ? "Filters" : `Filters ${activeCount}`}
-          </Button>
+          <div className={styles["cp-filter-bar__button-slot"]}>
+            <span className={styles["cp-filter-bar__button-label"]} aria-hidden="true">
+              {"\u00a0"}
+            </span>
+            <Button
+              variant="outline"
+              size="small"
+              type="button"
+              className={styles["cp-filter-bar__button"]}
+              data-testid={dataTestId ? `${dataTestId}-button` : undefined}
+              onClick={openDrawer}
+            >
+              {activeCount === 0 ? "Filters" : `Filters ${activeCount}`}
+            </Button>
+          </div>
         )}
       </div>
       {drawerFields.length > 0 && isOpen && (
