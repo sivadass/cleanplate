@@ -611,6 +611,7 @@
         "closeOnEscape": { "type": "boolean", "default": true },
         "margin": { "type": "string", "default": "0" },
         "primaryButtonLabel": { "type": "string", "default": "" },
+        "isPrimaryButtonDisabled": { "type": "boolean", "default": false },
         "secondaryButtonLabel": { "type": "string", "default": "" }
       },
       "slots": ["title", "body", "footer"]

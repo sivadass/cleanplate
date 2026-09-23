@@ -137,6 +137,8 @@ export interface DrawerProps {
   primaryButtonLabel?: string;
   /** Called when the primary footer button is clicked */
   onPrimaryButtonClick?: () => void;
+  /** When true, the primary footer button is disabled. Default false. */
+  isPrimaryButtonDisabled?: boolean;
   /** Label for the secondary footer button */
   secondaryButtonLabel?: string;
   /** Called when the secondary footer button is clicked */
@@ -180,6 +182,7 @@ const Drawer: React.FC<DrawerProps> = ({
   ariaLabel,
   primaryButtonLabel = "",
   onPrimaryButtonClick,
+  isPrimaryButtonDisabled = false,
   secondaryButtonLabel = "",
   onSecondaryButtonClick,
   tertiaryButtonLabel = "",
@@ -206,6 +209,7 @@ const Drawer: React.FC<DrawerProps> = ({
       footerClassName,
       ariaLabel,
       primaryButtonLabel,
+      isPrimaryButtonDisabled,
       secondaryButtonLabel,
       tertiaryButtonLabel,
       dataTestId,
@@ -226,6 +230,7 @@ const Drawer: React.FC<DrawerProps> = ({
       footerClassName: "",
       ariaLabel: undefined,
       primaryButtonLabel: "",
+      isPrimaryButtonDisabled: false,
       secondaryButtonLabel: "",
       tertiaryButtonLabel: "",
       dataTestId: undefined,
@@ -414,6 +419,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     variant="solid"
                     size="medium"
                     onClick={onPrimaryButtonClick}
+                    isDisabled={isPrimaryButtonDisabled}
                     className={styles["cp-drawer__footer-button"]}
                     data-testid={drawerFieldTestId(dataTestId, "primary")}
                   >

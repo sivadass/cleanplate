@@ -255,4 +255,27 @@ describe("Drawer", () => {
       "cp-drawer-overlay",
     );
   });
+
+  it("disables the primary footer button when isPrimaryButtonDisabled is set", async () => {
+    const user = userEvent.setup();
+    const onPrimaryButtonClick = vi.fn();
+
+    render(
+      <Drawer
+        isOpen
+        title="Settings"
+        dataTestId="settings-drawer"
+        primaryButtonLabel="Save"
+        onPrimaryButtonClick={onPrimaryButtonClick}
+        isPrimaryButtonDisabled
+      >
+        Body
+      </Drawer>,
+    );
+
+    const primary = screen.getByTestId("settings-drawer-primary");
+    expect(primary).toBeDisabled();
+    await user.click(primary);
+    expect(onPrimaryButtonClick).not.toHaveBeenCalled();
+  });
 });

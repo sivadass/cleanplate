@@ -25,6 +25,7 @@ Purpose: A slide-in overlay panel for navigation, filters, settings, or detail v
 | ariaLabel | string | no | — | Accessible name when no `title` is provided. Required for a11y when `title` is omitted. |
 | primaryButtonLabel | string | no | "" | Label for the primary footer button; empty hides it. |
 | onPrimaryButtonClick | () => void | no | — | Called when the primary footer button is clicked. |
+| isPrimaryButtonDisabled | boolean | no | `false` | When true, the primary footer button is disabled. |
 | secondaryButtonLabel | string | no | "" | Label for the secondary footer button; empty hides it. |
 | onSecondaryButtonClick | () => void | no | — | Called when the secondary footer button is clicked. |
 | tertiaryButtonLabel | string | no | "" | Label for the tertiary footer button (ghost variant); empty hides it. |
@@ -86,6 +87,7 @@ interface DrawerProps {
   ariaLabel?: string;
   primaryButtonLabel?: string;
   onPrimaryButtonClick?: () => void;
+  isPrimaryButtonDisabled?: boolean;
   secondaryButtonLabel?: string;
   onSecondaryButtonClick?: () => void;
   tertiaryButtonLabel?: string;
