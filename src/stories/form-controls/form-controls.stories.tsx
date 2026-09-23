@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 import { de } from "date-fns/locale/de";
 import { FormControls, Container, Typography, Icon, Modal, Button } from "../../index";
 import type { Option, SelectValue } from "../../components/form-controls/Select";

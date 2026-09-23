@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useArgs } from "@storybook/preview-api";
+import { useArgs } from "storybook/preview-api";
 import { Drawer, Typography, Button } from "../../index";
 import { SPACING_OPTIONS } from "../../constants/common";
 import type { DrawerProps } from "../../components/drawer";

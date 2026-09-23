@@ -1,4 +1,11 @@
-import type { ArgTypes } from "@storybook/types";
+type StoryArgType = {
+  description?: string;
+  control?: false | { type?: string };
+  table?: {
+    type?: { summary?: string; detail?: string };
+    defaultValue?: { summary?: string };
+  };
+};
 
 const tableMobileColumnsTypeDetail = `interface TableMobileColumns {
   title: string; // row key (required)
@@ -15,7 +22,7 @@ const tableMobileColumnsTypeDetail = `interface TableMobileColumns {
 }`;
 
 /** Storybook argTypes override — docgen shows "union" for TableMobileColumns | null. */
-export const tableMobileColumnsArgType: ArgTypes[string] = {
+export const tableMobileColumnsArgType: StoryArgType = {
   description:
     "When set and viewport width is under 768px, each row renders as a MediaObject instead of a table row. Omit or pass null for table-only layout.",
   control: false,
@@ -28,6 +35,6 @@ export const tableMobileColumnsArgType: ArgTypes[string] = {
   },
 };
 
-export const tableDocsArgTypes: ArgTypes = {
+export const tableDocsArgTypes: Record<string, StoryArgType> = {
   mobileColumns: tableMobileColumnsArgType,
 };
