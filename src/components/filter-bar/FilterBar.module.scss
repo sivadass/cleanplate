@@ -7,6 +7,10 @@
   flex-wrap: wrap;
   align-items: flex-end;
   gap: var(--space-2);
+
+  .cp-form-field {
+    max-width: var(--cp-filter-bar-field-max-width, var(--length-small));
+  }
 }
 
 /* Match .cp-form-label + control stack so the Filters button lines up with inputs. */
@@ -22,6 +26,10 @@
   line-height: 1;
   color: transparent;
   user-select: none;
+}
+
+.cp-button.cp-button--outline.cp-filter-bar__button--open {
+  background: var(--primary-brand-light);
 }
 
 .cp-filter-bar__date-range {

@@ -79,7 +79,7 @@ function parseField($: cheerio.CheerioAPI, child: HtmlElement): Record<string, u
   }
 
   if (type === "select" || type === "multiSelect") {
-    const options = $(child)
+    const options = $(child as never)
       .children("[data-cp-value]")
       .toArray()
       .map((option) => {
@@ -102,7 +102,7 @@ export function convertFilterBarComponent(
   entry: ComponentManifest,
 ): string {
   const docs = docsPathForComponent("FilterBar");
-  const fields = $(element)
+  const fields = $(element as never)
     .children("[data-cp-type]")
     .toArray()
     .map((child) => parseField($, child as HtmlElement));
@@ -112,6 +112,26 @@ export function convertFilterBarComponent(
   }
 
   const propParts = [`fields={${formatJsxObjectLiteral(fields)}}`];
+  const buttonLabel = element.attribs["data-cp-button-label"];
+  if (buttonLabel && buttonLabel !== "Filters") {
+    propParts.push(`buttonLabel="${escapeJsxString(buttonLabel)}"`);
+  }
+  const padding = element.attribs["data-cp-padding"];
+  if (padding && padding !== "x-4") {
+    const paddingDef = entry.props.padding;
+    if (!paddingDef) {
+      throw new ConvertError('Unknown prop "padding" on FilterBar.', docs);
+    }
+    propParts.push(`padding="${escapeJsxString(padding)}"`);
+  }
+  const fieldMaxWidth = element.attribs["data-cp-field-max-width"];
+  if (fieldMaxWidth) {
+    const widthDef = entry.props.fieldMaxWidth;
+    if (!widthDef) {
+      throw new ConvertError('Unknown prop "fieldMaxWidth" on FilterBar.', docs);
+    }
+    propParts.push(`fieldMaxWidth="${escapeJsxString(fieldMaxWidth)}"`);
+  }
   const margin = element.attribs["data-cp-margin"];
   if (margin && margin !== "0") {
     const marginDef = entry.props.margin;

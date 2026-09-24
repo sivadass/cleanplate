@@ -123,6 +123,24 @@ describe("FilterBar bar", () => {
     const root = container.firstElementChild as Element;
     expectPublicClass(root, "cp-filter-bar");
     expect(root.className).toContain("cp-m-b-2");
+    expect(root.className).toContain("cp-p-x-4");
+  });
+
+  it("sets a max width on bar fields and leaves drawer fields alone", () => {
+    const { container } = render(
+      <FilterBar
+        fields={[
+          { id: "q", type: "search", label: "Search", placement: "bar" },
+          owner,
+        ]}
+        values={{ q: "", owner: [] }}
+        onChange={vi.fn()}
+        fieldMaxWidth="320px"
+      />,
+    );
+    const row = container.querySelector(".cp-filter-bar__fields") as HTMLElement;
+    expect(row.style.getPropertyValue("--cp-filter-bar-field-max-width")).toBe("320px");
+    expect(container.querySelector(".cp-filter-bar__drawer-fields")).not.toBeInTheDocument();
   });
 });
 
@@ -178,6 +196,56 @@ describe("FilterBar drawer", () => {
       />,
     );
     expect(screen.getByRole("button", { name: "Filters 2" })).toBeInTheDocument();
+  });
+
+  it("uses a prefix icon and outline styling when nothing is applied", () => {
+    render(<FilterBar fields={[owner]} values={{ owner: [] }} onChange={vi.fn()} />);
+    const button = screen.getByRole("button", { name: "Filters" });
+    expect(button.querySelector(".cp-button__prefix-icon")).toHaveTextContent("filter_list");
+    expect(button).toHaveClass("cp-button--outline");
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    expect(button).not.toHaveClass("cp-filter-bar__button--open");
+  });
+
+  it("uses a custom label and the solid variant when drawer filters are applied", () => {
+    render(
+      <FilterBar
+        fields={[owner]}
+        values={{ owner: [{ value: "asha", label: "Asha" }] }}
+        onChange={vi.fn()}
+        buttonLabel="More filters"
+      />,
+    );
+    const button = screen.getByRole("button", { name: "More filters 1" });
+    expect(button).not.toHaveClass("cp-button--outline");
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    expect(button).not.toHaveClass("cp-filter-bar__button--open");
+  });
+
+  it("marks the outline button open while the drawer is open and nothing is applied", async () => {
+    const user = userEvent.setup();
+    render(<FilterBar fields={[owner]} values={{ owner: [] }} onChange={vi.fn()} />);
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+    const button = screen.getByRole("button", { name: "Filters", hidden: true });
+    expect(button).toHaveClass("cp-button--outline");
+    expect(button).toHaveClass("cp-filter-bar__button--open");
+    expect(button).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("keeps the applied solid button and count while the drawer is open", async () => {
+    const user = userEvent.setup();
+    render(
+      <FilterBar
+        fields={[owner]}
+        values={{ owner: [{ value: "asha", label: "Asha" }] }}
+        onChange={vi.fn()}
+      />,
+    );
+    await user.click(screen.getByRole("button", { name: "Filters 1" }));
+    const button = screen.getByRole("button", { name: "Filters 1", hidden: true });
+    expect(button).not.toHaveClass("cp-button--outline");
+    expect(button).not.toHaveClass("cp-filter-bar__button--open");
+    expect(button).toHaveAttribute("aria-expanded", "true");
   });
 
   it("does not call onChange until Apply, and keeps a bar edit made while open", async () => {

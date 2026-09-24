@@ -51,5 +51,11 @@ describe("small field label size", () => {
     expect(formScss).toContain(".cp-stepper-btn .cp-icon.cp-icon");
     expect(formScss).toContain(".cp-file-trigger-button .cp-icon.cp-icon");
     expect(formScss).toContain(".cp-select-trigger-clear .cp-icon.cp-icon");
+    expect(formScss).toMatch(
+      /\.cp-form-field--small \.cp-select-trigger-clear\s*\{[^}]*width:\s*24px/,
+    );
+    expect(formScss).toMatch(
+      /\.cp-form-field--small \.cp-select-trigger-clear \.cp-icon\.cp-icon\s*\{[^}]*font-size:\s*16px/,
+    );
   });
 });

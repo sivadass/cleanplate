@@ -13,7 +13,10 @@ Bar fields call `onChange` immediately. Drawer fields edit a draft until **Apply
 | onChange | (values: FilterBarValues) => void | yes | — | Called when bar fields change or when drawer **Apply** commits. |
 | className | string | no | "" | Additional class on the root. |
 | margin | string \| SpacingOption[] | no | "0" | Margin spacing (suffix API). |
+| padding | string \| SpacingOption[] | no | "x-4" | Padding spacing (suffix API). Default horizontal inset matches Table's 16px padding so bar fields line up with the table. |
 | dataTestId | string | no | — | Root test id; suffixed on fields and drawer. |
+| buttonLabel | string | no | "Filters" | Drawer trigger label. When drawer fields are committed, the label becomes `{buttonLabel} {n}`. |
+| fieldMaxWidth | string | no | — | CSS max-width for each bar field (for example `"320px"`). Omitted fields keep the form control default of 240px. Drawer fields stay full width. |
 
 ## Types
 
@@ -62,7 +65,10 @@ interface FilterBarProps {
   onChange: (values: FilterBarValues) => void;
   className?: string;
   margin?: string | SpacingOption[];
+  padding?: string | SpacingOption[];
   dataTestId?: string;
+  buttonLabel?: string;
+  fieldMaxWidth?: string;
 }
 ```
 
@@ -84,10 +90,21 @@ const fields = [
 
 Date ranges in the app: `from` alone means on or after that local calendar day; `to` alone means on or before; both ends form a closed range. `FilterBar` stores the dates only and does not apply that meaning.
 
+The drawer trigger is a small button with a `filter_list` prefix icon. It is hidden when every field is in the bar. `buttonLabel` defaults to `Filters`.
+
+| State | Appearance |
+| --- | --- |
+| Default | Outline, label only, drawer closed, nothing committed |
+| Open | Outline with a light brand background, drawer open, nothing committed |
+| Applied | Solid, label plus the committed drawer count, drawer closed |
+| Applied while open | Solid, count stays, drawer open |
+
+The drawer title stays `Filters`.
+
 ## HTML prototype
 
 ```html
-<div data-cp="FilterBar" class="cp-filter-bar">
+<div data-cp="FilterBar" data-cp-button-label="More filters" class="cp-filter-bar">
   <div data-cp-type="search" data-cp-id="q" data-cp-label="Search" data-cp-placement="bar"></div>
   <div data-cp-type="select" data-cp-id="status" data-cp-label="Status" data-cp-placement="bar">
     <div data-cp-value="active" data-cp-label="Active"></div>
@@ -102,7 +119,7 @@ Date ranges in the app: `from` alone means on or after that local calendar day; 
 Converted JSX (add `values` and `onChange` in the app after conversion):
 
 ```jsx
-<FilterBar fields={[
+<FilterBar buttonLabel="More filters" fields={[
   { id: "q", type: "search", label: "Search", placement: "bar" },
   { id: "status", type: "select", label: "Status", placement: "bar", options: [{ value: "active", label: "Active" }] },
   { id: "owner", type: "multiSelect", label: "Owner", placement: "drawer", options: [{ value: "asha", label: "Asha" }] },

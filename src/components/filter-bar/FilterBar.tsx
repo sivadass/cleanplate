@@ -160,10 +160,18 @@ const FilterBar: React.FC<FilterBarProps> = ({
   onChange,
   className = "",
   margin = "0",
+  padding = "x-4",
   dataTestId,
+  buttonLabel = "Filters",
+  fieldMaxWidth,
 }) => {
   const prototypeEnabled = usePrototypeAttributes();
-  const dataCp = emitDataCp(prototypeEnabled, "FilterBar", { margin }, { margin: "0" });
+  const dataCp = emitDataCp(
+    prototypeEnabled,
+    "FilterBar",
+    { margin, padding, fieldMaxWidth },
+    { margin: "0", padding: "x-4", fieldMaxWidth: undefined },
+  );
   const { fields: uniqueFields, duplicateIds } = useMemo(() => dedupeFields(fields), [fields]);
   const duplicateKey = duplicateIds.join("\0");
   const [isOpen, setIsOpen] = useState(false);
@@ -175,6 +183,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
   const drawerFields = uniqueFields.filter((field) => field.placement === "drawer");
   const drawerIdsKey = drawerFields.map((field) => field.id).join("\0");
   const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
+  const paddingClass = getSpacingClass(padding, utilStyles, "cp-p");
   const activeCount = activeDrawerCount(drawerFields, values);
 
   const drawerDateRangeInvalid = drawerFields.some(
@@ -295,10 +304,17 @@ const FilterBar: React.FC<FilterBarProps> = ({
   return (
     <div
       {...dataCp}
-      className={getClassNames(styles["cp-filter-bar"], marginClass, className)}
+      className={getClassNames(styles["cp-filter-bar"], marginClass, paddingClass, className)}
       data-testid={dataTestId}
     >
-      <div className={styles["cp-filter-bar__fields"]}>
+      <div
+        className={styles["cp-filter-bar__fields"]}
+        style={
+          fieldMaxWidth
+            ? ({ "--cp-filter-bar-field-max-width": fieldMaxWidth } as React.CSSProperties)
+            : undefined
+        }
+      >
         {barFields.map((field) => (
           <React.Fragment key={field.id}>{renderBarField(field)}</React.Fragment>
         ))}
@@ -308,14 +324,18 @@ const FilterBar: React.FC<FilterBarProps> = ({
               {"\u00a0"}
             </span>
             <Button
-              variant="outline"
+              variant={activeCount > 0 ? "solid" : "outline"}
               size="small"
               type="button"
-              className={styles["cp-filter-bar__button"]}
+              prefixIcon="filter_list"
+              className={getClassNames(styles["cp-filter-bar__button"], {
+                [styles["cp-filter-bar__button--open"]]: isOpen && activeCount === 0,
+              })}
+              aria-expanded={isOpen}
               data-testid={dataTestId ? `${dataTestId}-button` : undefined}
               onClick={openDrawer}
             >
-              {activeCount === 0 ? "Filters" : `Filters ${activeCount}`}
+              {activeCount === 0 ? buttonLabel : `${buttonLabel} ${activeCount}`}
             </Button>
           </div>
         )}

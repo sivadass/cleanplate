@@ -549,6 +549,17 @@ $cp-select-panel-hairline: rgb(235 236 239);
   font-size: var(--cp-form-control-icon);
 }
 
+/* Small fields are 32px. The default clear target (height - 14px) is 18px,
+   which is smaller than the 20px trigger icon, so the glyph has no inset. */
+.cp-form-field--small .cp-select-trigger-clear {
+  width: 24px;
+  height: 24px;
+}
+
+.cp-form-field--small .cp-select-trigger-clear .cp-icon.cp-icon {
+  font-size: 16px;
+}
+
 .cp-select-value {
   text-overflow: ellipsis;
   white-space: nowrap;

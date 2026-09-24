@@ -497,7 +497,10 @@
       "exportName": "FilterBar",
       "tier": 2,
       "props": {
-        "margin": { "type": "string", "default": "0" }
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "x-4" },
+        "buttonLabel": { "type": "string", "default": "Filters" },
+        "fieldMaxWidth": { "type": "string" }
       }
     },
     "Table": {

@@ -1,4 +1,5 @@
-import { Meta } from "@storybook/addon-docs/blocks";
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+import * as FilterBarStories from "./filter-bar.stories";
 
 <Meta title="atoms/FilterBar/Documentation" />
 
@@ -24,4 +25,10 @@ import { FilterBar, Table } from "cleanplate";
 <Table columns={columns} data={filteredRows} />
 ```
 
-Add `values` and `onChange` after converting from the HTML prototype in `docs/FilterBar.md`.
+Add `values` and `onChange` after converting from the HTML prototype in `docs/FilterBar.md`. Pass `buttonLabel` to rename the drawer trigger (default `Filters`). A committed drawer count is appended, and the button turns solid while those filters are applied.
+
+## Responsive alignment
+
+This playground has no controls. It puts search, selects, multi-selects, and two date ranges on the bar, with two more fields behind **More filters**. Resize the preview. Fields wrap onto the next line, and their left edge stays lined up with the table because both use a 16px horizontal inset.
+
+<Canvas of={FilterBarStories.Responsive} />

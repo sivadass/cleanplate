@@ -50,6 +50,7 @@ export type FilterBarValues = Record<string, FilterBarFieldValue>;
 
 export type SpacingOption = (typeof SPACING_OPTIONS)[number];
 export type FilterBarMargin = string | SpacingOption[];
+export type FilterBarPadding = string | SpacingOption[];
 
 export interface FilterBarProps {
   fields: FilterBarField[];
@@ -57,5 +58,11 @@ export interface FilterBarProps {
   onChange: (values: FilterBarValues) => void;
   className?: string;
   margin?: FilterBarMargin;
+  /** Horizontal inset matching Table's default padding. Suffix spacing API. */
+  padding?: FilterBarPadding;
   dataTestId?: string;
+  /** Drawer trigger label. Count is appended when drawer filters are committed. */
+  buttonLabel?: string;
+  /** CSS max-width for each field in the bar row. Drawer fields stay full width. */
+  fieldMaxWidth?: string;
 }

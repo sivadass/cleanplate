@@ -7,5 +7,6 @@ export type {
   FilterBarDateRangeValue,
   FilterBarPlacement,
   FilterBarMargin,
+  FilterBarPadding,
   SpacingOption,
 } from "./filter-bar-types";
