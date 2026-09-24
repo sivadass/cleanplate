@@ -493,6 +493,16 @@
         "margin": { "type": "string", "default": "0" }
       }
     },
+    "FilterBar": {
+      "exportName": "FilterBar",
+      "tier": 2,
+      "props": {
+        "margin": { "type": "string", "default": "0" },
+        "padding": { "type": "string", "default": "x-4" },
+        "buttonLabel": { "type": "string", "default": "Filters" },
+        "fieldMaxWidth": { "type": "string" }
+      }
+    },
     "Table": {
       "exportName": "Table",
       "tier": 3,
@@ -611,6 +621,7 @@
         "closeOnEscape": { "type": "boolean", "default": true },
         "margin": { "type": "string", "default": "0" },
         "primaryButtonLabel": { "type": "string", "default": "" },
+        "isPrimaryButtonDisabled": { "type": "boolean", "default": false },
         "secondaryButtonLabel": { "type": "string", "default": "" }
       },
       "slots": ["title", "body", "footer"]

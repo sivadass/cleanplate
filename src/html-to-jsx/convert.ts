@@ -2,6 +2,7 @@ import * as cheerio from "cheerio";
 import type { ComponentManifest, Manifest } from "./manifest";
 import { docsPathForComponent } from "./manifest";
 import { ConvertError } from "./convert-errors";
+import { convertFilterBarComponent } from "./filter-bar-convert";
 import { convertTableComponent } from "./table-convert";
 import type { HtmlElement, HtmlNode } from "./convert-types";
 
@@ -270,6 +271,10 @@ function convertTaggedComponent(
       `Unknown component "${componentName}".`,
       docsPathForComponent(componentName),
     );
+  }
+
+  if (componentName === "FilterBar") {
+    return convertFilterBarComponent($, element, entry);
   }
 
   if (componentName === "Table") {

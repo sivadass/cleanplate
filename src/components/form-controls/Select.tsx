@@ -1166,7 +1166,7 @@ const Select: React.FC<SelectProps> = ({
                       }}
                       onClick={handleChipRemove(opt)}
                     >
-                      <Icon name="close" size="small" color="gray" />
+                      <Icon name="close" size="small" />
                     </button>
                   </span>
                 ))}

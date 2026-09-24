@@ -28,7 +28,7 @@ Boxed controls share `size?: FormControlSize` (`"small" | "medium" | "large"`, d
 | `medium` (default) | 44px | 16px | 16px | `--cp-form-control-radius-medium` (12px) |
 | `large` | 52px | 16px | 20px | `--cp-form-control-radius-large` (16px) |
 
-`TextArea` keeps `height: auto` and scales `min-height` (72 / 88 / 104). Glyphs (search, stepper ±, select chevron, File button) scale 16 / 20 / 24. Field labels (`.cp-form-label`) do not scale.
+`TextArea` keeps `height: auto` and scales `min-height` (72 / 88 / 104). Glyphs (search, stepper ±, select chevron, File button) scale 20 / 20 / 24. Field labels (`.cp-form-label`) use `--cp-form-label-font`: 12px on small, 16px on medium and large.
 
 **Not sized in this pass:** Checkbox / Radio indicators, Toggle track, File **card** dropzone, Select/Date/ColorPicker **panels**.
 

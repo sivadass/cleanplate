@@ -2,6 +2,7 @@
   --cp-form-control-height: var(--cp-form-control-height-medium);
   --cp-form-control-radius: var(--cp-form-control-radius-medium);
   --cp-form-control-font: 16px;
+  --cp-form-label-font: var(--font-size);
   --cp-form-control-pad-x: 16px;
   --cp-form-control-icon: 20px;
   --cp-form-control-textarea-min: 88px;
@@ -15,8 +16,9 @@
   --cp-form-control-height: var(--cp-form-control-height-small);
   --cp-form-control-radius: var(--cp-form-control-radius-small);
   --cp-form-control-font: 14px;
+  --cp-form-label-font: var(--cp-font-size-xs);
   --cp-form-control-pad-x: 12px;
-  --cp-form-control-icon: 16px;
+  --cp-form-control-icon: 20px;
   --cp-form-control-textarea-min: 72px;
 }
 
@@ -24,6 +26,7 @@
   --cp-form-control-height: var(--cp-form-control-height-medium);
   --cp-form-control-radius: var(--cp-form-control-radius-medium);
   --cp-form-control-font: 16px;
+  --cp-form-label-font: var(--font-size);
   --cp-form-control-pad-x: 16px;
   --cp-form-control-icon: 20px;
   --cp-form-control-textarea-min: 88px;
@@ -33,6 +36,7 @@
   --cp-form-control-height: var(--cp-form-control-height-large);
   --cp-form-control-radius: var(--cp-form-control-radius-large);
   --cp-form-control-font: 16px;
+  --cp-form-label-font: var(--font-size);
   --cp-form-control-pad-x: 20px;
   --cp-form-control-icon: 24px;
   --cp-form-control-textarea-min: 104px;
@@ -50,6 +54,7 @@
   display: block;
   margin-bottom: 8px;
   color: var(--text-subtle);
+  font-size: var(--cp-form-label-font, var(--font-size));
 }
 
 /* Label text beside a control (checkbox / radio). The option label is treated as primary
@@ -183,9 +188,10 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     outline-offset: 2px;
   }
 
-  .cp-icon {
-    font-size: var(--cp-form-control-icon);
-  }
+}
+
+.cp-input-search-clear .cp-icon.cp-icon {
+  font-size: var(--cp-form-control-icon);
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -343,11 +349,6 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     background-color 0.15s ease,
     color 0.15s ease;
 
-  .cp-icon {
-    font-size: var(--cp-form-control-icon);
-    color: inherit;
-  }
-
   &:hover:not(:disabled) {
     background: var(--primary-brand-lightest);
     color: var(--black);
@@ -362,6 +363,11 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     outline: 2px solid var(--primary-brand);
     outline-offset: -2px;
   }
+}
+
+.cp-stepper-btn .cp-icon.cp-icon {
+  font-size: var(--cp-form-control-icon);
+  color: inherit;
 }
 
 .cp-stepper-shell--split-controls .cp-stepper-input {
@@ -464,7 +470,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-select-chip-remove {
-  /* Square hit target so 50% radius is a circle, not an oval when stretched */
+  /* .cp-select-chip-remove .cp-icon.cp-icon */
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -480,13 +486,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
   cursor: pointer;
   line-height: 1;
   border-radius: var(--radius-round);
-  & > span {
+
+  .cp-icon.cp-icon {
     line-height: 1;
     color: var(--white);
   }
+
   &:hover:not(:disabled) {
     background: var(--white);
-    & > span {
+
+    .cp-icon.cp-icon {
       color: var(--primary-brand);
     }
   }
@@ -534,6 +543,21 @@ $cp-select-panel-hairline: rgb(235 236 239);
   &:hover {
     background: rgb(229 229 229);
   }
+}
+
+.cp-select-trigger-clear .cp-icon.cp-icon {
+  font-size: var(--cp-form-control-icon);
+}
+
+/* Small fields are 32px. The default clear target (height - 14px) is 18px,
+   which is smaller than the 20px trigger icon, so the glyph has no inset. */
+.cp-form-field--small .cp-select-trigger-clear {
+  width: 24px;
+  height: 24px;
+}
+
+.cp-form-field--small .cp-select-trigger-clear .cp-icon.cp-icon {
+  font-size: 16px;
 }
 
 .cp-select-value {
@@ -1112,14 +1136,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-width: 24px;
 }
 
-.cp-select-field-option-selected {
+.cp-select-field-option-trailing .cp-select-field-option-selected.cp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--primary-brand);
   color: var(--white);
   height: 22px;
   width: 22px;
-  line-height: 20px;
+  line-height: 1;
   font-size: 16px;
-  text-align: center;
   border-radius: var(--radius-round);
   border: 1px solid var(--white);
 }
@@ -1139,7 +1165,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 
-.cp-select-field-arrow.cp-icon {
+.cp-select-field-arrow.cp-icon.cp-icon {
   margin-left: 8px;
   font-size: var(--cp-form-control-icon);
   line-height: 1;
@@ -2024,7 +2050,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     width: auto;
   }
 
-  .cp-file-trigger-button .cp-icon {
+  .cp-file-trigger-button .cp-icon.cp-icon {
     font-size: var(--cp-form-control-icon);
   }
 
