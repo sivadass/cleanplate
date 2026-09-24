@@ -18,7 +18,7 @@
   --cp-form-control-font: 14px;
   --cp-form-label-font: var(--cp-font-size-xs);
   --cp-form-control-pad-x: 12px;
-  --cp-form-control-icon: 16px;
+  --cp-form-control-icon: 20px;
   --cp-form-control-textarea-min: 72px;
 }
 
@@ -188,9 +188,10 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     outline-offset: 2px;
   }
 
-  .cp-icon {
-    font-size: var(--cp-form-control-icon);
-  }
+}
+
+.cp-input-search-clear .cp-icon.cp-icon {
+  font-size: var(--cp-form-control-icon);
 }
 
 /* ---------------------------------------------------------------------------- */
@@ -348,11 +349,6 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     background-color 0.15s ease,
     color 0.15s ease;
 
-  .cp-icon {
-    font-size: var(--cp-form-control-icon);
-    color: inherit;
-  }
-
   &:hover:not(:disabled) {
     background: var(--primary-brand-lightest);
     color: var(--black);
@@ -367,6 +363,11 @@ content (not a "field label"), so it uses --black for proper text hierarchy with
     outline: 2px solid var(--primary-brand);
     outline-offset: -2px;
   }
+}
+
+.cp-stepper-btn .cp-icon.cp-icon {
+  font-size: var(--cp-form-control-icon);
+  color: inherit;
 }
 
 .cp-stepper-shell--split-controls .cp-stepper-input {
@@ -539,6 +540,10 @@ $cp-select-panel-hairline: rgb(235 236 239);
   &:hover {
     background: rgb(229 229 229);
   }
+}
+
+.cp-select-trigger-clear .cp-icon.cp-icon {
+  font-size: var(--cp-form-control-icon);
 }
 
 .cp-select-value {
@@ -1144,7 +1149,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
   }
 }
 
-.cp-select-field-arrow.cp-icon {
+.cp-select-field-arrow.cp-icon.cp-icon {
   margin-left: 8px;
   font-size: var(--cp-form-control-icon);
   line-height: 1;
@@ -2029,7 +2034,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
     width: auto;
   }
 
-  .cp-file-trigger-button .cp-icon {
+  .cp-file-trigger-button .cp-icon.cp-icon {
     font-size: var(--cp-form-control-icon);
   }
 

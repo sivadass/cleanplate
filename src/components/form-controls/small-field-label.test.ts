@@ -41,4 +41,15 @@ describe("small field label size", () => {
     expect(docs).toContain("12px on small");
     expect(docs).not.toContain("Field labels (`.cp-form-label`) do not scale.");
   });
+
+  it("sets small trigger icons to 20px with a selector that beats Icon sizes", () => {
+    expect(formScss).toMatch(
+      /\.cp-form-field--small\s*\{[^}]*--cp-form-control-icon:\s*20px/,
+    );
+    expect(formScss).toContain(".cp-select-field-arrow.cp-icon.cp-icon");
+    expect(formScss).toContain(".cp-input-search-clear .cp-icon.cp-icon");
+    expect(formScss).toContain(".cp-stepper-btn .cp-icon.cp-icon");
+    expect(formScss).toContain(".cp-file-trigger-button .cp-icon.cp-icon");
+    expect(formScss).toContain(".cp-select-trigger-clear .cp-icon.cp-icon");
+  });
 });
