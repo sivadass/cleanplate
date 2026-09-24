@@ -470,7 +470,7 @@ $cp-select-panel-hairline: rgb(235 236 239);
 }
 
 .cp-select-chip-remove {
-  /* Square hit target so 50% radius is a circle, not an oval when stretched */
+  /* .cp-select-chip-remove .cp-icon.cp-icon */
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -486,13 +486,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
   cursor: pointer;
   line-height: 1;
   border-radius: var(--radius-round);
-  & > span {
+
+  .cp-icon.cp-icon {
     line-height: 1;
     color: var(--white);
   }
+
   &:hover:not(:disabled) {
     background: var(--white);
-    & > span {
+
+    .cp-icon.cp-icon {
       color: var(--primary-brand);
     }
   }
@@ -1122,14 +1125,16 @@ $cp-select-panel-hairline: rgb(235 236 239);
   min-width: 24px;
 }
 
-.cp-select-field-option-selected {
+.cp-select-field-option-trailing .cp-select-field-option-selected.cp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--primary-brand);
   color: var(--white);
   height: 22px;
   width: 22px;
-  line-height: 20px;
+  line-height: 1;
   font-size: 16px;
-  text-align: center;
   border-radius: var(--radius-round);
   border: 1px solid var(--white);
 }
