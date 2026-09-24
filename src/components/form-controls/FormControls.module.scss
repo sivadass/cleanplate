@@ -2,6 +2,7 @@
   --cp-form-control-height: var(--cp-form-control-height-medium);
   --cp-form-control-radius: var(--cp-form-control-radius-medium);
   --cp-form-control-font: 16px;
+  --cp-form-label-font: var(--font-size);
   --cp-form-control-pad-x: 16px;
   --cp-form-control-icon: 20px;
   --cp-form-control-textarea-min: 88px;
@@ -15,6 +16,7 @@
   --cp-form-control-height: var(--cp-form-control-height-small);
   --cp-form-control-radius: var(--cp-form-control-radius-small);
   --cp-form-control-font: 14px;
+  --cp-form-label-font: var(--cp-font-size-xs);
   --cp-form-control-pad-x: 12px;
   --cp-form-control-icon: 16px;
   --cp-form-control-textarea-min: 72px;
@@ -24,6 +26,7 @@
   --cp-form-control-height: var(--cp-form-control-height-medium);
   --cp-form-control-radius: var(--cp-form-control-radius-medium);
   --cp-form-control-font: 16px;
+  --cp-form-label-font: var(--font-size);
   --cp-form-control-pad-x: 16px;
   --cp-form-control-icon: 20px;
   --cp-form-control-textarea-min: 88px;
@@ -33,6 +36,7 @@
   --cp-form-control-height: var(--cp-form-control-height-large);
   --cp-form-control-radius: var(--cp-form-control-radius-large);
   --cp-form-control-font: 16px;
+  --cp-form-label-font: var(--font-size);
   --cp-form-control-pad-x: 20px;
   --cp-form-control-icon: 24px;
   --cp-form-control-textarea-min: 104px;
@@ -50,6 +54,7 @@
   display: block;
   margin-bottom: 8px;
   color: var(--text-subtle);
+  font-size: var(--cp-form-label-font, var(--font-size));
 }
 
 /* Label text beside a control (checkbox / radio). The option label is treated as primary
