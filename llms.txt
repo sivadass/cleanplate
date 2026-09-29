@@ -262,8 +262,8 @@ All component documentation is located in the `docs/` folder. The following docu
 ### PageHeader Component
 - File: `docs/PageHeader.md`
 - Purpose: Two-column page header: left (title, subtitle), right (primary CTA, more menu with three-dots icon). For page/section headings and actions.
-- Key Features: title, subtitle (string or ReactNode), primaryCta (ReactNode), moreMenuItems (label, onClick) or moreMenuContent, right column aligned right, className
-- Types: PageHeaderProps, PageHeaderMoreMenuItem
+- Key Features: title, subtitle (string or ReactNode; Typography `h4` / `small`; single-line ellipsis), primaryCta is a `PageHeaderCtaConfig` object — not a render function. `label` required, `onClick` shared, `icon` optional Material icon name, `size` default `medium`. Wider than 600px: labeled Button (`variant` default `solid`), `icon` as `prefixIcon`. Up to 600px: if an icon resolves, icon Button with `aria-label` = `label` (base `variant` is ignored unless `mobile.variant` is set). No icon: labeled button at both sizes. Both buttons are rendered; CSS (`display: none` at `--mobile-breakpoint`, 600px) shows one, so server HTML matches the client. `desktop` / `mobile` override `label`, `icon`, `variant`, `size` for that breakpoint only; put `icon` on `mobile` alone to skip the desktop prefix; `mobile: { variant: "solid" }` keeps the text label. A ReactNode `primaryCta` renders once, unchanged. moreMenuItems (`label`, `onClick`) or moreMenuContent. `margin` suffix API, default `b-4`. Row does not wrap; below 600px the actions column reserves one medium icon button, or two when both the CTA and the more menu are present.
+- Types: PageHeaderProps, PageHeaderMoreMenuItem, PageHeaderCtaConfig, PageHeaderCtaView, PageHeaderMargin
 - Related Components: Button, Typography, Dropdown, Icon (used internally), Container
 
 ### BottomSheet Component
@@ -332,6 +332,16 @@ All documentation files follow a consistent format:
 | BottomSheet | `docs/BottomSheet.md` | Slide-up panel for forms and actions |
 | Footer | `docs/Footer.md` | App footer with copyright and optional links |
 | AppShell | `docs/AppShell.md` | Dashboard layout with header, sidebar, footer, and main content |
+
+## Templates
+
+Full-page Storybook examples live under `templates/` (Login, Register, CRUD, Dashboard, Settings). They are reference compositions, not library exports.
+
+- File: `docs/Templates.md`
+- Forms use `react-hook-form` `useForm` + `Controller` against controlled CleanPlate fields (`value`, `onChange`, `error`).
+- Authenticated pages sit in `AppShell`. Login and Register are centered cards.
+- CRUD create and edit share one `Drawer`. Delete uses `ConfirmDialog`. Row click switches to the details view in the story.
+- Settings uses horizontal `MenuList` as a tab bar (there is no `Tabs` component).
 
 ## Additional Resources
 

@@ -11,21 +11,26 @@ The `PageHeader` component provides a two-column page header: **left** (title an
 
 - **Title:** Required; string or custom ReactNode (left column)
 - **Subtitle:** Optional; string or ReactNode below the title (left column)
-- **Primary CTA:** Optional; any ReactNode, e.g. a Button (right column)
+- **Primary CTA:** Optional `PageHeaderCtaConfig` object (not a render function). Both breakpoint buttons are rendered; CSS shows one at 600px. Wider than 600px: labeled button, `icon` as a prefix. Up to 600px: a resolved `icon` becomes an icon button (`aria-label` is `label`) unless `mobile.variant` is set. `desktop` / `mobile` override `label`, `icon`, `variant`, and `size`. A ReactNode renders once, as-is.
 - **More menu:** Optional; either `moreMenuItems` (list of objects with `label` and `onClick`) or `moreMenuContent` (custom ReactNode). Renders a trigger with the Material **more_vert** (three vertical dots) icon and a dropdown (right column)
-- **Layout:** Flex row with space-between; right column has margin-left: auto for right alignment
+- **Layout:** Flex row that does not wrap. Title and subtitle ellipsize on one line. Actions stay on the right (`margin-left: auto`). Below 600px the actions column reserves one medium icon button, or two when both the primary action and the more menu are present.
+- **Margin:** Suffix spacing. Default `b-4` (16px below the header). Pass `margin="0"` to remove it.
 - **className:** Optional root class
 
 ## Usage
 
 ```jsx
-import { PageHeader, Button } from "cleanplate";
+import { PageHeader } from "cleanplate";
 
 const Page = () => (
   <PageHeader
     title="Dashboard"
     subtitle="Overview of your projects"
-    primaryCta={<Button>Create project</Button>}
+    primaryCta={{
+      label: "Create project",
+      icon: "add",
+      onClick: () => createProject(),
+    }}
     moreMenuItems={[
       { label: "Export", onClick: () => exportData() },
       { label: "Settings", onClick: () => openSettings() },
@@ -38,13 +43,17 @@ const Page = () => (
 
 ### Full header
 
-Title, subtitle, primary CTA, and more menu.
+Title, subtitle, a responsive primary action, and more menu. `icon` is a prefix on desktop and an icon button up to 600px.
 
 ```jsx
 <PageHeader
   title="Projects"
   subtitle="Manage and track your team projects"
-  primaryCta={<Button>New project</Button>}
+  primaryCta={{
+    label: "New project",
+    icon: "add",
+    onClick: () => {},
+  }}
   moreMenuItems={[
     { label: "Export", onClick: () => {} },
     { label: "Archive", onClick: () => {} },
@@ -143,8 +152,10 @@ Use `moreMenuContent` for full control over the dropdown content (e.g. links, di
 
 ## Behavior
 
-- **Layout:** Root is a `<header>`. Inside, a flex row (`.cp-page-header-row`) has start (title + subtitle) and actions (CTA + more trigger). The actions column uses `margin-left: auto` so it stays aligned to the right edge.
-- **Title / subtitle:** Always rendered with Typography (`h4` / `p`); strings and custom ReactNode children share the same heading styles and semantics.
+- **Layout:** Root is a `<header>`. Inside, a flex row (`.cp-page-header-row`) does not wrap: start is a column (title above subtitle) and actions sit on the right (`margin-left: auto`). Title and subtitle ellipsize when space runs out. Below 600px the actions column reserves the width of one medium icon button, or two when both the primary action and the more menu are present.
+- **Title / subtitle:** Rendered with Typography (`h4` for the title, `small` for the subtitle). Each is one line and ellipsizes when the actions need the remaining width.
+- **Margin:** Suffix API. Default `b-4`.
+- **Primary CTA:** Pass a `PageHeaderCtaConfig` object, not a function of the viewport. Both breakpoint buttons are rendered; CSS hides one at 600px (`--mobile-breakpoint`) so server HTML matches the client. Wider than 600px it is a labeled button (`variant` default `solid`) and `icon` is a prefix. Up to 600px, a resolved icon switches it to an icon button whose `aria-label` is `label`; the base `variant` is ignored unless `mobile.variant` is set. No icon keeps the labeled button at both sizes. `desktop` and `mobile` override `label`, `icon`, `variant`, and `size` for that breakpoint. A React element is rendered once, unchanged.
 - **More menu:** When `moreMenuItems` is provided, the component renders a Dropdown with an icon Button (more_vert) and a list of buttons; each item’s `onClick` runs and the dropdown closes. When `moreMenuContent` is provided, that content is rendered inside the dropdown panel. Only one of `moreMenuItems` or `moreMenuContent` should be used.
 - **Accessibility:** More trigger has `aria-expanded` and `aria-haspopup`; list uses `role="menu"` and `role="menuitem"`.
 

@@ -237,7 +237,7 @@ export const Example = () => (
 - The component uses semantic HTML elements, which is important for accessibility and SEO.
 - All standard HTML attributes can be passed through via the spread operator (`...rest`), allowing for custom `id`, `data-*`, `aria-*`, and other attributes.
 - **Use props, not inline style:** Use `align` for text alignment (e.g. `align="center"`), and `margin` for spacing. Do not use `style={{ textAlign, marginBottom }}` for these.
-- The `align` prop controls text alignment using CSS classes. Values: `"left"`, `"center"`, `"right"`.
+- The `align` prop controls text alignment using CSS classes. Values: `"left"`, `"center"`, `"right"`. `center` and `right` set `display: block` so the alignment applies to inline elements (`span`, `small`) as well as headings and paragraphs.
 - The `wordBreak` prop provides control over how text wraps when it exceeds container width.
 - **Margin uses the framework-wide spacing rule (all components):** Pass suffix only: `"0"`, `"2"`, `"b-2"`, `["1", "b-3"]` etc. The component adds the `m-` prefix. Do not pass `"m-2"` or `"m-b-2"`.
 - The `isBold` prop applies bold font weight, which can be combined with any variant.

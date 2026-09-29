@@ -24,7 +24,8 @@ const meta = {
     },
     primaryCta: {
       control: false,
-      description: "Primary call-to-action, e.g. a Button (right column)",
+      description:
+        "Primary call-to-action. Config object (label, icon, onClick, desktop, mobile) or a custom ReactNode.",
     },
     moreMenuItems: {
       control: false,
@@ -157,9 +158,13 @@ export const Mobile = {
   render: () => (
     <Container padding="4" width="full">
       <PageHeader
-        title="Projects"
-        subtitle="Manage and track your team projects"
-        primaryCta={<Button>New project</Button>}
+        title="Quarterly infrastructure migration projects"
+        subtitle="Manage and track your team projects across workspaces"
+        primaryCta={{
+          label: "New project",
+          icon: "add",
+          onClick: () => {},
+        }}
         moreMenuItems={[
           { label: "Export", onClick: () => {} },
           { label: "Archive", onClick: () => {} },

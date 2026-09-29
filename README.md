@@ -2,7 +2,7 @@
 
 **A headless React UI framework** — reusable, accessible components you can style to match your brand. No opinionated theme; you bring the look and feel.
 
-> **Beta:** `1.0.0-beta.0` introduces stable public `cp-*` CSS, `dist/tokens.css`, and the HTML → React bridge. Install with an exact semver pin (`npm install cleanplate@1.0.0-beta.0`) until stable `1.0.0` ships. See [`docs/MIGRATION-v1.md`](docs/MIGRATION-v1.md).
+> **Beta:** `1.0.0-beta.6` is the current beta. Install with an exact semver pin (`npm install cleanplate@1.0.0-beta.6`) until stable `1.0.0` ships. See [`docs/MIGRATION-v1.md`](docs/MIGRATION-v1.md).
 
 - [Installation](#installation)
 - [Quick start](#quick-start)
@@ -235,7 +235,7 @@ npx cleanplate-html-to-jsx recipe.html
 
 CDN mirrors of the published tarball work well for prompts and CI; pin the semver you depend on:
 
-- **Beta pin:** `https://unpkg.com/cleanplate@1.0.0-beta.0/llms.txt` · `https://unpkg.com/cleanplate@1.0.0-beta.0/dist/index.css` · `https://unpkg.com/cleanplate@1.0.0-beta.0/dist/tokens.css`
+- **Beta pin:** `https://unpkg.com/cleanplate@1.0.0-beta.6/llms.txt` · `https://unpkg.com/cleanplate@1.0.0-beta.6/dist/index.css` · `https://unpkg.com/cleanplate@1.0.0-beta.6/dist/tokens.css`
 - **Latest:** [unpkg — `llms.txt`](https://unpkg.com/cleanplate@latest/llms.txt) · [jsDelivr — `llms.txt`](https://cdn.jsdelivr.net/npm/cleanplate@latest/llms.txt)
 
 Human-facing Storybook: [cleanplate.sivadass.in](https://cleanplate.sivadass.in).

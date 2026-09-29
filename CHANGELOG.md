@@ -28,7 +28,9 @@
 
 ---
 
-## Unreleased
+## [1.0.0-beta.6] - 2026-09-29
+
+Pin this semver exactly if you adopt it (`cleanplate@1.0.0-beta.6`).
 
 ### Breaking
 
@@ -36,6 +38,7 @@
 - **Form control sizes:** Boxed fields (`Input`, `TextArea`, `Select`, `Date`, `ColorPicker`, `Stepper`, `SegmentedControl`, `File` button) share `size` (`small` 32 / `medium` 44 default / `large` 52). Default field height remaps 50px → 44px so it aligns with `Button` medium. `SegmentedControl` `small` remaps 40px → 32px; `medium` 50px → 44px; new `large` is 52px. Checkbox, Radio, Toggle, and File card are unchanged. See `docs/FormControls.md`.
 - **Shared size tokens:** Button and boxed fields use `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large`. `--cp-button-height-*`, `--cp-form-control-radius` (single token), and font / pad-x / icon / textarea-min tokens are removed from `:root`.
 - **Typography type scale:** Headings remap 60/50/40/30/24/18 → **48/32/24/20/16/14**. `small` is **12px** (was 14px). Heading line-height is no longer `1`. Public tokens `--cp-font-family`, `--cp-font-size-*`, `--cp-font-leading-*`, `--cp-font-tracking-*`, `--cp-font-weight-*`. `--font-family` is renamed to `--cp-font-family`. Class names unchanged. See `docs/Typography.md`.
+- **PageHeader layout:** The row no longer wraps. Title and subtitle are one line and ellipsize. Root `margin` defaults to `b-4` (16px below the header). Below 600px the actions column reserves room for the icon buttons. See `docs/PageHeader.md`.
 
 ### Added
 
@@ -43,3 +46,10 @@
 - **Button `prefixIcon` / `suffixIcon`:** Material Symbol names; Button owns glyph size (16 / 20 / 24) and asymmetric padding.
 - **FormControls `size`:** `small` | `medium` | `large` on boxed fields. Public tokens `--cp-form-control-height-small|medium|large` and `--cp-form-control-radius-small|medium|large` (shared with Button). Wrapper class `cp-form-field--small|medium|large`.
 - **Pagination small chrome:** Page buttons and the rows-per-page Select use Button / Select `small` (32px). The select trigger is no longer 36px.
+- **PageHeader `primaryCta` config:** `PageHeaderCtaConfig` (`label`, `onClick`, `icon`, `variant`, `size`, `desktop`, `mobile`). Wider than 600px the button is labeled and `icon` is a prefix. Up to 600px a resolved icon becomes an icon button. Both buttons are rendered; CSS shows one, so server HTML matches the client. A React element `primaryCta` still renders unchanged. Types: `PageHeaderCtaConfig`, `PageHeaderCtaView`, `PageHeaderMargin`.
+- **Storybook templates:** Login, Register, CRUD, Dashboard, and Settings under `templates/`. Reference compositions, not package exports. See `docs/Templates.md`. The stories use `react-hook-form` as a dev dependency; it is not a CleanPlate dependency.
+
+### Changed
+
+- **Typography `align`:** `center` and `right` set `display: block` so alignment applies to inline elements (`span`, `small`).
+- **Table pagination spacing:** The built-in pagination bar uses `margin-top: var(--space-4)` (16px; was 24px) and no horizontal padding.

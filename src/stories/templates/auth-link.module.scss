@@ -1,0 +1,13 @@
+.cp-auth-link {
+  color: var(--text-interactive);
+  font-family: var(--cp-font-family);
+  font-size: var(--cp-font-size-sm);
+  font-weight: var(--cp-font-weight-regular);
+  line-height: var(--cp-font-leading-sm);
+  letter-spacing: var(--cp-font-tracking-ui);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

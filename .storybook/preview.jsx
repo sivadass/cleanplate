@@ -21,7 +21,7 @@ const preview = {
     options: {
       storySort: {
         method: "",
-        order: ["Introduction", "Components"],
+        order: ["Introduction", "atoms", "molecules", "templates"],
         locales: "",
       },
     },

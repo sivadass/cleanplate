@@ -90,6 +90,9 @@ export type {
 export type {
   PageHeaderProps,
   PageHeaderMoreMenuItem,
+  PageHeaderCtaConfig,
+  PageHeaderCtaView,
+  PageHeaderMargin,
 } from "./components/page-header";
 export type {
   FooterProps,

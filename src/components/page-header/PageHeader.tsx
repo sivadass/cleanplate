@@ -1,15 +1,24 @@
 import React from "react";
 import Typography from "../typography";
 import Button from "../button";
+import type { ButtonProps, ButtonSize, ButtonVariant } from "../button";
 import Icon from "../icon";
+import type { MaterialIconName } from "../icon/material-icon-names";
 import Dropdown from "../dropdown";
 import MenuList from "../menu-list";
 import type { DropdownRenderTriggerParams } from "../dropdown";
 import type { MenuListItem } from "../menu-list";
 import getClassNames from "../../utils/get-class-names";
+import { SPACING_OPTIONS } from "../../constants/common";
+import { getSpacingClass } from "../../utils/common";
+import utilStyles from "../../styles/utils.module.scss";
 import { usePrototypeAttributes } from "../../prototype/CleanPlatePrototypeAttributes";
 import { emitDataCp } from "../../prototype/emit-data-cp";
 import styles from "./PageHeader.module.scss";
+
+export type SpacingOption = (typeof SPACING_OPTIONS)[number];
+
+export type PageHeaderMargin = string | SpacingOption[];
 
 export interface PageHeaderMoreMenuItem {
   /** Menu item label */
@@ -18,20 +27,108 @@ export interface PageHeaderMoreMenuItem {
   onClick?: () => void;
 }
 
+/** Per-breakpoint overrides for a config-based primary CTA. */
+export interface PageHeaderCtaView {
+  /** Overrides the shared label. Icon buttons use this as the accessible name. */
+  label?: string;
+  /** Material icon. Prefix on a labeled button; the button contents when variant is "icon". */
+  icon?: MaterialIconName;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+}
+
+/**
+ * Primary action rendered by PageHeader.
+ * A shared label (and optional icon) applies to both breakpoints.
+ * Below 600px, an icon switches the button to icon-only unless `mobile.variant` says otherwise.
+ */
+export interface PageHeaderCtaConfig {
+  /** Button label. Also the accessible name of an icon-only button. */
+  label: string;
+  onClick?: ButtonProps["onClick"];
+  /** Material icon. On desktop this is a prefix; on mobile it becomes an icon button. */
+  icon?: MaterialIconName;
+  /** Desktop variant when `desktop.variant` is omitted. Default "solid". */
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  /** Overrides for viewports wider than 600px. */
+  desktop?: PageHeaderCtaView;
+  /** Overrides for viewports up to 600px. */
+  mobile?: PageHeaderCtaView;
+}
+
 export interface PageHeaderProps {
   /** Page title (left column) */
   title: React.ReactNode;
   /** Optional subtitle below the title (left column) */
   subtitle?: React.ReactNode;
-  /** Primary call-to-action, e.g. a Button (right column, aligned right) */
-  primaryCta?: React.ReactNode;
+  /**
+   * Primary call-to-action (right column).
+   * Pass a PageHeaderCtaConfig to switch between a labeled button and an icon button,
+   * or a ReactNode for custom content.
+   */
+  primaryCta?: React.ReactNode | PageHeaderCtaConfig;
   /** More menu items; renders a trigger with three-dots (more_vert) icon and a dropdown (right column). */
   moreMenuItems?: PageHeaderMoreMenuItem[];
   /** Custom content for the more menu dropdown instead of moreMenuItems (right column). */
   moreMenuContent?: React.ReactNode;
+  /** Outer margin. Suffix API (`"b-4"`, `"0"`). Default keeps 16px below the header. */
+  margin?: PageHeaderMargin;
   /** Additional class name for the root element */
   className?: string;
 }
+
+function isPageHeaderCtaConfig(
+  value: React.ReactNode | PageHeaderCtaConfig,
+): value is PageHeaderCtaConfig {
+  return (
+    value != null &&
+    typeof value === "object" &&
+    !React.isValidElement(value) &&
+    "label" in value &&
+    typeof value.label === "string"
+  );
+}
+
+function resolveCtaView(config: PageHeaderCtaConfig, isMobile: boolean) {
+  const view = isMobile ? config.mobile : config.desktop;
+  const icon = view?.icon ?? config.icon;
+  const label = view?.label ?? config.label;
+  const size = view?.size ?? config.size ?? "medium";
+  let variant = view?.variant;
+  if (variant == null) {
+    if (isMobile && icon) {
+      variant = "icon";
+    } else {
+      variant = config.variant ?? "solid";
+    }
+  }
+  if (variant === "icon" && !icon) {
+    variant = "solid";
+  }
+  return { label, icon, size, variant };
+}
+
+const PageHeaderCtaButton: React.FC<{
+  config: PageHeaderCtaConfig;
+  isMobile: boolean;
+}> = ({ config, isMobile }) => {
+  const view = resolveCtaView(config, isMobile);
+  const iconOnly = view.variant === "icon";
+
+  return (
+    <Button
+      type="button"
+      variant={view.variant}
+      size={view.size}
+      prefixIcon={view.icon}
+      aria-label={iconOnly ? view.label : undefined}
+      onClick={config.onClick}
+    >
+      {iconOnly ? null : view.label}
+    </Button>
+  );
+};
 
 function toMenuListItems(items: PageHeaderMoreMenuItem[]): MenuListItem[] {
   return items.map((item, index) => ({
@@ -75,7 +172,7 @@ const MoreMenuPanel: React.FC<{
 
 function renderHeadingBlock(
   content: React.ReactNode,
-  variant: "h4" | "p",
+  variant: "h4" | "small",
   className: string,
 ): React.ReactNode {
   return (
@@ -91,25 +188,32 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   primaryCta,
   moreMenuItems,
   moreMenuContent,
+  margin = "b-4",
   className = "",
 }) => {
   const prototypeEnabled = usePrototypeAttributes();
   const dataCp = emitDataCp(
     prototypeEnabled,
     "PageHeader",
-    { title, subtitle, primaryCta, moreMenuItems, moreMenuContent },
+    { title, subtitle, primaryCta, moreMenuItems, moreMenuContent, margin },
     {
       subtitle: undefined,
       primaryCta: undefined,
       moreMenuItems: undefined,
       moreMenuContent: undefined,
+      margin: "b-4",
     },
   );
   const hasMoreMenuItems = (moreMenuItems?.length ?? 0) > 0;
   const hasMoreMenu = hasMoreMenuItems || moreMenuContent != null;
   const hasActions = primaryCta != null || hasMoreMenu;
 
-  const rootClassName = getClassNames(styles["cp-page-header"], className);
+  const marginClass = getSpacingClass(margin, utilStyles, "cp-m");
+  const rootClassName = getClassNames(
+    styles["cp-page-header"],
+    marginClass,
+    className,
+  );
 
   const renderMoreTrigger = ({ triggerProps }: DropdownRenderTriggerParams) => (
     <Button
@@ -142,13 +246,26 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         <div className={styles["cp-page-header-start"]}>
           {renderHeadingBlock(title, "h4", styles["cp-page-header-title"])}
           {subtitle != null &&
-            renderHeadingBlock(subtitle, "p", styles["cp-page-header-subtitle"])}
+            renderHeadingBlock(subtitle, "small", styles["cp-page-header-subtitle"])}
         </div>
 
         {hasActions && (
           <div className={styles["cp-page-header-actions"]}>
             {primaryCta != null && (
-              <div className={styles["cp-page-header-cta"]}>{primaryCta}</div>
+              <div className={styles["cp-page-header-cta"]}>
+                {isPageHeaderCtaConfig(primaryCta) ? (
+                  <>
+                    <span className={styles["cp-page-header-cta-wide"]}>
+                      <PageHeaderCtaButton config={primaryCta} isMobile={false} />
+                    </span>
+                    <span className={styles["cp-page-header-cta-narrow"]}>
+                      <PageHeaderCtaButton config={primaryCta} isMobile={true} />
+                    </span>
+                  </>
+                ) : (
+                  primaryCta
+                )}
+              </div>
             )}
             {hasMoreMenu && (
               <Dropdown

@@ -1,4 +1,10 @@
 import PageHeader from "./PageHeader";
 
 export default PageHeader;
-export type { PageHeaderProps, PageHeaderMoreMenuItem } from "./PageHeader";
+export type {
+  PageHeaderProps,
+  PageHeaderMoreMenuItem,
+  PageHeaderCtaConfig,
+  PageHeaderCtaView,
+  PageHeaderMargin,
+} from "./PageHeader";

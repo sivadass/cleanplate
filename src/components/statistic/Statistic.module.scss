@@ -8,10 +8,12 @@
   --cp-statistic-prefix-color: var(--text-default);
 
   &-card {
+    height: 100%;
     padding: var(--space-4);
     background: var(--cp-statistic-surface);
     border: 1px solid var(--cp-statistic-border);
     border-radius: var(--radius-medium);
+    box-sizing: border-box;
   }
 
   &-header {

@@ -6,43 +6,57 @@
 
   &-row {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    flex-wrap: nowrap;
+    align-items: center;
     justify-content: space-between;
-    gap: var(--space-3, 0.75rem);
+    gap: var(--space-4);
   }
 
   &-start {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
     min-width: 0;
+    overflow: hidden;
+  }
+
+  &-title,
+  &-subtitle {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &-title {
     margin: 0;
-    font-weight: 600;
     color: var(--black, #222);
-
-    &:not(:last-child) {
-      margin-bottom: var(--space-1, 0.25rem);
-    }
+    line-height: 1.2;
   }
 
   &-subtitle {
+    display: block;
     margin: 0;
-    font-size: 0.9375rem;
-    color: var(--text-subtle);
+    color: var(--text-muted);
   }
 
   &-actions {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     gap: var(--space-4);
-    flex-shrink: 0;
     margin-left: auto;
   }
 
   &-cta {
     display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  // 600px matches --mobile-breakpoint. Custom properties cannot be used in media queries.
+  &-cta-narrow {
+    display: none;
   }
 
   &-more-trigger {
@@ -51,41 +65,38 @@
 
   @media (max-width: 600px) {
     &-row {
-      flex-direction: column;
-      align-items: stretch;
       gap: var(--space-2);
-    }
-
-    &-start {
-      flex: none;
-      width: 100%;
     }
 
     &-title {
-      font-size: 1.25rem;
+      font-size: var(--cp-font-size-lg);
       line-height: 1.3;
-      overflow-wrap: anywhere;
     }
 
     &-subtitle {
-      font-size: 0.875rem;
-      overflow-wrap: anywhere;
+      font-size: var(--cp-font-size-sm);
     }
 
     &-actions {
-      width: 100%;
-      margin-left: 0;
-      justify-content: flex-end;
       gap: var(--space-2);
+      min-width: var(--cp-form-control-height-medium);
+
+      // Keep room for the action icon and the more-menu icon before the title truncates.
+      &:has(> :nth-child(2)) {
+        min-width: calc(var(--cp-form-control-height-medium) * 2 + var(--space-2));
+      }
     }
 
     &-cta {
-      flex: 1;
-      min-width: 0;
+      min-width: var(--cp-form-control-height-medium);
+    }
 
-      > * {
-        width: 100%;
-      }
+    &-cta-wide {
+      display: none;
+    }
+
+    &-cta-narrow {
+      display: inline-flex;
     }
   }
 }
