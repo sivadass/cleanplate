@@ -223,13 +223,15 @@ Documentation for **coding agents** and LLMs ships with the npm package alongsid
 Design tools (Paper, Claude Design) can author **canonical-frame HTML** with `data-cp` attributes and public `cp-*` classes from `dist/index.css`. Convert mechanically — do not guess JSX:
 
 ```bash
-npx cleanplate-html-to-jsx recipe.html
-# or, in this repo: npm run html-to-jsx -- recipe.html
+# CleanPlate repository only. This script is not in the published package.
+npm run html-to-jsx -- recipe.html
 ```
 
 - Recipes live in `docs/<Component>.md` under `## HTML prototype`.
-- Sticker sheet: `docs/html/kit.html` (load `dist/index.css` + Material Symbols).
+- Sticker sheet: `docs/html/kit.html` in this git repo (load `dist/index.css` + Material Symbols). That HTML kit is not in the npm tarball.
 - **No callbacks in HTML** — wire `onClick` / `onChange` after conversion.
+
+The published package does not include `scripts/`. Build helpers (`generate-icons`, `copy-tokens`, the component manifest) stay in this repository. npm still packs `scripts/cleanplate-html-to-jsx.mjs` because it is the `bin` entry, but that file cannot convert HTML after `npm install`: it calls source that is not published. Use `npm run html-to-jsx` in this repo.
 
 ### Version-pinned URLs (no download step)
 

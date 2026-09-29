@@ -50,5 +50,5 @@ Design agents author canonical-frame HTML with `data-cp` attributes and public `
 
 1. Read `docs/<Component>.md` → `## HTML prototype` (Input: `### HTML prototype (Input)` in `docs/FormControls.md`).
 2. Author HTML using `skills/cleanplate-html-prototype/SKILL.md`.
-3. Run `npm run html-to-jsx -- recipe.html` (see `skills/cleanplate-html-to-react/SKILL.md`).
-4. Sticker sheet reference: `docs/html/kit.html`.
+3. In the CleanPlate repository, run `npm run html-to-jsx -- recipe.html` (see `skills/cleanplate-html-to-react/SKILL.md`). That script is not part of the published package, and `npx cleanplate-html-to-jsx` does not work after `npm install`.
+4. Sticker sheet reference: `docs/html/kit.html` in the CleanPlate git repo (not shipped in the npm tarball).

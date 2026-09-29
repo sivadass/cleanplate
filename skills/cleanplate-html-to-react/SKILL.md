@@ -21,17 +21,13 @@ description: Convert CleanPlate HTML prototypes to React JSX using the mechanica
 
 ## Commands
 
-From the cleanplate repo (development):
+From the CleanPlate repository:
 
 ```bash
 npm run html-to-jsx -- path/to/recipe.html
 ```
 
-Published package / npx:
-
-```bash
-npx cleanplate-html-to-jsx path/to/recipe.html
-```
+`scripts/` is not published. `npx cleanplate-html-to-jsx` does not work from an installed package.
 
 Exit code `1` on `ConvertError` — read the message; it points to `docs/<Component>.md`.
 

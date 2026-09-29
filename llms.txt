@@ -49,13 +49,15 @@ When generating code that uses CleanPlate components, **use component props inst
 v1 Tier 1 components have HTML recipes in `docs/<Component>.md` under `## HTML prototype`. Author with `data-cp` + public `cp-*` CSS; convert with the mechanical CLI:
 
 ```bash
+# CleanPlate repository only. Not available after `npm install cleanplate`.
 npm run html-to-jsx -- recipe.html
 ```
 
-- **Authoring skill:** `skills/cleanplate-html-prototype/SKILL.md`
-- **Conversion skill:** `skills/cleanplate-html-to-react/SKILL.md`
-- **Sticker sheet:** `docs/html/kit.html`
+- **Authoring skill:** `skills/cleanplate-html-prototype/SKILL.md` (git repo only; not in the npm tarball)
+- **Conversion skill:** `skills/cleanplate-html-to-react/SKILL.md` (git repo only; not in the npm tarball)
+- **Sticker sheet:** `docs/html/kit.html` (git repo only; not in the npm tarball)
 - **No callbacks in HTML** — hand-wire `onClick` / `onChange` after conversion.
+- The published package does **not** include `scripts/`. Convert recipes in the CleanPlate repository. Do not run `npx cleanplate-html-to-jsx` from an installed package.
 
 ## Component Documentation
 
@@ -345,11 +347,15 @@ Full-page Storybook examples live under `templates/` (Login, Register, CRUD, Das
 
 ## Additional Resources
 
+These paths are in the CleanPlate **git repository**. They are not in the published npm package.
+
 - Component source code: `src/components/`
 - Storybook documentation: Available at the project's Storybook instance
-- Type definitions: `src/types/` and component-specific type exports
+- Published types: `dist/index.d.ts` and `dist/public-types.d.ts` (after install)
 - Storybook static build: `storybook-static/`
 - Component stories: `src/stories/`
+
+The npm tarball contains `dist/` (JS, CSS, `tokens.css`, component `.d.ts`), `docs/*.md`, `llms.txt`, `AGENTS.md`, `CHANGELOG.md`, `README.md`, and `LICENSE`. It does not contain `scripts/`, `src/`, `skills/`, `docs/html/`, `docs/superpowers/`, tests, or Storybook.
 
 ## Installation
 
@@ -360,5 +366,5 @@ npm install cleanplate
 ## Usage
 
 ```jsx
-import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Statistic, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Drawer, Pagination, Table, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
+import { Button, Typography, Icon, MediaObject, Avatar, Container, Dropdown, Alert, FeedbackState, Spinner, Statistic, Stepper, BreadCrumb, Accordion, ConfirmDialog, Modal, Drawer, Pagination, Table, FilterBar, Badge, Pills, Animated, FormControls, Toast, MenuList, Header, PageHeader, BottomSheet, Footer, AppShell } from "cleanplate";
 ```

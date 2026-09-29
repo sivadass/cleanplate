@@ -1,3 +1,4 @@
+# npm discards this file when package.json "files" is set. Publish exclusions live there.
 # IDE and tooling
 /.vscode
 /.cursor
@@ -21,3 +22,15 @@ llms.config.js
 /node_modules
 package-lock.json
 /demos
+
+# Declaration maps point at unpublished source and are not useful to consumers.
+**/*.d.ts.map
+**/*.js.map
+
+# Dev-only emit. The converter has no runtime JS in dist; tests, stories, and fixtures are not public API.
+dist/html-to-jsx
+dist/test
+dist/stories
+
+# Internal release checklist. Component docs stay via package.json "files": docs/*.md
+docs/PRE-TASK-20-ACCEPTANCE-CHECKLIST.md

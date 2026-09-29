@@ -51,5 +51,6 @@ Pin this semver exactly if you adopt it (`cleanplate@1.0.0-beta.6`).
 
 ### Changed
 
+- **Published package contents:** The tarball ships `dist` (JS, CSS, `tokens.css`, component `.d.ts`), `docs/*.md`, `llms.txt`, `AGENTS.md`, and `CHANGELOG.md`. It does not ship build `scripts/`, `src/`, skills, `docs/html/`, `docs/superpowers/`, the internal pre-task checklist, declaration maps, or test, story, and converter types. HTML → JSX conversion stays `npm run html-to-jsx` in this repository.
 - **Typography `align`:** `center` and `right` set `display: block` so alignment applies to inline elements (`span`, `small`).
 - **Table pagination spacing:** The built-in pagination bar uses `margin-top: var(--space-4)` (16px; was 24px) and no horizontal padding.

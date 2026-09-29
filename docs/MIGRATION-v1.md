@@ -73,10 +73,11 @@ To emit them in an app (prototype only), wrap the tree in `CleanPlatePrototypeAt
 Design agents author canonical-frame HTML with `data-cp` + public `cp-*` classes, then convert mechanically — do not invent JSX by hand:
 
 ```bash
+# CleanPlate repository only. scripts/ are not in the published package.
 npm run html-to-jsx -- recipe.html
 ```
 
-See `llms.txt` (HTML prototype section), `skills/cleanplate-html-to-react/SKILL.md`, and each component's `## HTML prototype` recipe in `docs/<Component>.md`. Sticker sheet: `docs/html/kit.html`.
+See `llms.txt` (HTML prototype section) and each component's `## HTML prototype` recipe in `docs/<Component>.md`. The conversion skill (`skills/cleanplate-html-to-react/SKILL.md`) and sticker sheet (`docs/html/kit.html`) live in the git repository, not in the npm tarball.
 
 ## Storybook and visual tests
 
